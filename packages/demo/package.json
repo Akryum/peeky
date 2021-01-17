@@ -1,0 +1,12 @@
+{
+  "name": "peeky-demo",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev-server": "nodemon ../peeky-server/dist/standalone.js --watch .. -e js --ignore tests/"
+  },
+  "devDependencies": {
+    "@peeky/cli": "^0.0.1",
+    "nodemon": "^2.0.7"
+  }
+}

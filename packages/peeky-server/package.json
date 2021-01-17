@@ -1,0 +1,33 @@
+{
+  "name": "@peeky/server",
+  "version": "0.0.1",
+  "description": "Server for Peeky, the visual testing framework",
+  "license": "MIT",
+  "author": {
+    "name": "Guillaume Chau"
+  },
+  "repository": {
+    "url": "https://github.com/Akryum/peeky.git",
+    "type": "git",
+    "directory": "packages/peeky-server"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "rimraf dist && tsc -d",
+    "watch": "rimraf dist && tsc -d -w --sourceMap"
+  },
+  "dependencies": {
+    "apollo-server": "^2.19.2",
+    "fs-extra": "^9.0.1",
+    "graphql": "^15.4.0",
+    "nexus": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.21",
+    "typescript": "^4.1.3"
+  }
+}

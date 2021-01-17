@@ -1,0 +1,25 @@
+{
+  "name": "peeky-mono-repo",
+  "version": "0.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "lint": "eslint . --ext js,vue,ts"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.29.0",
+    "@typescript-eslint/parser": "^2.29.0",
+    "@vue/eslint-config-standard": "^5.0.0",
+    "@vue/eslint-config-typescript": "^5.0.2",
+    "eslint": "^7.18.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^5.0.0",
+    "eslint-plugin-vue": "^7.4.1",
+    "lerna": "^3.22.1",
+    "rimraf": "^3.0.2"
+  }
+}
