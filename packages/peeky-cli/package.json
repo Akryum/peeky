@@ -21,9 +21,10 @@
   },
   "scripts": {
     "build": "rimraf dist && tsc -d",
-    "watch": "rimraf dist && tsc -d -w --sourceMap"
+    "watch": "tsc -d -w --sourceMap"
   },
   "dependencies": {
+    "@peeky/server": "^0.0.1",
     "commander": "^7.0.0"
   },
   "devDependencies": {

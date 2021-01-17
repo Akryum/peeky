@@ -18,7 +18,7 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "build": "rimraf dist && tsc -d",
-    "watch": "rimraf dist && tsc -d -w --sourceMap"
+    "watch": "tsc -d -w --sourceMap"
   },
   "dependencies": {
     "apollo-server": "^2.19.2",
