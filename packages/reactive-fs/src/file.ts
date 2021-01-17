@@ -1,5 +1,5 @@
 import { markRaw, ref, Ref } from '@vue/reactivity'
-import { move, readFile, remove, writeFile } from 'fs-extra'
+import { existsSync, move, readFile, remove, writeFile } from 'fs-extra'
 import { join } from 'path'
 import { Context } from './context'
 
@@ -58,7 +58,7 @@ export function createReactiveFile (ctx: Context, relativePath: string) {
     },
     _internal: {
       active: false,
-      content: ref<string>(null),
+      content: ref<string>(undefined),
     },
   })
 
@@ -71,8 +71,10 @@ export function createReactiveFile (ctx: Context, relativePath: string) {
   function read () {
     if (file._internal.active) {
       queueFsOp(ctx, (async () => {
-        const result = await readFile(file.absolutePath, 'utf8')
-        setContent(result)
+        if (existsSync(file.absolutePath)) {
+          const result = await readFile(file.absolutePath, 'utf8')
+          setContent(result)
+        }
       })())
     }
   }

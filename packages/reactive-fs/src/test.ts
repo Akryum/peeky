@@ -2,7 +2,7 @@ import { join } from 'path'
 import { createReactiveFileSystem } from '.';
 
 (async () => {
-  const { files, effect, createFile } = await createReactiveFileSystem({
+  const { files, effect, createFile, watchFile } = await createReactiveFileSystem({
     baseDir: join(__dirname, '..', 'test'),
     glob: '**/*.js',
   })
@@ -13,6 +13,10 @@ import { createReactiveFileSystem } from '.';
 
   effect(() => {
     console.log('read:', files['meow.js']?.content)
+  })
+
+  watchFile('foo.js', (content, oldContent) => {
+    console.log('foo.js watch:', content, oldContent)
   })
 
   setTimeout(() => {

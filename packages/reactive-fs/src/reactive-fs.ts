@@ -21,6 +21,24 @@ export async function createReactiveFileSystem (options: ReactiveFileSystemOptio
     return e
   }
 
+  function watchFile (relativePath: string, handler: (content: string, oldContent: string) => unknown): () => void {
+    let oldValue
+    const e = effect(() => {
+      const value = ctx.state.files[relativePath]?.content
+      if (value !== oldValue) {
+        handler(value, oldValue)
+        oldValue = value
+      }
+    })
+    return () => {
+      const index = effects.indexOf(e)
+      if (index !== -1) {
+        stopEffect(e)
+        effects.splice(index, 1)
+      }
+    }
+  }
+
   function createFile (relativePath: string, content: string = null) {
     const file = ctx.state.files[relativePath] || createReactiveFile(ctx, relativePath)
     if (content != null) {
@@ -43,8 +61,9 @@ export async function createReactiveFileSystem (options: ReactiveFileSystemOptio
     get files () {
       return ctx.state.files
     },
-    effect,
     createFile,
+    effect,
+    watchFile,
     destroy,
   }
 }
