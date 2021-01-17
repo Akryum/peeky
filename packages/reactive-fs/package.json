@@ -1,7 +1,7 @@
 {
-  "name": "@peeky/cli",
+  "name": "@peeky/reactive-fs",
   "version": "0.0.1",
-  "description": "Command-line interface for Peeky, the visual testing framework",
+  "description": "Reactive file system interface",
   "license": "MIT",
   "author": {
     "name": "Guillaume Chau"
@@ -9,25 +9,24 @@
   "repository": {
     "url": "https://github.com/Akryum/peeky.git",
     "type": "git",
-    "directory": "packages/peeky-cli"
+    "directory": "packages/reactive-fs"
   },
   "publishConfig": {
     "access": "public"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "bin": {
-    "peeky": "./dist/index.js"
-  },
   "scripts": {
     "build": "rimraf dist && tsc -d",
     "watch": "tsc -d -w --sourceMap"
   },
   "dependencies": {
-    "@peeky/server": "^0.0.1",
-    "commander": "^7.0.0"
+    "@vue/reactivity": "^3.0.5",
+    "chokidar": "^3.4.2",
+    "fs-extra": "^9.0.1"
   },
   "devDependencies": {
+    "@types/fs-extra": "^9.0.6",
     "@types/node": "^14.14.21",
     "typescript": "^4.1.3"
   }
