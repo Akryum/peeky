@@ -14,6 +14,10 @@ import { createReactiveFileSystem } from '.';
     glob: '**/*.js',
   })
 
+  console.log('list without sub folders:', list('.', {
+    excludeSubDirectories: true,
+  }))
+
   effect(() => {
     console.log('files:', list())
   })
@@ -24,6 +28,8 @@ import { createReactiveFileSystem } from '.';
 
   watchList('./', (result, oldResult) => {
     console.log('watch folder:', result, oldResult)
+  }, {
+    excludeSubDirectories: true,
   })
 
   effect(() => {

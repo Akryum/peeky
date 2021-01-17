@@ -8,6 +8,10 @@ import { createContext } from './context'
 import { createFileWatcher } from './watcher'
 import { createReactiveFile } from './file'
 
+export interface ListOptions {
+  excludeSubDirectories?: boolean
+}
+
 export async function createReactiveFileSystem (options: ReactiveFileSystemOptions) {
   const ctx = createContext(options)
 
@@ -47,15 +51,18 @@ export async function createReactiveFileSystem (options: ReactiveFileSystemOptio
     return file
   }
 
-  function list (folderRelativePath = '') {
+  function list (folderRelativePath = '', options: ListOptions = {}) {
     folderRelativePath = folderRelativePath.replace(/^\.\/?/, '')
-    return Object.keys(ctx.state.files).filter(key => key.startsWith(folderRelativePath)).sort()
+    return Object.keys(ctx.state.files).filter(
+      key => key.startsWith(folderRelativePath) &&
+      (!options.excludeSubDirectories || !key.substr(folderRelativePath.length).includes('/')),
+    ).sort()
   }
 
-  function watchList (folderRelativePath = '', handler: (list: string[], oldList: string[]) => unknown) {
+  function watchList (folderRelativePath = '', handler: (list: string[], oldList: string[]) => unknown, options: ListOptions = {}) {
     let oldValue = []
     const e = effect(() => {
-      const value = list(folderRelativePath)
+      const value = list(folderRelativePath, options)
       if (value.length !== oldValue.length || value.some((v, index) => oldValue[index] !== v)) {
         handler(value, oldValue)
         oldValue = [...value]
