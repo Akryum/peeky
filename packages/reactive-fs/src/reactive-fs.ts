@@ -49,7 +49,25 @@ export async function createReactiveFileSystem (options: ReactiveFileSystemOptio
 
   function list (folderRelativePath = '') {
     folderRelativePath = folderRelativePath.replace(/^\.\/?/, '')
-    return Object.keys(ctx.state.files).filter(key => key.startsWith(folderRelativePath))
+    return Object.keys(ctx.state.files).filter(key => key.startsWith(folderRelativePath)).sort()
+  }
+
+  function watchList (folderRelativePath = '', handler: (list: string[], oldList: string[]) => unknown) {
+    let oldValue = []
+    const e = effect(() => {
+      const value = list(folderRelativePath)
+      if (value.length !== oldValue.length || value.some((v, index) => oldValue[index] !== v)) {
+        handler(value, oldValue)
+        oldValue = [...value]
+      }
+    })
+    return () => {
+      const index = effects.indexOf(e)
+      if (index !== -1) {
+        stopEffect(e)
+        effects.splice(index, 1)
+      }
+    }
   }
 
   async function destroy () {
@@ -70,6 +88,7 @@ export async function createReactiveFileSystem (options: ReactiveFileSystemOptio
     effect,
     watchFile,
     list,
+    watchList,
     destroy,
   }
 }

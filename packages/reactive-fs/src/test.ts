@@ -2,7 +2,14 @@ import { join } from 'path'
 import { createReactiveFileSystem } from '.';
 
 (async () => {
-  const { files, effect, createFile, watchFile, list } = await createReactiveFileSystem({
+  const {
+    files,
+    effect,
+    createFile,
+    watchFile,
+    list,
+    watchList,
+  } = await createReactiveFileSystem({
     baseDir: join(__dirname, '..', 'test'),
     glob: '**/*.js',
   })
@@ -13,6 +20,10 @@ import { createReactiveFileSystem } from '.';
 
   effect(() => {
     console.log('files in sub folder:', list('./sub'))
+  })
+
+  watchList('./', (result, oldResult) => {
+    console.log('watch folder:', result, oldResult)
   })
 
   effect(() => {
