@@ -1,6 +1,6 @@
 import { foo } from './foo'
 
-describe('bar feature', () => {
+describe('yet another ts test suite', () => {
   it('tests the foo function again', () => {
     expect(foo(42)).to.equal(84)
   })
@@ -13,9 +13,5 @@ describe('bar feature', () => {
     const spy = sinon.fake()
     spy()
     expect(spy.callCount).to.equal(1)
-  })
-
-  it('bar has an error', () => {
-    expect(1).to.equal(2)
   })
 })

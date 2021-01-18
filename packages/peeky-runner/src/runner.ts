@@ -1,5 +1,4 @@
-import babel from '@rollup/plugin-babel'
-import typescript from '@rollup/plugin-typescript'
+import esbuild from 'rollup-plugin-esbuild'
 import { rollup } from 'rollup'
 import fs from 'fs'
 import { fs as memfs } from 'memfs'
@@ -8,7 +7,7 @@ import { patchFs, patchRequire } from 'fs-monkey'
 import sinon from 'sinon'
 import must from 'must'
 import { install as installSourceMap } from 'source-map-support'
-import { dirname, join } from 'path'
+import { dirname, join, relative } from 'path'
 import consola from 'consola'
 import { workerEmit } from '@akryum/workerpool'
 import shortid from 'shortid'
@@ -85,6 +84,21 @@ async function build (ctx: Context) {
   memfs.mkdirSync(targetDir, { recursive: true })
 
   try {
+    const cacheKey = relative(process.cwd(), ctx.options.entry).replace(/(\/|\.)/g, '_')
+    const cachePath = join(process.cwd(), 'node_modules', '.temp', 'peeky-build-cache', cacheKey + '.json')
+    let cache
+    if (originalFs.existsSync(cachePath)) {
+      try {
+        cache = JSON.parse(originalFs.readFileSync(cachePath, 'utf8'))
+      } catch (e) {
+        workerEmit('test-file:cache-load-failed', {
+          filePath: ctx.options.entry,
+          error: e,
+          cachePath,
+        })
+      }
+    }
+
     workerEmit('test-file:building', {
       testFilePath: ctx.options.entry,
     })
@@ -92,18 +106,33 @@ async function build (ctx: Context) {
     const bundle = await rollup({
       input: ctx.options.entry,
       plugins: [
-        typescript({
+        esbuild({
           tsconfig: join(process.cwd(), 'tsconfig.json'),
-          module: 'ESNext',
-        }),
-        babel({
-          babelHelpers: 'bundled',
+          minify: false,
         }),
       ],
       external: [
         /node_modules/,
       ],
+      cache,
     })
+
+    try {
+      originalFs.mkdirSync(dirname(cachePath), {
+        recursive: true,
+      })
+      originalFs.writeFileSync(cachePath, JSON.stringify(bundle.cache), { encoding: 'utf8' })
+      workerEmit('test-file:cache-save-success', {
+        filePath: ctx.options.entry,
+        cachePath,
+      })
+    } catch (e) {
+      workerEmit('test-file:cache-save-failed', {
+        filePath: ctx.options.entry,
+        error: e,
+        cachePath,
+      })
+    }
 
     await bundle.write({
       dir: join(targetDir, '/__output'),
