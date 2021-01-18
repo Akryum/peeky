@@ -1,9 +1,10 @@
 import { join, relative } from 'path'
 import workerpool from '@akryum/workerpool'
 import { createReactiveFileSystem } from '@peeky/reactive-fs'
-import type { RunTestFileOptions, runTestFile as rawRunTestFile, TestSuiteInfo } from './runner'
+import type { runTestFile as rawRunTestFile } from './runner'
 import consola from 'consola'
 import chalk from 'chalk'
+import { RunTestFileOptions, TestSuiteInfo } from './types'
 
 export interface RunnerOptions {
   targetDirectory: string
