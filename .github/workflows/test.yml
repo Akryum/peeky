@@ -10,4 +10,5 @@ jobs:
       - uses: actions/checkout@v2
       - uses: bahmutov/npm-install@v1
       - run: yarn build
+      - run: yarn --force
       - run: cd packages/tests && yarn run test
