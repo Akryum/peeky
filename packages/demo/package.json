@@ -3,10 +3,13 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev-server": "nodemon ../peeky-server/dist/standalone.js --watch .. -e js --ignore tests/ --ignore demo/"
+    "dev-server": "nodemon ../peeky-server/dist/standalone.js --watch .. -e js --ignore tests/ --ignore demo/",
+    "dev-runner": "ts-node ./src/test-runner.ts"
   },
   "devDependencies": {
     "@peeky/cli": "^0.0.1",
-    "nodemon": "^2.0.7"
+    "@peeky/runner": "^0.0.1",
+    "nodemon": "^2.0.7",
+    "ts-node": "^9.1.1"
   }
 }
