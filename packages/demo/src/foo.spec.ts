@@ -12,7 +12,7 @@ describe('this is a test suite :)', () => {
   it('test a function', () => {
     const spy = sinon.fake()
     spy()
-    expect(spy.called).to.be.true()
+    expect(spy.callCount).to.equal(1)
   })
 
   it('error', () => {

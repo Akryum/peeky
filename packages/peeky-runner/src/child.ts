@@ -38,10 +38,23 @@ interface Test {
 async function build (ctx: Context) {
   const originalFs = { ...fs }
   // @ts-ignore
-  ufs.use(memfs).use(originalFs)
-  ufs.unwatchFile = originalFs.unwatchFile
+  ufs.use(originalFs).use(memfs)
+  // Patch unionfs to write to memfs only
+  Object.assign(ufs, {
+    unwatchFile: originalFs.unwatchFile,
+    mkdir: memfs.mkdir,
+    mkdirSync: memfs.mkdirSync,
+    write: memfs.write,
+    writeFile: memfs.writeFile,
+    writeFileSync: memfs.writeFileSync,
+  })
   patchFs(ufs)
   patchRequire(ufs)
+
+  const targetDir = dirname(ctx.options.entry)
+
+  // Ensure target directory
+  memfs.mkdirSync(targetDir, { recursive: true })
 
   try {
     const time = Date.now()
@@ -62,7 +75,7 @@ async function build (ctx: Context) {
     })
 
     await bundle.write({
-      dir: join(dirname(ctx.options.entry), '/__output'),
+      dir: join(targetDir, '/__output'),
       entryFileNames: 'target.js',
       format: 'cjs',
       sourcemap: true,
