@@ -1,5 +1,5 @@
 export interface ReactiveFileSystemOptions {
   baseDir: string
-  glob: string
-  ignored?: string
+  glob: string | string[]
+  ignored?: string | string[]
 }
