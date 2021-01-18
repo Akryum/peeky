@@ -8,6 +8,7 @@ export function createFileWatcher (ctx: Context): Promise<chokidar.FSWatcher> {
       cwd: ctx.options.baseDir,
       persistent: true,
       ignorePermissionErrors: true,
+      ignored: ctx.options.ignored,
     })
     watcher.on('add', (path) => {
       createReactiveFile(ctx, path)
