@@ -1,0 +1,12 @@
+{
+  "name": "peeky-tests",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "test": "peeky run"
+  },
+  "devDependencies": {
+    "@peeky/cli": "^0.0.1",
+    "@peeky/runner": "^0.0.1"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "types": [
+      "node",
+      "@peeky/runner"
+    ],
+    "lib": [
+      "ESNext"
+    ]
+  },
+  "include": ["specs/**/*"],
+  "exclude": ["node_modules"]
+}
