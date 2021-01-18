@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev-server": "nodemon ../peeky-server/dist/standalone.js --watch .. -e js --ignore tests/ --ignore demo/",
-    "dev-runner": "ts-node ./src/test-runner.ts"
+    "dev-run": "peeky run"
   },
   "devDependencies": {
     "@peeky/cli": "^0.0.1",

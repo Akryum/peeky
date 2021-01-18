@@ -1,11 +1,13 @@
 import { join, relative } from 'path'
-import workerpool from 'workerpool'
+import workerpool from '@akryum/workerpool'
 import { createReactiveFileSystem } from '@peeky/reactive-fs'
-import type { RunTestFileOptions, runTestFile as rawRunTestFile } from './runner'
+import type { RunTestFileOptions, runTestFile as rawRunTestFile, TestSuiteInfo } from './runner'
+import consola from 'consola'
+import chalk from 'chalk'
 
 export interface RunnerOptions {
   targetDirectory: string
-  glob?: string | string[]
+  match?: string | string[]
   ignored?: string | string[]
   watch?: boolean
 }
@@ -15,7 +17,7 @@ interface Context {
 }
 
 export const defaultRunTestsOptions: Partial<RunnerOptions> = {
-  glob: '**/*.(spec|test).(ts|js)',
+  match: '**/*.(spec|test).(ts|js)',
   ignored: ['node_modules'],
 }
 
@@ -26,16 +28,42 @@ export async function setupRunner (options: RunnerOptions) {
   }
 
   const pool = workerpool.pool(join(__dirname, 'worker.js'))
-  const functions = await pool.proxy()
 
   const testFiles = await createReactiveFileSystem({
     baseDir: ctx.options.targetDirectory,
-    glob: ctx.options.glob,
+    glob: ctx.options.match,
     ignored: ctx.options.ignored,
   })
 
   async function runTestFileWorker (options: RunTestFileOptions): ReturnType<typeof rawRunTestFile> {
-    return functions.runTestFile(options)
+    const suiteMap: { [id: string]: TestSuiteInfo } = {}
+    return pool.exec('runTestFile', [options], {
+      on: (eventType, payload) => {
+        if (eventType === 'test-file:build-completed') {
+          const { testFilePath, duration } = payload
+          consola.info(`Built ${relative(ctx.options.targetDirectory, testFilePath)} in ${duration}ms`)
+        } else if (eventType === 'suite:start') {
+          const suite: TestSuiteInfo = payload.suite
+          consola.start(suite.title)
+          suiteMap[suite.id] = suite
+        } else if (eventType === 'suite:completed') {
+          const { duration } = payload
+          const suite = suiteMap[payload.suite.id]
+          consola.log(chalk[payload.suite.errors ? 'red' : 'green'](`  ${suite.tests.length - payload.suite.errors} / ${suite.tests.length} tests passed: ${suite.title} ${chalk.grey(`(${duration}ms)`)}`))
+        } else if (eventType === 'test:error') {
+          const { duration, error, stack } = payload
+          const suite = suiteMap[payload.suite.id]
+          const test = suite.tests.find(t => t.id === payload.test.id)
+          consola.log(chalk.red(`  ❌️${test.title} ${chalk.grey(`(${duration}ms)`)}`))
+          consola.error({ ...error, stack })
+        } else if (eventType === 'test:success') {
+          const { duration } = payload
+          const suite = suiteMap[payload.suite.id]
+          const test = suite.tests.find(t => t.id === payload.test.id)
+          consola.log(chalk.green(`  ✔️ ${test.title} ${chalk.grey(`(${duration}ms)`)}`))
+        }
+      },
+    })
   }
 
   async function runTestFile (relativePath: string) {
@@ -54,24 +82,54 @@ export async function setupRunner (options: RunnerOptions) {
     }
   }
 
+  async function close () {
+    await testFiles.destroy()
+    await pool.terminate()
+  }
+
   return {
     testFiles,
     runTestFile,
+    close,
   }
 }
 
 export async function runAllTests (options) {
   const runner = await setupRunner(options)
-  console.log(runner.testFiles.list())
+
+  const fileList = runner.testFiles.list()
+
+  consola.info(`Found ${fileList.length} test files.`)
+
   const time = Date.now()
-  const result = await Promise.all(runner.testFiles.list().map(f => runner.runTestFile(f)))
+  const result = await Promise.all(fileList.map(f => runner.runTestFile(f)))
 
-  console.log(`Executed ${runner.testFiles.list().length} tests files ${Date.now() - time}ms`)
+  consola.info(`Ran ${fileList.length} tests files (${Date.now() - time}ms)`)
 
-  const hasError = result.some(f => f.suites.some(s => s.errors > 0))
+  let suiteCount = 0
+  let errorSuiteCount = 0
+  let testCount = 0
+  let errorTestCount = 0
+  for (const file of result) {
+    suiteCount += file.suites.length
+    for (const suite of file.suites) {
+      if (suite.errors) {
+        errorSuiteCount++
+      }
+      testCount += suite.tests.length
+      errorTestCount += suite.errors
+    }
+  }
+
+  consola.log(chalk[errorTestCount ? 'red' : 'green'](`Suites : ${suiteCount - errorSuiteCount} / ${suiteCount}\nTests  : ${testCount - errorTestCount} / ${testCount}`))
+
+  await runner.close()
 
   return {
     result,
-    hasError,
+    suiteCount,
+    errorSuiteCount,
+    testCount,
+    errorTestCount,
   }
 }

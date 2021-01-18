@@ -9,6 +9,9 @@ import sinon from 'sinon'
 import must from 'must'
 import { install as installSourceMap } from 'source-map-support'
 import { dirname, join } from 'path'
+import consola from 'consola'
+import { workerEmit } from '@akryum/workerpool'
+import shortid from 'shortid'
 
 export interface RunTestFileOptions {
   entry: string
@@ -19,7 +22,30 @@ interface Context {
   suites: TestSuite[]
 }
 
+export interface TestSuiteInfo {
+  id: string
+  title: string
+  filePath: string
+  tests: {
+    id: string
+    title: string
+  }[]
+}
+
+export interface TestSuiteResult {
+  id: string
+  title: string
+  filePath: string
+  errors: number
+  tests: {
+    id: string
+    title: string
+    error: Error
+  }[]
+}
+
 interface TestSuite {
+  id: string
   title: string
   filePath: string
   beforeAllHandlers: (() => unknown)[]
@@ -31,6 +57,7 @@ interface TestSuite {
 }
 
 interface Test {
+  id: string
   title: string
   handler: () => unknown
   error: Error
@@ -58,6 +85,9 @@ async function build (ctx: Context) {
   memfs.mkdirSync(targetDir, { recursive: true })
 
   try {
+    workerEmit('test-file:building', {
+      testFilePath: ctx.options.entry,
+    })
     const time = Date.now()
     const bundle = await rollup({
       input: ctx.options.entry,
@@ -83,9 +113,12 @@ async function build (ctx: Context) {
     })
 
     await bundle.close()
-    console.log(`Built in ${Date.now() - time}ms`)
+    workerEmit('test-file:build-completed', {
+      testFilePath: ctx.options.entry,
+      duration: Date.now() - time,
+    })
   } catch (e) {
-    console.error(`Test build failed: ${e.message}`)
+    consola.error(`Test build failed: ${e.message}`)
     throw e
   }
 }
@@ -98,6 +131,7 @@ function registerGlobals (ctx: Context) {
 
   (global as any).describe = (title: string, handler: () => unknown) => {
     currentSuite = {
+      id: shortid(),
       title,
       filePath: ctx.options.entry,
       tests: [],
@@ -113,6 +147,7 @@ function registerGlobals (ctx: Context) {
 
   (global as any).it = (global as any).test = (title: string, handler: () => unknown) => {
     currentSuite.tests.push({
+      id: shortid(),
       title,
       handler,
       error: null,
@@ -138,7 +173,17 @@ function registerGlobals (ctx: Context) {
 
 async function runTests (ctx: Context) {
   for (const suite of ctx.suites) {
-    console.log(suite.title)
+    workerEmit('suite:start', {
+      suite: {
+        id: suite.id,
+        title: suite.title,
+        filePath: suite.filePath,
+        tests: suite.tests.map(t => ({
+          id: t.id,
+          title: t.title,
+        })),
+      } as TestSuiteInfo,
+    })
     const suiteTime = Date.now()
     for (const handler of suite.beforeAllHandlers) {
       await handler()
@@ -152,12 +197,38 @@ async function runTests (ctx: Context) {
       }
 
       const time = Date.now()
+      workerEmit('test:start', {
+        suite: {
+          id: suite.id,
+        },
+        test: {
+          id: test.id,
+        },
+      })
       try {
         await test.handler()
-        console.log(`  ✔️ ${test.title} ${Date.now() - time}ms`)
+        workerEmit('test:success', {
+          suite: {
+            id: suite.id,
+          },
+          test: {
+            id: test.id,
+          },
+          duration: Date.now() - time,
+        })
       } catch (e) {
         test.error = e
-        console.error(`  ❌️${test.title} ${Date.now() - time}ms Failed:\n${e.stack}`)
+        workerEmit('test:error', {
+          suite: {
+            id: suite.id,
+          },
+          test: {
+            id: test.id,
+          },
+          duration: Date.now() - time,
+          error: e,
+          stack: e.stack.substr(0, e.stack.indexOf('at runTests')),
+        })
         suite.errors++
       }
 
@@ -170,7 +241,13 @@ async function runTests (ctx: Context) {
       await handler()
     }
 
-    console.log(`${suite.tests.length - suite.errors} / ${suite.tests.length} tests passed ${Date.now() - suiteTime}ms`)
+    workerEmit('suite:completed', {
+      suite: {
+        id: suite.id,
+        errors: suite.errors,
+      },
+      duration: Date.now() - suiteTime,
+    })
   }
 }
 
@@ -185,19 +262,24 @@ export async function runTestFile (options: RunTestFileOptions) {
     installSourceMap()
     require(join(dirname(ctx.options.entry), '/__output/target.js'))
     await runTests(ctx)
-    return {
-      suites: ctx.suites.map(s => ({
-        title: s.title,
-        filePath: s.filePath,
-        errors: s.errors,
-        tests: s.tests.map(t => ({
-          title: t.title,
-          error: t.error,
-        })),
+
+    const suites: TestSuiteResult[] = ctx.suites.map(s => ({
+      id: s.id,
+      title: s.title,
+      filePath: s.filePath,
+      errors: s.errors,
+      tests: s.tests.map(t => ({
+        id: t.id,
+        title: t.title,
+        error: t.error,
       })),
+    }))
+    return {
+      filePath: options.entry,
+      suites,
     }
   } catch (e) {
-    console.error(`Running tests failed: ${e.stack}`)
+    consola.error(`Running tests failed: ${e.stack}`)
     throw e
   }
 }
