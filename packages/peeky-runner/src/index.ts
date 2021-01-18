@@ -30,11 +30,13 @@ export async function setupRunner (options: RunnerOptions) {
 
   const pool = workerpool.pool(join(__dirname, 'worker.js'))
 
+  const fsTime = Date.now()
   const testFiles = await createReactiveFileSystem({
     baseDir: ctx.options.targetDirectory,
     glob: ctx.options.match,
     ignored: ctx.options.ignored,
   })
+  consola.info(`FS initialized in ${Date.now() - fsTime}ms`)
 
   const eventHandlers: EventHandler[] = []
 
@@ -104,6 +106,7 @@ export async function setupRunner (options: RunnerOptions) {
     runTestFile,
     close,
     onEvent,
+    pool,
   }
 }
 
@@ -117,7 +120,7 @@ export async function runAllTests (options) {
   const time = Date.now()
   const result = await Promise.all(fileList.map(f => runner.runTestFile(f)))
 
-  consola.info(`Ran ${fileList.length} tests files (${Date.now() - time}ms)`)
+  consola.info(`Ran ${fileList.length} tests files (${Date.now() - time}ms, using ${runner.pool.stats().totalWorkers} parallel workers)`)
 
   let suiteCount = 0
   let errorSuiteCount = 0
