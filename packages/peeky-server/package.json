@@ -1,7 +1,7 @@
 {
   "name": "@peeky/server",
   "version": "0.0.1",
-  "description": "Server for Peeky, the visual testing framework",
+  "description": "Server for Peeky, the testing framework for curious minds",
   "license": "MIT",
   "author": {
     "name": "Guillaume Chau"

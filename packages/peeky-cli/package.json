@@ -1,7 +1,7 @@
 {
   "name": "@peeky/cli",
   "version": "0.0.1",
-  "description": "Command-line interface for Peeky, the visual testing framework",
+  "description": "Command-line interface for Peeky, the testing framework for curious minds",
   "license": "MIT",
   "author": {
     "name": "Guillaume Chau"
