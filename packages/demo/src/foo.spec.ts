@@ -15,7 +15,18 @@ describe('this is a test suite :)', () => {
     expect(spy.callCount).to.equal(1)
   })
 
+  it('wait for async op', async () => {
+    await wait(100)
+    expect(0).to.equal(0)
+  })
+
   it('error', () => {
     expect(1).to.equal(2)
   })
 })
+
+function wait (delay: number) {
+  return new Promise(resolve => {
+    setTimeout(resolve, delay)
+  })
+}
