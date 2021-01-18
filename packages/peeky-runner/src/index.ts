@@ -9,7 +9,6 @@ export interface RunnerOptions {
   targetDirectory: string
   match?: string | string[]
   ignored?: string | string[]
-  watch?: boolean
 }
 
 interface Context {
@@ -20,6 +19,8 @@ export const defaultRunTestsOptions: Partial<RunnerOptions> = {
   match: '**/*.(spec|test).(ts|js)',
   ignored: ['node_modules'],
 }
+
+type EventHandler = (eventType: string, payload: any) => unknown
 
 export async function setupRunner (options: RunnerOptions) {
   options = Object.assign({}, defaultRunTestsOptions, options)
@@ -34,6 +35,8 @@ export async function setupRunner (options: RunnerOptions) {
     glob: ctx.options.match,
     ignored: ctx.options.ignored,
   })
+
+  const eventHandlers: EventHandler[] = []
 
   async function runTestFileWorker (options: RunTestFileOptions): ReturnType<typeof rawRunTestFile> {
     const suiteMap: { [id: string]: TestSuiteInfo } = {}
@@ -62,8 +65,16 @@ export async function setupRunner (options: RunnerOptions) {
           const test = suite.tests.find(t => t.id === payload.test.id)
           consola.log(chalk.green(`  ✔️ ${test.title} ${chalk.grey(`(${duration}ms)`)}`))
         }
+
+        for (const handler of eventHandlers) {
+          handler(eventType, payload)
+        }
       },
     })
+  }
+
+  function onEvent (handler: EventHandler) {
+    eventHandlers.push(handler)
   }
 
   async function runTestFile (relativePath: string) {
@@ -85,12 +96,14 @@ export async function setupRunner (options: RunnerOptions) {
   async function close () {
     await testFiles.destroy()
     await pool.terminate()
+    eventHandlers.length = 0
   }
 
   return {
     testFiles,
     runTestFile,
     close,
+    onEvent,
   }
 }
 
