@@ -25,7 +25,7 @@ export async function setupRunner (options: RunnerOptions) {
     options,
   }
 
-  const pool = workerpool.pool(join(__dirname, 'child.js'))
+  const pool = workerpool.pool(join(__dirname, 'worker.js'))
   const functions = await pool.proxy()
 
   const testFiles = await createReactiveFileSystem({
