@@ -1,0 +1,12 @@
+name: Continuous tests
+on:
+  - push
+  - pull_request
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    name: Build and test
+    steps:
+      - uses: actions/checkout@v2
+      - uses: bahmutov/npm-install@v1
+      - run: cd packages/tests && yarn run test
