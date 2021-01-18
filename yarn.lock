@@ -1473,6 +1473,13 @@
   resolved "https://registry.yarnpkg.com/@types/sinonjs__fake-timers/-/sinonjs__fake-timers-6.0.2.tgz#3a84cf5ec3249439015e14049bd3161419bf9eae"
   integrity sha512-dIPoZ3g5gcx9zZEszaxLSVTvMReD3xxyyDnQUjA6IYDG9Ba2AV0otMPs+77sG9ojB4Qr2N2Vk5RnKeuA0X/0bg==
 
+"@types/workerpool@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@types/workerpool/-/workerpool-6.0.0.tgz#068c31191f7df9b3d49ebe348b1eeb601e75e2d3"
+  integrity sha512-BjbKVHFBWblQ3vZ5yFq29kbM2TsaUaTOwYgVxqnNjMrT6CktVF8AvMxOJZgHGgNbAzP4z8DK+EshyZcYpdvAhQ==
+  dependencies:
+    "@types/node" "*"
+
 "@types/ws@^7.0.0":
   version "7.4.0"
   resolved "https://registry.yarnpkg.com/@types/ws/-/ws-7.4.0.tgz#499690ea08736e05a8186113dac37769ab251a0e"

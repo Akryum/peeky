@@ -37,6 +37,7 @@
     "workerpool": "^6.0.4"
   },
   "devDependencies": {
-    "@types/node": "^14.14.21"
+    "@types/node": "^14.14.21",
+    "@types/workerpool": "^6.0.0"
   }
 }

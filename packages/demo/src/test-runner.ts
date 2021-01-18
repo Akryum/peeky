@@ -1,10 +1,15 @@
-import { runTestFile } from '@peeky/runner/dist/child'
-import { join } from 'path'
+import { runAllTests } from '@peeky/runner'
 
-try {
-  runTestFile({
-    entry: join(__dirname, 'foo.spec.ts'),
-  })
-} catch (e) {
-  process.exit(1)
-}
+(async () => {
+  try {
+    const { result, hasError } = await runAllTests({
+      targetDirectory: process.cwd(),
+    })
+    console.log(JSON.stringify(result, null, 2))
+    if (hasError) {
+      throw new Error('Some tests failed')
+    }
+  } catch (e) {
+    process.exit(1)
+  }
+})()
