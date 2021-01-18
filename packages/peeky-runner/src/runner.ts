@@ -146,6 +146,9 @@ function registerGlobals (ctx: Context, target: any) {
   }
 
   target.it = target.test = (title: string, handler: () => unknown) => {
+    if (!currentSuite) {
+      throw new Error('test() must be used inside the describe() handler')
+    }
     currentSuite.tests.push({
       id: shortid(),
       title,
@@ -155,18 +158,30 @@ function registerGlobals (ctx: Context, target: any) {
   }
 
   target.beforeAll = (handler: () => unknown) => {
+    if (!currentSuite) {
+      throw new Error('beforeAll() must be used inside the describe() handler')
+    }
     currentSuite.beforeAllHandlers.push(handler)
   }
 
   target.afterAll = (handler: () => unknown) => {
+    if (!currentSuite) {
+      throw new Error('afterAll() must be used inside the describe() handler')
+    }
     currentSuite.afterAllHandlers.push(handler)
   }
 
   target.beforeEach = (handler: () => unknown) => {
+    if (!currentSuite) {
+      throw new Error('beforeEach() must be used inside the describe() handler')
+    }
     currentSuite.beforeEachHandlers.push(handler)
   }
 
   target.afterEach = (handler: () => unknown) => {
+    if (!currentSuite) {
+      throw new Error('afterEach() must be used inside the describe() handler')
+    }
     currentSuite.afterEachHandlers.push(handler)
   }
 }
