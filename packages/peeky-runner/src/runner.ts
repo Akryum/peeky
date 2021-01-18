@@ -123,13 +123,13 @@ async function build (ctx: Context) {
   }
 }
 
-function registerGlobals (ctx: Context) {
-  (global as any).expect = must
-  ;(global as any).sinon = sinon
+function registerGlobals (ctx: Context, target: any) {
+  target.expect = must
+  target.sinon = sinon
 
   let currentSuite: TestSuite
 
-  (global as any).describe = (title: string, handler: () => unknown) => {
+  target.describe = (title: string, handler: () => unknown) => {
     currentSuite = {
       id: shortid(),
       title,
@@ -145,7 +145,7 @@ function registerGlobals (ctx: Context) {
     handler()
   }
 
-  (global as any).it = (global as any).test = (title: string, handler: () => unknown) => {
+  target.it = target.test = (title: string, handler: () => unknown) => {
     currentSuite.tests.push({
       id: shortid(),
       title,
@@ -154,19 +154,19 @@ function registerGlobals (ctx: Context) {
     })
   }
 
-  (global as any).beforeAll = (handler: () => unknown) => {
+  target.beforeAll = (handler: () => unknown) => {
     currentSuite.beforeAllHandlers.push(handler)
   }
 
-  (global as any).afterAll = (handler: () => unknown) => {
+  target.afterAll = (handler: () => unknown) => {
     currentSuite.afterAllHandlers.push(handler)
   }
 
-  (global as any).beforeEach = (handler: () => unknown) => {
+  target.beforeEach = (handler: () => unknown) => {
     currentSuite.beforeEachHandlers.push(handler)
   }
 
-  (global as any).afterEach = (handler: () => unknown) => {
+  target.afterEach = (handler: () => unknown) => {
     currentSuite.afterEachHandlers.push(handler)
   }
 }
@@ -258,7 +258,7 @@ export async function runTestFile (options: RunTestFileOptions) {
       suites: [],
     }
     await build(ctx)
-    registerGlobals(ctx)
+    registerGlobals(ctx, global)
     installSourceMap()
     require(join(dirname(ctx.options.entry), '/__output/target.js'))
     await runTests(ctx)
