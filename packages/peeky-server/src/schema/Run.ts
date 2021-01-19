@@ -105,19 +105,19 @@ export const RunSubscription = extendType({
 
   definition (t) {
     t.field('runAdded', {
-      type: nonNull(TestFile),
+      type: nonNull(Run),
       subscribe: (_, args, ctx) => ctx.pubsub.asyncIterator(RunAdded),
       resolve: (payload: RunAddedPayload) => payload.run,
     })
 
     t.field('runUpdated', {
-      type: nonNull(TestFile),
+      type: nonNull(Run),
       subscribe: (_, args, ctx) => ctx.pubsub.asyncIterator(RunUpdated),
       resolve: (payload: RunUpdatedPayload) => payload.run,
     })
 
     t.field('runRemoved', {
-      type: nonNull(TestFile),
+      type: nonNull(Run),
       subscribe: (_, args, ctx) => ctx.pubsub.asyncIterator(RunRemoved),
       resolve: (payload: RunRemovedPayload) => payload.run,
     })
