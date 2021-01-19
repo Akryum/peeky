@@ -97,5 +97,24 @@ export async function createReactiveFileSystem (options: ReactiveFileSystemOptio
     list,
     watchList,
     destroy,
+    onFileAdd: (handler: (relativePath: string) => unknown) => {
+      watcher.on('add', (relativePath) => {
+        handler(relativePath)
+      })
+    },
+    onFileChange: (handler: (relativePath: string) => unknown) => {
+      watcher.on('change', (relativePath) => {
+        handler(relativePath)
+      })
+    },
+    onFileRemove: (handler: (relativePath: string) => unknown) => {
+      watcher.on('unlink', (relativePath) => {
+        handler(relativePath)
+      })
+    },
   }
 }
+
+type Awaited<T> = T extends PromiseLike<infer U> ? Awaited<U> : T
+
+export type ReactiveFileSystem = Awaited<ReturnType<typeof createReactiveFileSystem>>
