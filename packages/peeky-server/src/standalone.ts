@@ -1,6 +1,12 @@
+import consola from 'consola'
 import { createServer } from '.'
 
-const server = createServer()
-server.listen(process.env.PORT || 4000).then(({ url }) => {
-  console.log(`🚀 Server ready at ${url}`)
-})
+(async () => {
+  const {
+    http,
+  } = await createServer()
+  const port = process.env.PORT || 4000
+  http.listen(port, () => {
+    consola.success(`🚀 Server ready at http://localhost:${port}`)
+  })
+})()

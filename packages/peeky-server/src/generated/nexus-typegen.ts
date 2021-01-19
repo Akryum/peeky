@@ -4,7 +4,7 @@
  */
 
 
-
+import { Context } from "./../context"
 
 
 
@@ -14,9 +14,13 @@ declare global {
 }
 
 export interface NexusGenInputs {
+  StartRunInput: { // input type
+    testFileIds?: string[] | null; // [String!]
+  }
 }
 
 export interface NexusGenEnums {
+  Status: "error" | "idle" | "in_progress" | "success"
 }
 
 export interface NexusGenScalars {
@@ -28,7 +32,20 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  Mutation: {};
   Query: {};
+  Run: { // root type
+    id: string; // ID!
+    progress: number; // Float!
+    status: NexusGenEnums['Status']; // Status!
+    testFiles: NexusGenRootTypes['TestFile'][]; // [TestFile!]!
+  }
+  Subscription: {};
+  TestFile: { // root type
+    id?: string | null; // ID
+    relativePath?: string | null; // String
+    status?: NexusGenEnums['Status'] | null; // Status
+  }
 }
 
 export interface NexusGenInterfaces {
@@ -39,21 +56,84 @@ export interface NexusGenUnions {
 
 export type NexusGenRootTypes = NexusGenObjects
 
-export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
+export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
 export interface NexusGenFieldTypes {
+  Mutation: { // field return type
+    startRun: NexusGenRootTypes['Run']; // Run!
+  }
   Query: { // field return type
-    ok: boolean; // Boolean!
+    run: NexusGenRootTypes['Run'] | null; // Run
+    runs: NexusGenRootTypes['Run'][]; // [Run!]!
+    testFile: NexusGenRootTypes['TestFile'] | null; // TestFile
+    testFiles: NexusGenRootTypes['TestFile'][]; // [TestFile!]!
+  }
+  Run: { // field return type
+    id: string; // ID!
+    progress: number; // Float!
+    status: NexusGenEnums['Status']; // Status!
+    testFiles: NexusGenRootTypes['TestFile'][]; // [TestFile!]!
+  }
+  Subscription: { // field return type
+    runAdded: NexusGenRootTypes['TestFile']; // TestFile!
+    runRemoved: NexusGenRootTypes['TestFile']; // TestFile!
+    runUpdated: NexusGenRootTypes['TestFile']; // TestFile!
+    testFileAdded: NexusGenRootTypes['TestFile']; // TestFile!
+    testFileRemoved: NexusGenRootTypes['TestFile']; // TestFile!
+    testFileUpdated: NexusGenRootTypes['TestFile']; // TestFile!
+  }
+  TestFile: { // field return type
+    id: string | null; // ID
+    relativePath: string | null; // String
+    status: NexusGenEnums['Status'] | null; // Status
   }
 }
 
 export interface NexusGenFieldTypeNames {
+  Mutation: { // field return type name
+    startRun: 'Run'
+  }
   Query: { // field return type name
-    ok: 'Boolean'
+    run: 'Run'
+    runs: 'Run'
+    testFile: 'TestFile'
+    testFiles: 'TestFile'
+  }
+  Run: { // field return type name
+    id: 'ID'
+    progress: 'Float'
+    status: 'Status'
+    testFiles: 'TestFile'
+  }
+  Subscription: { // field return type name
+    runAdded: 'TestFile'
+    runRemoved: 'TestFile'
+    runUpdated: 'TestFile'
+    testFileAdded: 'TestFile'
+    testFileRemoved: 'TestFile'
+    testFileUpdated: 'TestFile'
+  }
+  TestFile: { // field return type name
+    id: 'ID'
+    relativePath: 'String'
+    status: 'Status'
   }
 }
 
 export interface NexusGenArgTypes {
+  Mutation: {
+    startRun: { // args
+      input: NexusGenInputs['StartRunInput']; // StartRunInput!
+    }
+  }
+  Query: {
+    run: { // args
+      id: string; // ID!
+    }
+    testFile: { // args
+      id: string; // ID!
+    }
+  }
 }
 
 export interface NexusGenAbstractTypeMembers {
@@ -64,9 +144,9 @@ export interface NexusGenTypeInterfaces {
 
 export type NexusGenObjectNames = keyof NexusGenObjects;
 
-export type NexusGenInputNames = never;
+export type NexusGenInputNames = keyof NexusGenInputs;
 
-export type NexusGenEnumNames = never;
+export type NexusGenEnumNames = keyof NexusGenEnums;
 
 export type NexusGenInterfaceNames = never;
 
@@ -87,7 +167,7 @@ export type NexusGenFeaturesConfig = {
 }
 
 export interface NexusGenTypes {
-  context: any;
+  context: Context;
   inputTypes: NexusGenInputs;
   rootTypes: NexusGenRootTypes;
   inputTypeShapes: NexusGenInputs & NexusGenEnums & NexusGenScalars;
