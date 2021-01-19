@@ -41,11 +41,26 @@ type Subscription {
   runAdded: Run!
   runRemoved: Run!
   runUpdated: Run!
+  testAdded(runId: String!): Test!
   testFileAdded: TestFile!
   testFileRemoved: TestFile!
   testFileUpdated: TestFile!
   testSuiteAdded(runId: String!): TestSuite!
   testSuiteUpdated(runId: String!): TestSuite!
+  testUpdated(runId: String!): Test!
+}
+
+type Test {
+  duration: Int
+  error: TestError
+  id: ID!
+  status: Status!
+  title: String!
+}
+
+type TestError {
+  message: String!
+  stack: String
 }
 
 type TestFile {
@@ -60,5 +75,6 @@ type TestSuite {
   id: ID!
   status: Status!
   testFile: TestFile!
+  tests: [Test]!
   title: String!
 }

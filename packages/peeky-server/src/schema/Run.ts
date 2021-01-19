@@ -6,6 +6,8 @@ import { Context } from '../context'
 import { Status, StatusEnum } from './Status'
 import { setTestFileStatus, TestFile, TestFileData, testFiles } from './TestFile'
 import { clearTestSuites, createTestSuite, updateTestSuite } from './TestSuite'
+import { updateTest } from './Test'
+import e from 'express'
 
 export const Run = objectType({
   name: 'Run',
@@ -197,12 +199,34 @@ export async function startRun (ctx: Context, id: string) {
         runId: run.id,
         testFileId: relative(process.cwd(), suite.filePath),
         title: suite.title,
+        tests: suite.tests,
       })
     } else if (eventType === EventType.SUITE_COMPLETED) {
       const { suite, duration } = payload
       updateTestSuite(ctx, suite.id, {
         status: suite.errors ? 'error' : 'success',
         duration,
+      })
+    } else if (eventType === EventType.TEST_START) {
+      const { suite, test } = payload
+      updateTest(ctx, suite.id, test.id, {
+        status: 'in_progress',
+      })
+    } else if (eventType === EventType.TEST_SUCCESS) {
+      const { suite, test, duration } = payload
+      updateTest(ctx, suite.id, test.id, {
+        status: 'success',
+        duration,
+      })
+    } else if (eventType === EventType.TEST_ERROR) {
+      const { suite, test, duration, error, stack } = payload
+      updateTest(ctx, suite.id, test.id, {
+        status: 'error',
+        duration,
+        error: {
+          message: error.message,
+          stack: stack,
+        },
       })
     }
   })

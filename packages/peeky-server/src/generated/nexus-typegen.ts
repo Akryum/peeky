@@ -41,6 +41,17 @@ export interface NexusGenObjects {
   Query: {};
   Run: RunData;
   Subscription: {};
+  Test: { // root type
+    duration?: number | null; // Int
+    error?: NexusGenRootTypes['TestError'] | null; // TestError
+    id: string; // ID!
+    status: NexusGenEnums['Status']; // Status!
+    title: string; // String!
+  }
+  TestError: { // root type
+    message: string; // String!
+    stack?: string | null; // String
+  }
   TestFile: { // root type
     deleted: boolean; // Boolean!
     id: string; // ID!
@@ -82,11 +93,24 @@ export interface NexusGenFieldTypes {
     runAdded: NexusGenRootTypes['Run']; // Run!
     runRemoved: NexusGenRootTypes['Run']; // Run!
     runUpdated: NexusGenRootTypes['Run']; // Run!
+    testAdded: NexusGenRootTypes['Test']; // Test!
     testFileAdded: NexusGenRootTypes['TestFile']; // TestFile!
     testFileRemoved: NexusGenRootTypes['TestFile']; // TestFile!
     testFileUpdated: NexusGenRootTypes['TestFile']; // TestFile!
     testSuiteAdded: NexusGenRootTypes['TestSuite']; // TestSuite!
     testSuiteUpdated: NexusGenRootTypes['TestSuite']; // TestSuite!
+    testUpdated: NexusGenRootTypes['Test']; // Test!
+  }
+  Test: { // field return type
+    duration: number | null; // Int
+    error: NexusGenRootTypes['TestError'] | null; // TestError
+    id: string; // ID!
+    status: NexusGenEnums['Status']; // Status!
+    title: string; // String!
+  }
+  TestError: { // field return type
+    message: string; // String!
+    stack: string | null; // String
   }
   TestFile: { // field return type
     deleted: boolean; // Boolean!
@@ -99,6 +123,7 @@ export interface NexusGenFieldTypes {
     id: string; // ID!
     status: NexusGenEnums['Status']; // Status!
     testFile: NexusGenRootTypes['TestFile']; // TestFile!
+    tests: Array<NexusGenRootTypes['Test'] | null>; // [Test]!
     title: string; // String!
   }
 }
@@ -125,11 +150,24 @@ export interface NexusGenFieldTypeNames {
     runAdded: 'Run'
     runRemoved: 'Run'
     runUpdated: 'Run'
+    testAdded: 'Test'
     testFileAdded: 'TestFile'
     testFileRemoved: 'TestFile'
     testFileUpdated: 'TestFile'
     testSuiteAdded: 'TestSuite'
     testSuiteUpdated: 'TestSuite'
+    testUpdated: 'Test'
+  }
+  Test: { // field return type name
+    duration: 'Int'
+    error: 'TestError'
+    id: 'ID'
+    status: 'Status'
+    title: 'String'
+  }
+  TestError: { // field return type name
+    message: 'String'
+    stack: 'String'
   }
   TestFile: { // field return type name
     deleted: 'Boolean'
@@ -142,6 +180,7 @@ export interface NexusGenFieldTypeNames {
     id: 'ID'
     status: 'Status'
     testFile: 'TestFile'
+    tests: 'Test'
     title: 'String'
   }
 }
@@ -164,10 +203,16 @@ export interface NexusGenArgTypes {
     }
   }
   Subscription: {
+    testAdded: { // args
+      runId: string; // String!
+    }
     testSuiteAdded: { // args
       runId: string; // String!
     }
     testSuiteUpdated: { // args
+      runId: string; // String!
+    }
+    testUpdated: { // args
       runId: string; // String!
     }
   }

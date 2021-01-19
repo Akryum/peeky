@@ -3,6 +3,7 @@ import { extendType, nonNull, objectType, stringArg } from 'nexus'
 import { join } from 'path'
 import { Context } from '../context'
 import { Status, StatusEnum } from './Status'
+import { createTest, TestData } from './Test'
 import { TestFile, testFiles } from './TestFile'
 
 export const TestSuite = objectType({
@@ -78,11 +79,12 @@ export const TestSuiteSupbscriptions = extendType({
 
 export interface TestSuiteData {
   id: string
+  runId: string
+  testFileId: string
   title: string
   status: StatusEnum
   duration: number
-  testFileId: string
-  runId: string
+  tests: TestData[]
 }
 
 export let testSuites: TestSuiteData[] = []
@@ -92,6 +94,10 @@ export interface CreateTestSuiteOptions {
   runId: string
   testFileId: string
   title: string
+  tests: {
+    id: string
+    title: string
+  }[]
 }
 
 export async function createTestSuite (ctx: Context, options: CreateTestSuiteOptions) {
@@ -102,9 +108,15 @@ export async function createTestSuite (ctx: Context, options: CreateTestSuiteOpt
     title: options.title,
     status: 'in_progress',
     duration: null,
+    tests: [],
   }
-  console.log(testSuite)
   testSuites.push(testSuite)
+  testSuite.tests = await Promise.all(options.tests.map(t => createTest(ctx, {
+    id: t.id,
+    runId: options.runId,
+    testSuiteId: options.id,
+    title: t.title,
+  })))
   ctx.pubsub.publish(TestSuiteAdded, {
     testSuite,
   } as TestSuiteAddedPayload)
@@ -123,7 +135,7 @@ export function getTestSuite (ctx: Context, id: string) {
   return testSuite
 }
 
-export async function updateTestSuite (ctx: Context, id: string, data: Partial<Omit<TestSuiteData, 'id'>>) {
+export async function updateTestSuite (ctx: Context, id: string, data: Partial<Omit<TestSuiteData, 'id' | 'runId' | 'testFileId'>>) {
   const testSuite = await getTestSuite(ctx, id)
   Object.assign(testSuite, data)
   ctx.pubsub.publish(TestSuiteUpdated, {
