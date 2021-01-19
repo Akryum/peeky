@@ -73,6 +73,11 @@ export const RunMutation = extendType({
       },
       resolve: async (_, { input }, ctx) => clearRun(ctx, input.id),
     })
+
+    t.nonNull.field('clearRuns', {
+      type: 'Boolean',
+      resolve: async (_, args, ctx) => clearRuns(ctx),
+    })
   },
 })
 
@@ -139,7 +144,7 @@ export interface RunData {
   testFiles: TestFileData[]
 }
 
-export const runs: RunData[] = []
+export let runs: RunData[] = []
 
 export interface CreateRunOptions {
   testFiles: string[]
@@ -266,4 +271,10 @@ export async function clearRun (ctx: Context, id: string) {
     run,
   } as RunRemovedPayload)
   return run
+}
+
+export function clearRuns (ctx: Context) {
+  clearTestSuites(ctx)
+  runs = []
+  return true
 }

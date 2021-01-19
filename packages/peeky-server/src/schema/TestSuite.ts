@@ -123,10 +123,6 @@ export async function createTestSuite (ctx: Context, options: CreateTestSuiteOpt
   return testSuite
 }
 
-export function clearTestSuites (ctx: Context, runId: string) {
-  testSuites = testSuites.filter(s => s.runId !== runId)
-}
-
 export function getTestSuite (ctx: Context, id: string) {
   const testSuite = testSuites.find(s => s.id === id)
   if (!testSuite) {
@@ -142,4 +138,8 @@ export async function updateTestSuite (ctx: Context, id: string, data: Partial<O
     testSuite,
   } as TestSuiteUpdatedPayload)
   return testSuite
+}
+
+export function clearTestSuites (ctx: Context, runId: string = null) {
+  testSuites = runId ? testSuites.filter(s => s.runId !== runId) : []
 }

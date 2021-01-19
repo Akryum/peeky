@@ -8,6 +8,7 @@ input ClearRunInput {
 
 type Mutation {
   clearRun(input: ClearRunInput!): Run!
+  clearRuns: Boolean!
   startRun(input: StartRunInput!): Run!
 }
 

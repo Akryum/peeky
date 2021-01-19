@@ -74,6 +74,7 @@ export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnu
 export interface NexusGenFieldTypes {
   Mutation: { // field return type
     clearRun: NexusGenRootTypes['Run']; // Run!
+    clearRuns: boolean; // Boolean!
     startRun: NexusGenRootTypes['Run']; // Run!
   }
   Query: { // field return type
@@ -131,6 +132,7 @@ export interface NexusGenFieldTypes {
 export interface NexusGenFieldTypeNames {
   Mutation: { // field return type name
     clearRun: 'Run'
+    clearRuns: 'Boolean'
     startRun: 'Run'
   }
   Query: { // field return type name
