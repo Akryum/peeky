@@ -23,6 +23,7 @@ type Run {
   progress: Float!
   status: Status!
   testFiles: [TestFile!]!
+  testSuites: [TestSuite!]!
 }
 
 input StartRunInput {
@@ -37,16 +38,27 @@ enum Status {
 }
 
 type Subscription {
-  runAdded: TestFile!
-  runRemoved: TestFile!
-  runUpdated: TestFile!
+  runAdded: Run!
+  runRemoved: Run!
+  runUpdated: Run!
   testFileAdded: TestFile!
   testFileRemoved: TestFile!
   testFileUpdated: TestFile!
+  testSuiteAdded(runId: String!): TestSuite!
+  testSuiteUpdated(runId: String!): TestSuite!
 }
 
 type TestFile {
-  id: ID
-  relativePath: String
-  status: Status
+  deleted: Boolean!
+  id: ID!
+  relativePath: String!
+  status: Status!
+}
+
+type TestSuite {
+  duration: Int
+  id: ID!
+  status: Status!
+  testFile: TestFile!
+  title: String!
 }

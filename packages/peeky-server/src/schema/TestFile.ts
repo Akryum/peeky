@@ -5,11 +5,12 @@ import { Status, StatusEnum } from './Status'
 export const TestFile = objectType({
   name: 'TestFile',
   definition (t) {
-    t.id('id')
-    t.string('relativePath')
-    t.field('status', {
+    t.nonNull.id('id')
+    t.nonNull.string('relativePath')
+    t.nonNull.field('status', {
       type: Status,
     })
+    t.nonNull.boolean('deleted')
   },
 })
 
@@ -77,6 +78,7 @@ export interface TestFileData {
   id: string
   relativePath: string
   status: StatusEnum
+  deleted: boolean
 }
 
 export let testFiles: TestFileData[] = []
@@ -93,10 +95,9 @@ export async function loadTestFiles (ctx: Context) {
   })
 
   ctx.reactiveFs.onFileRemove((relativePath) => {
-    const index = testFiles.findIndex(f => f.relativePath === relativePath)
-    if (index !== -1) {
-      const testFile = testFiles[index]
-      testFiles.splice(index, 1)
+    const testFile = testFiles.find(f => f.relativePath === relativePath)
+    if (testFile) {
+      testFile.deleted = true
       ctx.pubsub.publish(TestFileRemoved, {
         testFile,
       } as TestFileRemovedPayload)
@@ -119,5 +120,6 @@ function createTestFile (relativePath: string): TestFileData {
     id: relativePath,
     relativePath,
     status: 'idle',
+    deleted: false,
   }
 }

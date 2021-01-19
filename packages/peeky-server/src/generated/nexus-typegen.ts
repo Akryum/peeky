@@ -5,6 +5,8 @@
 
 
 import { Context } from "./../context"
+import { TestSuiteData } from "./../schema/TestSuite"
+import { RunData } from "./../schema/Run"
 
 
 
@@ -37,18 +39,15 @@ export interface NexusGenScalars {
 export interface NexusGenObjects {
   Mutation: {};
   Query: {};
-  Run: { // root type
-    id: string; // ID!
-    progress: number; // Float!
-    status: NexusGenEnums['Status']; // Status!
-    testFiles: NexusGenRootTypes['TestFile'][]; // [TestFile!]!
-  }
+  Run: RunData;
   Subscription: {};
   TestFile: { // root type
-    id?: string | null; // ID
-    relativePath?: string | null; // String
-    status?: NexusGenEnums['Status'] | null; // Status
+    deleted: boolean; // Boolean!
+    id: string; // ID!
+    relativePath: string; // String!
+    status: NexusGenEnums['Status']; // Status!
   }
+  TestSuite: TestSuiteData;
 }
 
 export interface NexusGenInterfaces {
@@ -77,19 +76,30 @@ export interface NexusGenFieldTypes {
     progress: number; // Float!
     status: NexusGenEnums['Status']; // Status!
     testFiles: NexusGenRootTypes['TestFile'][]; // [TestFile!]!
+    testSuites: NexusGenRootTypes['TestSuite'][]; // [TestSuite!]!
   }
   Subscription: { // field return type
-    runAdded: NexusGenRootTypes['TestFile']; // TestFile!
-    runRemoved: NexusGenRootTypes['TestFile']; // TestFile!
-    runUpdated: NexusGenRootTypes['TestFile']; // TestFile!
+    runAdded: NexusGenRootTypes['Run']; // Run!
+    runRemoved: NexusGenRootTypes['Run']; // Run!
+    runUpdated: NexusGenRootTypes['Run']; // Run!
     testFileAdded: NexusGenRootTypes['TestFile']; // TestFile!
     testFileRemoved: NexusGenRootTypes['TestFile']; // TestFile!
     testFileUpdated: NexusGenRootTypes['TestFile']; // TestFile!
+    testSuiteAdded: NexusGenRootTypes['TestSuite']; // TestSuite!
+    testSuiteUpdated: NexusGenRootTypes['TestSuite']; // TestSuite!
   }
   TestFile: { // field return type
-    id: string | null; // ID
-    relativePath: string | null; // String
-    status: NexusGenEnums['Status'] | null; // Status
+    deleted: boolean; // Boolean!
+    id: string; // ID!
+    relativePath: string; // String!
+    status: NexusGenEnums['Status']; // Status!
+  }
+  TestSuite: { // field return type
+    duration: number | null; // Int
+    id: string; // ID!
+    status: NexusGenEnums['Status']; // Status!
+    testFile: NexusGenRootTypes['TestFile']; // TestFile!
+    title: string; // String!
   }
 }
 
@@ -109,19 +119,30 @@ export interface NexusGenFieldTypeNames {
     progress: 'Float'
     status: 'Status'
     testFiles: 'TestFile'
+    testSuites: 'TestSuite'
   }
   Subscription: { // field return type name
-    runAdded: 'TestFile'
-    runRemoved: 'TestFile'
-    runUpdated: 'TestFile'
+    runAdded: 'Run'
+    runRemoved: 'Run'
+    runUpdated: 'Run'
     testFileAdded: 'TestFile'
     testFileRemoved: 'TestFile'
     testFileUpdated: 'TestFile'
+    testSuiteAdded: 'TestSuite'
+    testSuiteUpdated: 'TestSuite'
   }
   TestFile: { // field return type name
+    deleted: 'Boolean'
     id: 'ID'
     relativePath: 'String'
     status: 'Status'
+  }
+  TestSuite: { // field return type name
+    duration: 'Int'
+    id: 'ID'
+    status: 'Status'
+    testFile: 'TestFile'
+    title: 'String'
   }
 }
 
@@ -140,6 +161,14 @@ export interface NexusGenArgTypes {
     }
     testFile: { // args
       id: string; // ID!
+    }
+  }
+  Subscription: {
+    testSuiteAdded: { // args
+      runId: string; // String!
+    }
+    testSuiteUpdated: { // args
+      runId: string; // String!
     }
   }
 }
