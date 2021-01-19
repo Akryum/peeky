@@ -37,13 +37,6 @@ export const RunQuery = extendType({
   },
 })
 
-export const StartRunInput = inputObjectType({
-  name: 'StartRunInput',
-  definition (t) {
-    t.list.nonNull.string('testFileIds')
-  },
-})
-
 export const RunMutation = extendType({
   type: 'Mutation',
   definition (t) {
@@ -62,6 +55,30 @@ export const RunMutation = extendType({
         return run
       },
     })
+
+    t.nonNull.field('clearRun', {
+      type: Run,
+      args: {
+        input: arg({
+          type: nonNull(ClearRunInput),
+        }),
+      },
+      resolve: async (_, { input }, ctx) => clearRun(ctx, input.id),
+    })
+  },
+})
+
+export const StartRunInput = inputObjectType({
+  name: 'StartRunInput',
+  definition (t) {
+    t.list.nonNull.string('testFileIds')
+  },
+})
+
+export const ClearRunInput = inputObjectType({
+  name: 'ClearRunInput',
+  definition (t) {
+    t.nonNull.id('id')
   },
 })
 
@@ -188,5 +205,20 @@ export async function startRun (ctx: Context, id: string) {
     status: stats.errorTestCount > 0 ? 'error' : 'success',
   })
 
+  return run
+}
+
+export async function clearRun (ctx: Context, id: string) {
+  const run = await getRun(ctx, id)
+  if (run.status === 'in_progress') {
+    throw new Error(`Run ${id} is in progress and can't be cleared`)
+  }
+  const index = runs.indexOf(run)
+  if (index !== -1) {
+    runs.splice(index, 1)
+  }
+  ctx.pubsub.publish(RunRemoved, {
+    run,
+  } as RunRemovedPayload)
   return run
 }

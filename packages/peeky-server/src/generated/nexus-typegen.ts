@@ -14,6 +14,9 @@ declare global {
 }
 
 export interface NexusGenInputs {
+  ClearRunInput: { // input type
+    id: string; // ID!
+  }
   StartRunInput: { // input type
     testFileIds?: string[] | null; // [String!]
   }
@@ -60,6 +63,7 @@ export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnu
 
 export interface NexusGenFieldTypes {
   Mutation: { // field return type
+    clearRun: NexusGenRootTypes['Run']; // Run!
     startRun: NexusGenRootTypes['Run']; // Run!
   }
   Query: { // field return type
@@ -91,6 +95,7 @@ export interface NexusGenFieldTypes {
 
 export interface NexusGenFieldTypeNames {
   Mutation: { // field return type name
+    clearRun: 'Run'
     startRun: 'Run'
   }
   Query: { // field return type name
@@ -122,6 +127,9 @@ export interface NexusGenFieldTypeNames {
 
 export interface NexusGenArgTypes {
   Mutation: {
+    clearRun: { // args
+      input: NexusGenInputs['ClearRunInput']; // ClearRunInput!
+    }
     startRun: { // args
       input: NexusGenInputs['StartRunInput']; // StartRunInput!
     }

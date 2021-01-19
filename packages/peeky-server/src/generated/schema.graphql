@@ -2,7 +2,12 @@
 ### Do not make changes to this file directly
 
 
+input ClearRunInput {
+  id: ID!
+}
+
 type Mutation {
+  clearRun(input: ClearRunInput!): Run!
   startRun(input: StartRunInput!): Run!
 }
 
