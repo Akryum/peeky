@@ -1,10 +1,10 @@
 import sinon from 'sinon'
 import { workerEmit } from '@akryum/workerpool'
-import { Context, TestSuiteInfo } from './types'
+import { Context, EventType, TestSuiteInfo } from './types'
 
 export async function runTests (ctx: Context) {
   for (const suite of ctx.suites) {
-    workerEmit('suite:start', {
+    workerEmit(EventType.SUITE_START, {
       suite: {
         id: suite.id,
         title: suite.title,
@@ -28,7 +28,7 @@ export async function runTests (ctx: Context) {
       }
 
       const time = Date.now()
-      workerEmit('test:start', {
+      workerEmit(EventType.TEST_START, {
         suite: {
           id: suite.id,
         },
@@ -38,7 +38,7 @@ export async function runTests (ctx: Context) {
       })
       try {
         await test.handler()
-        workerEmit('test:success', {
+        workerEmit(EventType.TEST_SUCCESS, {
           suite: {
             id: suite.id,
           },
@@ -49,7 +49,7 @@ export async function runTests (ctx: Context) {
         })
       } catch (e) {
         test.error = e
-        workerEmit('test:error', {
+        workerEmit(EventType.TEST_ERROR, {
           suite: {
             id: suite.id,
           },
@@ -72,7 +72,7 @@ export async function runTests (ctx: Context) {
       await handler()
     }
 
-    workerEmit('suite:completed', {
+    workerEmit(EventType.SUITE_COMPLETED, {
       suite: {
         id: suite.id,
         errors: suite.errors,

@@ -1,5 +1,5 @@
 import { worker } from '@akryum/workerpool'
-import { runTestFile } from './runner'
+import { runTestFile } from './run-test-file'
 
 worker({
   runTestFile,

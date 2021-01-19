@@ -5,9 +5,8 @@ import { fs as memfs } from 'memfs'
 import { ufs } from 'unionfs'
 import { patchFs, patchRequire } from 'fs-monkey'
 import { dirname, join, relative } from 'path'
-import consola from 'consola'
 import { workerEmit } from '@akryum/workerpool'
-import { Context } from './types'
+import { Context, EventType } from './types'
 
 const originalFs = { ...fs }
 let mockedFs = false
@@ -15,6 +14,7 @@ let mockedFs = false
 export function mockFileSystem () {
   if (mockedFs) return
   mockedFs = true
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
   ufs.use(originalFs).use(memfs)
   // Patch unionfs to write to memfs only
@@ -43,7 +43,7 @@ export async function buildTestFile (ctx: Context) {
     const cachePath = getCachePath(ctx.options.entry)
     const cache = loadBuildCache(ctx, cachePath)
 
-    workerEmit('test-file:building', {
+    workerEmit(EventType.BUILDING, {
       testFilePath: ctx.options.entry,
     })
 
@@ -73,12 +73,15 @@ export async function buildTestFile (ctx: Context) {
 
     await bundle.close()
 
-    workerEmit('test-file:build-completed', {
+    workerEmit(EventType.BUILD_COMPLETED, {
       testFilePath: ctx.options.entry,
       duration: Date.now() - time,
     })
   } catch (e) {
-    consola.error(`Test build failed: ${e.message}`)
+    workerEmit(EventType.BUILD_FAILED, {
+      testFilePath: ctx.options.entry,
+      error: e,
+    })
     throw e
   }
 }
@@ -94,7 +97,7 @@ export function loadBuildCache (ctx: Context, cachePath: string) {
     try {
       cache = JSON.parse(fs.readFileSync(cachePath, 'utf8'))
     } catch (e) {
-      workerEmit('test-file:cache-load-failed', {
+      workerEmit(EventType.CACHE_LOAD_FAILED, {
         filePath: ctx.options.entry,
         error: e,
         cachePath,
@@ -110,12 +113,12 @@ export function saveBuildCache (ctx: Context, cachePath: string, cacheData: any)
       recursive: true,
     })
     originalFs.writeFileSync(cachePath, JSON.stringify(cacheData), { encoding: 'utf8' })
-    workerEmit('test-file:cache-save-success', {
+    workerEmit(EventType.CACHE_SAVE_SUCCESS, {
       filePath: ctx.options.entry,
       cachePath,
     })
   } catch (e) {
-    workerEmit('test-file:cache-save-failed', {
+    workerEmit(EventType.CACHE_SAVE_FAILED, {
       filePath: ctx.options.entry,
       error: e,
       cachePath,

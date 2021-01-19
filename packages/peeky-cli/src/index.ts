@@ -13,7 +13,7 @@ program.command('run')
   .option('-i, --ignore <globs...>', 'Globs ignore when looking for test files. Example: `peeky run -i "node_modules" "dist/**/*.ts"`')
   .action(async (options) => {
     try {
-      const { errorTestCount } = await runAllTests({
+      const { stats: { errorTestCount } } = await runAllTests({
         targetDirectory: process.cwd(),
         ...pick(options, [
           'match',
