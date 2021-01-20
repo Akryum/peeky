@@ -22,8 +22,8 @@ type Query {
 type Run {
   id: ID!
   progress: Float!
+  runTestFiles: [RunTestFile!]!
   status: Status!
-  testFiles: [RunTestFile!]!
   testSuites: [TestSuite!]!
 }
 
@@ -31,6 +31,7 @@ type RunTestFile {
   duration: Int
   id: ID!
   status: Status!
+  suites: [TestSuite!]!
   testFile: TestFile!
 }
 

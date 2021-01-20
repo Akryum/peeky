@@ -89,14 +89,15 @@ export interface NexusGenFieldTypes {
   Run: { // field return type
     id: string; // ID!
     progress: number; // Float!
+    runTestFiles: NexusGenRootTypes['RunTestFile'][]; // [RunTestFile!]!
     status: NexusGenEnums['Status']; // Status!
-    testFiles: NexusGenRootTypes['RunTestFile'][]; // [RunTestFile!]!
     testSuites: NexusGenRootTypes['TestSuite'][]; // [TestSuite!]!
   }
   RunTestFile: { // field return type
     duration: number | null; // Int
     id: string; // ID!
     status: NexusGenEnums['Status']; // Status!
+    suites: NexusGenRootTypes['TestSuite'][]; // [TestSuite!]!
     testFile: NexusGenRootTypes['TestFile']; // TestFile!
   }
   Subscription: { // field return type
@@ -154,14 +155,15 @@ export interface NexusGenFieldTypeNames {
   Run: { // field return type name
     id: 'ID'
     progress: 'Float'
+    runTestFiles: 'RunTestFile'
     status: 'Status'
-    testFiles: 'RunTestFile'
     testSuites: 'TestSuite'
   }
   RunTestFile: { // field return type name
     duration: 'Int'
     id: 'ID'
     status: 'Status'
+    suites: 'TestSuite'
     testFile: 'TestFile'
   }
   Subscription: { // field return type name

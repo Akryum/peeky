@@ -4,7 +4,7 @@ import { setupRunner, getStats, EventType } from '@peeky/runner'
 import { relative } from 'path'
 import { Context } from '../context'
 import { Status, StatusEnum } from './Status'
-import { updateTestFile, TestFileData, testFiles } from './TestFile'
+import { updateTestFile, testFiles } from './TestFile'
 import { clearTestSuites, createTestSuite, updateTestSuite } from './TestSuite'
 import { updateTest } from './Test'
 import { RunTestFile, RunTestFileData, updateRunTestFile } from './RunTestFile'
@@ -22,7 +22,7 @@ export const Run = objectType({
     t.nonNull.field('status', {
       type: Status,
     })
-    t.nonNull.list.field('testFiles', {
+    t.nonNull.list.field('runTestFiles', {
       type: nonNull(RunTestFile),
     })
   },
@@ -142,7 +142,7 @@ export interface RunData {
   id: string
   progress: number
   status: StatusEnum
-  testFiles: RunTestFileData[]
+  runTestFiles: RunTestFileData[]
 }
 
 export let runs: RunData[] = []
@@ -152,19 +152,22 @@ export interface CreateRunOptions {
 }
 
 export async function createRun (ctx: Context, options: CreateRunOptions) {
+  const runId = shortid()
+
   const testFilesRaw = options.testFiles ? testFiles.filter(f => options.testFiles.includes(f.id)) : [...testFiles]
   const runTestFiles: RunTestFileData[] = testFilesRaw.map(f => ({
     id: shortid(),
+    runId,
     testFile: f,
     status: 'idle',
     duration: null,
   }))
 
   const run: RunData = {
-    id: shortid(),
+    id: runId,
     progress: 0,
     status: 'idle',
-    testFiles: runTestFiles,
+    runTestFiles: runTestFiles,
   }
   runs.push(run)
 
@@ -196,7 +199,7 @@ export async function updateRun (ctx: Context, id: string, data: Partial<Omit<Ru
 export async function startRun (ctx: Context, id: string) {
   const run = await getRun(ctx, id)
 
-  await Promise.all(run.testFiles.map(async f => {
+  await Promise.all(run.runTestFiles.map(async f => {
     updateTestFile(ctx, f.testFile.id, { status: 'in_progress' })
     updateRunTestFile(ctx, run.id, f.id, { status: 'in_progress' })
   }))
@@ -211,10 +214,12 @@ export async function startRun (ctx: Context, id: string) {
   runner.onEvent((eventType, payload) => {
     if (eventType === EventType.SUITE_START) {
       const { suite } = payload
+      const testFileId = relative(process.cwd(), suite.filePath)
       createTestSuite(ctx, {
         id: suite.id,
         runId: run.id,
-        testFileId: relative(process.cwd(), suite.filePath),
+        runTestFileId: run.runTestFiles.find(rf => rf.testFile.id === testFileId)?.id,
+        testFileId,
         title: suite.title,
         tests: suite.tests,
       })
@@ -250,7 +255,7 @@ export async function startRun (ctx: Context, id: string) {
 
   let completed = 0
 
-  const results = await Promise.all(run.testFiles.map(async f => {
+  const results = await Promise.all(run.runTestFiles.map(async f => {
     const result = await runner.runTestFile(f.testFile.relativePath)
     const stats = getStats([result])
     const status = stats.errorTestCount > 0 ? 'error' : 'success'
@@ -264,7 +269,7 @@ export async function startRun (ctx: Context, id: string) {
     })
     completed++
     await updateRun(ctx, run.id, {
-      progress: completed / run.testFiles.length,
+      progress: completed / run.runTestFiles.length,
     })
     return result
   }))

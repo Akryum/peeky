@@ -80,6 +80,7 @@ export const TestSuiteSupbscriptions = extendType({
 export interface TestSuiteData {
   id: string
   runId: string
+  runTestFileId: string
   testFileId: string
   title: string
   status: StatusEnum
@@ -92,6 +93,7 @@ export let testSuites: TestSuiteData[] = []
 export interface CreateTestSuiteOptions {
   id: string
   runId: string
+  runTestFileId: string
   testFileId: string
   title: string
   tests: {
@@ -104,6 +106,7 @@ export async function createTestSuite (ctx: Context, options: CreateTestSuiteOpt
   const testSuite: TestSuiteData = {
     id: options.id,
     runId: options.runId,
+    runTestFileId: options.runTestFileId,
     testFileId: options.testFileId,
     title: options.title,
     status: 'in_progress',

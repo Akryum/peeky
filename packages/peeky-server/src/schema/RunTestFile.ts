@@ -4,6 +4,7 @@ import { getSrcFile } from '../util'
 import { getRun } from './Run'
 import { Status, StatusEnum } from './Status'
 import { TestFile, TestFileData } from './TestFile'
+import { TestSuite, testSuites } from './TestSuite'
 
 export const RunTestFile = objectType({
   name: 'RunTestFile',
@@ -20,6 +21,10 @@ export const RunTestFile = objectType({
       type: Status,
     })
     t.int('duration')
+    t.nonNull.list.field('suites', {
+      type: nonNull(TestSuite),
+      resolve: (parent) => testSuites.filter(s => s.runId === parent.runId && s.runTestFileId === parent.id),
+    })
   },
 })
 
@@ -43,6 +48,7 @@ export const RunTestFileSubscription = extendType({
 
 export interface RunTestFileData {
   id: string
+  runId: string
   testFile: TestFileData
   status: StatusEnum
   duration: number
@@ -50,7 +56,7 @@ export interface RunTestFileData {
 
 export async function updateRunTestFile (ctx: Context, runId: string, id: string, data: Partial<Omit<RunTestFileData, 'id' | 'testFile'>>) {
   const run = await getRun(ctx, runId)
-  const runTestFile = run.testFiles.find(f => f.id === id)
+  const runTestFile = run.runTestFiles.find(f => f.id === id)
   if (!runTestFile) throw new Error(`Run test file ${id} not found on run ${runId}`)
   Object.assign(runTestFile, data)
   ctx.pubsub.publish(RunTestFileUpdated, {
