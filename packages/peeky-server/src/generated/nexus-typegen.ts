@@ -81,6 +81,7 @@ export interface NexusGenFieldTypes {
     startRun: NexusGenRootTypes['Run']; // Run!
   }
   Query: { // field return type
+    lastRun: NexusGenRootTypes['Run'] | null; // Run
     run: NexusGenRootTypes['Run'] | null; // Run
     runs: NexusGenRootTypes['Run'][]; // [Run!]!
     testFile: NexusGenRootTypes['TestFile'] | null; // TestFile
@@ -150,6 +151,7 @@ export interface NexusGenFieldTypeNames {
     startRun: 'Run'
   }
   Query: { // field return type name
+    lastRun: 'Run'
     run: 'Run'
     runs: 'Run'
     testFile: 'TestFile'

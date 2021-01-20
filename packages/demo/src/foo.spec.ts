@@ -16,7 +16,7 @@ describe('typescript test suite', () => {
   })
 
   it('wait for async op', async () => {
-    await wait(5)
+    await wait(1000)
     expect(0).to.equal(0)
   })
 

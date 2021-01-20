@@ -47,7 +47,7 @@ export async function createServer () {
     },
     formatError (error) {
       consola.error(error)
-      consola.log(JSON.stringify(error?.extensions || error, null, 2))
+      consola.log(JSON.stringify(error, null, 2))
       return error
     },
   })

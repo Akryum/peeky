@@ -47,6 +47,11 @@ export const RunQuery = extendType({
       },
       resolve: (_, { id }) => runs.find(r => r.id === id),
     })
+
+    t.field('lastRun', {
+      type: Run,
+      resolve: () => runs[runs.length - 1],
+    })
   },
 })
 

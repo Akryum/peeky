@@ -16,17 +16,24 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
 })
 </script>
 
 <template>
   <button
-    class="flex items-center justify-center rounded text-center"
+    class="flex items-center justify-center rounded text-center focus:outline-none focus:ring ring-purple-500"
+    :disabled="disabled"
     :class="[
       `hover:bg-${color}-200 hover:text-${color}-900`,
       {
         [`bg-${color}-300 text-${color}-900`]: !flat,
+        'opacity-75 pointer-events-none': disabled,
       },
     ]"
     @click="$emit('click', $event)"

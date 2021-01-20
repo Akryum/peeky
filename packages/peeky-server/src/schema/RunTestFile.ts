@@ -29,7 +29,7 @@ export const RunTestFile = objectType({
   },
 })
 
-const RunTestFileUpdated = 'run-updated'
+const RunTestFileUpdated = 'run-test-file-updated'
 
 interface RunTestFileUpdatedPayload {
   runTestFile: RunTestFileData

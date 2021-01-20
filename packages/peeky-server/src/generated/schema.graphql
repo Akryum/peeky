@@ -13,6 +13,7 @@ type Mutation {
 }
 
 type Query {
+  lastRun: Run
   run(id: ID!): Run
   runs: [Run!]!
   testFile(id: ID!): TestFile
