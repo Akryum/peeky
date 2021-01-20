@@ -233,6 +233,11 @@ export async function startRun (ctx: Context, id: string) {
           stack: stack,
         },
       })
+    } else if (eventType === EventType.TEST_FILE_COMPLETED) {
+      const { filePath, duration } = payload
+      updateTestFile(ctx, relative(process.cwd(), filePath), {
+        duration,
+      })
     }
   })
 

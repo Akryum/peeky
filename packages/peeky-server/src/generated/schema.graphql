@@ -66,6 +66,7 @@ type TestError {
 
 type TestFile {
   deleted: Boolean!
+  duration: Int
   id: ID!
   relativePath: String!
   status: Status!

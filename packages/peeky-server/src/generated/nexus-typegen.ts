@@ -54,6 +54,7 @@ export interface NexusGenObjects {
   }
   TestFile: { // root type
     deleted: boolean; // Boolean!
+    duration?: number | null; // Int
     id: string; // ID!
     relativePath: string; // String!
     status: NexusGenEnums['Status']; // Status!
@@ -115,6 +116,7 @@ export interface NexusGenFieldTypes {
   }
   TestFile: { // field return type
     deleted: boolean; // Boolean!
+    duration: number | null; // Int
     id: string; // ID!
     relativePath: string; // String!
     status: NexusGenEnums['Status']; // Status!
@@ -173,6 +175,7 @@ export interface NexusGenFieldTypeNames {
   }
   TestFile: { // field return type name
     deleted: 'Boolean'
+    duration: 'Int'
     id: 'ID'
     relativePath: 'String'
     status: 'Status'

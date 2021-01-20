@@ -11,6 +11,7 @@ export const TestFile = objectType({
       type: Status,
     })
     t.nonNull.boolean('deleted')
+    t.int('duration')
   },
 })
 
@@ -79,6 +80,7 @@ export interface TestFileData {
   relativePath: string
   status: StatusEnum
   deleted: boolean
+  duration: number
 }
 
 export let testFiles: TestFileData[] = []
@@ -127,5 +129,6 @@ function createTestFile (relativePath: string): TestFileData {
     relativePath,
     status: 'idle',
     deleted: false,
+    duration: null,
   }
 }

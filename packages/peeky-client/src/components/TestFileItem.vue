@@ -16,5 +16,11 @@ const props = defineProps({
     <span class="flex-1">
       {{ file.relativePath }}
     </span>
+    <span
+      v-if="file.duration != null"
+      class="flex-none text-gray-300 dark:text-gray-700"
+    >
+      {{ file.duration }}ms
+    </span>
   </div>
 </template>
