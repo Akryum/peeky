@@ -1,17 +1,19 @@
 import { arg, extendType, idArg, inputObjectType, nonNull, objectType } from 'nexus'
 import shortid from 'shortid'
 import { setupRunner, getStats, EventType } from '@peeky/runner'
-import { join, relative } from 'path'
+import { relative } from 'path'
 import { Context } from '../context'
 import { Status, StatusEnum } from './Status'
-import { updateTestFile, TestFile, TestFileData, testFiles } from './TestFile'
+import { updateTestFile, TestFileData, testFiles } from './TestFile'
 import { clearTestSuites, createTestSuite, updateTestSuite } from './TestSuite'
 import { updateTest } from './Test'
+import { RunTestFile, RunTestFileData, updateRunTestFile } from './RunTestFile'
+import { getSrcFile } from '../util'
 
 export const Run = objectType({
   name: 'Run',
   sourceType: {
-    module: join(__dirname, '../../src/schema/Run.ts'),
+    module: getSrcFile(__filename),
     export: 'RunData',
   },
   definition (t) {
@@ -23,24 +25,6 @@ export const Run = objectType({
     t.nonNull.list.field('testFiles', {
       type: nonNull(RunTestFile),
     })
-  },
-})
-
-export const RunTestFile = objectType({
-  name: 'RunTestFile',
-  sourceType: {
-    module: join(__dirname, '../../src/schema/Run.ts'),
-    export: 'RunTestFileData',
-  },
-  definition (t) {
-    t.nonNull.id('id')
-    t.nonNull.field('testFile', {
-      type: TestFile,
-    })
-    t.nonNull.field('status', {
-      type: Status,
-    })
-    t.int('duration')
   },
 })
 
@@ -124,12 +108,6 @@ interface RunUpdatedPayload {
   run: RunData
 }
 
-const RunTestFileUpdated = 'run-updated'
-
-interface RunTestFileUpdatedPayload {
-  runTestFile: RunTestFileData
-}
-
 const RunRemoved = 'run-removed'
 
 interface RunRemovedPayload {
@@ -152,12 +130,6 @@ export const RunSubscription = extendType({
       resolve: (payload: RunUpdatedPayload) => payload.run,
     })
 
-    t.field('runTestFileUpdated', {
-      type: nonNull(RunTestFile),
-      subscribe: (_, args, ctx) => ctx.pubsub.asyncIterator(RunTestFileUpdated),
-      resolve: (payload: RunTestFileUpdatedPayload) => payload.runTestFile,
-    })
-
     t.field('runRemoved', {
       type: nonNull(Run),
       subscribe: (_, args, ctx) => ctx.pubsub.asyncIterator(RunRemoved),
@@ -171,13 +143,6 @@ export interface RunData {
   progress: number
   status: StatusEnum
   testFiles: RunTestFileData[]
-}
-
-export interface RunTestFileData {
-  id: string
-  testFile: TestFileData
-  status: StatusEnum
-  duration: number
 }
 
 export let runs: RunData[] = []
@@ -226,16 +191,6 @@ export async function updateRun (ctx: Context, id: string, data: Partial<Omit<Ru
     run,
   } as RunUpdatedPayload)
   return run
-}
-
-export async function updateRunTestFile (ctx: Context, runId: string, id: string, data: Partial<Omit<RunTestFileData, 'id' | 'testFile'>>) {
-  const run = await getRun(ctx, runId)
-  const runTestFile = run.testFiles.find(f => f.id === id)
-  if (!runTestFile) throw new Error(`Run test file ${id} not found on run ${runId}`)
-  Object.assign(runTestFile, data)
-  ctx.pubsub.publish(RunTestFileUpdated, {
-    runTestFile,
-  } as RunTestFileUpdatedPayload)
 }
 
 export async function startRun (ctx: Context, id: string) {

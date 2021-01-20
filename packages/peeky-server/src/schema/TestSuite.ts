@@ -1,7 +1,7 @@
 import { withFilter } from 'apollo-server-express'
 import { extendType, nonNull, objectType, stringArg } from 'nexus'
-import { join } from 'path'
 import { Context } from '../context'
+import { getSrcFile } from '../util'
 import { Status, StatusEnum } from './Status'
 import { createTest, TestData } from './Test'
 import { TestFile, testFiles } from './TestFile'
@@ -9,7 +9,7 @@ import { TestFile, testFiles } from './TestFile'
 export const TestSuite = objectType({
   name: 'TestSuite',
   sourceType: {
-    module: join(__dirname, '../../src/schema/TestSuite.ts'),
+    module: getSrcFile(__filename),
     export: 'TestSuiteData',
   },
   definition (t) {
