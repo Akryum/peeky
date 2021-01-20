@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
+
+html {
+  @apply text-sm;
+}
+
 @tailwind utilities;
