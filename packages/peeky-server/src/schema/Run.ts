@@ -2,6 +2,7 @@ import { arg, extendType, idArg, inputObjectType, nonNull, objectType } from 'ne
 import shortid from 'shortid'
 import { setupRunner, getStats, EventType } from '@peeky/runner'
 import { relative } from 'path'
+import nameGenerator from 'project-name-generator'
 import { Context } from '../context'
 import { Status, StatusEnum } from './Status'
 import { updateTestFile, testFiles } from './TestFile'
@@ -18,6 +19,7 @@ export const Run = objectType({
   },
   definition (t) {
     t.nonNull.id('id')
+    t.nonNull.string('title')
     t.nonNull.float('progress')
     t.nonNull.field('status', {
       type: Status,
@@ -140,6 +142,7 @@ export const RunSubscription = extendType({
 
 export interface RunData {
   id: string
+  title: string
   progress: number
   status: StatusEnum
   runTestFiles: RunTestFileData[]
@@ -166,6 +169,7 @@ export async function createRun (ctx: Context, options: CreateRunOptions) {
 
   const run: RunData = {
     id: runId,
+    title: nameGenerator().dashed,
     progress: 0,
     status: 'idle',
     runTestFiles: runTestFiles,

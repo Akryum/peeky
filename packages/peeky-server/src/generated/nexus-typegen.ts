@@ -92,6 +92,7 @@ export interface NexusGenFieldTypes {
     runTestFiles: NexusGenRootTypes['RunTestFile'][]; // [RunTestFile!]!
     status: NexusGenEnums['Status']; // Status!
     testSuites: NexusGenRootTypes['TestSuite'][]; // [TestSuite!]!
+    title: string; // String!
   }
   RunTestFile: { // field return type
     buildDuration: number | null; // Int
@@ -159,6 +160,7 @@ export interface NexusGenFieldTypeNames {
     runTestFiles: 'RunTestFile'
     status: 'Status'
     testSuites: 'TestSuite'
+    title: 'String'
   }
   RunTestFile: { // field return type name
     buildDuration: 'Int'

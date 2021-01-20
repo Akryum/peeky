@@ -21,14 +21,15 @@
     "watch": "tsc -d -w --sourceMap"
   },
   "dependencies": {
-    "@peeky/runner": "^0.0.1",
     "@peeky/reactive-fs": "^0.0.1",
+    "@peeky/runner": "^0.0.1",
     "apollo-server-express": "^2.19.2",
     "consola": "^2.15.0",
     "express": "^4.17.1",
     "fs-extra": "^9.0.1",
     "graphql": "^15.4.0",
     "nexus": "^1.0.0",
+    "project-name-generator": "^2.1.9",
     "shortid": "^2.2.16"
   },
   "devDependencies": {

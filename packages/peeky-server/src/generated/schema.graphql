@@ -25,6 +25,7 @@ type Run {
   runTestFiles: [RunTestFile!]!
   status: Status!
   testSuites: [TestSuite!]!
+  title: String!
 }
 
 type RunTestFile {
