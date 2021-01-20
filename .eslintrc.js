@@ -37,6 +37,9 @@ module.exports = {
     '@typescript-eslint/ban-ts-ignore': 'warn',
     '@typescript-eslint/no-use-before-define': 'off',
     'comma-dangle': ['error', 'always-multiline'],
+    'vue/no-multiple-template-root': 'off',
+    indent: 'off',
+    '@typescript-eslint/indent': ['error', 2],
   },
   ignorePatterns: [
     'node_modules/',

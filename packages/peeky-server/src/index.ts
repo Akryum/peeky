@@ -42,8 +42,12 @@ export async function createServer () {
     schema,
     context: createContext,
     playground: true,
+    subscriptions: {
+      path: '/api',
+    },
     formatError (error) {
       consola.error(error)
+      consola.log(JSON.stringify(error?.extensions || error, null, 2))
       return error
     },
   })
