@@ -30,6 +30,7 @@
     "graphql": "^15.4.0",
     "nexus": "^1.0.0",
     "project-name-generator": "^2.1.9",
+    "random-emoji": "^1.0.2",
     "shortid": "^2.2.16"
   },
   "devDependencies": {
