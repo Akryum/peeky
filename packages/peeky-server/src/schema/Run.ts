@@ -161,6 +161,7 @@ export async function createRun (ctx: Context, options: CreateRunOptions) {
     testFile: f,
     status: 'idle',
     duration: null,
+    buildDuration: null,
   }))
 
   const run: RunData = {
@@ -212,7 +213,14 @@ export async function startRun (ctx: Context, id: string) {
     testFiles: ctx.reactiveFs,
   })
   runner.onEvent((eventType, payload) => {
-    if (eventType === EventType.SUITE_START) {
+    if (eventType === EventType.BUILD_COMPLETED) {
+      const { testFilePath, duration } = payload
+      const testFileId = relative(process.cwd(), testFilePath)
+      const runTestFileId = run.runTestFiles.find(rf => rf.testFile.id === testFileId)?.id
+      updateRunTestFile(ctx, run.id, runTestFileId, {
+        buildDuration: duration,
+      })
+    } else if (eventType === EventType.SUITE_START) {
       const { suite } = payload
       const testFileId = relative(process.cwd(), suite.filePath)
       createTestSuite(ctx, {

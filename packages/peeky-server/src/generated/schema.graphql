@@ -28,6 +28,7 @@ type Run {
 }
 
 type RunTestFile {
+  buildDuration: Int
   duration: Int
   id: ID!
   status: Status!

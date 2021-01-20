@@ -21,6 +21,7 @@ export const RunTestFile = objectType({
       type: Status,
     })
     t.int('duration')
+    t.int('buildDuration')
     t.nonNull.list.field('suites', {
       type: nonNull(TestSuite),
       resolve: (parent) => testSuites.filter(s => s.runId === parent.runId && s.runTestFileId === parent.id),
@@ -52,6 +53,7 @@ export interface RunTestFileData {
   testFile: TestFileData
   status: StatusEnum
   duration: number
+  buildDuration: number
 }
 
 export async function updateRunTestFile (ctx: Context, runId: string, id: string, data: Partial<Omit<RunTestFileData, 'id' | 'testFile'>>) {
