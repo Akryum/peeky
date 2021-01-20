@@ -10,6 +10,9 @@ export function registerGlobals (ctx: Context, target: any) {
   let currentSuite: TestSuite
 
   target.describe = (title: string, handler: () => unknown) => {
+    if (currentSuite) {
+      throw new Error('Nested describe() calls are not supported yet')
+    }
     currentSuite = {
       id: shortid(),
       title,
@@ -23,6 +26,7 @@ export function registerGlobals (ctx: Context, target: any) {
     }
     ctx.suites.push(currentSuite)
     handler()
+    currentSuite = null
   }
 
   target.it = target.test = (title: string, handler: () => unknown) => {
