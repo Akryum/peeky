@@ -4,7 +4,7 @@ import { setupRunner, getStats, EventType } from '@peeky/runner'
 import { join, relative } from 'path'
 import { Context } from '../context'
 import { Status, StatusEnum } from './Status'
-import { setTestFileStatus, TestFile, TestFileData, testFiles } from './TestFile'
+import { updateTestFile, TestFile, TestFileData, testFiles } from './TestFile'
 import { clearTestSuites, createTestSuite, updateTestSuite } from './TestSuite'
 import { updateTest } from './Test'
 import e from 'express'
@@ -187,7 +187,7 @@ export async function updateRun (ctx: Context, id: string, data: Partial<Omit<Ru
 export async function startRun (ctx: Context, id: string) {
   const run = await getRun(ctx, id)
 
-  await Promise.all(run.testFiles.map(f => setTestFileStatus(ctx, f.id, 'in_progress')))
+  await Promise.all(run.testFiles.map(f => updateTestFile(ctx, f.id, { status: 'in_progress' })))
   await updateRun(ctx, id, {
     status: 'in_progress',
   })
@@ -241,7 +241,9 @@ export async function startRun (ctx: Context, id: string) {
   const results = await Promise.all(run.testFiles.map(async f => {
     const result = await runner.runTestFile(f.relativePath)
     const stats = getStats([result])
-    await setTestFileStatus(ctx, f.id, stats.errorTestCount > 0 ? 'error' : 'success')
+    await updateTestFile(ctx, f.id, {
+      status: stats.errorTestCount > 0 ? 'error' : 'success',
+    })
     completed++
     await updateRun(ctx, run.id, {
       progress: completed / run.testFiles.length,

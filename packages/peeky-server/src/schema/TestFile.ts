@@ -19,7 +19,7 @@ export const TestFileQuery = extendType({
   definition (t) {
     t.nonNull.list.field('testFiles', {
       type: nonNull(TestFile),
-      resolve: () => testFiles,
+      resolve: () => testFiles.filter(f => !f.deleted),
     })
 
     t.field('testFile', {
@@ -86,9 +86,16 @@ export let testFiles: TestFileData[] = []
 export async function loadTestFiles (ctx: Context) {
   testFiles = ctx.reactiveFs.list().map(path => createTestFile(path))
 
-  ctx.reactiveFs.onFileAdd((relativePath) => {
-    const testFile = createTestFile(relativePath)
-    testFiles.push(testFile)
+  ctx.reactiveFs.onFileAdd(async (relativePath) => {
+    let testFile: TestFileData = testFiles.find(f => f.relativePath === relativePath)
+    if (testFile) {
+      await updateTestFile(ctx, testFile.id, {
+        deleted: false,
+      })
+    } else {
+      testFile = createTestFile(relativePath)
+      testFiles.push(testFile)
+    }
     ctx.pubsub.publish(TestFileAdded, {
       testFile: testFile,
     } as TestFileAddedPayload)
@@ -105,14 +112,13 @@ export async function loadTestFiles (ctx: Context) {
   })
 }
 
-export async function setTestFileStatus (ctx: Context, id: string, status: StatusEnum) {
+export async function updateTestFile (ctx: Context, id: string, data: Partial<Omit<TestFileData, 'id'>>) {
   const testFile = testFiles.find(f => f.id === id)
-  if (testFile) {
-    testFile.status = status
-    ctx.pubsub.publish(TestFileUpdated, {
-      testFile,
-    } as TestFileUpdatedPayload)
-  }
+  Object.assign(testFile, data)
+  ctx.pubsub.publish(TestFileUpdated, {
+    testFile,
+  } as TestFileUpdatedPayload)
+  return testFile
 }
 
 function createTestFile (relativePath: string): TestFileData {
