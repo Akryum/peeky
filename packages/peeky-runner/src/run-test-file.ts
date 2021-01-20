@@ -19,9 +19,10 @@ export async function runTestFile (options: RunTestFileOptions) {
     installSourceMap()
     require(join(dirname(ctx.options.entry), '/__output/target.js'))
     await runTests(ctx)
+    const duration = Date.now() - time
     workerEmit(EventType.TEST_FILE_COMPLETED, {
       filePath: ctx.options.entry,
-      duration: Date.now() - time,
+      duration,
     })
 
     const suites: TestSuiteResult[] = ctx.suites.map(s => ({
@@ -38,6 +39,7 @@ export async function runTestFile (options: RunTestFileOptions) {
     return {
       filePath: options.entry,
       suites,
+      duration,
     }
   } catch (e) {
     consola.error(`Running tests failed: ${e.stack}`)

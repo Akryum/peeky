@@ -7,7 +7,6 @@ import { Status, StatusEnum } from './Status'
 import { updateTestFile, TestFile, TestFileData, testFiles } from './TestFile'
 import { clearTestSuites, createTestSuite, updateTestSuite } from './TestSuite'
 import { updateTest } from './Test'
-import e from 'express'
 
 export const Run = objectType({
   name: 'Run',
@@ -22,8 +21,26 @@ export const Run = objectType({
       type: Status,
     })
     t.nonNull.list.field('testFiles', {
-      type: nonNull(TestFile),
+      type: nonNull(RunTestFile),
     })
+  },
+})
+
+export const RunTestFile = objectType({
+  name: 'RunTestFile',
+  sourceType: {
+    module: join(__dirname, '../../src/schema/Run.ts'),
+    export: 'RunTestFileData',
+  },
+  definition (t) {
+    t.nonNull.id('id')
+    t.nonNull.field('testFile', {
+      type: TestFile,
+    })
+    t.nonNull.field('status', {
+      type: Status,
+    })
+    t.int('duration')
   },
 })
 
@@ -107,6 +124,12 @@ interface RunUpdatedPayload {
   run: RunData
 }
 
+const RunTestFileUpdated = 'run-updated'
+
+interface RunTestFileUpdatedPayload {
+  runTestFile: RunTestFileData
+}
+
 const RunRemoved = 'run-removed'
 
 interface RunRemovedPayload {
@@ -129,6 +152,12 @@ export const RunSubscription = extendType({
       resolve: (payload: RunUpdatedPayload) => payload.run,
     })
 
+    t.field('runTestFileUpdated', {
+      type: nonNull(RunTestFile),
+      subscribe: (_, args, ctx) => ctx.pubsub.asyncIterator(RunTestFileUpdated),
+      resolve: (payload: RunTestFileUpdatedPayload) => payload.runTestFile,
+    })
+
     t.field('runRemoved', {
       type: nonNull(Run),
       subscribe: (_, args, ctx) => ctx.pubsub.asyncIterator(RunRemoved),
@@ -141,7 +170,14 @@ export interface RunData {
   id: string
   progress: number
   status: StatusEnum
-  testFiles: TestFileData[]
+  testFiles: RunTestFileData[]
+}
+
+export interface RunTestFileData {
+  id: string
+  testFile: TestFileData
+  status: StatusEnum
+  duration: number
 }
 
 export let runs: RunData[] = []
@@ -151,11 +187,19 @@ export interface CreateRunOptions {
 }
 
 export async function createRun (ctx: Context, options: CreateRunOptions) {
+  const testFilesRaw = options.testFiles ? testFiles.filter(f => options.testFiles.includes(f.id)) : [...testFiles]
+  const runTestFiles: RunTestFileData[] = testFilesRaw.map(f => ({
+    id: shortid(),
+    testFile: f,
+    status: 'idle',
+    duration: null,
+  }))
+
   const run: RunData = {
     id: shortid(),
     progress: 0,
     status: 'idle',
-    testFiles: options.testFiles ? testFiles.filter(f => options.testFiles.includes(f.id)) : [...testFiles],
+    testFiles: runTestFiles,
   }
   runs.push(run)
 
@@ -184,10 +228,23 @@ export async function updateRun (ctx: Context, id: string, data: Partial<Omit<Ru
   return run
 }
 
+export async function updateRunTestFile (ctx: Context, runId: string, id: string, data: Partial<Omit<RunTestFileData, 'id' | 'testFile'>>) {
+  const run = await getRun(ctx, runId)
+  const runTestFile = run.testFiles.find(f => f.id === id)
+  if (!runTestFile) throw new Error(`Run test file ${id} not found on run ${runId}`)
+  Object.assign(runTestFile, data)
+  ctx.pubsub.publish(RunTestFileUpdated, {
+    runTestFile,
+  } as RunTestFileUpdatedPayload)
+}
+
 export async function startRun (ctx: Context, id: string) {
   const run = await getRun(ctx, id)
 
-  await Promise.all(run.testFiles.map(f => updateTestFile(ctx, f.id, { status: 'in_progress' })))
+  await Promise.all(run.testFiles.map(async f => {
+    updateTestFile(ctx, f.testFile.id, { status: 'in_progress' })
+    updateRunTestFile(ctx, run.id, f.id, { status: 'in_progress' })
+  }))
   await updateRun(ctx, id, {
     status: 'in_progress',
   })
@@ -233,21 +290,22 @@ export async function startRun (ctx: Context, id: string) {
           stack: stack,
         },
       })
-    } else if (eventType === EventType.TEST_FILE_COMPLETED) {
-      const { filePath, duration } = payload
-      updateTestFile(ctx, relative(process.cwd(), filePath), {
-        duration,
-      })
     }
   })
 
   let completed = 0
 
   const results = await Promise.all(run.testFiles.map(async f => {
-    const result = await runner.runTestFile(f.relativePath)
+    const result = await runner.runTestFile(f.testFile.relativePath)
     const stats = getStats([result])
-    await updateTestFile(ctx, f.id, {
-      status: stats.errorTestCount > 0 ? 'error' : 'success',
+    const status = stats.errorTestCount > 0 ? 'error' : 'success'
+    await updateTestFile(ctx, f.testFile.id, {
+      status,
+      duration: result.duration,
+    })
+    await updateRunTestFile(ctx, run.id, f.id, {
+      status,
+      duration: result.duration,
     })
     completed++
     await updateRun(ctx, run.id, {

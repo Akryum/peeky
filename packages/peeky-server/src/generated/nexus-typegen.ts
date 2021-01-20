@@ -6,7 +6,7 @@
 
 import { Context } from "./../context"
 import { TestSuiteData } from "./../schema/TestSuite"
-import { RunData } from "./../schema/Run"
+import { RunData, RunTestFileData } from "./../schema/Run"
 
 
 
@@ -40,6 +40,7 @@ export interface NexusGenObjects {
   Mutation: {};
   Query: {};
   Run: RunData;
+  RunTestFile: RunTestFileData;
   Subscription: {};
   Test: { // root type
     duration?: number | null; // Int
@@ -88,12 +89,19 @@ export interface NexusGenFieldTypes {
     id: string; // ID!
     progress: number; // Float!
     status: NexusGenEnums['Status']; // Status!
-    testFiles: NexusGenRootTypes['TestFile'][]; // [TestFile!]!
+    testFiles: NexusGenRootTypes['RunTestFile'][]; // [RunTestFile!]!
     testSuites: NexusGenRootTypes['TestSuite'][]; // [TestSuite!]!
+  }
+  RunTestFile: { // field return type
+    duration: number | null; // Int
+    id: string; // ID!
+    status: NexusGenEnums['Status']; // Status!
+    testFile: NexusGenRootTypes['TestFile']; // TestFile!
   }
   Subscription: { // field return type
     runAdded: NexusGenRootTypes['Run']; // Run!
     runRemoved: NexusGenRootTypes['Run']; // Run!
+    runTestFileUpdated: NexusGenRootTypes['RunTestFile']; // RunTestFile!
     runUpdated: NexusGenRootTypes['Run']; // Run!
     testAdded: NexusGenRootTypes['Test']; // Test!
     testFileAdded: NexusGenRootTypes['TestFile']; // TestFile!
@@ -147,12 +155,19 @@ export interface NexusGenFieldTypeNames {
     id: 'ID'
     progress: 'Float'
     status: 'Status'
-    testFiles: 'TestFile'
+    testFiles: 'RunTestFile'
     testSuites: 'TestSuite'
+  }
+  RunTestFile: { // field return type name
+    duration: 'Int'
+    id: 'ID'
+    status: 'Status'
+    testFile: 'TestFile'
   }
   Subscription: { // field return type name
     runAdded: 'Run'
     runRemoved: 'Run'
+    runTestFileUpdated: 'RunTestFile'
     runUpdated: 'Run'
     testAdded: 'Test'
     testFileAdded: 'TestFile'
