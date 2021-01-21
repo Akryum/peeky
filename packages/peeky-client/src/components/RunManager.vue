@@ -83,7 +83,7 @@ subscribeToMore({
 </script>
 
 <template>
-  <div class="flex items-center relative space-x-1 pr-1">
+  <div class="relative">
     <div
       v-if="currentRun?.status === 'in_progress'"
       class="absolute top-0 left-0 h-full bg-purple-100 dark:bg-purple-900 transition-all"
@@ -92,26 +92,28 @@ subscribeToMore({
       }"
     />
 
-    <div class="relative flex-1 w-0 truncate">
-      <template v-if="currentRun">
-        <RunItem
-          :run="currentRun"
-        />
-      </template>
-      <template v-else>
-        <span class="text-gray-500 px-3 py-2">No run found here</span>
-      </template>
+    <div class="flex items-center space-x-1 pr-1">
+      <div class="relative flex-1 w-0 truncate">
+        <template v-if="currentRun">
+          <RunItem
+            :run="currentRun"
+          />
+        </template>
+        <template v-else>
+          <span class="text-gray-500 px-3 py-2">No run found here</span>
+        </template>
+      </div>
+
+      <BaseButton
+        flat
+        class="flex-none p-2"
+        @click="isSelectorOpen = true"
+      >
+        <ChevronDownIcon class="w-4 h-4" />
+      </BaseButton>
+
+      <RunNewButton class="flex-none" />
     </div>
-
-    <BaseButton
-      flat
-      class="flex-none p-2"
-      @click="isSelectorOpen = true"
-    >
-      <ChevronDownIcon class="w-4 h-4" />
-    </BaseButton>
-
-    <RunNewButton class="flex-none" />
   </div>
 
   <transition name="slide-from-left">
