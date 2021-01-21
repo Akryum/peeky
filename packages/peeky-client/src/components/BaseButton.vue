@@ -27,7 +27,7 @@ export default defineComponent({
 
 <template>
   <button
-    class="flex items-center justify-center rounded text-center focus:outline-none focus:ring ring-purple-500"
+    class="flex items-center justify-center rounded text-center focus:outline-none focus:ring-1 ring-purple-300 dark:ring-purple-700"
     :disabled="disabled"
     :class="[
       `hover:bg-${color}-200 hover:text-${color}-900`,
