@@ -1,34 +1,72 @@
 <script lang="ts" setup>
 import {
   CircleIcon,
-  LoaderIcon,
+  ClockIcon,
   CheckCircleIcon,
   XCircleIcon,
+  CheckIcon,
+  XIcon,
 } from '@zhuowenli/vue-feather-icons'
 import { defineProps } from 'vue'
 
+const icons = {
+  idle: CircleIcon,
+  // eslint-disable-next-line @typescript-eslint/camelcase
+  in_progress: ClockIcon,
+  success: CheckCircleIcon,
+  error: XCircleIcon,
+}
+
+const classes = {
+  idle: 'text-gray-300 dark:text-gray-700',
+  // eslint-disable-next-line @typescript-eslint/camelcase
+  in_progress: 'text-purple-500',
+  success: 'text-green-500',
+  error: 'text-red-500',
+}
+
+const smallIcons = {
+  // eslint-disable-next-line @typescript-eslint/camelcase
+  in_progress: ClockIcon,
+  success: CheckIcon,
+  error: XIcon,
+}
+
+const smallClasses = {
+  // eslint-disable-next-line @typescript-eslint/camelcase
+  in_progress: 'bg-purple-500 text-white',
+  success: 'bg-green-500 text-white',
+  error: 'bg-red-500 text-white',
+}
+
 const props = defineProps({
-  status: String,
+  status: {
+    type: String,
+    required: true,
+  },
+
+  icon: {},
 })
 </script>
 
 <template>
-  <div>
-    <CircleIcon
-      v-if="status === 'idle'"
-      class="text-gray-300 dark:text-gray-700 w-full h-full"
+  <div class="relative">
+    <component
+      :is="icon || icons[status]"
+      :key="status"
+      class=" w-full h-full stroke-current"
+      :class="classes[status]"
     />
-    <LoaderIcon
-      v-if="status === 'in_progress'"
-      class="text-purple-500 w-full h-full"
-    />
-    <CheckCircleIcon
-      v-if="status === 'success'"
-      class="text-green-500 w-full h-full"
-    />
-    <XCircleIcon
-      v-if="status === 'error'"
-      class="text-red-500 w-full h-full"
-    />
+
+    <div
+      v-if="icon && smallIcons[status]"
+      class="absolute bottom-0 right-0 -m-0.5 rounded-full w-3/5 h-3/5"
+      :class="smallClasses[status]"
+    >
+      <component
+        :is="smallIcons[status]"
+        class="w-full h-full stroke-current"
+      />
+    </div>
   </div>
 </template>

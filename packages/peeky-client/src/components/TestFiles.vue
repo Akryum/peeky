@@ -90,6 +90,7 @@ subscribeToMore({
         v-model="searchText"
         size="md"
         placeholder="Filter test files..."
+        class="h-10"
       >
         <template #after>
           <SearchIcon class="mx-3 text-gray-500" />

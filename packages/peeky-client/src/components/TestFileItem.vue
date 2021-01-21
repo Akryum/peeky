@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import StatusIcon from './StatusIcon.vue'
+import { FileIcon } from '@zhuowenli/vue-feather-icons'
 import { defineProps } from 'vue'
 
 const props = defineProps({
@@ -19,7 +20,8 @@ const props = defineProps({
   >
     <StatusIcon
       :status="file.status"
-      class="w-4 h-4"
+      :icon="FileIcon"
+      class="w-5 h-5"
     />
     <span class="flex-1 truncate py-1">
       {{ file.testFile.relativePath }}

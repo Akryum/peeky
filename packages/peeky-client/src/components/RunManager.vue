@@ -95,7 +95,7 @@ subscribeToMore({
       }"
     />
 
-    <div class="flex items-center space-x-1 pr-1">
+    <div class="flex items-center space-x-1 pr-1 h-10">
       <div class="relative flex-1 w-0 truncate">
         <template v-if="currentRun">
           <RunItem

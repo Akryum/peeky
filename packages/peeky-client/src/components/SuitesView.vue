@@ -33,6 +33,7 @@ const searchReg = computed(() => searchText.value ? new RegExp(searchText.value,
             v-model="searchText"
             size="md"
             placeholder="Filter tests..."
+            class="h-10"
           >
             <template #after>
               <SearchIcon class="mx-3 text-gray-500" />

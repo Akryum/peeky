@@ -1,5 +1,9 @@
 <script lang="ts" setup>
+import TestFileItem from './TestFileItem.vue'
+import BaseButton from './BaseButton.vue'
 import SuitesView from './SuitesView.vue'
+import StatusIcon from './StatusIcon.vue'
+import { ArrowLeftIcon, FileIcon } from '@zhuowenli/vue-feather-icons'
 import { useQuery, useResult } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 import { useRoute } from 'vue-router'
@@ -28,6 +32,12 @@ fragment runTestFileViewSuite on TestSuite {
 const runTestFileViewFragment = gql`
 fragment runTestFileView on RunTestFile {
   id
+  status
+  duration
+  testFile {
+    id
+    relativePath
+  }
   suites {
     ...runTestFileViewSuite
   }
@@ -128,5 +138,33 @@ onResult(({ data }) => {
   <SuitesView
     v-if="runTestFile"
     :suites="runTestFile.suites"
-  />
+  >
+    <template #toolbar>
+      <div class="flex-none flex items-center space-x-2 pl-1 pr-3 h-10">
+        <BaseButton
+          flat
+          color="gray"
+          class="flex-none p-2"
+          @click="$router.push({ name: 'run', params: { ...$route.params, slug: undefined } })"
+        >
+          <ArrowLeftIcon class="w-4 h-4" />
+        </BaseButton>
+
+        <StatusIcon
+          :status="runTestFile.status"
+          :icon="FileIcon"
+          class="w-5 h-5"
+        />
+        <span class="flex-1 truncate py-1">
+          {{ runTestFile.testFile.relativePath }}
+        </span>
+        <span
+          v-if="runTestFile.duration != null"
+          class="flex-none text-gray-300 dark:text-gray-700"
+        >
+          {{ runTestFile.duration }}ms
+        </span>
+      </div>
+    </template>
+  </SuitesView>
 </template>
