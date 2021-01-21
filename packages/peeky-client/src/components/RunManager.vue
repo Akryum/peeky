@@ -43,6 +43,8 @@ const currentRun = useResult(result)
 
 const isSelectorOpen = ref(false)
 
+// Subs
+
 // Updated
 subscribeToMore({
   document: gql`
@@ -54,6 +56,27 @@ subscribeToMore({
     }
   }
   `,
+})
+
+// Added
+subscribeToMore({
+  document: gql`
+  subscription runAdded {
+    runAdded {
+      ...runDetails
+    }
+  }
+  ${runDetailsFragment}
+  `,
+  updateQuery: (previousResult, { subscriptionData: { data } }) => {
+    if (route.params.runId) {
+      return previousResult
+    } else {
+      return {
+        lastRun: data.runAdded,
+      }
+    }
+  },
 })
 </script>
 
