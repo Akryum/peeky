@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import StatusIcon from './StatusIcon.vue'
+import { RotateCcwIcon } from '@zhuowenli/vue-feather-icons'
 import { useQuery, useResult } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 import { defineEmit, watch } from 'vue'
@@ -102,8 +103,9 @@ watch(() => route.params.runId, () => {
       :to="{
         name: 'last-run',
       }"
-      class="flex-none px-3 py-2 hover:bg-purple-100 dark:hover:bg-purple-900"
+      class="flex-none px-3 py-2 flex items-center hover:bg-purple-100 dark:hover:bg-purple-900"
     >
+      <RotateCcwIcon class="w-4 h-4 mr-2" />
       Last run
     </router-link>
 
