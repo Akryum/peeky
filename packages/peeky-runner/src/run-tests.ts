@@ -58,7 +58,7 @@ export async function runTests (ctx: Context) {
           },
           duration: Date.now() - time,
           error: e,
-          stack: e.stack.substr(0, e.stack.indexOf('at runTests')),
+          stack: e.stack.substr(0, e.stack.search(/\s*at.*?runTests/)),
         })
         suite.errors++
       }
