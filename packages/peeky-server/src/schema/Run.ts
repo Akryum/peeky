@@ -26,6 +26,7 @@ export const Run = objectType({
     t.nonNull.field('status', {
       type: Status,
     })
+    t.int('duration')
     t.nonNull.list.field('runTestFiles', {
       type: nonNull(RunTestFile),
     })
@@ -153,6 +154,7 @@ export interface RunData {
   emoji: string
   progress: number
   status: StatusEnum
+  duration: number
   runTestFiles: RunTestFileData[]
 }
 
@@ -181,6 +183,7 @@ export async function createRun (ctx: Context, options: CreateRunOptions) {
     emoji: randomEmoji.random({ count: 1 })[0].character,
     progress: 0,
     status: 'idle',
+    duration: null,
     runTestFiles: runTestFiles,
   }
   runs.push(run)
@@ -221,6 +224,7 @@ export async function startRun (ctx: Context, id: string) {
     status: 'in_progress',
   })
 
+  const time = Date.now()
   const runner = await setupRunner({
     targetDirectory: process.cwd(),
     testFiles: ctx.reactiveFs,
@@ -298,6 +302,7 @@ export async function startRun (ctx: Context, id: string) {
   const stats = getStats(results)
   await updateRun(ctx, id, {
     status: stats.errorTestCount > 0 ? 'error' : 'success',
+    duration: Date.now() - time,
   })
 
   return run

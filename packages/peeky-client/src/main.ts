@@ -1,4 +1,6 @@
+import './vars.css'
 import './index.css'
+import './transitions.css'
 import { createApp, provide } from 'vue'
 import App from './App.vue'
 import { router } from './router'

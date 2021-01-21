@@ -21,6 +21,7 @@ type Query {
 }
 
 type Run {
+  duration: Int
   emoji: String!
   id: ID!
   progress: Float!

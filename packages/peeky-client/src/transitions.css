@@ -1,0 +1,33 @@
+.slide-from-left,
+.slide-from-right {
+  &-enter-active,
+  &-leave-active {
+    transition: transform .5s var(--ease);
+  }
+
+  &-enter-active {
+    --ease: var(--ease-in);
+  }
+  &-leave-active {
+    --ease: var(--ease-out);
+  }
+
+  &-enter-from,
+  &-leave-to {
+    transform: var(--transform);
+  }
+}
+
+.slide-from-left {
+  &-enter-active,
+  &-leave-active {
+    --transform: translateX(-100%)
+  }
+}
+
+.slide-from-right {
+  &-enter-active,
+  &-leave-active {
+    --transform: translateX(100%)
+  }
+}
