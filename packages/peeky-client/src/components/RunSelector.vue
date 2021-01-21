@@ -102,7 +102,10 @@ watch(() => route.params.runId, () => {
   >
     <router-link
       :to="{
-        name: 'last-run',
+        name: 'run',
+        params: {
+          runId: 'last-run',
+        },
       }"
       class="flex-none px-3 py-2 flex items-center hover:bg-purple-100 dark:hover:bg-purple-900"
     >
