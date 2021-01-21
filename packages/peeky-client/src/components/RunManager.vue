@@ -1,31 +1,47 @@
 <script lang="ts" setup>
+import RunSelector from './RunSelector.vue'
+import BaseButton from './BaseButton.vue'
 import RunNewButton from './RunNewButton.vue'
 import StatusIcon from './StatusIcon.vue'
+import { ChevronDownIcon } from '@zhuowenli/vue-feather-icons'
 import { useQuery, useResult } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
+import { useRoute } from 'vue-router'
+import { ref } from 'vue'
 
-const { result, subscribeToMore } = useQuery(gql`
-  query runs {
-    runs {
-      id
-      title
-      emoji
-      status
-    }
-    lastRun {
-      id
-      title
-      emoji
-      status
-      progress
+// Current run
+
+const runDetailsFragment = gql`
+fragment runDetails on Run {
+  id
+  title
+  emoji
+  status
+  progress
+}
+`
+
+const route = useRoute()
+const { result, subscribeToMore } = useQuery(() => route.params.runId ? gql`
+  query run ($id: ID!) {
+    run (id: $id) {
+      ...runDetails
     }
   }
-`)
+  ${runDetailsFragment}
+` : gql`
+  query lastRun {
+    lastRun {
+      ...runDetails
+    }
+  }
+  ${runDetailsFragment}
+`, () => route.params.runId ? {
+  id: route.params.runId,
+} : {})
+const currentRun = useResult(result)
 
-const runs = useResult(result, [], data => data.runs)
-const lastRun = useResult(result, null, data => data.lastRun)
-
-// Subs
+const isSelectorOpen = ref(false)
 
 // Updated
 subscribeToMore({
@@ -42,29 +58,43 @@ subscribeToMore({
 </script>
 
 <template>
-  <div class="flex items-center relative">
+  <div class="flex items-center relative space-x-1 pr-1">
     <div
-      v-if="lastRun?.status === 'in_progress'"
+      v-if="currentRun?.status === 'in_progress'"
       class="absolute top-0 left-0 h-full bg-purple-100 dark:bg-purple-900 transition-all"
       :style="{
-        width: `${lastRun.progress * 100}%`,
+        width: `${currentRun.progress * 100}%`,
       }"
     />
 
     <div class="relative flex-1 w-0 truncate px-3 py-2 flex items-center space-x-1">
-      <template v-if="lastRun">
+      <template v-if="currentRun">
         <StatusIcon
-          :status="lastRun.status"
+          :status="currentRun.status"
           class="w-4 h-4 mr-1"
         />
-        <span>{{ lastRun.title }}</span>
-        <span>{{ lastRun.emoji }}</span>
+        <span>{{ currentRun.title }}</span>
+        <span>{{ currentRun.emoji }}</span>
       </template>
       <template v-else>
         <span class="text-gray-500">No run found here</span>
       </template>
     </div>
 
-    <RunNewButton class="flex-none mr-1" />
+    <BaseButton
+      flat
+      class="flex-none p-2"
+      @click="isSelectorOpen = true"
+    >
+      <ChevronDownIcon class="w-4 h-4" />
+    </BaseButton>
+
+    <RunNewButton class="flex-none" />
   </div>
+
+  <RunSelector
+    v-if="isSelectorOpen"
+    class="absolute inset-0 bg-white dark:bg-black z-10"
+    @close="isSelectorOpen = false"
+  />
 </template>

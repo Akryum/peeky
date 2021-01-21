@@ -1,13 +1,29 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from './components/Home.vue'
+import Dashboard from './components/Dashboard.vue'
 
 export const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home,
+      component: Dashboard,
+      children: [
+        {
+          path: '',
+          name: 'home',
+          component: { render: () => '' },
+        },
+        {
+          path: 'last-run',
+          name: 'last-run',
+          component: { render: () => '' },
+        },
+        {
+          path: 'run/:runId',
+          name: 'run',
+          component: { render: () => '' },
+        },
+      ],
     },
   ],
 })
