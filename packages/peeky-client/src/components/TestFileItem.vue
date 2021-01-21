@@ -8,12 +8,12 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="px-3 py-1 flex items-center hover:bg-gray-50 dark:hover:bg-gray-900 space-x-2">
+  <div class="px-3 flex items-center hover:bg-gray-50 dark:hover:bg-gray-900 space-x-2">
     <StatusIcon
       :status="file.status"
       class="w-4 h-4"
     />
-    <span class="flex-1">
+    <span class="flex-1 truncate py-1">
       {{ file.testFile.relativePath }}
     </span>
     <span

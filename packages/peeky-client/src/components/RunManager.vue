@@ -3,7 +3,7 @@ import RunSelector from './RunSelector.vue'
 import BaseButton from './BaseButton.vue'
 import RunNewButton from './RunNewButton.vue'
 import RunItem from './RunItem.vue'
-import { ChevronDownIcon } from '@zhuowenli/vue-feather-icons'
+import { LayersIcon } from '@zhuowenli/vue-feather-icons'
 import { useQuery, useResult } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 import { useRoute } from 'vue-router'
@@ -109,7 +109,7 @@ subscribeToMore({
         class="flex-none p-2"
         @click="isSelectorOpen = true"
       >
-        <ChevronDownIcon class="w-4 h-4" />
+        <LayersIcon class="w-4 h-4" />
       </BaseButton>
 
       <RunNewButton class="flex-none" />

@@ -20,9 +20,9 @@ describe('typescript test suite', () => {
     expect(0).to.equal(0)
   })
 
-  // it('error', () => {
-  //   expect(1).to.equal(2)
-  // })
+  it('error', () => {
+    expect(1).to.equal(2)
+  })
 })
 
 function wait (delay: number) {
