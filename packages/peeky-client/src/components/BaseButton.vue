@@ -36,7 +36,6 @@ export default defineComponent({
         'opacity-75 pointer-events-none': disabled,
       },
     ]"
-    @click="$emit('click', $event)"
   >
     <slot />
   </button>
