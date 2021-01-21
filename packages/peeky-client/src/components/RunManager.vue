@@ -87,16 +87,18 @@ subscribeToMore({
     v-bind="$attrs"
     class="relative"
   >
-    <div
-      v-if="currentRun?.status === 'in_progress'"
-      class="absolute top-0 left-0 h-full bg-purple-100 dark:bg-purple-900 transition-all"
-      :style="{
-        width: `${currentRun.progress * 100}%`,
-      }"
-    />
+    <transition name="progress-bar">
+      <div
+        v-if="currentRun?.status === 'in_progress'"
+        class="absolute top-0 left-0 h-full bg-purple-100 dark:bg-purple-900 transition-all"
+        :style="{
+          width: `${currentRun.progress * 100}%`,
+        }"
+      />
+    </transition>
 
-    <div class="flex items-center space-x-1 pr-1 h-10">
-      <div class="relative flex-1 w-0 truncate">
+    <div class="relative flex items-center space-x-1 pr-1 h-10">
+      <div class="flex-1 w-0 truncate">
         <template v-if="currentRun">
           <RunItem
             :run="currentRun"

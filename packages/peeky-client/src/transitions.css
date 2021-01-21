@@ -21,13 +21,24 @@
 .slide-from-left {
   &-enter-active,
   &-leave-active {
-    --transform: translateX(-100%)
+    --transform: translateX(-100%);
   }
 }
 
 .slide-from-right {
   &-enter-active,
   &-leave-active {
-    --transform: translateX(100%)
+    --transform: translateX(100%);
+  }
+}
+
+.progress-bar {
+  &-leave-active {
+    transition: width .5s var(--ease-out), opacity .15s .35s ease-out;
+  }
+
+  &-leave-to {
+    width: 100% !important;
+    opacity: 0;
   }
 }
