@@ -59,7 +59,7 @@ const filteredFiles = computed(() => {
     return testFiles.value
   } else {
     const reg = new RegExp(searchText.value, 'i')
-    return testFiles.value.filter(f => reg.test(f.relativePath))
+    return testFiles.value.filter(f => f.testFile.relativePath.search(reg) !== -1)
   }
 })
 

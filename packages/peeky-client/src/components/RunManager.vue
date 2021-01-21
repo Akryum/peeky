@@ -83,7 +83,10 @@ subscribeToMore({
 </script>
 
 <template>
-  <div class="relative">
+  <div
+    v-bind="$attrs"
+    class="relative"
+  >
     <div
       v-if="currentRun?.status === 'in_progress'"
       class="absolute top-0 left-0 h-full bg-purple-100 dark:bg-purple-900 transition-all"

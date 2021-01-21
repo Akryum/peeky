@@ -15,13 +15,23 @@ describe('typescript test suite', () => {
     expect(spy.callCount).to.equal(1)
   })
 
+  it('error', () => {
+    expect(1).to.equal(2)
+  })
+
   it('wait for async op', async () => {
     await wait(1000)
     expect(0).to.equal(0)
   })
 
-  it('error', () => {
-    expect(1).to.equal(2)
+  it('wait for async op 2', async () => {
+    await wait(1000)
+    expect(0).to.equal(0)
+  })
+
+  it('wait for async op 3', async () => {
+    await wait(1000)
+    expect(0).to.equal(0)
   })
 })
 

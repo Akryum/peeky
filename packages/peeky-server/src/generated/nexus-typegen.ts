@@ -247,6 +247,7 @@ export interface NexusGenArgTypes {
   Subscription: {
     testAdded: { // args
       runId: string; // ID!
+      runTestFileId?: string | null; // ID
     }
     testSuiteAdded: { // args
       runId: string; // ID!
@@ -258,6 +259,7 @@ export interface NexusGenArgTypes {
     }
     testUpdated: { // args
       runId: string; // ID!
+      runTestFileId?: string | null; // ID
     }
   }
 }

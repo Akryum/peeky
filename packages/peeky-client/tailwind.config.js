@@ -25,6 +25,11 @@ module.exports = {
         '2xl': '1.5rem',
         '3xl': '2rem',
       },
+
+      cursor: {
+        'ew-resize': 'ew-resize',
+        'ns-resize': 'ns-resize',
+      },
     },
   },
   variants: {

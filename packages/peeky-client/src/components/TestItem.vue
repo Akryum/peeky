@@ -3,7 +3,7 @@ import StatusIcon from './StatusIcon.vue'
 import { defineProps } from 'vue'
 
 const props = defineProps({
-  run: {
+  test: {
     type: Object,
     required: true,
   },
@@ -11,18 +11,19 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="flex items-center space-x-1 truncate px-3 py-2">
+  <div class="flex items-center space-x-2 h-8 px-3">
     <StatusIcon
-      :status="run.status"
-      class="w-4 h-4 mr-1"
+      :status="test.status"
+      class="w-4 h-4 flex-none"
     />
-    <span class="flex-1 truncate py-1">
-      <span>{{ run.title }}</span>
-      <span>{{ run.emoji }}</span>
+    <span class="flex-1 truncate h-full flex items-center">
+      {{ test.title }}
     </span>
     <span
-      v-if="run.duration != null"
+      v-if="test.duration != null"
       class="text-gray-300 dark:text-gray-700"
-    >{{ run.duration }}ms</span>
+    >
+      {{ test.duration }}ms
+    </span>
   </div>
 </template>

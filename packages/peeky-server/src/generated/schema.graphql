@@ -58,13 +58,13 @@ type Subscription {
   runRemoved: Run!
   runTestFileUpdated: RunTestFile!
   runUpdated: Run!
-  testAdded(runId: ID!): Test!
+  testAdded(runId: ID!, runTestFileId: ID): Test!
   testFileAdded: TestFile!
   testFileRemoved: TestFile!
   testFileUpdated: TestFile!
   testSuiteAdded(runId: ID!, runTestFileId: ID): TestSuite!
   testSuiteUpdated(runId: ID!, runTestFileId: ID): TestSuite!
-  testUpdated(runId: ID!): Test!
+  testUpdated(runId: ID!, runTestFileId: ID): Test!
 }
 
 type Test {

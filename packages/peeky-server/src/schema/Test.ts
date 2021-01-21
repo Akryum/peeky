@@ -2,7 +2,7 @@ import { withFilter } from 'apollo-server-express'
 import { extendType, idArg, nonNull, objectType } from 'nexus'
 import { Context } from '../context'
 import { Status, StatusEnum } from './Status'
-import { getTestSuite, TestSuiteAdded } from './TestSuite'
+import { getTestSuite, TestSuiteAdded, TestSuiteData } from './TestSuite'
 
 export const Test = objectType({
   name: 'Test',
@@ -55,10 +55,12 @@ export const TestSupbscriptions = extendType({
       type: Test,
       args: {
         runId: nonNull(idArg()),
+        runTestFileId: idArg(),
       },
       subscribe: withFilter(
         (_, args, ctx) => ctx.pubsub.asyncIterator(TestAdded),
-        (payload: TestAddedPayload, args) => payload.test.runId === args.runId,
+        (payload: TestAddedPayload, args) => payload.test.runId === args.runId &&
+          (!args.runTestFileId || payload.test.testSuite.runTestFile.id === args.runTestFileId),
       ),
       resolve: (payload: TestAddedPayload) => payload.test,
     })
@@ -67,10 +69,12 @@ export const TestSupbscriptions = extendType({
       type: Test,
       args: {
         runId: nonNull(idArg()),
+        runTestFileId: idArg(),
       },
       subscribe: withFilter(
         (_, args, ctx) => ctx.pubsub.asyncIterator(TestUpdated),
-        (payload: TestAddedPayload, args) => payload.test.runId === args.runId,
+        (payload: TestAddedPayload, args) => payload.test.runId === args.runId &&
+          (!args.runTestFileId || payload.test.testSuite.runTestFile.id === args.runTestFileId),
       ),
       resolve: (payload: TestUpdatedPayload) => payload.test,
     })
@@ -80,7 +84,7 @@ export const TestSupbscriptions = extendType({
 export interface TestData {
   id: string
   runId: string
-  testSuiteId: string
+  testSuite: TestSuiteData
   title: string
   status: StatusEnum
   duration: number
@@ -95,16 +99,15 @@ export interface TestErrorData {
 export interface CreateTestOptions {
   id: string
   runId: string
-  testSuiteId: string
+  testSuite: TestSuiteData
   title: string
 }
 
 export async function createTest (ctx: Context, options: CreateTestOptions) {
-  const testSuite = getTestSuite(ctx, options.testSuiteId)
   const test: TestData = {
     id: options.id,
     runId: options.runId,
-    testSuiteId: options.testSuiteId,
+    testSuite: options.testSuite,
     title: options.title,
     status: 'idle',
     duration: null,
@@ -113,7 +116,7 @@ export async function createTest (ctx: Context, options: CreateTestOptions) {
   ctx.pubsub.publish(TestAdded, {
     test,
   } as TestAddedPayload)
-  testSuite.tests.push(test)
+  test.testSuite.tests.push(test)
   return test
 }
 

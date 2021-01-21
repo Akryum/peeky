@@ -1,17 +1,26 @@
 <script lang="ts" setup>
+import BaseSplitPane from './BaseSplitPane.vue'
 import RunManager from './RunManager.vue'
 import TestFiles from './TestFiles.vue'
 </script>
 
 <template>
-  <div class="h-screen flex items-stretch divide-x divide-gray-100 dark:divide-gray-900">
-    <div class="flex-shrink w-1/5 flex flex-col divide-y divide-gray-100 dark:divide-gray-900 relative">
-      <RunManager />
-      <TestFiles class="flex-1" />
-    </div>
+  <BaseSplitPane
+    :default-split="20"
+    :min="5"
+    :max="70"
+    save-id="peeky-dashboard"
+    class="h-screen"
+  >
+    <template #first>
+      <div class="h-full flex flex-col divide-y divide-gray-100 dark:divide-gray-900 relative">
+        <RunManager class="flex-none" />
+        <TestFiles class="flex-1 h-0" />
+      </div>
+    </template>
 
-    <div class="flex-1">
+    <template #last>
       <router-view />
-    </div>
-  </div>
+    </template>
+  </BaseSplitPane>
 </template>

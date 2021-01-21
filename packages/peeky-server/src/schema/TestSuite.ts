@@ -116,7 +116,7 @@ export async function createTestSuite (ctx: Context, options: CreateTestSuiteOpt
   testSuite.tests = await Promise.all(options.tests.map(t => createTest(ctx, {
     id: t.id,
     runId: options.runId,
-    testSuiteId: options.id,
+    testSuite,
     title: t.title,
   })))
   ctx.pubsub.publish(TestSuiteAdded, {
