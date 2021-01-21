@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, RouterView } from 'vue-router'
 import Dashboard from './components/Dashboard.vue'
-import TestFileView from './components/TestFileView.vue'
+import TestFileAll from './components/TestFileAll.vue'
+import TestFileOne from './components/TestFileOne.vue'
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -21,12 +22,12 @@ export const router = createRouter({
             {
               path: '',
               name: 'run',
-              component: RouterView,
+              component: TestFileAll,
             },
             {
               path: 'file/:slug',
               name: 'run-test-file',
-              component: TestFileView,
+              component: TestFileOne,
             },
           ],
         },
