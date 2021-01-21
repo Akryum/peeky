@@ -1,13 +1,17 @@
 <script lang="ts">
 import gql from 'graphql-tag'
 
-export const testFileListFragment = gql`
-fragment testFileList on TestFile {
+export const runTestFileListFragment = gql`
+fragment runTestFileList on RunTestFile {
   id
-  relativePath
   status
   duration
-  deleted
+  buildDuration
+  testFile {
+    id
+    relativePath
+    deleted
+  }
 }
 `
 </script>
@@ -18,16 +22,34 @@ import TestFileItem from './TestFileItem.vue'
 import { SearchIcon } from '@zhuowenli/vue-feather-icons'
 import { computed, ref } from 'vue'
 import { useQuery, useResult } from '@vue/apollo-composable'
+import { useRoute } from 'vue-router'
 
-const { result, subscribeToMore } = useQuery(gql`
-  query allTestFiles {
-    testFiles {
-      ...testFileList
+const route = useRoute()
+
+const { result, subscribeToMore } = useQuery(() => route.params.runId ? gql`
+  query runTestFilesSpecific ($id: ID!) {
+    run (id: $id) {
+      id
+      runTestFiles {
+        ...runTestFileList
+      }
     }
   }
-  ${testFileListFragment}
-`)
-const testFiles = useResult(result, [])
+  ${runTestFileListFragment}
+` : gql`
+  query runTestFilesLastRun {
+    run: lastRun {
+      id
+      runTestFiles {
+        ...runTestFileList
+      }
+    }
+  }
+  ${runTestFileListFragment}
+`, () => route.params.runId ? {
+  id: route.params.runId,
+} : {})
+const testFiles = useResult(result, [], data => data.run.runTestFiles)
 
 // Filtering
 const searchText = ref('')
@@ -42,61 +64,21 @@ const filteredFiles = computed(() => {
 
 // Sorting
 const sortedFiles = computed(() => filteredFiles.value.slice().sort(
-  (a, b) => a.relativePath.localeCompare(b.relativePath)
+  (a, b) => a.testFile.relativePath.localeCompare(b.testFile.relativePath)
 ))
 
 // Subscriptions
 
-// Test file added
-subscribeToMore({
-  document: gql`
-    subscription testFileAdded {
-      testFileAdded {
-        ...testFileList
-      }
-    }
-    ${testFileListFragment}
-  `,
-  updateQuery: (previousResult, { subscriptionData: { data } }) => {
-    if (previousResult.testFiles.find(f => f.id === data.testFileAdded.id)) return previousResult
-    return {
-      testFiles: [
-        ...previousResult.testFiles,
-        data.testFileAdded,
-      ],
-    }
-  },
-})
-
 // Test file updated
 subscribeToMore({
   document: gql`
-    subscription testFileUpdated {
-      testFileUpdated {
-        ...testFileList
+    subscription runTestFileUpdated {
+      runTestFileUpdated {
+        ...runTestFileList
       }
     }
-    ${testFileListFragment}
+    ${runTestFileListFragment}
   `,
-})
-
-// Test file removed
-subscribeToMore({
-  document: gql`
-    subscription testFileRemoved {
-      testFileRemoved {
-        ...testFileList
-      }
-    }
-    ${testFileListFragment}
-  `,
-  updateQuery: (previousResult, { subscriptionData: { data } }) => {
-    return {
-      testFiles: [
-        ...previousResult.testFiles.filter(f => f.id !== data.testFileRemoved.id),
-      ],
-    }
-  },
 })
 </script>
 

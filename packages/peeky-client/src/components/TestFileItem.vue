@@ -14,7 +14,7 @@ const props = defineProps({
       class="w-4 h-4"
     />
     <span class="flex-1">
-      {{ file.relativePath }}
+      {{ file.testFile.relativePath }}
     </span>
     <span
       v-if="file.duration != null"

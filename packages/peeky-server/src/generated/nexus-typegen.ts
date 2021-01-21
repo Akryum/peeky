@@ -107,6 +107,7 @@ export interface NexusGenFieldTypes {
   Subscription: { // field return type
     runAdded: NexusGenRootTypes['Run']; // Run!
     runRemoved: NexusGenRootTypes['Run']; // Run!
+    runTestFileUpdated: NexusGenRootTypes['RunTestFile']; // RunTestFile!
     runUpdated: NexusGenRootTypes['Run']; // Run!
     testAdded: NexusGenRootTypes['Test']; // Test!
     testFileAdded: NexusGenRootTypes['TestFile']; // TestFile!
@@ -177,6 +178,7 @@ export interface NexusGenFieldTypeNames {
   Subscription: { // field return type name
     runAdded: 'Run'
     runRemoved: 'Run'
+    runTestFileUpdated: 'RunTestFile'
     runUpdated: 'Run'
     testAdded: 'Test'
     testFileAdded: 'TestFile'

@@ -53,6 +53,7 @@ enum Status {
 type Subscription {
   runAdded: Run!
   runRemoved: Run!
+  runTestFileUpdated: RunTestFile!
   runUpdated: Run!
   testAdded(runId: String!): Test!
   testFileAdded: TestFile!
