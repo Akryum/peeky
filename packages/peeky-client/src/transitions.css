@@ -2,7 +2,7 @@
 .slide-from-right {
   &-enter-active,
   &-leave-active {
-    transition: transform .5s var(--ease);
+    transition: transform .3s var(--ease);
   }
 
   &-enter-active {
