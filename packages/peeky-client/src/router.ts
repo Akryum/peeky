@@ -11,7 +11,7 @@ export const router = createRouter({
         {
           path: '',
           name: 'home',
-          component: { render: () => '' },
+          redirect: { name: 'last-run' },
         },
         {
           path: 'last-run',
