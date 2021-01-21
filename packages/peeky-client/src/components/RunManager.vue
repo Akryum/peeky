@@ -3,7 +3,7 @@ import RunSelector from './RunSelector.vue'
 import BaseButton from './BaseButton.vue'
 import RunNewButton from './RunNewButton.vue'
 import RunItem from './RunItem.vue'
-import { LayersIcon } from '@zhuowenli/vue-feather-icons'
+import { LayersIcon, ActivityIcon } from '@zhuowenli/vue-feather-icons'
 import { useQuery, useResult } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 import { useRoute } from 'vue-router'
@@ -23,7 +23,7 @@ fragment runDetails on Run {
 `
 
 const route = useRoute()
-const { result, subscribeToMore } = useQuery(() => route.params.runId ? gql`
+const { result, subscribeToMore } = useQuery(() => route.params.runId !== 'last-run' ? gql`
   query run ($id: ID!) {
     run (id: $id) {
       ...runDetails
@@ -37,7 +37,7 @@ const { result, subscribeToMore } = useQuery(() => route.params.runId ? gql`
     }
   }
   ${runDetailsFragment}
-`, () => route.params.runId ? {
+`, () => route.params.runId !== 'last-run' ? {
   id: route.params.runId,
 } : {})
 const currentRun = useResult(result)
@@ -100,7 +100,10 @@ subscribeToMore({
           />
         </template>
         <template v-else>
-          <span class="text-gray-500 px-3 py-2">No run found here</span>
+          <div class="flex items-center px-3 py-2">
+            <ActivityIcon class="w-4 h-4 mr-2 text-gray-500" />
+            <span class="text-gray-500">No run found here</span>
+          </div>
         </template>
       </div>
 

@@ -1,5 +1,5 @@
 import { withFilter } from 'apollo-server-express'
-import { extendType, nonNull, objectType, stringArg } from 'nexus'
+import { extendType, idArg, nonNull, objectType } from 'nexus'
 import { Context } from '../context'
 import { Status, StatusEnum } from './Status'
 import { getTestSuite, TestSuiteAdded } from './TestSuite'
@@ -36,13 +36,13 @@ export const TestExtendTestSuite = extendType({
   },
 })
 
-export const TestAdded = 'test-suite-added'
+export const TestAdded = 'test-added'
 
 export interface TestAddedPayload {
   test: TestData
 }
 
-export const TestUpdated = 'test-suite-updated'
+export const TestUpdated = 'test-updated'
 
 export interface TestUpdatedPayload {
   test: TestData
@@ -54,7 +54,7 @@ export const TestSupbscriptions = extendType({
     t.nonNull.field('testAdded', {
       type: Test,
       args: {
-        runId: nonNull(stringArg()),
+        runId: nonNull(idArg()),
       },
       subscribe: withFilter(
         (_, args, ctx) => ctx.pubsub.asyncIterator(TestAdded),
@@ -66,7 +66,7 @@ export const TestSupbscriptions = extendType({
     t.nonNull.field('testUpdated', {
       type: Test,
       args: {
-        runId: nonNull(stringArg()),
+        runId: nonNull(idArg()),
       },
       subscribe: withFilter(
         (_, args, ctx) => ctx.pubsub.asyncIterator(TestUpdated),
@@ -110,7 +110,7 @@ export async function createTest (ctx: Context, options: CreateTestOptions) {
     duration: null,
     error: null,
   }
-  ctx.pubsub.publish(TestSuiteAdded, {
+  ctx.pubsub.publish(TestAdded, {
     test,
   } as TestAddedPayload)
   testSuite.tests.push(test)

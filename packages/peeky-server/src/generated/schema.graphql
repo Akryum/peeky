@@ -25,6 +25,7 @@ type Run {
   emoji: String!
   id: ID!
   progress: Float!
+  runTestFile(slug: String!): RunTestFile
   runTestFiles: [RunTestFile!]!
   status: Status!
   testSuites: [TestSuite!]!
@@ -35,6 +36,7 @@ type RunTestFile {
   buildDuration: Int
   duration: Int
   id: ID!
+  slug: String!
   status: Status!
   suites: [TestSuite!]!
   testFile: TestFile!
@@ -56,13 +58,13 @@ type Subscription {
   runRemoved: Run!
   runTestFileUpdated: RunTestFile!
   runUpdated: Run!
-  testAdded(runId: String!): Test!
+  testAdded(runId: ID!): Test!
   testFileAdded: TestFile!
   testFileRemoved: TestFile!
   testFileUpdated: TestFile!
-  testSuiteAdded(runId: String!): TestSuite!
-  testSuiteUpdated(runId: String!): TestSuite!
-  testUpdated(runId: String!): Test!
+  testSuiteAdded(runId: ID!, runTestFileId: ID): TestSuite!
+  testSuiteUpdated(runId: ID!, runTestFileId: ID): TestSuite!
+  testUpdated(runId: ID!): Test!
 }
 
 type Test {
@@ -89,8 +91,8 @@ type TestFile {
 type TestSuite {
   duration: Int
   id: ID!
+  runTestFile: RunTestFile!
   status: Status!
-  testFile: TestFile!
   tests: [Test]!
   title: String!
 }

@@ -1,5 +1,6 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, RouterView } from 'vue-router'
 import Dashboard from './components/Dashboard.vue'
+import TestFileView from './components/TestFileView.vue'
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -11,17 +12,23 @@ export const router = createRouter({
         {
           path: '',
           name: 'home',
-          redirect: { name: 'last-run' },
-        },
-        {
-          path: 'last-run',
-          name: 'last-run',
-          component: { render: () => '' },
+          redirect: { name: 'run', params: { runId: 'last-run' } },
         },
         {
           path: 'run/:runId',
-          name: 'run',
-          component: { render: () => '' },
+          component: RouterView,
+          children: [
+            {
+              path: '',
+              name: 'run',
+              component: RouterView,
+            },
+            {
+              path: 'file/:slug',
+              name: 'run-test-file',
+              component: TestFileView,
+            },
+          ],
         },
       ],
     },

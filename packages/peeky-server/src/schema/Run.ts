@@ -9,7 +9,7 @@ import { Status, StatusEnum } from './Status'
 import { updateTestFile, testFiles } from './TestFile'
 import { clearTestSuites, createTestSuite, updateTestSuite } from './TestSuite'
 import { updateTest } from './Test'
-import { RunTestFile, RunTestFileData, updateRunTestFile } from './RunTestFile'
+import { RunTestFileData, updateRunTestFile } from './RunTestFile'
 import { getSrcFile } from '../util'
 
 export const Run = objectType({
@@ -27,9 +27,6 @@ export const Run = objectType({
       type: Status,
     })
     t.int('duration')
-    t.nonNull.list.field('runTestFiles', {
-      type: nonNull(RunTestFile),
-    })
   },
 })
 
@@ -170,6 +167,7 @@ export async function createRun (ctx: Context, options: CreateRunOptions) {
   const testFilesRaw = options.testFiles ? testFiles.filter(f => options.testFiles.includes(f.id)) : [...testFiles]
   const runTestFiles: RunTestFileData[] = testFilesRaw.map(f => ({
     id: shortid(),
+    slug: f.relativePath.replace(/([\\/.])/g, '-'),
     runId,
     testFile: f,
     status: 'idle',
@@ -243,8 +241,7 @@ export async function startRun (ctx: Context, id: string) {
       createTestSuite(ctx, {
         id: suite.id,
         runId: run.id,
-        runTestFileId: run.runTestFiles.find(rf => rf.testFile.id === testFileId)?.id,
-        testFileId,
+        runTestFile: run.runTestFiles.find(rf => rf.testFile.id === testFileId),
         title: suite.title,
         tests: suite.tests,
       })

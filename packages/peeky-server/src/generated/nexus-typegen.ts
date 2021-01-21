@@ -92,6 +92,7 @@ export interface NexusGenFieldTypes {
     emoji: string; // String!
     id: string; // ID!
     progress: number; // Float!
+    runTestFile: NexusGenRootTypes['RunTestFile'] | null; // RunTestFile
     runTestFiles: NexusGenRootTypes['RunTestFile'][]; // [RunTestFile!]!
     status: NexusGenEnums['Status']; // Status!
     testSuites: NexusGenRootTypes['TestSuite'][]; // [TestSuite!]!
@@ -101,6 +102,7 @@ export interface NexusGenFieldTypes {
     buildDuration: number | null; // Int
     duration: number | null; // Int
     id: string; // ID!
+    slug: string; // String!
     status: NexusGenEnums['Status']; // Status!
     suites: NexusGenRootTypes['TestSuite'][]; // [TestSuite!]!
     testFile: NexusGenRootTypes['TestFile']; // TestFile!
@@ -139,8 +141,8 @@ export interface NexusGenFieldTypes {
   TestSuite: { // field return type
     duration: number | null; // Int
     id: string; // ID!
+    runTestFile: NexusGenRootTypes['RunTestFile']; // RunTestFile!
     status: NexusGenEnums['Status']; // Status!
-    testFile: NexusGenRootTypes['TestFile']; // TestFile!
     tests: Array<NexusGenRootTypes['Test'] | null>; // [Test]!
     title: string; // String!
   }
@@ -164,6 +166,7 @@ export interface NexusGenFieldTypeNames {
     emoji: 'String'
     id: 'ID'
     progress: 'Float'
+    runTestFile: 'RunTestFile'
     runTestFiles: 'RunTestFile'
     status: 'Status'
     testSuites: 'TestSuite'
@@ -173,6 +176,7 @@ export interface NexusGenFieldTypeNames {
     buildDuration: 'Int'
     duration: 'Int'
     id: 'ID'
+    slug: 'String'
     status: 'Status'
     suites: 'TestSuite'
     testFile: 'TestFile'
@@ -211,8 +215,8 @@ export interface NexusGenFieldTypeNames {
   TestSuite: { // field return type name
     duration: 'Int'
     id: 'ID'
+    runTestFile: 'RunTestFile'
     status: 'Status'
-    testFile: 'TestFile'
     tests: 'Test'
     title: 'String'
   }
@@ -235,18 +239,25 @@ export interface NexusGenArgTypes {
       id: string; // ID!
     }
   }
+  Run: {
+    runTestFile: { // args
+      slug: string; // String!
+    }
+  }
   Subscription: {
     testAdded: { // args
-      runId: string; // String!
+      runId: string; // ID!
     }
     testSuiteAdded: { // args
-      runId: string; // String!
+      runId: string; // ID!
+      runTestFileId?: string | null; // ID
     }
     testSuiteUpdated: { // args
-      runId: string; // String!
+      runId: string; // ID!
+      runTestFileId?: string | null; // ID
     }
     testUpdated: { // args
-      runId: string; // String!
+      runId: string; // ID!
     }
   }
 }

@@ -1,4 +1,4 @@
-import { extendType, nonNull, objectType } from 'nexus'
+import { extendType, nonNull, objectType, stringArg } from 'nexus'
 import { Context } from '../context'
 import { getSrcFile } from '../util'
 import { getRun } from './Run'
@@ -14,6 +14,7 @@ export const RunTestFile = objectType({
   },
   definition (t) {
     t.nonNull.id('id')
+    t.nonNull.string('slug')
     t.nonNull.field('testFile', {
       type: TestFile,
     })
@@ -24,7 +25,24 @@ export const RunTestFile = objectType({
     t.int('buildDuration')
     t.nonNull.list.field('suites', {
       type: nonNull(TestSuite),
-      resolve: (parent) => testSuites.filter(s => s.runId === parent.runId && s.runTestFileId === parent.id),
+      resolve: (parent) => testSuites.filter(s => s.runTestFile === parent),
+    })
+  },
+})
+
+export const RunTestFileExtendRun = extendType({
+  type: 'Run',
+  definition (t) {
+    t.nonNull.list.field('runTestFiles', {
+      type: nonNull(RunTestFile),
+    })
+
+    t.field('runTestFile', {
+      type: RunTestFile,
+      args: {
+        slug: nonNull(stringArg()),
+      },
+      resolve: (parent, { slug }) => parent.runTestFiles.find(f => f.slug === slug),
     })
   },
 })
@@ -49,6 +67,7 @@ export const RunTestFileSubscription = extendType({
 
 export interface RunTestFileData {
   id: string
+  slug: string
   runId: string
   testFile: TestFileData
   status: StatusEnum

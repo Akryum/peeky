@@ -1,10 +1,10 @@
 import { withFilter } from 'apollo-server-express'
-import { extendType, nonNull, objectType, stringArg } from 'nexus'
+import { extendType, idArg, nonNull, objectType } from 'nexus'
 import { Context } from '../context'
 import { getSrcFile } from '../util'
+import { RunTestFile, RunTestFileData } from './RunTestFile'
 import { Status, StatusEnum } from './Status'
 import { createTest, TestData } from './Test'
-import { TestFile, testFiles } from './TestFile'
 
 export const TestSuite = objectType({
   name: 'TestSuite',
@@ -19,9 +19,9 @@ export const TestSuite = objectType({
       type: Status,
     })
     t.int('duration')
-    t.nonNull.field('testFile', {
-      type: TestFile,
-      resolve: (parent) => testFiles.find(t => t.id === parent.testFileId),
+    t.nonNull.field('runTestFile', {
+      type: RunTestFile,
+      resolve: (parent) => parent.runTestFile,
     })
   },
 })
@@ -48,17 +48,18 @@ export interface TestSuiteUpdatedPayload {
   testSuite: TestSuiteData
 }
 
-export const TestSuiteSupbscriptions = extendType({
+export const TestSuiteSubscriptions = extendType({
   type: 'Subscription',
   definition (t) {
     t.nonNull.field('testSuiteAdded', {
       type: TestSuite,
       args: {
-        runId: nonNull(stringArg()),
+        runId: nonNull(idArg()),
+        runTestFileId: idArg(),
       },
       subscribe: withFilter(
         (_, args, ctx) => ctx.pubsub.asyncIterator(TestSuiteAdded),
-        (payload: TestSuiteAddedPayload, args) => payload.testSuite.runId === args.runId,
+        (payload: TestSuiteAddedPayload, args) => payload.testSuite.runId === args.runId && (args.runTestFileId == null || payload.testSuite.runTestFile.id === args.runTestFileId),
       ),
       resolve: (payload: TestSuiteAddedPayload) => payload.testSuite,
     })
@@ -66,11 +67,12 @@ export const TestSuiteSupbscriptions = extendType({
     t.nonNull.field('testSuiteUpdated', {
       type: TestSuite,
       args: {
-        runId: nonNull(stringArg()),
+        runId: nonNull(idArg()),
+        runTestFileId: idArg(),
       },
       subscribe: withFilter(
         (_, args, ctx) => ctx.pubsub.asyncIterator(TestSuiteUpdated),
-        (payload: TestSuiteAddedPayload, args) => payload.testSuite.runId === args.runId,
+        (payload: TestSuiteUpdatedPayload, args) => payload.testSuite.runId === args.runId && (args.runTestFileId == null || payload.testSuite.runTestFile.id === args.runTestFileId),
       ),
       resolve: (payload: TestSuiteUpdatedPayload) => payload.testSuite,
     })
@@ -80,8 +82,7 @@ export const TestSuiteSupbscriptions = extendType({
 export interface TestSuiteData {
   id: string
   runId: string
-  runTestFileId: string
-  testFileId: string
+  runTestFile: RunTestFileData
   title: string
   status: StatusEnum
   duration: number
@@ -93,8 +94,7 @@ export let testSuites: TestSuiteData[] = []
 export interface CreateTestSuiteOptions {
   id: string
   runId: string
-  runTestFileId: string
-  testFileId: string
+  runTestFile: RunTestFileData
   title: string
   tests: {
     id: string
@@ -106,8 +106,7 @@ export async function createTestSuite (ctx: Context, options: CreateTestSuiteOpt
   const testSuite: TestSuiteData = {
     id: options.id,
     runId: options.runId,
-    runTestFileId: options.runTestFileId,
-    testFileId: options.testFileId,
+    runTestFile: options.runTestFile,
     title: options.title,
     status: 'in_progress',
     duration: null,
