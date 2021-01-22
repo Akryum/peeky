@@ -51,6 +51,8 @@ export interface NexusGenObjects {
     title: string; // String!
   }
   TestError: { // root type
+    col?: number | null; // Int
+    line?: number | null; // Int
     message: string; // String!
     stack?: string | null; // String
   }
@@ -78,6 +80,7 @@ export interface NexusGenFieldTypes {
   Mutation: { // field return type
     clearRun: NexusGenRootTypes['Run']; // Run!
     clearRuns: boolean; // Boolean!
+    openTestFileInEditor: boolean | null; // Boolean
     startRun: NexusGenRootTypes['Run']; // Run!
   }
   Query: { // field return type
@@ -128,6 +131,8 @@ export interface NexusGenFieldTypes {
     title: string; // String!
   }
   TestError: { // field return type
+    col: number | null; // Int
+    line: number | null; // Int
     message: string; // String!
     stack: string | null; // String
   }
@@ -152,6 +157,7 @@ export interface NexusGenFieldTypeNames {
   Mutation: { // field return type name
     clearRun: 'Run'
     clearRuns: 'Boolean'
+    openTestFileInEditor: 'Boolean'
     startRun: 'Run'
   }
   Query: { // field return type name
@@ -202,6 +208,8 @@ export interface NexusGenFieldTypeNames {
     title: 'String'
   }
   TestError: { // field return type name
+    col: 'Int'
+    line: 'Int'
     message: 'String'
     stack: 'String'
   }
@@ -226,6 +234,11 @@ export interface NexusGenArgTypes {
   Mutation: {
     clearRun: { // args
       input: NexusGenInputs['ClearRunInput']; // ClearRunInput!
+    }
+    openTestFileInEditor: { // args
+      col: number; // Int!
+      id: string; // ID!
+      line: number; // Int!
     }
     startRun: { // args
       input: NexusGenInputs['StartRunInput']; // StartRunInput!

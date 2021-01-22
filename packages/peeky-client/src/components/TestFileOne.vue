@@ -16,6 +16,13 @@ fragment runTestFileViewSuite on TestSuite {
   title
   status
   duration
+  runTestFile {
+    id
+    testFile {
+      id
+      relativePath
+    }
+  }
   tests {
     id
     title
@@ -24,6 +31,8 @@ fragment runTestFileViewSuite on TestSuite {
     error {
       message
       stack
+      line
+      col
     }
   }
 }
@@ -121,6 +130,8 @@ onResult(({ data }) => {
           error {
             message
             stack
+            line
+            col
           }
         }
       }
@@ -138,6 +149,7 @@ onResult(({ data }) => {
   <SuitesView
     v-if="runTestFile"
     :suites="runTestFile.suites"
+    :run="run"
   >
     <template #toolbar>
       <div class="flex-none flex items-center space-x-2 pl-1 pr-3 h-10">

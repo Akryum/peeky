@@ -7,10 +7,10 @@ import randomEmoji from 'random-emoji'
 import { Context } from '../context'
 import { Status, StatusEnum } from './Status'
 import { updateTestFile, testFiles } from './TestFile'
-import { clearTestSuites, createTestSuite, updateTestSuite } from './TestSuite'
+import { clearTestSuites, createTestSuite, updateTestSuite, testSuites } from './TestSuite'
 import { updateTest } from './Test'
 import { RunTestFileData, updateRunTestFile } from './RunTestFile'
-import { getSrcFile } from '../util'
+import { getErrorPosition, getSrcFile } from '../util'
 
 export const Run = objectType({
   name: 'Run',
@@ -270,6 +270,7 @@ export async function startRun (ctx: Context, id: string) {
         error: {
           message: error.message,
           stack: stack,
+          ...getErrorPosition(testSuites.find(s => s.id === suite.id).runTestFile.testFile.relativePath, stack),
         },
       })
     }

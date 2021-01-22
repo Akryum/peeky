@@ -1,6 +1,8 @@
-import { extendType, idArg, nonNull, objectType } from 'nexus'
+import { extendType, idArg, intArg, nonNull, objectType } from 'nexus'
+import launchEditor from 'launch-editor'
 import { Context } from '../context'
 import { Status, StatusEnum } from './Status'
+import { join } from 'path'
 
 export const TestFile = objectType({
   name: 'TestFile',
@@ -29,6 +31,24 @@ export const TestFileQuery = extendType({
         id: nonNull(idArg()),
       },
       resolve: (_, { id }) => testFiles.find(t => t.id === id),
+    })
+  },
+})
+
+export const TestFileMutation = extendType({
+  type: 'Mutation',
+  definition (t) {
+    t.boolean('openTestFileInEditor', {
+      args: {
+        id: nonNull(idArg()),
+        line: nonNull(intArg()),
+        col: nonNull(intArg()),
+      },
+      resolve: (root, { id, line, col }) => {
+        const testFile = testFiles.find(f => f.id === id)
+        launchEditor(`${testFile.absolutePath}:${line}:${col}`)
+        return true
+      },
     })
   },
 })
@@ -78,6 +98,7 @@ export const TestFileSubscription = extendType({
 export interface TestFileData {
   id: string
   relativePath: string
+  absolutePath: string
   status: StatusEnum
   deleted: boolean
   duration: number
@@ -127,6 +148,7 @@ function createTestFile (relativePath: string): TestFileData {
   return {
     id: relativePath,
     relativePath,
+    absolutePath: join(process.cwd(), relativePath),
     status: 'idle',
     deleted: false,
     duration: null,
