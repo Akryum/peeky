@@ -9,6 +9,7 @@ import { createReactiveFileSystem } from '.';
     watchFile,
     list,
     watchList,
+    watch,
   } = await createReactiveFileSystem({
     baseDir: join(__dirname, '..', 'test'),
     glob: '**/*.js',
@@ -40,17 +41,39 @@ import { createReactiveFileSystem } from '.';
     console.log('foo.js watch:', content, oldContent)
   })
 
+  effect(async () => {
+    console.log('await read:', await files['meow.js']?.waitForContent)
+    console.log('await read2:', await files['cat.js']?.waitForContent)
+  })
+
+  // Async
+  watch(() => ({
+    meow: files['meow.js']?.content,
+    cat: files['cat.js']?.content,
+  }), async (content) => {
+    await Promise.resolve()
+    console.log('async watch effect:', content)
+  })
+
   setTimeout(() => {
     console.log('writting...')
     files['meow.js'].content = 'console.log(\'meow\')\n'
     files['foo.js'].move('barr.js')
-    createFile('cat.js', 'const cat = "waf"')
   }, 1000)
 
   setTimeout(() => {
     console.log('writting...')
     files['meow.js'].content = 'console.log(\'waf\')\n'
     files['barr.js'].move('foo.js')
-    files['cat.js'].remove()
   }, 2000)
+
+  setTimeout(() => {
+    console.log('create cat.js...')
+    createFile('cat.js', 'const cat = "waf"')
+  }, 3000)
+
+  setTimeout(() => {
+    console.log('remove cat.js...')
+    files['cat.js'].remove()
+  }, 4000)
 })()

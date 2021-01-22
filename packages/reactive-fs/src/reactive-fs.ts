@@ -7,6 +7,7 @@ import { ReactiveFileSystemOptions } from './options'
 import { createContext } from './context'
 import { createFileWatcher } from './watcher'
 import { createReactiveFile } from './file'
+import { areDifferent } from './util'
 
 export interface ListOptions {
   excludeSubDirectories?: boolean
@@ -25,22 +26,28 @@ export async function createReactiveFileSystem (options: ReactiveFileSystemOptio
     return e
   }
 
-  function watchFile (relativePath: string, handler: (content: string, oldContent: string) => unknown): () => void {
+  function removeEffect (e: ReactiveEffect<unknown>) {
+    const index = effects.indexOf(e)
+    if (index !== -1) {
+      stopEffect(e)
+      effects.splice(index, 1)
+    }
+  }
+
+  function watch<T = unknown> (source: () => T, handler: (value: T, oldValue: T) => unknown) {
     let oldValue
     const e = effect(() => {
-      const value = ctx.state.files[relativePath]?.content
-      if (value !== oldValue) {
+      const value = source()
+      if (areDifferent(value, oldValue)) {
         handler(value, oldValue)
         oldValue = value
       }
     })
-    return () => {
-      const index = effects.indexOf(e)
-      if (index !== -1) {
-        stopEffect(e)
-        effects.splice(index, 1)
-      }
-    }
+    return () => removeEffect(e)
+  }
+
+  function watchFile (relativePath: string, handler: (content: string, oldContent: string) => unknown): () => void {
+    return watch<string>(() => ctx.state.files[relativePath]?.content, handler)
   }
 
   function createFile (relativePath: string, content: string = null) {
@@ -60,21 +67,7 @@ export async function createReactiveFileSystem (options: ReactiveFileSystemOptio
   }
 
   function watchList (folderRelativePath = '', handler: (list: string[], oldList: string[]) => unknown, options: ListOptions = {}) {
-    let oldValue = []
-    const e = effect(() => {
-      const value = list(folderRelativePath, options)
-      if (value.length !== oldValue.length || value.some((v, index) => oldValue[index] !== v)) {
-        handler(value, oldValue)
-        oldValue = [...value]
-      }
-    })
-    return () => {
-      const index = effects.indexOf(e)
-      if (index !== -1) {
-        stopEffect(e)
-        effects.splice(index, 1)
-      }
-    }
+    return watch<string []>(() => list(folderRelativePath, options), handler)
   }
 
   async function destroy () {
@@ -93,6 +86,7 @@ export async function createReactiveFileSystem (options: ReactiveFileSystemOptio
     },
     createFile,
     effect,
+    watch,
     watchFile,
     list,
     watchList,
