@@ -1,9 +1,6 @@
 <script lang="ts" setup>
-import TestFileItem from './TestFileItem.vue'
-import BaseButton from './BaseButton.vue'
 import SuitesView from './SuitesView.vue'
-import StatusIcon from './StatusIcon.vue'
-import { ArrowLeftIcon, FileIcon } from '@zhuowenli/vue-feather-icons'
+import TestFileToolbar from './TestFileToolbar.vue'
 import { testItemFragment } from './TestItem.vue'
 import { useQuery, useResult } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
@@ -36,6 +33,9 @@ fragment runTestFileView on RunTestFile {
   id
   status
   duration
+  error {
+    message
+  }
   testFile {
     id
     relativePath
@@ -132,37 +132,34 @@ onResult(({ data }) => {
 </script>
 
 <template>
-  <SuitesView
-    v-if="runTestFile"
-    :suites="runTestFile.suites"
-    :run="run"
-  >
-    <template #toolbar>
-      <div class="flex-none flex items-center space-x-2 pl-1 pr-3 h-10">
-        <BaseButton
-          flat
-          color="gray"
-          class="flex-none p-2"
-          @click="$router.push({ name: 'run', params: { ...$route.params, slug: undefined } })"
-        >
-          <ArrowLeftIcon class="w-4 h-4" />
-        </BaseButton>
-
-        <StatusIcon
-          :status="runTestFile.status"
-          :icon="FileIcon"
-          class="w-5 h-5"
+  <template v-if="runTestFile">
+    <SuitesView
+      v-if="!runTestFile.error"
+      :suites="runTestFile.suites"
+      :run="run"
+    >
+      <template #toolbar>
+        <TestFileToolbar
+          :file="runTestFile"
         />
-        <span class="flex-1 truncate py-1">
-          {{ runTestFile.testFile.relativePath }}
-        </span>
-        <span
-          v-if="runTestFile.duration != null"
-          class="flex-none text-gray-300 dark:text-gray-700"
-        >
-          {{ runTestFile.duration }}ms
-        </span>
+      </template>
+    </SuitesView>
+
+    <div
+      v-else
+      class="flex flex-col divide-y divide-gray-100 dark:divide-gray-900"
+    >
+      <TestFileToolbar
+        :file="runTestFile"
+        class="flex-none"
+      />
+
+      <div class="flex-1 flex flex-col p-4 space-y-2">
+        <div class="text-xl text-red-500">
+          😿️ Running tests failed:
+        </div>
+        <pre class="bg-red-50 text-red-600 px-4 py-3 rounded text-sm">{{ runTestFile.error.message }}</pre>
       </div>
-    </template>
-  </SuitesView>
+    </div>
+  </template>
 </template>

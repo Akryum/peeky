@@ -1,4 +1,6 @@
 import consola from 'consola'
+import { basename } from 'path'
+import { RunTestFileData } from './schema'
 
 export function getSrcFile (path: string) {
   return path.replace('dist', 'src').replace('js', 'ts')
@@ -19,4 +21,10 @@ export function getErrorPosition (filePath: string, stack: string) {
       col: 1,
     }
   }
+}
+
+export function formatRunTestFileErrorMessage (e: Error, runTestFile: RunTestFileData) {
+  let { message } = e
+  message = message.replace(/__output.js/, basename(runTestFile.testFile.relativePath))
+  return message
 }

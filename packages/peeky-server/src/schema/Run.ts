@@ -10,7 +10,7 @@ import { updateTestFile, testFiles } from './TestFile'
 import { clearTestSuites, createTestSuite, updateTestSuite, testSuites } from './TestSuite'
 import { updateTest } from './Test'
 import { RunTestFileData, updateRunTestFile } from './RunTestFile'
-import { getErrorPosition, getSrcFile } from '../util'
+import { getErrorPosition, getSrcFile, formatRunTestFileErrorMessage } from '../util'
 
 export const Run = objectType({
   name: 'Run',
@@ -173,6 +173,7 @@ export async function createRun (ctx: Context, options: CreateRunOptions) {
     status: 'idle',
     duration: null,
     buildDuration: null,
+    error: null,
   }))
 
   const run: RunData = {
@@ -282,32 +283,52 @@ export async function startRun (ctx: Context, id: string) {
     }
   })
 
-  let completed = 0
+  try {
+    let completed = 0
 
-  const results = await Promise.all(run.runTestFiles.map(async f => {
-    const result = await runner.runTestFile(f.testFile.relativePath)
-    const stats = getStats([result])
-    const status: StatusEnum = !stats.testCount ? 'skipped' : stats.errorTestCount > 0 ? 'error' : 'success'
-    await updateTestFile(ctx, f.testFile.id, {
-      status,
-      duration: result.duration,
+    const results = await Promise.all(run.runTestFiles.map(async f => {
+      try {
+        const result = await runner.runTestFile(f.testFile.relativePath)
+        const stats = getStats([result])
+        const status: StatusEnum = !stats.testCount ? 'skipped' : stats.errorTestCount > 0 ? 'error' : 'success'
+        await updateTestFile(ctx, f.testFile.id, {
+          status,
+          duration: result.duration,
+        })
+        await updateRunTestFile(ctx, run.id, f.id, {
+          status,
+          duration: result.duration,
+        })
+        completed++
+        await updateRun(ctx, run.id, {
+          progress: completed / run.runTestFiles.length,
+        })
+        return result
+      } catch (e) {
+        e.message = formatRunTestFileErrorMessage(e, f)
+        await updateTestFile(ctx, f.testFile.id, {
+          status: 'error',
+        })
+        await updateRunTestFile(ctx, run.id, f.id, {
+          status: 'error',
+          error: {
+            message: e.message,
+          },
+        })
+        throw e
+      }
+    }))
+
+    const stats = getStats(results)
+    await updateRun(ctx, id, {
+      status: stats.errorTestCount > 0 ? 'error' : 'success',
+      duration: Date.now() - time,
     })
-    await updateRunTestFile(ctx, run.id, f.id, {
-      status,
-      duration: result.duration,
-    })
-    completed++
+  } catch (e) {
     await updateRun(ctx, run.id, {
-      progress: completed / run.runTestFiles.length,
+      status: 'error',
     })
-    return result
-  }))
-
-  const stats = getStats(results)
-  await updateRun(ctx, id, {
-    status: stats.errorTestCount > 0 ? 'error' : 'success',
-    duration: Date.now() - time,
-  })
+  }
 
   return run
 }

@@ -36,11 +36,16 @@ type Run {
 type RunTestFile {
   buildDuration: Int
   duration: Int
+  error: RunTestFileError
   id: ID!
   slug: String!
   status: Status!
   suites: [TestSuite!]!
   testFile: TestFile!
+}
+
+type RunTestFileError {
+  message: String!
 }
 
 input StartRunInput {

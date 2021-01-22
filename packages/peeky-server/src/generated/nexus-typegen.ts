@@ -42,6 +42,9 @@ export interface NexusGenObjects {
   Query: {};
   Run: RunData;
   RunTestFile: RunTestFileData;
+  RunTestFileError: { // root type
+    message: string; // String!
+  }
   Subscription: {};
   Test: { // root type
     duration?: number | null; // Int
@@ -105,11 +108,15 @@ export interface NexusGenFieldTypes {
   RunTestFile: { // field return type
     buildDuration: number | null; // Int
     duration: number | null; // Int
+    error: NexusGenRootTypes['RunTestFileError'] | null; // RunTestFileError
     id: string; // ID!
     slug: string; // String!
     status: NexusGenEnums['Status']; // Status!
     suites: NexusGenRootTypes['TestSuite'][]; // [TestSuite!]!
     testFile: NexusGenRootTypes['TestFile']; // TestFile!
+  }
+  RunTestFileError: { // field return type
+    message: string; // String!
   }
   Subscription: { // field return type
     runAdded: NexusGenRootTypes['Run']; // Run!
@@ -183,11 +190,15 @@ export interface NexusGenFieldTypeNames {
   RunTestFile: { // field return type name
     buildDuration: 'Int'
     duration: 'Int'
+    error: 'RunTestFileError'
     id: 'ID'
     slug: 'String'
     status: 'Status'
     suites: 'TestSuite'
     testFile: 'TestFile'
+  }
+  RunTestFileError: { // field return type name
+    message: 'String'
   }
   Subscription: { // field return type name
     runAdded: 'Run'

@@ -27,6 +27,16 @@ export const RunTestFile = objectType({
       type: nonNull(TestSuite),
       resolve: (parent) => testSuites.filter(s => s.runTestFile === parent),
     })
+    t.field('error', {
+      type: RunTestFileError,
+    })
+  },
+})
+
+export const RunTestFileError = objectType({
+  name: 'RunTestFileError',
+  definition (t) {
+    t.nonNull.string('message')
   },
 })
 
@@ -73,6 +83,11 @@ export interface RunTestFileData {
   status: StatusEnum
   duration: number
   buildDuration: number
+  error: RunTestFileErrorData
+}
+
+export interface RunTestFileErrorData {
+  message: string
 }
 
 export async function updateRunTestFile (ctx: Context, runId: string, id: string, data: Partial<Omit<RunTestFileData, 'id' | 'testFile'>>) {
