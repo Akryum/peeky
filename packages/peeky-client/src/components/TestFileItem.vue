@@ -23,7 +23,12 @@ const props = defineProps({
       :icon="FileIcon"
       class="w-5 h-5"
     />
-    <span class="flex-1 truncate py-1">
+    <span
+      class="flex-1 truncate py-1"
+      :class="{
+        'path opacity-60': file.status === 'skipped',
+      }"
+    >
       {{ file.testFile.relativePath }}
     </span>
     <span
@@ -38,5 +43,9 @@ const props = defineProps({
 <style scoped>
 .router-link-active {
   @apply bg-purple-50 text-purple-800 dark:bg-purple-900 dark:text-purple-200;
+
+  .path {
+    @apply opacity-100;
+  }
 }
 </style>

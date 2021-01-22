@@ -6,6 +6,7 @@ import {
   XCircleIcon,
   CheckIcon,
   XIcon,
+  ChevronsRightIcon,
 } from '@zhuowenli/vue-feather-icons'
 import { defineProps } from 'vue'
 
@@ -15,6 +16,7 @@ const icons = {
   in_progress: ClockIcon,
   success: CheckCircleIcon,
   error: XCircleIcon,
+  skipped: ChevronsRightIcon,
 }
 
 const classes = {
@@ -23,6 +25,7 @@ const classes = {
   in_progress: 'text-purple-500',
   success: 'text-green-500',
   error: 'text-red-500',
+  skipped: 'text-gray-300 dark:text-gray-700',
 }
 
 const smallIcons = {
@@ -30,6 +33,7 @@ const smallIcons = {
   in_progress: ClockIcon,
   success: CheckIcon,
   error: XIcon,
+  skipped: ChevronsRightIcon,
 }
 
 const smallClasses = {
@@ -37,6 +41,7 @@ const smallClasses = {
   in_progress: 'bg-purple-500 text-white',
   success: 'bg-green-500 text-white',
   error: 'bg-red-500 text-white',
+  skipped: 'bg-gray-300 dark:bg-gray-700 text-white',
 }
 
 const props = defineProps({

@@ -26,7 +26,7 @@ export interface NexusGenInputs {
 }
 
 export interface NexusGenEnums {
-  Status: "error" | "idle" | "in_progress" | "success"
+  Status: "error" | "idle" | "in_progress" | "skipped" | "success"
 }
 
 export interface NexusGenScalars {

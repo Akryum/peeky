@@ -35,7 +35,12 @@ const filteredTests = computed(() => {
         :status="suite.status"
         class="w-4 h-4 flex-none"
       />
-      <span class="flex-1 truncate py-1">
+      <span
+        class="flex-1 truncate py-1"
+        :class="{
+          'opacity-60': suite.status === 'skipped',
+        }"
+      >
         {{ suite.title }}
       </span>
       <span
@@ -44,6 +49,17 @@ const filteredTests = computed(() => {
       >
         {{ suite.duration }}ms
       </span>
+    </div>
+
+    <div
+      v-if="!suite.tests.length"
+      class="bg-gray-50 text-gray-600 m-1 rounded relative text-sm"
+    >
+      <div class="absolute left-10 -top-1 w-3 h-3 transform rotate-45 bg-gray-100" />
+
+      <div class="relative px-2 py-1">
+        😿️ No tests found in this suite
+      </div>
     </div>
 
     <div class="pl-4">
