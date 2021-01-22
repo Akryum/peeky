@@ -32,10 +32,15 @@ export async function setupConfigContentLoader (baseDir: string = process.cwd(),
     })
   }
 
+  function destroy () {
+    return fs.destroy()
+  }
+
   return {
     getConfigPath,
     loadConfigFileContent,
     readConfigFileContent,
     watchConfigFileContent,
+    destroy,
   }
 }

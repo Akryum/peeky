@@ -24,6 +24,7 @@
     "watch": "tsc -d -w --sourceMap"
   },
   "dependencies": {
+    "@peeky/config": "^0.0.1",
     "@peeky/runner": "^0.0.1",
     "@peeky/server": "^0.0.1",
     "commander": "^7.0.0",

@@ -40,7 +40,12 @@ export async function setupConfigLoader (options: PeekyConfigLoaderOptions = {})
     }
   }
 
+  function destroy () {
+    return contentLoader.destroy()
+  }
+
   return {
     loadConfig,
+    destroy,
   }
 }

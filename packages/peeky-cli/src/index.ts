@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { Command } from 'commander'
+import { setupConfigLoader, mergeConfig, PeekyConfig } from '@peeky/config'
 import { runAllTests } from '@peeky/runner'
 import { pick } from 'lodash'
 import consola from 'consola'
@@ -13,13 +14,16 @@ program.command('run')
   .option('-i, --ignore <globs...>', 'Globs ignore when looking for test files. Example: `peeky run -i "node_modules" "dist/**/*.ts"`')
   .action(async (options) => {
     try {
-      const { stats: { errorTestCount } } = await runAllTests({
-        targetDirectory: process.cwd(),
-        ...pick(options, [
-          'match',
-          'ignore',
-        ]),
-      })
+      const configLoader = await setupConfigLoader()
+      const config = await configLoader.loadConfig()
+      await configLoader.destroy()
+      const finalConfig = mergeConfig(config, (pick<any>(options, [
+        'match',
+        'ignore',
+      ]) as PeekyConfig))
+
+      const { stats: { errorTestCount } } = await runAllTests(finalConfig)
+
       if (errorTestCount) {
         const e = new Error('Some tests failed')
         e.stack = e.message

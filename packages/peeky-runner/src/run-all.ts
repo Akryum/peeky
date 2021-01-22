@@ -1,33 +1,21 @@
-import { createReactiveFileSystem } from '@peeky/reactive-fs'
 import consola from 'consola'
 import chalk from 'chalk'
+import { createReactiveFileSystem } from '@peeky/reactive-fs'
+import { PeekyConfig } from '@peeky/config'
 import { setupRunner } from './runner'
 import { getStats } from './stats'
 
-export interface RunAllTestsOptions {
-  targetDirectory: string
-  match?: string | string[]
-  ignored?: string | string[]
-}
-
-export const defaultRunTestsOptions: Partial<RunAllTestsOptions> = {
-  match: '**/*.(spec|test).(ts|js)',
-  ignored: ['node_modules'],
-}
-
-export async function runAllTests (options: RunAllTestsOptions) {
-  options = Object.assign({}, defaultRunTestsOptions, options)
-
+export async function runAllTests (config: PeekyConfig) {
   const fsTime = Date.now()
   const testFiles = await createReactiveFileSystem({
-    baseDir: options.targetDirectory,
-    glob: options.match,
-    ignored: options.ignored,
+    baseDir: config.targetDirectory,
+    glob: config.match,
+    ignored: config.ignored,
   })
   consola.info(`FS initialized in ${Date.now() - fsTime}ms`)
 
   const runner = await setupRunner({
-    targetDirectory: options.targetDirectory,
+    targetDirectory: config.targetDirectory,
     testFiles,
   })
 
