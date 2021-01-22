@@ -8,6 +8,7 @@ import * as types from './schema'
 import { loadTestFiles } from './schema'
 import HTTP from 'http'
 import consola from 'consola'
+import { setupConfigLoader } from '@peeky/config'
 
 export async function createServer () {
   const schema = makeSchema({
@@ -22,15 +23,19 @@ export async function createServer () {
     },
   })
 
+  const configLoader = await setupConfigLoader()
+  const config = await configLoader.loadConfig()
+
   const reactiveFs = await createReactiveFileSystem({
-    baseDir: process.cwd(),
-    glob: '**/*.(spec|test).(ts|js)',
-    ignored: ['node_modules'],
+    baseDir: config.targetDirectory,
+    glob: config.match,
+    ignored: config.ignored,
   })
   const pubsub = new PubSub()
 
   function createContext (): Context {
     return {
+      config,
       reactiveFs,
       pubsub,
     }

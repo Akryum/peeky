@@ -107,7 +107,7 @@ export interface TestFileData {
 export let testFiles: TestFileData[] = []
 
 export async function loadTestFiles (ctx: Context) {
-  testFiles = ctx.reactiveFs.list().map(path => createTestFile(path))
+  testFiles = ctx.reactiveFs.list().map(path => createTestFile(ctx, path))
 
   ctx.reactiveFs.onFileAdd(async (relativePath) => {
     let testFile: TestFileData = testFiles.find(f => f.relativePath === relativePath)
@@ -116,7 +116,7 @@ export async function loadTestFiles (ctx: Context) {
         deleted: false,
       })
     } else {
-      testFile = createTestFile(relativePath)
+      testFile = createTestFile(ctx, relativePath)
       testFiles.push(testFile)
     }
     ctx.pubsub.publish(TestFileAdded, {
@@ -144,11 +144,11 @@ export async function updateTestFile (ctx: Context, id: string, data: Partial<Om
   return testFile
 }
 
-function createTestFile (relativePath: string): TestFileData {
+function createTestFile (ctx: Context, relativePath: string): TestFileData {
   return {
     id: relativePath,
     relativePath,
-    absolutePath: join(process.cwd(), relativePath),
+    absolutePath: join(ctx.config.targetDirectory, relativePath),
     status: 'idle',
     deleted: false,
     duration: null,

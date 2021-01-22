@@ -1,10 +1,7 @@
 import { isObject } from '@peeky/utils'
 
-export function mergeConfig (
-  a: Record<string, any>,
-  b: Record<string, any>,
-): Record<string, any> {
-  const merged: Record<string, any> = { ...a }
+export function mergeConfig<T extends (Record<string, any>) = Record<string, any>> (a: T, b: T): T {
+  const merged: T = { ...a }
   for (const key in b) {
     const value = b[key]
     if (value == null) {
@@ -13,6 +10,7 @@ export function mergeConfig (
 
     const existing = merged[key]
     if (Array.isArray(existing) && Array.isArray(value)) {
+      // @ts-ignore
       merged[key] = [...existing, ...value]
       continue
     }

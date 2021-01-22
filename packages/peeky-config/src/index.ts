@@ -2,6 +2,7 @@ import { PeekyConfig } from './types'
 
 export * from './types'
 export * from './defaults'
+export * from './loader'
 
 /**
  * Type helper to make peeky.config.ts usage easier.

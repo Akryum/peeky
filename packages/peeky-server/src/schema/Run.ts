@@ -225,20 +225,20 @@ export async function startRun (ctx: Context, id: string) {
 
   const time = Date.now()
   const runner = await setupRunner({
-    targetDirectory: process.cwd(),
+    targetDirectory: ctx.config.targetDirectory,
     testFiles: ctx.reactiveFs,
   })
   runner.onEvent(async (eventType, payload) => {
     if (eventType === EventType.BUILD_COMPLETED) {
       const { testFilePath, duration } = payload
-      const testFileId = relative(process.cwd(), testFilePath)
+      const testFileId = relative(ctx.config.targetDirectory, testFilePath)
       const runTestFileId = run.runTestFiles.find(rf => rf.testFile.id === testFileId)?.id
       updateRunTestFile(ctx, run.id, runTestFileId, {
         buildDuration: duration,
       })
     } else if (eventType === EventType.SUITE_START) {
       const { suite } = payload
-      const testFileId = relative(process.cwd(), suite.filePath)
+      const testFileId = relative(ctx.config.targetDirectory, suite.filePath)
       createTestSuite(ctx, {
         id: suite.id,
         runId: run.id,

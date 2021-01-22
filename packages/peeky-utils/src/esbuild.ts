@@ -22,14 +22,14 @@ export interface ESBuildOptions extends TransformOptions {
   jsxInject?: string
 }
 
-export async function ensureService () {
+export async function ensureESBuildService () {
   if (!_servicePromise) {
     _servicePromise = require('esbuild').startService()
   }
   return _servicePromise!
 }
 
-export async function stopService () {
+export async function stopESBuildService () {
   if (_servicePromise) {
     const service = await _servicePromise
     service.stop()
@@ -47,7 +47,7 @@ export async function transformWithEsbuild (
   options?: TransformOptions,
   inMap?: object,
 ): Promise<EsbuildTransformResult> {
-  const service = await ensureService()
+  const service = await ensureESBuildService()
   // if the id ends with a valid ext, use it (e.g. vue blocks)
   // otherwise, cleanup the query before checking the ext
   const ext = path.extname(

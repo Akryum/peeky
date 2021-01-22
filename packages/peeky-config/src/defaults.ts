@@ -1,6 +1,6 @@
 import { PeekyConfig } from './types'
 
-export const peekyConfigFileMatch = ['peeky.config.(js|ts)']
+export const peekyConfigFileMatch = ['**/peeky.config.(js|ts)']
 
 export const defaultPeekyConfig: () => PeekyConfig = () => ({
   targetDirectory: process.cwd(),
