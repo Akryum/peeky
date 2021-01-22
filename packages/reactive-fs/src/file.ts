@@ -7,7 +7,8 @@ export interface ReactiveFile {
   relativePath: string
   absolutePath: string
   time: number
-  content: string | Promise<string>
+  content: string
+  waitForContent: Promise<string>
   refresh: () => void
   remove: () => void
   move: (newRelativePath: string) => void
@@ -27,13 +28,22 @@ export function createReactiveFile (ctx: Context, relativePath: string) {
     time: Date.now(),
     get content () {
       if (!file._internal.active) {
-        return activate()
+        activate()
       }
       return file._internal.content.value
     },
     set content (value) {
       setContent(value)
       queueFsOp(ctx, writeFile(file.absolutePath, value, 'utf8'))
+    },
+    get waitForContent () {
+      if (!file._internal.active) {
+        return activate()
+      } else if (readPromise) {
+        return readPromise
+      } else {
+        return Promise.resolve(file._internal.content.value)
+      }
     },
     refresh () {
       read()
@@ -78,6 +88,7 @@ export function createReactiveFile (ctx: Context, relativePath: string) {
             const result = await readFile(file.absolutePath, 'utf8')
             setContent(result)
             resolve(result)
+            readPromise = null
           }
         })())
       })

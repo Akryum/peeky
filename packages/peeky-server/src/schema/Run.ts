@@ -267,7 +267,7 @@ export async function startRun (ctx: Context, id: string) {
       const { suite, test, duration, error, stack } = payload
       const testFile = testSuites.find(s => s.id === suite.id).runTestFile.testFile
       const { line, col } = getErrorPosition(testFile.relativePath, stack)
-      const lineSource = (await ctx.reactiveFs.files[testFile.relativePath].content).split('\n')[line - 1]
+      const lineSource = (await ctx.reactiveFs.files[testFile.relativePath].waitForContent).split('\n')[line - 1]
       updateTest(ctx, suite.id, test.id, {
         status: 'error',
         duration,
