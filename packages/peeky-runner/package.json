@@ -24,6 +24,7 @@
     "@akryum/workerpool": "^6.0.5-alpha.2",
     "@babel/core": "^7.12.10",
     "@peeky/reactive-fs": "^0.0.1",
+    "@peeky/utils": "^0.0.1",
     "@types/sinon": "^9.0.10",
     "chalk": "^4.1.0",
     "consola": "^2.15.0",
