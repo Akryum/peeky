@@ -1,0 +1,31 @@
+{
+  "name": "@peeky/config",
+  "version": "0.0.1",
+  "description": "Configuration utils for Peeky, the testing framework for curious minds",
+  "license": "MIT",
+  "author": {
+    "name": "Guillaume Chau"
+  },
+  "repository": {
+    "url": "https://github.com/Akryum/peeky.git",
+    "type": "git",
+    "directory": "packages/peeky-config"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "rimraf dist && tsc -d",
+    "watch": "tsc -d -w --sourceMap"
+  },
+  "dependencies": {
+    "@peeky/reactive-fs": "^0.0.1",
+    "@peeky/utils": "^0.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.21",
+    "typescript": "^4.1.3"
+  }
+}
