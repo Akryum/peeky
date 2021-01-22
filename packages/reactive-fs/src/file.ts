@@ -7,7 +7,7 @@ export interface ReactiveFile {
   relativePath: string
   absolutePath: string
   time: number
-  content: string
+  content: string | Promise<string>
   refresh: () => void
   remove: () => void
   move: (newRelativePath: string) => void
@@ -27,7 +27,7 @@ export function createReactiveFile (ctx: Context, relativePath: string) {
     time: Date.now(),
     get content () {
       if (!file._internal.active) {
-        activate()
+        return activate()
       }
       return file._internal.content.value
     },
@@ -62,21 +62,28 @@ export function createReactiveFile (ctx: Context, relativePath: string) {
     },
   })
 
-  function activate () {
-    if (file._internal.active) return
+  function activate (): Promise<string> {
+    if (file._internal.active) return readPromise || Promise.resolve(null)
     file._internal.active = true
-    read()
+    return read()
   }
 
-  function read () {
+  let readPromise: Promise<string>
+
+  function read (): Promise<string> {
     if (file._internal.active) {
-      queueFsOp(ctx, (async () => {
-        if (existsSync(file.absolutePath)) {
-          const result = await readFile(file.absolutePath, 'utf8')
-          setContent(result)
-        }
-      })())
+      readPromise = new Promise(resolve => {
+        queueFsOp(ctx, (async () => {
+          if (existsSync(file.absolutePath)) {
+            const result = await readFile(file.absolutePath, 'utf8')
+            setContent(result)
+            resolve(result)
+          }
+        })())
+      })
+      return readPromise
     }
+    return Promise.resolve(null)
   }
 
   function setContent (value) {

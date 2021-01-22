@@ -24,6 +24,7 @@ export const TestError = objectType({
   definition (t) {
     t.nonNull.string('message')
     t.string('stack')
+    t.string('snippet')
     t.int('line')
     t.int('col')
   },
@@ -96,6 +97,7 @@ export interface TestData {
 export interface TestErrorData {
   message: string
   stack: string
+  snippet: string
   line: number
   col: number
 }

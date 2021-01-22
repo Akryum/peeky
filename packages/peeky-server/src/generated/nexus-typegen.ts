@@ -54,6 +54,7 @@ export interface NexusGenObjects {
     col?: number | null; // Int
     line?: number | null; // Int
     message: string; // String!
+    snippet?: string | null; // String
     stack?: string | null; // String
   }
   TestFile: { // root type
@@ -134,6 +135,7 @@ export interface NexusGenFieldTypes {
     col: number | null; // Int
     line: number | null; // Int
     message: string; // String!
+    snippet: string | null; // String
     stack: string | null; // String
   }
   TestFile: { // field return type
@@ -211,6 +213,7 @@ export interface NexusGenFieldTypeNames {
     col: 'Int'
     line: 'Int'
     message: 'String'
+    snippet: 'String'
     stack: 'String'
   }
   TestFile: { // field return type name

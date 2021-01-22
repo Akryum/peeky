@@ -227,7 +227,7 @@ export async function startRun (ctx: Context, id: string) {
     targetDirectory: process.cwd(),
     testFiles: ctx.reactiveFs,
   })
-  runner.onEvent((eventType, payload) => {
+  runner.onEvent(async (eventType, payload) => {
     if (eventType === EventType.BUILD_COMPLETED) {
       const { testFilePath, duration } = payload
       const testFileId = relative(process.cwd(), testFilePath)
@@ -264,13 +264,18 @@ export async function startRun (ctx: Context, id: string) {
       })
     } else if (eventType === EventType.TEST_ERROR) {
       const { suite, test, duration, error, stack } = payload
+      const testFile = testSuites.find(s => s.id === suite.id).runTestFile.testFile
+      const { line, col } = getErrorPosition(testFile.relativePath, stack)
+      const lineSource = (await ctx.reactiveFs.files[testFile.relativePath].content).split('\n')[line - 1]
       updateTest(ctx, suite.id, test.id, {
         status: 'error',
         duration,
         error: {
           message: error.message,
           stack: stack,
-          ...getErrorPosition(testSuites.find(s => s.id === suite.id).runTestFile.testFile.relativePath, stack),
+          snippet: lineSource.trim(),
+          line,
+          col,
         },
       })
     }

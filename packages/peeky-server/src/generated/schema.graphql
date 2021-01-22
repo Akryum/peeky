@@ -80,6 +80,7 @@ type TestError {
   col: Int
   line: Int
   message: String!
+  snippet: String
   stack: String
 }
 

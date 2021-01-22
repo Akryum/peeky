@@ -4,6 +4,7 @@ import BaseButton from './BaseButton.vue'
 import SuitesView from './SuitesView.vue'
 import StatusIcon from './StatusIcon.vue'
 import { ArrowLeftIcon, FileIcon } from '@zhuowenli/vue-feather-icons'
+import { testItemFragment } from './TestItem.vue'
 import { useQuery, useResult } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 import { useRoute } from 'vue-router'
@@ -24,18 +25,10 @@ fragment runTestFileViewSuite on TestSuite {
     }
   }
   tests {
-    id
-    title
-    status
-    duration
-    error {
-      message
-      stack
-      line
-      col
-    }
+    ...testItem
   }
 }
+${testItemFragment}
 `
 
 const runTestFileViewFragment = gql`
@@ -124,17 +117,10 @@ onResult(({ data }) => {
       document: gql`
       subscription testUpdatedToRunTestFileView ($runId: ID!, $fileId: ID!) {
         testUpdated(runId: $runId, runTestFileId: $fileId) {
-          id
-          status
-          duration
-          error {
-            message
-            stack
-            line
-            col
-          }
+          ...testItem
         }
       }
+      ${testItemFragment}
       `,
       variables: {
         runId: run.value?.id,

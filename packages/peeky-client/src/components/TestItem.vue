@@ -1,8 +1,27 @@
+<script lang="ts">
+import gql from 'graphql-tag'
+
+export const testItemFragment = gql`
+fragment testItem on Test {
+  id
+  title
+  status
+  duration
+  error {
+    message
+    stack
+    snippet
+    line
+    col
+  }
+}
+`
+</script>
+
 <script lang="ts" setup>
 import StatusIcon from './StatusIcon.vue'
 import { defineProps } from 'vue'
 import { useMutation } from '@vue/apollo-composable'
-import gql from 'graphql-tag'
 
 const props = defineProps({
   test: {
@@ -10,7 +29,7 @@ const props = defineProps({
     required: true,
   },
 
-  run: {
+  suite: {
     type: Object,
     required: true,
   },
@@ -29,7 +48,7 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
       :status="test.status"
       class="w-4 h-4 flex-none"
     />
-    <span class="flex-1 truncate h-full flex items-center">
+    <span class="flex-1 truncate py-1">
       {{ test.title }}
     </span>
     <span
@@ -42,24 +61,30 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
 
   <div
     v-if="test.status === 'error'"
-    class="bg-red-50 text-red-600 px-2 py-1 m-1 rounded relative text-sm"
+    class="bg-red-50 text-red-600 m-1 rounded relative text-sm"
   >
-    <div class="flex items-center space-x-1">
-      <span class="flex-1 truncate py-1">
-        {{ test.error.message }}
-      </span>
-      <span
-        class="text-red-300 hover:text-red-400 cursor-pointer"
-        @click="openInEditor({
-          id: run.runTestFile.testFile.id,
-          line: test.error.line,
-          col: test.error.col,
-        })"
-      >
-        {{ run.runTestFile.testFile.relativePath }}:{{ test.error.line }}:{{ test.error.col }}
-      </span>
-    </div>
+    <div class="absolute left-10 -top-1 w-3 h-3 transform rotate-45 bg-red-100" />
 
-    <div class="absolute left-10 -top-1 w-3 h-3 transform rotate-45 bg-red-50" />
+    <div class="relative">
+      <div class="font-mono text-sm truncate px-2 pt-2 pb-1 bg-red-100 rounded-t">
+        {{ test.error.snippet }}
+      </div>
+
+      <div class="flex items-center space-x-1 px-2">
+        <span class="flex-1 truncate py-1 font-semibold">
+          {{ test.error.message }}
+        </span>
+        <span
+          class="text-red-300 hover:text-red-400 cursor-pointer"
+          @click="openInEditor({
+            id: suite.runTestFile.testFile.id,
+            line: test.error.line,
+            col: test.error.col,
+          })"
+        >
+          {{ suite.runTestFile.testFile.relativePath }}:{{ test.error.line }}:{{ test.error.col }}
+        </span>
+      </div>
+    </div>
   </div>
 </template>
