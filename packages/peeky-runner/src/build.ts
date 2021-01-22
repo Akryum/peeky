@@ -23,8 +23,16 @@ export function mockFileSystem () {
     mkdir: memfs.mkdir,
     mkdirSync: memfs.mkdirSync,
     write: memfs.write,
-    writeFile: memfs.writeFile,
-    writeFileSync: memfs.writeFileSync,
+    writeFile: (path, ...args) => {
+      memfs.mkdirpSync(dirname(path))
+      // @ts-ignore
+      return memfs.writeFile(path, ...args)
+    },
+    writeFileSync: (path, ...args) => {
+      memfs.mkdirpSync(dirname(path))
+      // @ts-ignore
+      return memfs.writeFileSync(path, ...args)
+    },
   })
   patchFs(ufs)
   patchRequire(ufs)
@@ -65,8 +73,8 @@ export async function buildTestFile (ctx: Context) {
     saveBuildCache(ctx, cachePath, bundle.cache)
 
     await bundle.write({
-      dir: join(targetDir, '/__output'),
-      entryFileNames: 'target.js',
+      dir: targetDir,
+      entryFileNames: '__output.js',
       format: 'cjs',
       sourcemap: true,
     })

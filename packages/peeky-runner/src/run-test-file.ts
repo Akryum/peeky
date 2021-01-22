@@ -17,7 +17,7 @@ export async function runTestFile (options: RunTestFileOptions) {
     await buildTestFile(ctx)
     registerGlobals(ctx, global)
     installSourceMap()
-    require(join(dirname(ctx.options.entry), '/__output/target.js'))
+    require(join(dirname(ctx.options.entry), '/__output.js'))
     await runTests(ctx)
     const duration = Date.now() - time
     workerEmit(EventType.TEST_FILE_COMPLETED, {
