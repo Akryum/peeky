@@ -49,6 +49,7 @@ export async function runTests (ctx: Context) {
         })
       } catch (e) {
         test.error = e
+        const stackIndex = e.stack.search(/\s*at.*?(@peeky\/runner|peeky-runner)/)
         workerEmit(EventType.TEST_ERROR, {
           suite: {
             id: suite.id,
@@ -58,7 +59,7 @@ export async function runTests (ctx: Context) {
           },
           duration: Date.now() - time,
           error: e,
-          stack: e.stack.substr(0, e.stack.search(/\s*at.*?runTests/)),
+          stack: stackIndex !== -1 ? e.stack.substr(0, stackIndex) : e.stack,
         })
         suite.errors++
       }
