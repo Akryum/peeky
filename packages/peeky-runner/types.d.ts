@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 
 import must from 'must'
+import { PeekyGlobal } from '.'
 
 declare global {
   const describe: (title: string, handler: () => unknown) => void
@@ -12,6 +13,7 @@ declare global {
   const afterEach: (handler: () => unknown) => void
   const expect: typeof must
   const sinon: typeof sinon
+  const peeky: PeekyGlobal
 }
 
 export { default as sinon } from 'sinon'
