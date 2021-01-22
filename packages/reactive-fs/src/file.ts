@@ -37,13 +37,10 @@ export function createReactiveFile (ctx: Context, relativePath: string) {
       queueFsOp(ctx, writeFile(file.absolutePath, value, 'utf8'))
     },
     get waitForContent () {
-      if (!file._internal.active) {
-        return activate()
-      } else if (readPromise) {
-        return readPromise
-      } else {
-        return Promise.resolve(file._internal.content.value)
-      }
+      // Track content for reactivity
+      // eslint-disable-next-line no-unused-expressions
+      file._internal.content.value
+      return activate()
     },
     refresh () {
       read()
@@ -88,7 +85,6 @@ export function createReactiveFile (ctx: Context, relativePath: string) {
             const result = await readFile(file.absolutePath, 'utf8')
             setContent(result)
             resolve(result)
-            readPromise = null
           }
         })())
       })
