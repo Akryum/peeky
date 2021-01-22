@@ -3,10 +3,15 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "dev-server": "nodemon ../peeky-server/dist/standalone.js --watch .. --delay 200ms -e js --ignore tests/ --ignore demo/",
     "test": "peeky run"
   },
   "devDependencies": {
     "@peeky/cli": "^0.0.1",
-    "@peeky/runner": "^0.0.1"
+    "@peeky/config": "^0.0.1",
+    "@peeky/reactive-fs": "^0.0.1",
+    "@peeky/runner": "^0.0.1",
+    "@peeky/server": "^0.0.1",
+    "@peeky/utils": "^0.0.1"
   }
 }
