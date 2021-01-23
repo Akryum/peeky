@@ -11,4 +11,4 @@ jobs:
       - uses: bahmutov/npm-install@v1
       - run: yarn build
       - run: yarn --force
-      - run: cd packages/tests && yarn run test
+      - run: yarn run test

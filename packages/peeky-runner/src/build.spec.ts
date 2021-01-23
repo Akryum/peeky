@@ -1,4 +1,6 @@
-import { getCachePath } from '../../../peeky-runner/src/build'
+/// <reference types="@peeky/runner"/>
+
+import { getCachePath } from './build'
 
 describe('build cache', () => {
   it('generates a cache path', () => {

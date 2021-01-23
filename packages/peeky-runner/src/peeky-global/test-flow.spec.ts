@@ -1,4 +1,6 @@
-import { retry } from '../../../../peeky-runner/src/peeky-global/test-flow'
+/// <reference types="@peeky/runner"/>
+
+import { retry } from './test-flow'
 
 describe('peeky.retry()', () => {
   test('must not retry when no error', async () => {

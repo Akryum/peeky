@@ -1,4 +1,6 @@
-import { getStats } from '../../../peeky-runner/src/stats'
+/// <reference types="@peeky/runner"/>
+
+import { getStats } from './stats'
 
 describe('getStats()', () => {
   test('no errors', () => {

@@ -18,7 +18,8 @@
   "types": "./types.d.ts",
   "scripts": {
     "build": "rimraf dist && tsc -d",
-    "watch": "tsc -d -w --sourceMap"
+    "watch": "tsc -d -w --sourceMap",
+    "test": "peeky run"
   },
   "dependencies": {
     "@akryum/workerpool": "^6.0.5-alpha.2",
