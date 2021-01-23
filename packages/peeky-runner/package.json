@@ -23,7 +23,6 @@
   },
   "dependencies": {
     "@akryum/workerpool": "^6.0.5-alpha.2",
-    "@babel/core": "^7.12.10",
     "@peeky/config": "^0.0.1",
     "@peeky/reactive-fs": "^0.0.1",
     "@peeky/utils": "^0.0.1",
