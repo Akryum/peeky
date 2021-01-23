@@ -6,6 +6,7 @@ describe('getStats()', () => {
       {
         duration: 0,
         filePath: '',
+        modules: [],
         suites: [
           {
             id: '',
@@ -43,6 +44,7 @@ describe('getStats()', () => {
       {
         duration: 0,
         filePath: '',
+        modules: [],
         suites: [
           {
             id: '',
@@ -89,6 +91,7 @@ describe('getStats()', () => {
       {
         duration: 0,
         filePath: '',
+        modules: [],
         suites: [
           {
             id: '',
