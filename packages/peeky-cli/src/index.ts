@@ -2,8 +2,10 @@
 import { Command } from 'commander'
 import { setupConfigLoader, mergeConfig, PeekyConfig } from '@peeky/config'
 import { runAllTests } from '@peeky/runner'
+import { createServer } from '@peeky/server'
 import { pick } from 'lodash'
 import consola from 'consola'
+import open from 'open'
 
 const program = new Command()
 program.version(require('../package.json').version)
@@ -29,6 +31,25 @@ program.command('run')
         e.stack = e.message
         throw e
       }
+    } catch (e) {
+      consola.error(e)
+      process.exit(1)
+    }
+  })
+
+program.command('open')
+  .description('open a web interface to run and monitor tests')
+  .action(async () => {
+    try {
+      const {
+        http,
+      } = await createServer()
+      const port = process.env.PORT || 4000
+      http.listen(port, () => {
+        const url = `http://localhost:${port}`
+        consola.success(`🚀 Server ready at ${url}`)
+        open(url)
+      })
     } catch (e) {
       consola.error(e)
       process.exit(1)

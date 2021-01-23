@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev-server": "nodemon ../peeky-server/dist/standalone.js --watch .. --delay 200ms -e js --ignore tests/ --ignore demo/",
+    "dev-open": "peeky open",
     "dev-run": "peeky run"
   },
   "devDependencies": {
