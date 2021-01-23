@@ -20,7 +20,7 @@
     "peeky": "./dist/index.js"
   },
   "scripts": {
-    "build": "rimraf dist && tsc -d",
+    "build": "rimraf dist && tsc -d && chmod +x ./dist/index.js",
     "watch": "tsc -d -w --sourceMap"
   },
   "dependencies": {
