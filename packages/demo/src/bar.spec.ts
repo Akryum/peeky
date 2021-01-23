@@ -1,8 +1,8 @@
-import { foo } from './foo'
+import { bar } from './bar'
 
 describe('yet another ts test suite', () => {
-  it('tests the foo function again', () => {
-    expect(foo(42)).to.equal(84)
+  it('tests the bar function again', () => {
+    expect(bar(42)).to.equal(84)
   })
 
   it('another meows', () => {

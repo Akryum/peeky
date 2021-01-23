@@ -6,4 +6,8 @@ export const defaultPeekyConfig: () => PeekyConfig = () => ({
   targetDirectory: process.cwd(),
   match: ['**/*.(spec|test).(ts|js)', '**/__tests__/**/*.(ts|js)'],
   ignored: ['node_modules'],
+  watchMatch: ['**/*.(js|ts)'],
+  watchBaseDirectory: null,
+  watchIgnored: ['node_modules'],
+  watchThrottle: 100,
 })

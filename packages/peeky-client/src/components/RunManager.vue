@@ -1,13 +1,20 @@
 <script lang="ts" setup>
-import RunSelector from './RunSelector.vue'
 import BaseButton from './BaseButton.vue'
+import BaseSwitch from './BaseSwitch.vue'
+import RunSelector from './RunSelector.vue'
 import RunNewButton from './RunNewButton.vue'
 import RunItem from './RunItem.vue'
-import { LayersIcon, ActivityIcon } from '@zhuowenli/vue-feather-icons'
+import {
+  LayersIcon,
+  ActivityIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
+} from '@zhuowenli/vue-feather-icons'
 import { useQuery, useResult } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 import { useRoute } from 'vue-router'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useSettings } from './settings'
 
 // Current run
 
@@ -43,6 +50,7 @@ const { result, subscribeToMore } = useQuery(() => route.params.runId !== 'last-
 const currentRun = useResult(result)
 
 const isSelectorOpen = ref(false)
+const isSubMenuOpen = ref(false)
 
 // Subs
 
@@ -80,6 +88,21 @@ subscribeToMore({
     }
   },
 })
+
+// Settings
+
+const { settings, updateSettings } = useSettings()
+
+const watchEnabled = computed<boolean>({
+  get () {
+    return !!settings.value?.watch
+  },
+  set (value) {
+    updateSettings({
+      watch: value,
+    })
+  },
+})
 </script>
 
 <template>
@@ -112,6 +135,37 @@ subscribeToMore({
         </template>
       </div>
 
+      <RunNewButton class="flex-none" />
+
+      <BaseButton
+        color="gray"
+        flat
+        class="flex-none p-2"
+        @click="isSubMenuOpen = !isSubMenuOpen"
+      >
+        <component
+          :is="isSubMenuOpen ? ChevronUpIcon : ChevronDownIcon"
+          class="w-4 h-4"
+        />
+      </BaseButton>
+    </div>
+  </div>
+
+  <transition name="toolbar">
+    <div
+      v-if="isSubMenuOpen"
+      v-bind="$attrs"
+      class="h-10 flex items-center space-x-1 px-1"
+    >
+      <BaseSwitch
+        v-model="watchEnabled"
+        class="ml-2"
+      >
+        Watch
+      </BaseSwitch>
+
+      <div class="w-0 flex-1" />
+
       <BaseButton
         flat
         class="flex-none p-2"
@@ -119,10 +173,8 @@ subscribeToMore({
       >
         <LayersIcon class="w-4 h-4" />
       </BaseButton>
-
-      <RunNewButton class="flex-none" />
     </div>
-  </div>
+  </transition>
 
   <transition name="slide-from-left">
     <RunSelector

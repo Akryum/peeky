@@ -11,6 +11,8 @@ import { clearTestSuites, createTestSuite, updateTestSuite, testSuites } from '.
 import { updateTest } from './Test'
 import { RunTestFileData, updateRunTestFile } from './RunTestFile'
 import { getErrorPosition, getSrcFile, formatRunTestFileErrorMessage } from '../util'
+import { settings } from './Settings'
+import { mightRunOnChangedFiles } from '../watch'
 
 export const Run = objectType({
   name: 'Run',
@@ -65,7 +67,7 @@ export const RunMutation = extendType({
       },
       resolve: async (_, { input }, ctx) => {
         const run = await createRun(ctx, {
-          testFiles: input.testFileIds,
+          testFileIds: input.testFileIds,
         })
         startRun(ctx, run.id)
         return run
@@ -158,19 +160,19 @@ export interface RunData {
 export let runs: RunData[] = []
 
 export interface CreateRunOptions {
-  testFiles: string[]
+  testFileIds: string[]
 }
 
 export async function createRun (ctx: Context, options: CreateRunOptions) {
   const runId = shortid()
 
-  const testFilesRaw = options.testFiles ? testFiles.filter(f => options.testFiles.includes(f.id)) : [...testFiles]
+  const testFilesRaw = options.testFileIds ? testFiles.filter(f => options.testFileIds.includes(f.id)) : [...testFiles]
   const runTestFiles: RunTestFileData[] = testFilesRaw.map(f => ({
     id: shortid(),
     slug: f.relativePath.replace(/([\\/.])/g, '-'),
     runId,
     testFile: f,
-    status: 'idle',
+    status: 'in_progress',
     duration: null,
     buildDuration: null,
     error: null,
@@ -181,7 +183,7 @@ export async function createRun (ctx: Context, options: CreateRunOptions) {
     title: nameGenerator().dashed,
     emoji: randomEmoji.random({ count: 1 })[0].character,
     progress: 0,
-    status: 'idle',
+    status: 'in_progress',
     duration: null,
     runTestFiles: runTestFiles,
   }
@@ -219,9 +221,6 @@ export async function startRun (ctx: Context, id: string) {
     updateTestFile(ctx, f.testFile.id, { status: 'in_progress' })
     updateRunTestFile(ctx, run.id, f.id, { status: 'in_progress' })
   }))
-  await updateRun(ctx, id, {
-    status: 'in_progress',
-  })
 
   const time = Date.now()
   const runner = await setupRunner({
@@ -294,6 +293,7 @@ export async function startRun (ctx: Context, id: string) {
         await updateTestFile(ctx, f.testFile.id, {
           status,
           duration: result.duration,
+          modules: result.modules,
         })
         await updateRunTestFile(ctx, run.id, f.id, {
           status,
@@ -324,6 +324,10 @@ export async function startRun (ctx: Context, id: string) {
       status: stats.errorTestCount > 0 ? 'error' : 'success',
       duration: Date.now() - time,
     })
+
+    if (settings.watch) {
+      mightRunOnChangedFiles(ctx)
+    }
   } catch (e) {
     await updateRun(ctx, run.id, {
       status: 'error',
@@ -353,4 +357,8 @@ export function clearRuns (ctx: Context) {
   clearTestSuites(ctx)
   runs = []
   return true
+}
+
+export function isRunning () {
+  return runs[runs.length - 1]?.status === 'in_progress'
 }

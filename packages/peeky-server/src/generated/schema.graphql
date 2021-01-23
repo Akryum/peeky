@@ -11,12 +11,14 @@ type Mutation {
   clearRuns: Boolean!
   openTestFileInEditor(col: Int!, id: ID!, line: Int!): Boolean
   startRun(input: StartRunInput!): Run!
+  updateSettings(input: UpdateSettingsInput!): Settings!
 }
 
 type Query {
   lastRun: Run
   run(id: ID!): Run
   runs: [Run!]!
+  settings: Settings!
   testFile(id: ID!): TestFile
   testFiles: [TestFile!]!
 }
@@ -46,6 +48,11 @@ type RunTestFile {
 
 type RunTestFileError {
   message: String!
+}
+
+type Settings {
+  id: ID!
+  watch: Boolean!
 }
 
 input StartRunInput {
@@ -105,4 +112,8 @@ type TestSuite {
   status: Status!
   tests: [Test]!
   title: String!
+}
+
+input UpdateSettingsInput {
+  watch: Boolean!
 }

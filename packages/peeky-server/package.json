@@ -25,6 +25,7 @@
     "@peeky/reactive-fs": "^0.0.1",
     "@peeky/runner": "^0.0.1",
     "apollo-server-express": "^2.19.2",
+    "chokidar": "^3.5.1",
     "consola": "^2.15.0",
     "express": "^4.17.1",
     "fs-extra": "^9.0.1",

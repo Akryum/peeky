@@ -42,3 +42,16 @@
     opacity: 0;
   }
 }
+
+.toolbar {
+  &-enter-active,
+  &-leave-active {
+    transition: height .15s;
+    overflow-y: hidden;
+  }
+
+  &-enter-from,
+  &-leave-to {
+    height: 0;
+  }
+}

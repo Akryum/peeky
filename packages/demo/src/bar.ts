@@ -1,3 +1,5 @@
 import { foo } from './foo'
 
-console.log(foo(42))
+export function bar (meow) {
+  return foo(meow)
+}

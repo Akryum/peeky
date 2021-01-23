@@ -56,7 +56,6 @@ const disabled = computed(() => mutating.value || lastRun.value?.status === 'in_
 
 <template>
   <BaseButton
-    flat
     :disabled="disabled"
     class="p-2"
     @click="run"

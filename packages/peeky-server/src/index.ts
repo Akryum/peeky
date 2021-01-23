@@ -9,6 +9,8 @@ import { loadTestFiles } from './schema'
 import HTTP from 'http'
 import consola from 'consola'
 import { setupConfigLoader } from '@peeky/config'
+import { setupRunWatch } from './watch'
+import { run } from './run'
 
 export async function createServer () {
   const schema = makeSchema({
@@ -42,6 +44,7 @@ export async function createServer () {
   }
 
   await loadTestFiles(createContext())
+  await setupRunWatch(createContext())
 
   const apollo = new ApolloServer({
     schema,
@@ -65,6 +68,11 @@ export async function createServer () {
     path: '/api',
   })
   apollo.installSubscriptionHandlers(http)
+
+  // (Don't await)
+  run(createContext(), {
+    testFileIds: null,
+  })
 
   return {
     apollo,

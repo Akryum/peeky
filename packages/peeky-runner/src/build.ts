@@ -72,19 +72,25 @@ export async function buildTestFile (ctx: Context) {
 
     saveBuildCache(ctx, cachePath, bundle.cache)
 
-    await bundle.write({
+    const rollupOutput = await bundle.write({
       dir: targetDir,
       entryFileNames: '__output.js',
       format: 'cjs',
       sourcemap: true,
     })
+    const modules = Object.keys(rollupOutput.output[0].modules)
 
     await bundle.close()
 
     workerEmit(EventType.BUILD_COMPLETED, {
       testFilePath: ctx.options.entry,
+      modules,
       duration: Date.now() - time,
     })
+
+    return {
+      modules,
+    }
   } catch (e) {
     workerEmit(EventType.BUILD_FAILED, {
       testFilePath: ctx.options.entry,

@@ -23,6 +23,9 @@ export interface NexusGenInputs {
   StartRunInput: { // input type
     testFileIds?: string[] | null; // [String!]
   }
+  UpdateSettingsInput: { // input type
+    watch: boolean; // Boolean!
+  }
 }
 
 export interface NexusGenEnums {
@@ -44,6 +47,10 @@ export interface NexusGenObjects {
   RunTestFile: RunTestFileData;
   RunTestFileError: { // root type
     message: string; // String!
+  }
+  Settings: { // root type
+    id: string; // ID!
+    watch: boolean; // Boolean!
   }
   Subscription: {};
   Test: { // root type
@@ -86,11 +93,13 @@ export interface NexusGenFieldTypes {
     clearRuns: boolean; // Boolean!
     openTestFileInEditor: boolean | null; // Boolean
     startRun: NexusGenRootTypes['Run']; // Run!
+    updateSettings: NexusGenRootTypes['Settings']; // Settings!
   }
   Query: { // field return type
     lastRun: NexusGenRootTypes['Run'] | null; // Run
     run: NexusGenRootTypes['Run'] | null; // Run
     runs: NexusGenRootTypes['Run'][]; // [Run!]!
+    settings: NexusGenRootTypes['Settings']; // Settings!
     testFile: NexusGenRootTypes['TestFile'] | null; // TestFile
     testFiles: NexusGenRootTypes['TestFile'][]; // [TestFile!]!
   }
@@ -117,6 +126,10 @@ export interface NexusGenFieldTypes {
   }
   RunTestFileError: { // field return type
     message: string; // String!
+  }
+  Settings: { // field return type
+    id: string; // ID!
+    watch: boolean; // Boolean!
   }
   Subscription: { // field return type
     runAdded: NexusGenRootTypes['Run']; // Run!
@@ -168,11 +181,13 @@ export interface NexusGenFieldTypeNames {
     clearRuns: 'Boolean'
     openTestFileInEditor: 'Boolean'
     startRun: 'Run'
+    updateSettings: 'Settings'
   }
   Query: { // field return type name
     lastRun: 'Run'
     run: 'Run'
     runs: 'Run'
+    settings: 'Settings'
     testFile: 'TestFile'
     testFiles: 'TestFile'
   }
@@ -199,6 +214,10 @@ export interface NexusGenFieldTypeNames {
   }
   RunTestFileError: { // field return type name
     message: 'String'
+  }
+  Settings: { // field return type name
+    id: 'ID'
+    watch: 'Boolean'
   }
   Subscription: { // field return type name
     runAdded: 'Run'
@@ -256,6 +275,9 @@ export interface NexusGenArgTypes {
     }
     startRun: { // args
       input: NexusGenInputs['StartRunInput']; // StartRunInput!
+    }
+    updateSettings: { // args
+      input: NexusGenInputs['UpdateSettingsInput']; // UpdateSettingsInput!
     }
   }
   Query: {
