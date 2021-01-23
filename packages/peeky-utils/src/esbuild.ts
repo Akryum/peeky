@@ -1,4 +1,4 @@
-import path from 'path'
+import { extname, join } from 'path'
 import chalk from 'chalk'
 import {
   Service,
@@ -12,6 +12,7 @@ import { SourceMap } from 'rollup'
 import consola from 'consola'
 import { cleanUrl } from './net'
 import { generateCodeFrame } from './code'
+import { readdirSync } from 'fs'
 
 // lazy start the service
 let _servicePromise: Promise<Service> | undefined
@@ -24,6 +25,8 @@ export interface ESBuildOptions extends TransformOptions {
 
 export async function ensureESBuildService () {
   if (!_servicePromise) {
+    console.log('ensureESBuildService')
+    console.log(require.resolve('esbuild'), readdirSync(join(__dirname, '../../../node_modules/esbuild/bin')))
     _servicePromise = require('esbuild').startService()
   }
   return _servicePromise!
@@ -48,9 +51,10 @@ export async function transformWithEsbuild (
   inMap?: object,
 ): Promise<EsbuildTransformResult> {
   const service = await ensureESBuildService()
+  console.log('ESBuild service', service)
   // if the id ends with a valid ext, use it (e.g. vue blocks)
   // otherwise, cleanup the query before checking the ext
-  const ext = path.extname(
+  const ext = extname(
     /\.\w+$/.test(filename) ? filename : cleanUrl(filename),
   )
   const resolvedOptions = {

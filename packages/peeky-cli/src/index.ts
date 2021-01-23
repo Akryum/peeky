@@ -29,6 +29,8 @@ program.command('run')
         e.stack = e.message
         throw e
       }
+
+      setTimeout(() => {}, 2000)
     } catch (e) {
       consola.error(e)
       process.exit(1)
