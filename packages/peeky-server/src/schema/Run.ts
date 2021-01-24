@@ -224,7 +224,7 @@ export async function startRun (ctx: Context, id: string) {
 
   const time = Date.now()
   const runner = await setupRunner({
-    targetDirectory: ctx.config.targetDirectory,
+    config: ctx.config,
     testFiles: ctx.reactiveFs,
   })
   runner.onEvent(async (eventType, payload) => {

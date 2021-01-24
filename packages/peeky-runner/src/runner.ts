@@ -6,9 +6,10 @@ import { ReactiveFileSystem } from '@peeky/reactive-fs'
 import { Awaited } from '@peeky/utils'
 import type { runTestFile as rawRunTestFile } from './run-test-file'
 import { RunTestFileOptions, TestSuiteInfo, EventType } from './types'
+import { PeekyConfig } from '@peeky/config'
 
 export interface RunnerOptions {
-  targetDirectory: string
+  config: PeekyConfig
   testFiles: ReactiveFileSystem
 }
 
@@ -23,7 +24,9 @@ export async function setupRunner (options: RunnerOptions) {
     options,
   }
 
-  const pool = workerpool.pool(join(__dirname, 'worker.js'))
+  const pool = workerpool.pool(join(__dirname, 'worker.js'), {
+    maxWorkers: options.config.maxWorkers,
+  })
   const { testFiles } = options
 
   const eventHandlers: EventHandler[] = []
@@ -37,7 +40,7 @@ export async function setupRunner (options: RunnerOptions) {
           consola.error(`Test build failed: ${error.message}`)
         } else if (eventType === EventType.BUILD_COMPLETED) {
           const { testFilePath, duration } = payload
-          consola.info(`Built ${relative(ctx.options.targetDirectory, testFilePath)} in ${duration}ms`)
+          consola.info(`Built ${relative(ctx.options.config.targetDirectory, testFilePath)} in ${duration}ms`)
         } else if (eventType === EventType.SUITE_START) {
           const suite: TestSuiteInfo = payload.suite
           consola.start(suite.title)
@@ -79,7 +82,7 @@ export async function setupRunner (options: RunnerOptions) {
 
       // Patch filePath
       result.suites.forEach(s => {
-        s.filePath = relative(ctx.options.targetDirectory, s.filePath)
+        s.filePath = relative(ctx.options.config.targetDirectory, s.filePath)
       })
 
       return result

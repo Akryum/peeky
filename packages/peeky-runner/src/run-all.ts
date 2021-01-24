@@ -15,7 +15,7 @@ export async function runAllTests (config: PeekyConfig) {
   consola.info(`FS initialized in ${Date.now() - fsTime}ms`)
 
   const runner = await setupRunner({
-    targetDirectory: config.targetDirectory,
+    config,
     testFiles,
   })
 
