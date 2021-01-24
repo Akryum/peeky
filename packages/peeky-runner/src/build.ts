@@ -7,6 +7,7 @@ import { patchFs, patchRequire } from 'fs-monkey'
 import { dirname, join, relative } from 'path'
 import { workerEmit } from '@akryum/workerpool'
 import { Context, EventType } from './types'
+import shortid from 'shortid'
 
 const originalFs = { ...fs }
 let mockedFs = false
@@ -55,6 +56,9 @@ export async function buildTestFile (ctx: Context) {
       testFilePath: ctx.options.entry,
     })
 
+    const outputFile = `test-${shortid()}.js`
+    const outputPath = join(targetDir, outputFile)
+
     const time = Date.now()
     const bundle = await rollup({
       input: ctx.options.entry,
@@ -74,7 +78,7 @@ export async function buildTestFile (ctx: Context) {
 
     const rollupOutput = await bundle.write({
       dir: targetDir,
-      entryFileNames: '__output.js',
+      entryFileNames: outputFile,
       format: 'cjs',
       sourcemap: true,
     })
@@ -89,6 +93,7 @@ export async function buildTestFile (ctx: Context) {
     })
 
     return {
+      outputPath,
       modules,
     }
   } catch (e) {

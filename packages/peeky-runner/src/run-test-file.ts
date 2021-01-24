@@ -1,5 +1,4 @@
 import { install as installSourceMap } from 'source-map-support'
-import { dirname, join } from 'path'
 import consola from 'consola'
 import { Context, EventType, RunTestFileOptions, TestSuiteResult } from './types'
 import { buildTestFile } from './build'
@@ -16,10 +15,13 @@ export async function runTestFile (options: RunTestFileOptions) {
     }
     const time = Date.now()
     mockModule.stopAll()
-    const { modules } = await buildTestFile(ctx)
+    const {
+      outputPath,
+      modules,
+    } = await buildTestFile(ctx)
     registerGlobals(ctx, global)
     installSourceMap()
-    require(join(dirname(ctx.options.entry), '/__output.js'))
+    require(outputPath)
     await runTests(ctx)
     const duration = Date.now() - time
     workerEmit(EventType.TEST_FILE_COMPLETED, {
