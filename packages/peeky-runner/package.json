@@ -19,7 +19,8 @@
   "scripts": {
     "build": "rimraf dist && tsc -d",
     "watch": "tsc -d -w --sourceMap",
-    "test": "peeky run"
+    "test": "peeky run",
+    "prepublishOnly": "yarn build && yarn test"
   },
   "dependencies": {
     "@akryum/rollup-plugin-esbuild": "^1.0.0",

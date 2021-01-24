@@ -21,7 +21,8 @@
   },
   "scripts": {
     "build": "rimraf dist && tsc -d && chmod +x ./dist/index.js",
-    "watch": "tsc -d -w --sourceMap"
+    "watch": "tsc -d -w --sourceMap",
+    "prepublishOnly": "yarn build"
   },
   "dependencies": {
     "@peeky/config": "^0.0.1",

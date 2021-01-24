@@ -19,7 +19,8 @@
   "scripts": {
     "build": "rimraf dist && tsc -d",
     "watch": "tsc -d -w --sourceMap",
-    "test": "peeky run"
+    "test": "peeky run",
+    "prepublishOnly": "yarn build && yarn test"
   },
   "dependencies": {
     "@vue/reactivity": "^3.0.5",

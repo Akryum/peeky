@@ -18,7 +18,8 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "build": "rimraf dist && tsc -d",
-    "watch": "tsc -d -w --sourceMap"
+    "watch": "tsc -d -w --sourceMap",
+    "prepublishOnly": "yarn build"
   },
   "dependencies": {
     "chalk": "^4.1.0",

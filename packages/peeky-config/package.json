@@ -18,7 +18,8 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "build": "rimraf dist && tsc -d",
-    "watch": "tsc -d -w --sourceMap"
+    "watch": "tsc -d -w --sourceMap",
+    "prepublishOnly": "yarn build"
   },
   "dependencies": {
     "@peeky/reactive-fs": "^0.0.1",

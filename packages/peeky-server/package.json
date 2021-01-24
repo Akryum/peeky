@@ -18,7 +18,8 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "build": "rimraf dist src/generated && tsc -d && cp src/context.d.ts dist/context.d.ts",
-    "watch": "tsc -d -w --sourceMap"
+    "watch": "tsc -d -w --sourceMap",
+    "prepublishOnly": "yarn build"
   },
   "dependencies": {
     "@peeky/config": "^0.0.1",
