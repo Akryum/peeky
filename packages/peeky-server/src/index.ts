@@ -1,8 +1,9 @@
 import { createReactiveFileSystem } from '@peeky/reactive-fs'
 import { ApolloServer, PubSub } from 'apollo-server-express'
 import express from 'express'
+import historyFallback from 'express-history-api-fallback'
 import { makeSchema } from 'nexus'
-import { join } from 'path'
+import { dirname, join } from 'path'
 import { Context } from './context'
 import * as types from './schema'
 import { loadTestFiles } from './schema'
@@ -68,6 +69,10 @@ export async function createServer () {
     path: '/api',
   })
   apollo.installSubscriptionHandlers(http)
+
+  const staticRoot = join(dirname(require.resolve('@peeky/client-dist/package.json')), 'dist')
+  app.use(express.static(staticRoot))
+  app.use(historyFallback('index.html', { root: staticRoot }))
 
   // (Don't await)
   run(createContext(), {

@@ -1,0 +1,20 @@
+{
+  "name": "@peeky/client-dist",
+  "version": "0.0.1",
+  "description": "Frontend production build for Peeky, the testing framework for curious minds",
+  "license": "MIT",
+  "author": {
+    "name": "Guillaume Chau"
+  },
+  "repository": {
+    "url": "https://github.com/Akryum/peeky.git",
+    "type": "git",
+    "directory": "packages/peeky-client-dist"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "prepublishOnly": "cd ../peeky-client && yarn build-client"
+  }
+}

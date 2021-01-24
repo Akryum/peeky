@@ -16,8 +16,7 @@
   },
   "scripts": {
     "dev-client": "vite",
-    "build-client": "vuedx-typecheck . && vite build",
-    "prepublishOnly": "yarn build-client"
+    "build-client": "vuedx-typecheck . && vite build --emptyOutDir"
   },
   "dependencies": {
     "@apollo/client": "^3.3.7",
