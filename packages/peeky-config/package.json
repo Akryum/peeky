@@ -1,6 +1,6 @@
 {
   "name": "@peeky/config",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Configuration utils for Peeky, the testing framework for curious minds",
   "license": "MIT",
   "author": {
@@ -22,8 +22,8 @@
     "prepublishOnly": "yarn build"
   },
   "dependencies": {
-    "@peeky/reactive-fs": "^0.0.1",
-    "@peeky/utils": "^0.0.1"
+    "@peeky/reactive-fs": "^0.1.0",
+    "@peeky/utils": "^0.1.0"
   },
   "devDependencies": {
     "@types/node": "^14.14.21",

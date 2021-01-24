@@ -1,6 +1,6 @@
 {
   "name": "@peeky/client-dist",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Frontend production build for Peeky, the testing framework for curious minds",
   "license": "MIT",
   "author": {
