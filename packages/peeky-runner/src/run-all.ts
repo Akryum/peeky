@@ -35,7 +35,7 @@ export async function runAllTests (config: PeekyConfig) {
     testCount,
     errorTestCount,
   } = stats
-  consola.log(chalk[errorTestCount ? 'red' : 'green'](`Suites : ${suiteCount - errorSuiteCount} / ${suiteCount}\nTests  : ${testCount - errorTestCount} / ${testCount}`))
+  consola.log(chalk[errorSuiteCount ? 'red' : 'green'](`Suites : ${suiteCount - errorSuiteCount} / ${suiteCount}\nTests  : ${testCount - errorTestCount} / ${testCount}`))
 
   await runner.close()
 

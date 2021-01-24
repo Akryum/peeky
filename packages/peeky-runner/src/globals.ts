@@ -24,7 +24,8 @@ export function registerGlobals (ctx: Context, target: any) {
       beforeEachHandlers: [],
       afterAllHandlers: [],
       afterEachHandlers: [],
-      errors: 0,
+      testErrors: 0,
+      otherErrors: [],
     }
     ctx.suites.push(currentSuite)
     handler()

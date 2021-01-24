@@ -249,7 +249,7 @@ export async function startRun (ctx: Context, id: string) {
       const { suite, duration } = payload
       const suiteData = testSuites.find(s => s.id === suite.id)
       updateTestSuite(ctx, suite.id, {
-        status: !suiteData.tests.length ? 'skipped' : suite.errors ? 'error' : 'success',
+        status: !suiteData.tests.length ? 'skipped' : suite.testErrors + suite.otherErrors.length ? 'error' : 'success',
         duration,
       })
     } else if (eventType === EventType.TEST_START) {

@@ -10,4 +10,5 @@ export const defaultPeekyConfig: () => PeekyConfig = () => ({
   watchBaseDirectory: null,
   watchIgnored: ['node_modules'],
   watchThrottle: 100,
+  emptySuiteError: false,
 })

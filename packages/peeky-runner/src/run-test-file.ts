@@ -33,7 +33,8 @@ export async function runTestFile (options: RunTestFileOptions) {
       id: s.id,
       title: s.title,
       filePath: s.filePath,
-      errors: s.errors,
+      testErrors: s.testErrors,
+      otherErrors: s.otherErrors,
       tests: s.tests.map(t => ({
         id: t.id,
         title: t.title,

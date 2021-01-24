@@ -8,11 +8,11 @@ export function getStats (results: RunTestFileResult[]) {
   for (const file of results) {
     suiteCount += file.suites.length
     for (const suite of file.suites) {
-      if (suite.errors) {
+      if (suite.testErrors || suite.otherErrors.length) {
         errorSuiteCount++
       }
       testCount += suite.tests.length
-      errorTestCount += suite.errors
+      errorTestCount += suite.testErrors
     }
   }
 

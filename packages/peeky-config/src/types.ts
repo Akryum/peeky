@@ -7,4 +7,5 @@ export interface PeekyConfig {
   watchIgnored?: string | string[]
   watchThrottle?: number
   maxWorkers?: number
+  emptySuiteError?: boolean
 }

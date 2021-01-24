@@ -61,7 +61,7 @@ export async function runTests (ctx: Context) {
           error: e,
           stack: stackIndex !== -1 ? e.stack.substr(0, stackIndex) : e.stack,
         })
-        suite.errors++
+        suite.testErrors++
       }
 
       for (const handler of suite.afterEachHandlers) {
@@ -73,10 +73,15 @@ export async function runTests (ctx: Context) {
       await handler()
     }
 
+    if (ctx.options.emptySuitesError && !suite.tests.length) {
+      suite.otherErrors.push(new Error(`Empty test suite: ${suite.title}`))
+    }
+
     workerEmit(EventType.SUITE_COMPLETED, {
       suite: {
         id: suite.id,
-        errors: suite.errors,
+        testErrors: suite.testErrors,
+        otherErrors: suite.otherErrors,
       },
       duration: Date.now() - suiteTime,
     })

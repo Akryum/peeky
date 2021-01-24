@@ -46,9 +46,9 @@ export async function setupRunner (options: RunnerOptions) {
           consola.start(suite.title)
           suiteMap[suite.id] = suite
         } else if (eventType === EventType.SUITE_COMPLETED) {
-          const { duration } = payload
+          const { duration, suite: { testErrors, otherErrors } } = payload
           const suite = suiteMap[payload.suite.id]
-          consola.log(chalk[payload.suite.errors ? 'red' : 'green'](`  ${suite.tests.length - payload.suite.errors} / ${suite.tests.length} tests passed: ${suite.title} ${chalk.grey(`(${duration}ms)`)}`))
+          consola.log(chalk[testErrors + otherErrors.length ? 'red' : 'green'](`  ${suite.tests.length - testErrors} / ${suite.tests.length} tests passed: ${suite.title} ${chalk.grey(`(${duration}ms)`)}`))
         } else if (eventType === EventType.TEST_ERROR) {
           const { duration, error, stack } = payload
           const suite = suiteMap[payload.suite.id]
@@ -78,6 +78,7 @@ export async function setupRunner (options: RunnerOptions) {
     if (file) {
       const result = await runTestFileWorker({
         entry: file.absolutePath,
+        emptySuitesError: ctx.options.config.emptySuiteError,
       })
 
       // Patch filePath

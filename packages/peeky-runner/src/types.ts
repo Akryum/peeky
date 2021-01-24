@@ -1,6 +1,7 @@
 
 export interface RunTestFileOptions {
   entry: string
+  emptySuitesError: boolean
 }
 
 export interface Context {
@@ -22,7 +23,8 @@ export interface TestSuiteResult {
   id: string
   title: string
   filePath: string
-  errors: number
+  testErrors: number
+  otherErrors: Error[]
   tests: {
     id: string
     title: string
@@ -39,7 +41,8 @@ export interface TestSuite {
   afterAllHandlers: (() => unknown)[]
   afterEachHandlers: (() => unknown)[]
   tests: Test[]
-  errors: number
+  testErrors: number
+  otherErrors: Error[]
 }
 
 export interface Test {

@@ -24,9 +24,9 @@ program.command('run')
         'ignore',
       ]) as PeekyConfig))
 
-      const { stats: { errorTestCount } } = await runAllTests(finalConfig)
+      const { stats: { errorSuiteCount } } = await runAllTests(finalConfig)
 
-      if (errorTestCount) {
+      if (errorSuiteCount) {
         const e = new Error('Some tests failed')
         e.stack = e.message
         throw e
