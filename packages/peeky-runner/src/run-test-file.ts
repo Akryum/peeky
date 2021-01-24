@@ -6,6 +6,7 @@ import { buildTestFile } from './build'
 import { registerGlobals } from './globals'
 import { runTests } from './run-tests'
 import { workerEmit } from '@akryum/workerpool'
+import mockModule from 'mock-require'
 
 export async function runTestFile (options: RunTestFileOptions) {
   try {
@@ -14,6 +15,7 @@ export async function runTestFile (options: RunTestFileOptions) {
       suites: [],
     }
     const time = Date.now()
+    mockModule.stopAll()
     const { modules } = await buildTestFile(ctx)
     registerGlobals(ctx, global)
     installSourceMap()
