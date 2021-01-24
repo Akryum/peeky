@@ -6,6 +6,7 @@ import { registerGlobals } from './globals'
 import { runTests } from './run-tests'
 import { workerEmit } from '@akryum/workerpool'
 import mockModule from 'mock-require'
+import { setupRegister } from './test-register'
 
 export async function runTestFile (options: RunTestFileOptions) {
   try {
@@ -13,22 +14,41 @@ export async function runTestFile (options: RunTestFileOptions) {
       options,
       suites: [],
     }
-    const time = Date.now()
+
+    // Restore mocked module
     mockModule.stopAll()
+
+    const time = Date.now()
+
+    // Build
     const {
       outputPath,
       modules,
     } = await buildTestFile(ctx)
-    registerGlobals(ctx, global)
+
+    // Globals
+    const register = setupRegister(ctx)
+    registerGlobals(ctx, global, register)
+
+    // Source map support
     installSourceMap()
+
+    // Execute test file
     require(outputPath)
+
+    // Register suites and tests
+    await register.run()
+
+    // Run all tests in the test file
     await runTests(ctx)
     const duration = Date.now() - time
+
     workerEmit(EventType.TEST_FILE_COMPLETED, {
       filePath: ctx.options.entry,
       duration,
     })
 
+    // Result data
     const suites: TestSuiteResult[] = ctx.suites.map(s => ({
       id: s.id,
       title: s.title,
@@ -41,6 +61,7 @@ export async function runTestFile (options: RunTestFileOptions) {
         error: t.error,
       })),
     }))
+
     return {
       filePath: options.entry,
       suites,
