@@ -2,6 +2,15 @@
 # yarn lockfile v1
 
 
+"@akryum/rollup-plugin-esbuild@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@akryum/rollup-plugin-esbuild/-/rollup-plugin-esbuild-1.0.0.tgz#741a4f37d7c77c2f6b4e08bd1a8e4feac05493ee"
+  integrity sha512-FPd483HkHonOStmbxK8enX8zpY+O86QQO+HwXpgR5r4yxHsaH1JNeomUux3bgofPPs9gohPohN6PjTSoPMbtEw==
+  dependencies:
+    "@rollup/pluginutils" "^4.1.0"
+    joycon "^2.2.5"
+    strip-json-comments "^3.1.1"
+
 "@akryum/workerpool@^6.0.5-alpha.2":
   version "6.0.5-alpha.2"
   resolved "https://registry.yarnpkg.com/@akryum/workerpool/-/workerpool-6.0.5-alpha.2.tgz#904b2782c623196b51e60c2e8c5adcc1b440ede5"
@@ -7883,15 +7892,6 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
   dependencies:
     hash-base "^3.0.0"
     inherits "^2.0.1"
-
-rollup-plugin-esbuild@^2.6.1:
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-esbuild/-/rollup-plugin-esbuild-2.6.1.tgz#5785532940d49adf1bff5b38e9bd9089262d4e7a"
-  integrity sha512-hskMEQQ4Vxlyoeg1OWlFTwWHIhpNaw6q+diOT7p9pdkk34m9Mbk3aymS/JbTqLXy/AbJi22iuXrucknKpeczfg==
-  dependencies:
-    "@rollup/pluginutils" "^4.1.0"
-    joycon "^2.2.5"
-    strip-json-comments "^3.1.1"
 
 rollup@^2.35.1, rollup@^2.36.2, rollup@^2.37.1:
   version "2.38.0"

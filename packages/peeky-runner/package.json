@@ -22,6 +22,7 @@
     "test": "peeky run"
   },
   "dependencies": {
+    "@akryum/rollup-plugin-esbuild": "^1.0.0",
     "@akryum/workerpool": "^6.0.5-alpha.2",
     "@peeky/config": "^0.0.1",
     "@peeky/reactive-fs": "^0.0.1",
@@ -35,7 +36,6 @@
     "mock-require": "^3.0.3",
     "must": "^0.13.4",
     "rollup": "^2.36.2",
-    "rollup-plugin-esbuild": "^2.6.1",
     "shortid": "^2.2.16",
     "sinon": "^9.2.3",
     "source-map-support": "^0.5.19",

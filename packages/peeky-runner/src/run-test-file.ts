@@ -7,6 +7,7 @@ import { runTests } from './run-tests'
 import { workerEmit } from '@akryum/workerpool'
 import mockModule from 'mock-require'
 import { setupRegister } from './test-register'
+import { mockFileSystem } from './fs'
 
 export async function runTestFile (options: RunTestFileOptions) {
   try {
@@ -15,10 +16,12 @@ export async function runTestFile (options: RunTestFileOptions) {
       suites: [],
     }
 
+    const time = Date.now()
+
     // Restore mocked module
     mockModule.stopAll()
 
-    const time = Date.now()
+    mockFileSystem()
 
     // Build
     const {
