@@ -14,7 +14,8 @@ describe('getStats()', () => {
             id: '',
             filePath: '',
             title: '',
-            errors: 0,
+            testErrors: 0,
+            otherErrors: [],
             tests: [
               {
                 id: '',
@@ -27,7 +28,8 @@ describe('getStats()', () => {
             id: '',
             filePath: '',
             title: '',
-            errors: 0,
+            testErrors: 0,
+            otherErrors: [],
             tests: [
               {
                 id: '',
@@ -52,7 +54,8 @@ describe('getStats()', () => {
             id: '',
             filePath: '',
             title: '',
-            errors: 0,
+            testErrors: 0,
+            otherErrors: [],
             tests: [
               {
                 id: '',
@@ -65,7 +68,8 @@ describe('getStats()', () => {
             id: '',
             filePath: '',
             title: '',
-            errors: 0,
+            testErrors: 0,
+            otherErrors: [],
             tests: [
               {
                 id: '',
@@ -99,7 +103,8 @@ describe('getStats()', () => {
             id: '',
             filePath: '',
             title: '',
-            errors: 0,
+            testErrors: 0,
+            otherErrors: [],
             tests: [
               {
                 id: '',
@@ -112,7 +117,8 @@ describe('getStats()', () => {
             id: '',
             filePath: '',
             title: '',
-            errors: 1,
+            testErrors: 1,
+            otherErrors: [],
             tests: [
               {
                 id: '',
