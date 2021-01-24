@@ -1,6 +1,7 @@
 import sinon from 'sinon'
 import { workerEmit } from '@akryum/workerpool'
 import { Context, EventType, TestSuiteInfo } from './types'
+import { basename } from 'path'
 
 export async function runTests (ctx: Context) {
   for (const suite of ctx.suites) {
@@ -49,7 +50,11 @@ export async function runTests (ctx: Context) {
         })
       } catch (e) {
         test.error = e
-        const stackIndex = e.stack.search(/\s*at.*?(@peeky\/runner|peeky-runner)/)
+        let stackIndex = e.stack ? e.stack.lastIndexOf(basename(ctx.options.entry)) : -1
+        if (stackIndex !== -1) {
+          // Continue to the end of the line
+          stackIndex = e.stack.indexOf('\n', stackIndex)
+        }
         workerEmit(EventType.TEST_ERROR, {
           suite: {
             id: suite.id,
@@ -58,7 +63,7 @@ export async function runTests (ctx: Context) {
             id: test.id,
           },
           duration: Date.now() - time,
-          error: e,
+          error: { ...e, message: e.message },
           stack: stackIndex !== -1 ? e.stack.substr(0, stackIndex) : e.stack,
         })
         suite.testErrors++
