@@ -25,7 +25,7 @@ export async function setupRunner (options: RunnerOptions) {
   }
 
   const pool = workerpool.pool(join(__dirname, 'worker.js'), {
-    maxWorkers: options.config.maxWorkers,
+    ...options.config.maxWorkers ? { maxWorkers: options.config.maxWorkers } : {},
   })
   const { testFiles } = options
 
