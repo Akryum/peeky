@@ -22,23 +22,14 @@ footer: MIT Licensed | Copyright © 2021-present Guillaume Chau & Peeky Contribu
 <script setup>
 import CustomHome from '/.vitepress/theme/components/Home.vue'
 import Features from './Features.vue'
+import HomeScreenshot from './HomeScreenshot.vue'
 </script>
 
 <CustomHome>
   <template v-slot:hero>
-    <img class="screenshot" src="/home-screenshot.png" alt="Screenshot">
+    <HomeScreenshot />
   </template>
-
-  <template v-slot:default>
-    <div class="space-y-12 mb-12">
-      <Features/>
-    </div>
-  </template>
+  <div class="space-y-12 mb-12">
+    <Features/>
+  </div>
 </CustomHome>
-
-<style scoped>
-.screenshot {
-  box-shadow: 0 3px 24px rgba(0, 0, 0, 0.1);
-  border-radius: 12px;
-}
-</style>
