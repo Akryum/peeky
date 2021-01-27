@@ -38,7 +38,7 @@ Create a test file and give it the extension `.spec.js`:
 
 describe('Example test suite', () => {
   test('must work', () => {
-    expect(42).to.eql(42)
+    expect(42).to.equal(42)
   })
 })
 ```
@@ -66,11 +66,11 @@ Let's try adding a failing test to our suite:
 
 describe('Example test suite', () => {
   test('must work', () => {
-    expect(42).to.eql(42)
+    expect(42).to.equal(42)
   })
 
   test('oops', () => {
-    expect('hey').to.eql('hello')
+    expect('hey').to.equal('hello')
   })
 })
 ```
@@ -92,11 +92,11 @@ Let's fix the failing test:
 
 describe('Example test suite', () => {
   test('must work', () => {
-    expect(42).to.eql(42)
+    expect(42).to.equal(42)
   })
 
   test('yay', () => {
-    expect('hello').to.eql('hello')
+    expect('hello').to.equal('hello')
   })
 })
 ```
