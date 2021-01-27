@@ -20,7 +20,7 @@ footer: MIT Licensed | Copyright © 2021-present Guillaume Chau & Peeky Contribu
 ---
 
 <script setup>
-import CustomHome from '/.vitepress/theme/components/Home.vue'
+import CustomHome from '/.vitepress/theme/components/CustomHome.vue'
 import Features from './Features.vue'
 import HomeScreenshot from './HomeScreenshot.vue'
 </script>
