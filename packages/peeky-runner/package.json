@@ -1,6 +1,6 @@
 {
   "name": "@peeky/runner",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Test runner for Peeky, the testing framework for curious minds",
   "license": "MIT",
   "author": {
@@ -25,8 +25,8 @@
   "dependencies": {
     "@akryum/rollup-plugin-esbuild": "^1.0.0",
     "@akryum/workerpool": "^6.0.5-alpha.2",
-    "@peeky/config": "^0.1.0",
-    "@peeky/reactive-fs": "^0.1.0",
+    "@peeky/config": "^0.1.1",
+    "@peeky/reactive-fs": "^0.1.1",
     "@peeky/utils": "^0.1.0",
     "@types/sinon": "^9.0.10",
     "chalk": "^4.1.0",

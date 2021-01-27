@@ -1,6 +1,6 @@
 {
   "name": "@peeky/cli",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Command-line interface for Peeky, the testing framework for curious minds",
   "license": "MIT",
   "author": {
@@ -25,9 +25,9 @@
     "prepublishOnly": "yarn build"
   },
   "dependencies": {
-    "@peeky/config": "^0.1.0",
-    "@peeky/runner": "^0.1.0",
-    "@peeky/server": "^0.1.0",
+    "@peeky/config": "^0.1.1",
+    "@peeky/runner": "^0.1.1",
+    "@peeky/server": "^0.1.1",
     "commander": "^7.0.0",
     "consola": "^2.15.0",
     "lodash": "^4.17.20",
