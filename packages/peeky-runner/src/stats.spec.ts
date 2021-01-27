@@ -135,7 +135,7 @@ describe('getStats()', () => {
         ],
       },
     ])
-    expect(stats.suiteCount).to.equal(3)
+    expect(stats.suiteCount).to.equal(2)
     expect(stats.errorSuiteCount).to.equal(1)
     expect(stats.testCount).to.equal(3)
     expect(stats.errorTestCount).to.equal(1)
