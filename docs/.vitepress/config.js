@@ -1,6 +1,11 @@
 module.exports = {
   title: 'Peeky',
   description: 'A test framework for the curious minds',
+
+  head: [
+    ['link', { rel: 'stylesheet', href: 'https://cdn.rawgit.com/luizbills/feather-icon-font/v4.7.0/dist/feather.css' }],
+  ],
+
   themeConfig: {
     repo: 'Akryum/peeky',
     docsDir: 'docs',

@@ -21,7 +21,7 @@ const props = defineProps({
 
 <template>
   <div class="flex items-start space-x-4 bg-orchid-50 p-4 rounded relative">
-    <div class="mt-2 p-2 bg-flamingo-200 text-flamingo-700 rounded-full">
+    <div class="mt-2 p-2 bg-flamingo-200 text-flamingo-700 rounded-full flex items-center justify-center">
       <span
         class="fe"
         :class="`fe-${icon}`"
