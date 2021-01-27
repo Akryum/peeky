@@ -9,7 +9,10 @@
     "lint": "eslint . --ext js,vue,ts",
     "build": "lerna run build --concurrency 1",
     "watch": "yarn build && lerna run watch --parallel",
-    "test": "lerna run test --parallel"
+    "test": "lerna run test --parallel",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:serve": "vitepress serve docs"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^2.29.0",
@@ -23,6 +26,10 @@
     "eslint-plugin-standard": "^5.0.0",
     "eslint-plugin-vue": "^7.4.1",
     "lerna": "^3.22.1",
-    "rimraf": "^3.0.2"
+    "postcss": "^8.2.4",
+    "postcss-nested": "^5.0.3",
+    "rimraf": "^3.0.2",
+    "tailwindcss": "^2.0.2",
+    "vitepress": "^0.11.4"
   }
 }
