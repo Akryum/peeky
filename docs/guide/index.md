@@ -122,4 +122,4 @@ You can see the results in the terminal:
 Meow*! 🐈️
 
 
-<p class="text-xs text-gray-500 mt-12">*: Peaky is happy!</p>
+<p class="text-xs text-gray-500 mt-12">*: Peeky is happy!</p>
