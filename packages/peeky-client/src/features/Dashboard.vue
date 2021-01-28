@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import BaseSplitPane from './BaseSplitPane.vue'
-import RunManager from './RunManager.vue'
-import TestFiles from './TestFiles.vue'
+import RunManager from './run/RunManager.vue'
+import TestFiles from './test-file/TestFiles.vue'
 </script>
 
 <template>

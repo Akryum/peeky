@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import BaseButton from './BaseButton.vue'
-import StatusIcon from './StatusIcon.vue'
+import BaseButton from '../BaseButton.vue'
+import StatusIcon from '../StatusIcon.vue'
 import { ArrowLeftIcon, FileIcon } from '@zhuowenli/vue-feather-icons'
 import { defineProps } from 'vue'
 

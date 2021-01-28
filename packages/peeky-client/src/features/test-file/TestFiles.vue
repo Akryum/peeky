@@ -18,7 +18,7 @@ fragment runTestFileList on RunTestFile {
 </script>
 
 <script lang="ts" setup>
-import BaseInput from './BaseInput.vue'
+import BaseInput from '../BaseInput.vue'
 import TestFileItem from './TestFileItem.vue'
 import { SearchIcon } from '@zhuowenli/vue-feather-icons'
 import { computed, ref } from 'vue'

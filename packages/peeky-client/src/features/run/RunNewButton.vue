@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import BaseButton from './BaseButton.vue'
+import BaseButton from '../BaseButton.vue'
 import { PlayIcon } from '@zhuowenli/vue-feather-icons'
 import { useMutation, useQuery, useResult } from '@vue/apollo-composable'
 import gql from 'graphql-tag'

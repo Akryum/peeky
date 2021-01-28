@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import SuitesView from './SuitesView.vue'
-import { testItemFragment } from './TestItem.vue'
+import SuitesView from '../suite/SuitesView.vue'
+import { testItemFragment } from '../test/TestItem.vue'
 import { useQuery, useResult } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 import { useRoute } from 'vue-router'

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import BaseSplitPane from './BaseSplitPane.vue'
-import BaseInput from './BaseInput.vue'
+import BaseSplitPane from '../BaseSplitPane.vue'
+import BaseInput from '../BaseInput.vue'
 import SuiteItem from './SuiteItem.vue'
 import { SearchIcon } from '@zhuowenli/vue-feather-icons'
 import { computed, defineProps, ref } from 'vue'

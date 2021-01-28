@@ -19,7 +19,7 @@ fragment testItem on Test {
 </script>
 
 <script lang="ts" setup>
-import StatusIcon from './StatusIcon.vue'
+import StatusIcon from '../StatusIcon.vue'
 import { defineProps } from 'vue'
 import { useMutation } from '@vue/apollo-composable'
 

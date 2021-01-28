@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import BaseButton from './BaseButton.vue'
-import BaseSwitch from './BaseSwitch.vue'
+import BaseButton from '../BaseButton.vue'
+import BaseSwitch from '../BaseSwitch.vue'
 import RunSelector from './RunSelector.vue'
 import RunNewButton from './RunNewButton.vue'
 import RunItem from './RunItem.vue'
@@ -14,7 +14,7 @@ import { useQuery, useResult } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 import { useRoute } from 'vue-router'
 import { ref, computed } from 'vue'
-import { useSettings } from './settings'
+import { useSettings } from '../settings'
 
 // Current run
 

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import TestItem from './TestItem.vue'
-import StatusIcon from './StatusIcon.vue'
+import TestItem from '../test/TestItem.vue'
+import StatusIcon from '../StatusIcon.vue'
 import { computed, defineProps } from 'vue'
 
 const props = defineProps({
