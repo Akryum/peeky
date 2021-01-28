@@ -40,7 +40,7 @@ export default defineComponent({
         class="switch-box relative flex-none block rounded-full border"
         :class="{
           'bg-gray-300 border-gray-400': !modelValue,
-          'bg-purple-600 border-purple-600': modelValue,
+          'bg-flamingo-600 border-flamingo-600': modelValue,
         }"
       >
         <div class="dot bg-white rounded-full absolute" />

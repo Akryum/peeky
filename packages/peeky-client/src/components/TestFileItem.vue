@@ -42,7 +42,7 @@ const props = defineProps({
 
 <style scoped>
 .router-link-active {
-  @apply bg-purple-50 text-purple-800 dark:bg-purple-900 dark:text-purple-200;
+  @apply bg-flamingo-50 text-flamingo-800 dark:bg-flamingo-900 dark:text-flamingo-200;
 
   .path {
     @apply opacity-100;

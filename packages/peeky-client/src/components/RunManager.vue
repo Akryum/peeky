@@ -113,7 +113,7 @@ const watchEnabled = computed<boolean>({
     <transition name="progress-bar">
       <div
         v-if="currentRun?.status === 'in_progress'"
-        class="absolute top-0 left-0 h-full bg-purple-100 dark:bg-purple-900 transition-all"
+        class="absolute top-0 left-0 h-full bg-flamingo-100 dark:bg-flamingo-900 transition-all"
         :style="{
           width: `${currentRun.progress * 100}%`,
         }"

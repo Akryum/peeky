@@ -22,9 +22,9 @@ const icons = {
 const classes = {
   idle: 'text-gray-300 dark:text-gray-700',
   // eslint-disable-next-line @typescript-eslint/camelcase
-  in_progress: 'text-purple-500',
-  success: 'text-green-500',
-  error: 'text-red-500',
+  in_progress: 'text-flamingo-500',
+  success: 'text-shamrock-500',
+  error: 'text-blush-500',
   skipped: 'text-gray-300 dark:text-gray-700',
 }
 
@@ -38,9 +38,9 @@ const smallIcons = {
 
 const smallClasses = {
   // eslint-disable-next-line @typescript-eslint/camelcase
-  in_progress: 'bg-purple-500 text-white',
-  success: 'bg-green-500 text-white',
-  error: 'bg-red-500 text-white',
+  in_progress: 'bg-flamingo-500 text-white',
+  success: 'bg-shamrock-500 text-white',
+  error: 'bg-blush-500 text-white',
   skipped: 'bg-gray-300 dark:bg-gray-700 text-white',
 }
 
