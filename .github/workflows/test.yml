@@ -38,7 +38,7 @@ jobs:
       - name: Build
         run: |
           yarn build
-          yarn --force
+          yarn run link
 
       - name: Run tests
         run: yarn run test

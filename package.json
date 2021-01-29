@@ -8,6 +8,7 @@
   "scripts": {
     "lint": "eslint . --ext js,vue,ts",
     "build": "lerna run build",
+    "link": "lerna link",
     "watch": "yarn build && lerna run watch --parallel",
     "test": "lerna run test --parallel",
     "docs:dev": "vitepress dev docs",
