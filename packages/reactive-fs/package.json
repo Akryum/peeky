@@ -19,7 +19,7 @@
   "scripts": {
     "build": "rimraf dist && node esbuild.js && tsc -d --emitDeclarationOnly",
     "watch": "tsc -d -w --sourceMap",
-    "test": "peeky run"
+    "test": "../peeky-cli/dist/index.js run"
   },
   "devDependencies": {
     "@types/fs-extra": "^9.0.6",
