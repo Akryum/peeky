@@ -17,12 +17,17 @@
   "main": "./dist/index.js",
   "types": "./types.d.ts",
   "scripts": {
-    "build": "rimraf dist && tsc -d",
+    "build": "rimraf dist && esbuild ./src/index.ts ./src/worker.ts --bundle --platform=node --outdir=dist --sourcemap --external:fsevents --external:esbuild && tsc -d --emitDeclarationOnly",
     "watch": "tsc -d -w --sourceMap",
     "test": "peeky run",
     "prepublishOnly": "yarn build && yarn test"
   },
   "dependencies": {
+    "esbuild": "^0.8.33"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.21",
+    "@types/shortid": "^0.0.29",
     "@akryum/rollup-plugin-esbuild": "^1.0.0",
     "@akryum/workerpool": "^6.0.5-alpha.2",
     "@peeky/config": "^0.1.1",
@@ -31,7 +36,6 @@
     "@types/sinon": "^9.0.10",
     "chalk": "^4.1.0",
     "consola": "^2.15.0",
-    "esbuild": "^0.8.33",
     "fs-monkey": "^1.0.1",
     "memfs": "^3.2.0",
     "mock-require": "^3.0.3",
@@ -42,9 +46,5 @@
     "source-map-support": "^0.5.19",
     "typescript": "^4.1.3",
     "unionfs": "^4.4.0"
-  },
-  "devDependencies": {
-    "@types/node": "^14.14.21",
-    "@types/shortid": "^0.0.29"
   }
 }
