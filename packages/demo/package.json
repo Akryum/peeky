@@ -3,7 +3,7 @@
   "version": "0.1.2",
   "private": true,
   "scripts": {
-    "dev-server": "nodemon ../peeky-server/dist/standalone.js --watch .. --delay 200ms -e js --ignore tests/ --ignore demo/",
+    "dev-server": "nodemon ../peeky-server/dist/standalone.js --watch .. --delay 200ms -e js --ignore tests/ --ignore demo/ --nexus-artifacts",
     "dev-open": "peeky open",
     "dev-run": "peeky run"
   },
