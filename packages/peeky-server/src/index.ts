@@ -20,6 +20,7 @@ export async function createServer () {
       typegen: join(__dirname, '..', 'src', 'generated', 'nexus-typegen.ts'),
       schema: join(__dirname, '..', 'src', 'generated', 'schema.graphql'),
     },
+    shouldExitAfterGenerateArtifacts: process.argv.includes('--nexus-exit'),
     contextType: {
       module: join(__dirname, '..', 'src', 'context.d.ts'),
       export: 'Context',

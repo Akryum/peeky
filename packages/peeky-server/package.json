@@ -17,7 +17,7 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "rimraf dist src/generated && tsc -d && cp src/context.d.ts dist/context.d.ts",
+    "build": "rimraf dist src/generated && tsc -d && cp src/context.d.ts dist/context.d.ts && node ./dist/standalone.js --nexus-exit",
     "watch": "tsc -d -w --sourceMap",
     "prepublishOnly": "yarn build"
   },
