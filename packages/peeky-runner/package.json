@@ -28,6 +28,7 @@
   "devDependencies": {
     "@akryum/rollup-plugin-esbuild": "^1.0.0",
     "@akryum/workerpool": "^6.0.5-alpha.2",
+    "@peeky/cli": "^0.1.1",
     "@peeky/config": "^0.1.1",
     "@peeky/reactive-fs": "^0.1.1",
     "@peeky/utils": "^0.1.0",
