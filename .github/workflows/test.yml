@@ -7,7 +7,8 @@ jobs:
     runs-on: ubuntu-latest
     name: Build and test
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
@@ -39,4 +40,5 @@ jobs:
           yarn build
           yarn --force
 
-      - run: yarn run test
+      - name: Run tests
+        run: yarn run test
