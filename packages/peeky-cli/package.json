@@ -21,8 +21,7 @@
   },
   "scripts": {
     "build": "rimraf dist && node esbuild.js && tsc -d --emitDeclarationOnly && chmod +x ./dist/index.js",
-    "watch": "tsc -d -w --sourceMap",
-    "prepublishOnly": "yarn build"
+    "watch": "tsc -d -w --sourceMap"
   },
   "dependencies": {
     "@peeky/config": "^0.1.1",

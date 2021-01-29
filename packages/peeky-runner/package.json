@@ -19,8 +19,7 @@
   "scripts": {
     "build": "rimraf dist && node esbuild.js && tsc -d --emitDeclarationOnly",
     "watch": "tsc -d -w --sourceMap",
-    "test": "../peeky-cli/dist/index.js run",
-    "prepublishOnly": "yarn build && yarn test"
+    "test": "../peeky-cli/dist/index.js run"
   },
   "dependencies": {
     "esbuild": "^0.8.33"

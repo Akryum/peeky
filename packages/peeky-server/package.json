@@ -19,8 +19,7 @@
   "scripts": {
     "build": "yarn run gen && rimraf dist && tsc -d --emitDeclarationOnly && cp src/context.d.ts dist/context.d.ts && node esbuild.js",
     "gen": "rimraf dist src/generated && tsc && cp src/context.d.ts dist/context.d.ts && node ./dist/standalone.js --nexus-artifacts --nexus-exit",
-    "watch": "tsc -d -w --sourceMap",
-    "prepublishOnly": "yarn build"
+    "watch": "tsc -d -w --sourceMap"
   },
   "dependencies": {
     "@peeky/client-dist": "^0.1.0",
