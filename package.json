@@ -11,6 +11,7 @@
     "link": "lerna link",
     "watch": "yarn build && lerna run watch --parallel",
     "test": "lerna run test --parallel",
+    "release": "yarn lint && yarn build && yarn test && lerna publish",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:serve": "vitepress serve docs"
