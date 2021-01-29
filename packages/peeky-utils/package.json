@@ -17,19 +17,19 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "rimraf dist && tsc -d",
+    "build": "rimraf dist && node esbuild.js && tsc -d --emitDeclarationOnly",
     "watch": "tsc -d -w --sourceMap",
     "prepublishOnly": "yarn build"
   },
   "dependencies": {
-    "chalk": "^4.1.0",
-    "consola": "^2.15.0",
-    "esbuild": "^0.8.34",
-    "merge-source-map": "^1.1.0",
-    "rollup": "^2.37.1"
+    "esbuild": "^0.8.34"
   },
   "devDependencies": {
     "@types/node": "^14.14.21",
+    "chalk": "^4.1.0",
+    "consola": "^2.15.0",
+    "merge-source-map": "^1.1.0",
+    "rollup": "^2.37.1",
     "typescript": "^4.1.3"
   }
 }

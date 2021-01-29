@@ -17,7 +17,8 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "rimraf dist src/generated && tsc -d && cp src/context.d.ts dist/context.d.ts && node ./dist/standalone.js --nexus-exit",
+    "build": "yarn run gen && rimraf dist && tsc -d --emitDeclarationOnly && cp src/context.d.ts dist/context.d.ts && node esbuild.js",
+    "gen": "rimraf dist src/generated && tsc && cp src/context.d.ts dist/context.d.ts && node ./dist/standalone.js --nexus-exit",
     "watch": "tsc -d -w --sourceMap",
     "prepublishOnly": "yarn build"
   },
@@ -25,7 +26,11 @@
     "@peeky/client-dist": "^0.1.0",
     "@peeky/config": "^0.1.1",
     "@peeky/reactive-fs": "^0.1.1",
-    "@peeky/runner": "^0.1.2",
+    "@peeky/runner": "^0.1.2"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.21",
+    "@types/shortid": "^0.0.29",
     "apollo-server-express": "^2.19.2",
     "chokidar": "^3.5.1",
     "consola": "^2.15.0",
@@ -37,11 +42,7 @@
     "nexus": "^1.0.0",
     "project-name-generator": "^2.1.9",
     "random-emoji": "^1.0.2",
-    "shortid": "^2.2.16"
-  },
-  "devDependencies": {
-    "@types/node": "^14.14.21",
-    "@types/shortid": "^0.0.29",
+    "shortid": "^2.2.16",
     "typescript": "^4.1.3"
   }
 }

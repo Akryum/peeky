@@ -17,7 +17,7 @@
   "main": "./dist/index.js",
   "types": "./types.d.ts",
   "scripts": {
-    "build": "rimraf dist && esbuild ./src/index.ts ./src/worker.ts --bundle --platform=node --outdir=dist --sourcemap --external:fsevents --external:esbuild && tsc -d --emitDeclarationOnly",
+    "build": "rimraf dist && node esbuild.js && tsc -d --emitDeclarationOnly",
     "watch": "tsc -d -w --sourceMap",
     "test": "peeky run",
     "prepublishOnly": "yarn build && yarn test"

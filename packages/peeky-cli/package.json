@@ -20,23 +20,23 @@
     "peeky": "./dist/index.js"
   },
   "scripts": {
-    "build": "rimraf dist && tsc -d && chmod +x ./dist/index.js",
+    "build": "rimraf dist && node esbuild.js && tsc -d --emitDeclarationOnly && chmod +x ./dist/index.js",
     "watch": "tsc -d -w --sourceMap",
     "prepublishOnly": "yarn build"
   },
   "dependencies": {
     "@peeky/config": "^0.1.1",
     "@peeky/runner": "^0.1.2",
-    "@peeky/server": "^0.1.2",
-    "commander": "^7.0.0",
-    "consola": "^2.15.0",
-    "lodash": "^4.17.20",
-    "open": "^7.3.1",
-    "portfinder": "^1.0.28"
+    "@peeky/server": "^0.1.2"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.167",
     "@types/node": "^14.14.21",
+    "commander": "^7.0.0",
+    "consola": "^2.15.0",
+    "lodash": "^4.17.20",
+    "open": "^7.3.1",
+    "portfinder": "^1.0.28",
     "typescript": "^4.1.3"
   }
 }
