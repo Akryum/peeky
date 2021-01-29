@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+
 describe('I was a tester like you, then I took an arrow in the knee', () => {
 
 })

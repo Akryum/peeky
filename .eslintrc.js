@@ -41,6 +41,14 @@ module.exports = {
     indent: 'off',
     '@typescript-eslint/indent': ['error', 2],
   },
+  overrides: [
+    {
+      files: ['*.vue'],
+      rules: {
+        '@typescript-eslint/no-unused-vars': 'off',
+      },
+    },
+  ],
   ignorePatterns: [
     'node_modules/',
     'dist/',
