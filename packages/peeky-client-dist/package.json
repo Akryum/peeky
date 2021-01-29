@@ -16,5 +16,8 @@
   },
   "scripts": {
     "prepublishOnly": "cd ../peeky-client && yarn build-client"
+  },
+  "devDependencies": {
+    "@peeky/client": "^0.1.2"
   }
 }
