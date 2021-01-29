@@ -53,7 +53,7 @@ export async function setupRunner (options: RunnerOptions) {
           const { duration, error, stack } = payload
           const suite = suiteMap[payload.suite.id]
           const test = suite.tests.find(t => t.id === payload.test.id)
-          consola.log(chalk.red(`  \u{274C}${test.title} ${chalk.grey(`(${duration}ms)`)}`))
+          consola.log(chalk.red(`  ✗ ${test.title} ${chalk.grey(`(${duration}ms)`)}`))
           consola.error({ ...error, stack })
         } else if (eventType === EventType.TEST_SUCCESS) {
           const { duration } = payload
