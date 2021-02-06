@@ -1,6 +1,6 @@
 {
   "name": "@peeky/runner",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Test runner for Peeky, the testing framework for curious minds",
   "license": "MIT",
   "author": {
