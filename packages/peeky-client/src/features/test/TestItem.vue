@@ -61,19 +61,15 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
 
   <div
     v-if="test.status === 'error'"
-    class="bg-blush-50 text-blush-600 m-1 rounded relative text-sm"
+    class="bg-blush-100 text-blush-600 m-1 rounded relative text-sm"
   >
     <div class="absolute left-10 -top-1 w-3 h-3 transform rotate-45 bg-blush-100" />
 
     <div class="relative">
-      <div class="font-mono text-sm truncate px-2 pt-2 pb-1 bg-blush-100 rounded-t">
-        {{ test.error.snippet }}
-      </div>
-
-      <div class="flex items-center space-x-1 px-2">
-        <span class="flex-1 truncate py-1 font-semibold">
-          {{ test.error.message }}
-        </span>
+      <div class="flex items-center space-x-1 p-2">
+        <div class="flex-1 font-mono text-sm truncate">
+          {{ test.error.snippet }}
+        </div>
         <span
           class="text-blush-300 hover:text-blush-400 cursor-pointer"
           @click="openInEditor({
@@ -84,6 +80,10 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
         >
           {{ suite.runTestFile.testFile.relativePath }}:{{ test.error.line }}:{{ test.error.col }}
         </span>
+      </div>
+
+      <div class="p-2 font-semibold border-t border-blush-200">
+        {{ test.error.message }}
       </div>
     </div>
   </div>
