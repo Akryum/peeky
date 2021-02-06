@@ -1,4 +1,4 @@
-import { foo } from './foo'
+import { foo, doesntWork } from './foo'
 
 describe('typescript test suite', () => {
   it('tests the foo function', () => {
@@ -15,8 +15,12 @@ describe('typescript test suite', () => {
     expect(spy.callCount).to.equal(1)
   })
 
-  it('error', () => {
+  it('assertion error in the test', () => {
     expect(1).to.equal(2)
+  })
+
+  it('the tested code crashes', () => {
+    doesntWork()
   })
 
   it('wait for async op', async () => {
