@@ -47,10 +47,10 @@ import Feature from './Feature.vue'
       title="BDD"
       icon="check"
     >
-      Write safer expressive assertions with <a
-        href="https://github.com/moll/js-must/#mustjs"
+      Write expressive assertions with <a
+        href="https://jestjs.io/docs/expect"
         target="_blank"
-      >Must</a>
+      >Expect</a> (Jest compatible)
     </Feature>
 
     <Feature
