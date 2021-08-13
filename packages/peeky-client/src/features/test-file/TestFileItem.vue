@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import StatusIcon from '../StatusIcon.vue'
+import Duration from '../Duration.vue'
 import { FileIcon } from '@zhuowenli/vue-feather-icons'
 import { defineProps } from 'vue'
 
@@ -33,12 +34,12 @@ const props = defineProps({
     >
       {{ file.testFile.relativePath }}
     </span>
-    <span
-      v-if="file.duration != null"
-      class="flex-none text-black dark:text-white opacity-40"
-    >
-      {{ file.duration }}ms
-    </span>
+    <Duration
+      :duration="file.duration"
+      :big="100"
+      :huge="500"
+      class="flex-none"
+    />
   </router-link>
 </template>
 

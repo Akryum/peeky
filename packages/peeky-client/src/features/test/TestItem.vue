@@ -20,6 +20,7 @@ fragment testItem on Test {
 
 <script lang="ts" setup>
 import StatusIcon from '../StatusIcon.vue'
+import Duration from '../Duration.vue'
 import { defineProps } from 'vue'
 import { useMutation } from '@vue/apollo-composable'
 
@@ -74,12 +75,7 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
     <span class="flex-1 truncate py-1">
       {{ test.title }}
     </span>
-    <span
-      v-if="test.duration != null"
-      class="text-black dark:text-white opacity-40"
-    >
-      {{ test.duration }}ms
-    </span>
+    <Duration :duration="test.duration" />
   </router-link>
 
   <div

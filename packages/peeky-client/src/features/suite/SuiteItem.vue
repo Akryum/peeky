@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import TestItem from '../test/TestItem.vue'
 import StatusIcon from '../StatusIcon.vue'
+import Duration from '../Duration.vue'
 import { computed, defineProps } from 'vue'
 
 const props = defineProps({
@@ -56,12 +57,10 @@ const filteredTests = computed(() => {
       >
         {{ suite.title }}
       </span>
-      <span
-        v-if="suite.duration != null"
-        class="flex-none text-black dark:text-white opacity-40"
-      >
-        {{ suite.duration }}ms
-      </span>
+      <Duration
+        :duration="suite.duration"
+        class="flex-none"
+      />
     </div>
 
     <div
