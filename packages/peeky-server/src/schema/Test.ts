@@ -149,6 +149,9 @@ export async function createTest (ctx: Context, options: CreateTestOptions) {
   ctx.pubsub.publish(TestAdded, {
     test,
   } as TestAddedPayload)
+  ctx.pubsub.publish(TestUpdated, {
+    test,
+  } as TestUpdatedPayload)
   test.testSuite.tests.push(test)
   return test
 }
