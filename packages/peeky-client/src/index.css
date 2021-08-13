@@ -9,9 +9,41 @@ html {
   }
 
   &.dark {
-    background: #080810;
+    background: #1e1e25;
     color: white;
+
+    *::-webkit-scrollbar-track {
+      @apply bg-gray-900;
+    }
+
+    *::-webkit-scrollbar-thumb {
+      @apply bg-gray-700 border border-gray-900;
+    }
   }
 }
+
+
+/* Disable touch blue rectangle */
+[type="button"],
+[type="submit"],
+.button-like,
+a {
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+*::-webkit-scrollbar-track {
+  @apply bg-gray-50;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+  @apply bg-gray-200 border border-gray-50;
+  border-radius: 2px;
+}
+
 
 @tailwind utilities;
