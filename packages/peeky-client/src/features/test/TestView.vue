@@ -55,13 +55,13 @@ const test = useResult(result, null, data => data.run.testSuite.test)
 
 subscribeToMore(() => ({
   document: gql`
-      subscription testUpdated ($runId: ID!, $testSlug: String!) {
-        testUpdatedBySlug (runId: $runId, testSlug: $testSlug) {
-          ...testView
-        }
-      }
-      ${testViewFragment}
-      `,
+  subscription testUpdated ($runId: ID!, $testSlug: String!) {
+    testUpdatedBySlug (runId: $runId, testSlug: $testSlug) {
+      ...testView
+    }
+  }
+  ${testViewFragment}
+  `,
   variables: {
     runId: route.params.runId,
     testSlug: route.params.testSlug,
