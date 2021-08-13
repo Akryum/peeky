@@ -10,7 +10,8 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "types": [
-      "node"
+      "node",
+      "@peeky/runner"
     ],
     "sourceMap": false,
     "preserveWatchOutput": true,

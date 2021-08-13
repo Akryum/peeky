@@ -8,6 +8,7 @@ describe('reactive fs: list()', () => {
     fs = await createReactiveFileSystem({
       baseDir: join(__dirname, 'list-example'),
       glob: ['**/*.js'],
+      ignored: ['excluded'],
     })
   })
 
