@@ -1,6 +1,6 @@
 {
   "name": "@peeky/server",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Server for Peeky, the testing framework for curious minds",
   "license": "MIT",
   "author": {
@@ -22,7 +22,7 @@
     "watch": "tsc -d -w --sourceMap"
   },
   "dependencies": {
-    "@peeky/client-dist": "^0.1.6",
+    "@peeky/client-dist": "^0.1.7",
     "@peeky/config": "^0.1.6",
     "@peeky/reactive-fs": "^0.1.6",
     "@peeky/runner": "^0.1.6"
