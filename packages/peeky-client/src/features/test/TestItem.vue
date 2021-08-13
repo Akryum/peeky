@@ -101,9 +101,10 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
         </span>
       </div>
 
-      <div class="p-2 font-semibold border-t border-blush-200 dark:border-blush-800">
-        {{ test.error.message }}
-      </div>
+      <div
+        class="p-2 font-semibold border-t border-blush-200 dark:border-blush-800"
+        v-html="test.error.message"
+      />
     </div>
   </div>
 </template>

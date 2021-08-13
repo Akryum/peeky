@@ -1,10 +1,13 @@
 import { withFilter } from 'apollo-server-express'
 import { extendType, idArg, nonNull, objectType, stringArg } from 'nexus'
 import slugify from 'slugify'
+import { default as AnsiUp } from 'ansi_up'
 import { Context } from '../context'
 import { getRunId } from './Run'
 import { Status, StatusEnum } from './Status'
 import { getTestSuite, TestSuiteData } from './TestSuite'
+
+const ansiUp = new AnsiUp()
 
 export const Test = objectType({
   name: 'Test',
@@ -25,8 +28,12 @@ export const Test = objectType({
 export const TestError = objectType({
   name: 'TestError',
   definition (t) {
-    t.nonNull.string('message')
-    t.string('stack')
+    t.nonNull.string('message', {
+      resolve: (error: any) => ansiUp.ansi_to_html(error.message),
+    })
+    t.string('stack', {
+      resolve: (error: any) => ansiUp.ansi_to_html(error.stack).replace(/\n/g, '<br>'),
+    })
     t.string('snippet')
     t.int('line')
     t.int('col')

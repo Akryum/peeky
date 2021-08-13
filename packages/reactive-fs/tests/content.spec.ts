@@ -12,11 +12,11 @@ describe('reactive fs: file content', () => {
   })
 
   test('initial content is undefined', () => {
-    expect(fs.files['meow.js'].content).to.be.undefined()
+    expect(fs.files['meow.js'].content).toBeUndefined()
   })
 
   test('waitForContent', async () => {
-    expect(await fs.files['meow.js'].waitForContent).to.equal('console.log(\'meow\')\n')
+    expect(await fs.files['meow.js'].waitForContent).toBe('console.log(\'meow\')\n')
   })
 
   test('reactive content (initial load)', async () => {
@@ -24,8 +24,8 @@ describe('reactive fs: file content', () => {
     fs.effect(() => {
       result = fs.files['meow.js'].content
     })
-    expect(result).to.be.undefined()
-    await peeky.retry(() => expect(result).to.equal('console.log(\'meow\')\n'))
+    expect(result).toBeUndefined()
+    await peeky.retry(() => expect(result).toBe('console.log(\'meow\')\n'))
   })
 
   test('reactive content', async () => {
@@ -34,8 +34,8 @@ describe('reactive fs: file content', () => {
     fs.effect(() => {
       result = fs.files['meow.js'].content
     })
-    expect(result).to.equal('console.log(\'meow\')\n')
+    expect(result).toBe('console.log(\'meow\')\n')
     fs.files['meow.js'].content = 'waf'
-    await peeky.retry(() => expect(result).to.equal('waf'))
+    await peeky.retry(() => expect(result).toBe('waf'))
   })
 })

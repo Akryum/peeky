@@ -38,10 +38,12 @@ Create a test file and give it the extension `.spec.js`:
 
 describe('Example test suite', () => {
   test('must work', () => {
-    expect(42).to.equal(42)
+    expect(42).toBe(42)
   })
 })
 ```
+
+Find all the available assertions [here](https://jestjs.io/docs/expect).
 
 ## Development UI
 
@@ -66,11 +68,11 @@ Let's try adding a failing test to our suite:
 
 describe('Example test suite', () => {
   test('must work', () => {
-    expect(42).to.equal(42)
+    expect(42).toBe(42)
   })
 
   test('oops', () => {
-    expect('hey').to.equal('hello')
+    expect('hey').toBe('hello')
   })
 })
 ```
@@ -92,11 +94,11 @@ Let's fix the failing test:
 
 describe('Example test suite', () => {
   test('must work', () => {
-    expect(42).to.equal(42)
+    expect(42).toBe(42)
   })
 
   test('yay', () => {
-    expect('hello').to.equal('hello')
+    expect('hello').toBe('hello')
   })
 })
 ```

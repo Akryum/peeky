@@ -86,10 +86,10 @@ describe('getStats()', () => {
         ],
       },
     ])
-    expect(stats.suiteCount).to.equal(4)
-    expect(stats.errorSuiteCount).to.equal(0)
-    expect(stats.testCount).to.equal(6)
-    expect(stats.errorTestCount).to.equal(0)
+    expect(stats.suiteCount).toBe(4)
+    expect(stats.errorSuiteCount).toBe(0)
+    expect(stats.testCount).toBe(6)
+    expect(stats.errorTestCount).toBe(0)
   })
 
   test('counts errors', () => {
@@ -135,9 +135,9 @@ describe('getStats()', () => {
         ],
       },
     ])
-    expect(stats.suiteCount).to.equal(2)
-    expect(stats.errorSuiteCount).to.equal(1)
-    expect(stats.testCount).to.equal(3)
-    expect(stats.errorTestCount).to.equal(1)
+    expect(stats.suiteCount).toBe(2)
+    expect(stats.errorSuiteCount).toBe(1)
+    expect(stats.testCount).toBe(3)
+    expect(stats.errorTestCount).toBe(1)
   })
 })

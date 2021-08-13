@@ -2,21 +2,21 @@ import { foo, doesntWork } from './foo'
 
 describe('typescript test suite', () => {
   it('tests the foo function', () => {
-    expect(foo(42)).to.equal(84)
+    expect(foo(42)).toBe(84)
   })
 
   it('meows', () => {
-    expect('meow').to.equal('meow')
+    expect('meow').toBe('meow')
   })
 
   it('test a function', () => {
     const spy = sinon.fake()
     spy()
-    expect(spy.callCount).to.equal(1)
+    expect(spy.callCount).toBe(1)
   })
 
   it('assertion error in the test', () => {
-    expect(1).to.equal(2)
+    expect(1).toBe(2)
   })
 
   it('the tested code crashes', () => {
@@ -25,17 +25,17 @@ describe('typescript test suite', () => {
 
   it('wait for async op', async () => {
     await wait(1000)
-    expect(0).to.equal(0)
+    expect(0).toBe(0)
   })
 
   it('wait for async op 2', async () => {
     await wait(1000)
-    expect(0).to.equal(0)
+    expect(0).toBe(0)
   })
 
   it('wait for async op 3', async () => {
     await wait(1000)
-    expect(0).to.equal(0)
+    expect(0).toBe(0)
     // doesntWork()
   })
 })

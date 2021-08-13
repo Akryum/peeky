@@ -54,7 +54,7 @@ export async function setupRunner (options: RunnerOptions) {
           const suite = suiteMap[payload.suite.id]
           const test = suite.tests.find(t => t.id === payload.test.id)
           consola.log(chalk.red(`  ✗ ${test.title} ${chalk.grey(`(${duration}ms)`)}`))
-          consola.error({ ...error, stack })
+          consola.error(stack ?? error.message)
         } else if (eventType === EventType.TEST_SUCCESS) {
           const { duration } = payload
           const suite = suiteMap[payload.suite.id]

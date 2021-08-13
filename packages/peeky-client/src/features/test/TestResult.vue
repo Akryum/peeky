@@ -2,7 +2,7 @@
 import { useMutation } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 import { computed, defineProps } from 'vue'
-import { ChevronRightIcon, AlertCircleIcon } from '@zhuowenli/vue-feather-icons'
+import { ChevronRightIcon } from '@zhuowenli/vue-feather-icons'
 import StatusIcon from '../StatusIcon.vue'
 
 const props = defineProps({
@@ -23,8 +23,8 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
 }
 `)
 
-const stackHtml = computed(() => props.test.error.stack.replace(/\(((.*?\.\w+):(\d+):(\d+))\)/g,
-  '(<a class="cursor-pointer hover:text-blush-400" data-file="$2" data-line="$3" data-col="$4">$1</a>)'))
+const stackHtml = computed(() => props.test.error.stack.replace(/(((\\|\/)?[A-Za-zÀ-ÖØ-öø-ÿ\d-_. ]+)+\.[A-Za-zÀ-ÖØ-öø-ÿ\d]+):(\d+):(\d+)/g,
+  '<a class="cursor-pointer hover:text-blush-400" data-file="$1" data-line="$4" data-col="$5">$&</a>'))
 
 const { mutate: openFileInEditor } = useMutation(gql`
 mutation openFileInEditor ($path: String!, $line: Int!, $col: Int!) {
@@ -72,11 +72,6 @@ function onStackClick (event: MouseEvent) {
         >
           {{ suite.runTestFile.testFile.relativePath }}:{{ test.error.line }}:{{ test.error.col }}
         </span>
-      </div>
-
-      <div class="p-2 font-semibold flex items-center space-x-2">
-        <AlertCircleIcon class="w-6 h-6" />
-        <span>{{ test.error.message }}</span>
       </div>
 
       <div

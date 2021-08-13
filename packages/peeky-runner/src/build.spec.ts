@@ -5,6 +5,6 @@ describe('build cache', async () => {
 
   test('generates a cache path', () => {
     sinon.stub(process, 'cwd').callsFake(() => '/home/acme/project')
-    expect(getCachePath('/home/acme/project/src/test.spec.js')).to.equal('/home/acme/project/node_modules/.temp/peeky-build-cache/src_test_spec_js.json')
+    expect(getCachePath('/home/acme/project/src/test.spec.js')).toBe('/home/acme/project/node_modules/.temp/peeky-build-cache/src_test_spec_js.json')
   })
 })

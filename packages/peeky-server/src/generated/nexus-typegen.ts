@@ -66,9 +66,7 @@ export interface NexusGenObjects {
   TestError: { // root type
     col?: number | null; // Int
     line?: number | null; // Int
-    message: string; // String!
     snippet?: string | null; // String
-    stack?: string | null; // String
   }
   TestFile: { // root type
     deleted: boolean; // Boolean!

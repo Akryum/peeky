@@ -1,5 +1,5 @@
 describe('happy test', () => {
   it('shoud be a valid test', () => {
-    expect(42).to.equal(42)
+    expect(42).toBe(42)
   })
 })

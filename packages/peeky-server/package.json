@@ -30,6 +30,7 @@
   "devDependencies": {
     "@types/node": "^14.14.21",
     "@types/shortid": "^0.0.29",
+    "ansi_up": "^5.0.1",
     "apollo-server-express": "^2.19.2",
     "chokidar": "^3.5.1",
     "consola": "^2.15.0",

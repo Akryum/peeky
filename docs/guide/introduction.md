@@ -16,7 +16,7 @@ Peeky is a test framework. It's components are:
 
 It also includes those libraries to help you with your tests:
 
-- [Must](https://github.com/moll/js-must/#mustjs) for the assertions
+- [Expect](https://jestjs.io/docs/expect) for the assertions (Jest-compatible)
 - [Sinon](https://sinonjs.org/) for spies and fake functions
 
 ## Main features

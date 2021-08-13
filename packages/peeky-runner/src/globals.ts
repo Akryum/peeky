@@ -1,5 +1,5 @@
 import sinon from 'sinon'
-import must from 'must'
+import expect from 'expect'
 import { Context } from './types'
 import { createPeekyGlobal } from './peeky-global'
 import { Register } from './test-register'
@@ -7,7 +7,7 @@ import { Register } from './test-register'
 export function registerGlobals (ctx: Context, target: any, register: Register) {
   // Global objects
   target.peeky = createPeekyGlobal(ctx)
-  target.expect = must
+  target.expect = expect
   target.sinon = sinon
 
   // Register
