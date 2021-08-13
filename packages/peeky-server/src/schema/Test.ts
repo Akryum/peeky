@@ -1,7 +1,7 @@
 import { withFilter } from 'apollo-server-express'
 import { extendType, idArg, nonNull, objectType, stringArg } from 'nexus'
 import slugify from 'slugify'
-import { default as AnsiUp } from 'ansi_up'
+import AnsiUp from 'ansi_up'
 import { Context } from '../context'
 import { getRunId } from './Run'
 import { Status, StatusEnum } from './Status'
