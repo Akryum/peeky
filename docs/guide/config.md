@@ -106,7 +106,7 @@ export default defineConfig({
 
 ## watchThrottle
 
-Prevent from running the tests to often in development mode when many files are being changed in a short amount of time. Unit is milliseconds. Default value is 100ms.
+Prevent from running the tests too often in development mode when many files are being changed in a short amount of time. Unit is milliseconds. Default value is 100ms.
 
 Example:
 
