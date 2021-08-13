@@ -65,7 +65,7 @@ const filteredFiles = computed(() => {
 
 // Sorting
 const sortedFiles = computed(() => filteredFiles.value.slice().sort(
-  (a, b) => a.testFile.relativePath.localeCompare(b.testFile.relativePath)
+  (a, b) => a.testFile.relativePath.localeCompare(b.testFile.relativePath),
 ))
 
 // Subscriptions

@@ -46,6 +46,7 @@ module.exports = {
       files: ['*.vue'],
       rules: {
         '@typescript-eslint/no-unused-vars': 'off',
+        'import/first': 'off',
       },
     },
   ],
