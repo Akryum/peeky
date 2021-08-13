@@ -1,6 +1,6 @@
 {
   "name": "@peeky/reactive-fs",
-  "version": "0.1.3",
+  "version": "0.1.5",
   "description": "Reactive file system interface",
   "license": "MIT",
   "author": {

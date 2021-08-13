@@ -1,6 +1,6 @@
 {
   "name": "@peeky/cli",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Command-line interface for Peeky, the testing framework for curious minds",
   "license": "MIT",
   "author": {
@@ -24,9 +24,9 @@
     "watch": "tsc -d -w --sourceMap"
   },
   "dependencies": {
-    "@peeky/config": "^0.1.3",
-    "@peeky/runner": "^0.1.4",
-    "@peeky/server": "^0.1.4"
+    "@peeky/config": "^0.1.5",
+    "@peeky/runner": "^0.1.5",
+    "@peeky/server": "^0.1.5"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.167",
