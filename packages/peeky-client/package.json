@@ -31,8 +31,8 @@
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.1.4",
     "@vue/compiler-sfc": "^3.0.5",
-    "@vuedx/typecheck": "^0.4.1",
-    "@vuedx/typescript-plugin-vue": "^0.4.1",
+    "@vuedx/typecheck": "^0.7.4",
+    "@vuedx/typescript-plugin-vue": "^0.7.4",
     "autoprefixer": "^10.2.3",
     "postcss": "^8.2.4",
     "postcss-nested": "^5.0.3",
