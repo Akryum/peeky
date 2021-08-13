@@ -7,7 +7,7 @@
 
 ## What is Peeky
 
-Peeky is a test framework. It's components are:
+Peeky is a test framework. Its components are:
 
 - Test runner
 - GraphQL server that exposes an API
