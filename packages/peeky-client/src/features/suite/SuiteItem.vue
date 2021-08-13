@@ -34,7 +34,10 @@ const filteredTests = computed(() => {
 </script>
 
 <template>
-  <div v-if="!searchReg || filteredTests.length">
+  <div
+    v-if="!searchReg || filteredTests.length"
+    class="mb-2"
+  >
     <div
       class="flex items-center space-x-2 h-8 px-3"
       :style="{
