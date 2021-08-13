@@ -40,6 +40,10 @@ module.exports = {
               text: 'Writing tests',
               link: '/guide/writing-tests',
             },
+            {
+              text: 'Configuration',
+              link: '/guide/config',
+            },
           ],
         },
       ],
