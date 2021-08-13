@@ -6,7 +6,6 @@ const { settings } = useSettings()
 
 watch(settings, value => {
   if (!value) return
-  console.log(value)
   if (value.darkMode) {
     document.documentElement.classList.add('dark')
   } else {
