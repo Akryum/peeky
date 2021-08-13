@@ -48,6 +48,10 @@ module.exports = {
         '@typescript-eslint/no-unused-vars': 'off',
         'import/first': 'off',
       },
+      globals: {
+        defineProps: false,
+        defineEmits: false,
+      },
     },
   ],
   ignorePatterns: [
