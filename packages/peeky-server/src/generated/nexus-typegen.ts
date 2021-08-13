@@ -5,7 +5,9 @@
 
 
 import type { Context } from "./../context"
-import type { RunData, RunTestFileData, TestSuiteData } from "./../standalone"
+import type { TestSuiteData } from "./../schema/TestSuite"
+import type { RunData } from "./../schema/Run"
+import type { RunTestFileData } from "./../schema/RunTestFile"
 
 
 
@@ -55,6 +57,7 @@ export interface NexusGenObjects {
     duration?: number | null; // Int
     error?: NexusGenRootTypes['TestError'] | null; // TestError
     id: string; // ID!
+    slug: string; // String!
     status: NexusGenEnums['Status']; // Status!
     title: string; // String!
   }
@@ -109,6 +112,7 @@ export interface NexusGenFieldTypes {
     runTestFile: NexusGenRootTypes['RunTestFile'] | null; // RunTestFile
     runTestFiles: NexusGenRootTypes['RunTestFile'][]; // [RunTestFile!]!
     status: NexusGenEnums['Status']; // Status!
+    testSuiteBySlug: NexusGenRootTypes['TestSuite'] | null; // TestSuite
     testSuites: NexusGenRootTypes['TestSuite'][]; // [TestSuite!]!
     title: string; // String!
   }
@@ -140,12 +144,14 @@ export interface NexusGenFieldTypes {
     testFileUpdated: NexusGenRootTypes['TestFile']; // TestFile!
     testSuiteAdded: NexusGenRootTypes['TestSuite']; // TestSuite!
     testSuiteUpdated: NexusGenRootTypes['TestSuite']; // TestSuite!
-    testUpdated: NexusGenRootTypes['Test']; // Test!
+    testUpdatedBySlug: NexusGenRootTypes['Test']; // Test!
+    testUpdatedInRun: NexusGenRootTypes['Test']; // Test!
   }
   Test: { // field return type
     duration: number | null; // Int
     error: NexusGenRootTypes['TestError'] | null; // TestError
     id: string; // ID!
+    slug: string; // String!
     status: NexusGenEnums['Status']; // Status!
     title: string; // String!
   }
@@ -167,7 +173,9 @@ export interface NexusGenFieldTypes {
     duration: number | null; // Int
     id: string; // ID!
     runTestFile: NexusGenRootTypes['RunTestFile']; // RunTestFile!
+    slug: string; // String!
     status: NexusGenEnums['Status']; // Status!
+    testBySlug: NexusGenRootTypes['Test'] | null; // Test
     tests: Array<NexusGenRootTypes['Test'] | null>; // [Test]!
     title: string; // String!
   }
@@ -197,6 +205,7 @@ export interface NexusGenFieldTypeNames {
     runTestFile: 'RunTestFile'
     runTestFiles: 'RunTestFile'
     status: 'Status'
+    testSuiteBySlug: 'TestSuite'
     testSuites: 'TestSuite'
     title: 'String'
   }
@@ -228,12 +237,14 @@ export interface NexusGenFieldTypeNames {
     testFileUpdated: 'TestFile'
     testSuiteAdded: 'TestSuite'
     testSuiteUpdated: 'TestSuite'
-    testUpdated: 'Test'
+    testUpdatedBySlug: 'Test'
+    testUpdatedInRun: 'Test'
   }
   Test: { // field return type name
     duration: 'Int'
     error: 'TestError'
     id: 'ID'
+    slug: 'String'
     status: 'Status'
     title: 'String'
   }
@@ -255,7 +266,9 @@ export interface NexusGenFieldTypeNames {
     duration: 'Int'
     id: 'ID'
     runTestFile: 'RunTestFile'
+    slug: 'String'
     status: 'Status'
+    testBySlug: 'Test'
     tests: 'Test'
     title: 'String'
   }
@@ -290,6 +303,9 @@ export interface NexusGenArgTypes {
     runTestFile: { // args
       slug: string; // String!
     }
+    testSuiteBySlug: { // args
+      slug: string; // String!
+    }
   }
   Subscription: {
     testAdded: { // args
@@ -304,9 +320,18 @@ export interface NexusGenArgTypes {
       runId: string; // ID!
       runTestFileId?: string | null; // ID
     }
-    testUpdated: { // args
+    testUpdatedBySlug: { // args
+      runId: string; // ID!
+      testSlug: string; // String!
+    }
+    testUpdatedInRun: { // args
       runId: string; // ID!
       runTestFileId?: string | null; // ID
+    }
+  }
+  TestSuite: {
+    testBySlug: { // args
+      slug: string; // String!
     }
   }
 }

@@ -28,6 +28,15 @@ const classes = {
   skipped: 'text-gray-300 dark:text-gray-700',
 }
 
+const bgClasses = {
+  idle: 'bg-gray-300 dark:bg-gray-700',
+  // eslint-disable-next-line @typescript-eslint/camelcase
+  in_progress: 'bg-flamingo-500',
+  success: 'bg-shamrock-500',
+  error: 'bg-blush-500',
+  skipped: 'bg-gray-300 dark:bg-gray-700',
+}
+
 const smallIcons = {
   // eslint-disable-next-line @typescript-eslint/camelcase
   in_progress: ClockIcon,
@@ -51,11 +60,21 @@ const props = defineProps({
   },
 
   icon: {},
+
+  bg: {
+    type: Boolean,
+    default: false,
+  },
 })
 </script>
 
 <template>
-  <div class="relative">
+  <div
+    class="relative"
+    :class="{
+      [bgClasses[status] + ' rounded-full bg-opacity-25']: bg,
+    }"
+  >
     <component
       :is="icon || icons[status]"
       :key="status"

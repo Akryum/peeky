@@ -31,6 +31,7 @@ type Run {
   runTestFile(slug: String!): RunTestFile
   runTestFiles: [RunTestFile!]!
   status: Status!
+  testSuiteBySlug(slug: String!): TestSuite
   testSuites: [TestSuite!]!
   title: String!
 }
@@ -78,13 +79,15 @@ type Subscription {
   testFileUpdated: TestFile!
   testSuiteAdded(runId: ID!, runTestFileId: ID): TestSuite!
   testSuiteUpdated(runId: ID!, runTestFileId: ID): TestSuite!
-  testUpdated(runId: ID!, runTestFileId: ID): Test!
+  testUpdatedBySlug(runId: ID!, testSlug: String!): Test!
+  testUpdatedInRun(runId: ID!, runTestFileId: ID): Test!
 }
 
 type Test {
   duration: Int
   error: TestError
   id: ID!
+  slug: String!
   status: Status!
   title: String!
 }
@@ -109,7 +112,9 @@ type TestSuite {
   duration: Int
   id: ID!
   runTestFile: RunTestFile!
+  slug: String!
   status: Status!
+  testBySlug(slug: String!): Test
   tests: [Test]!
   title: String!
 }

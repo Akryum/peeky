@@ -45,7 +45,7 @@ export const RunQuery = extendType({
       args: {
         id: nonNull(idArg()),
       },
-      resolve: (_, { id }) => runs.find(r => r.id === id),
+      resolve: (_, { id }) => runs.find(r => r.id === getRunId(id)),
     })
 
     t.field('lastRun', {
@@ -197,12 +197,16 @@ export async function createRun (ctx: Context, options: CreateRunOptions) {
 }
 
 export async function getRun (ctx: Context, id: string) {
-  const run = runs.find(r => r.id === id)
+  const run = (id === 'last-run') ? runs[runs.length - 1] : runs.find(r => r.id === id)
   if (run) {
     return run
   } else {
     throw new Error(`Run ${id} not found`)
   }
+}
+
+export function getRunId (id: string) {
+  return ((id === 'last-run') ? runs[runs.length - 1] : runs.find(r => r.id === id))?.id
 }
 
 export async function updateRun (ctx: Context, id: string, data: Partial<Omit<RunData, 'id'>>) {

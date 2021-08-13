@@ -11,12 +11,14 @@ const props = defineProps({
 <template>
   <router-link
     :to="{
-      name: 'run-test-file',
-      params: {
-        slug: file.slug,
+      query: {
+        fileSlug: file.slug,
       },
     }"
     class="px-3 flex items-center hover:bg-gray-50 dark:hover:bg-gray-900 space-x-2 h-8"
+    :class="{
+      active: $route.query.fileSlug === file.slug,
+    }"
   >
     <StatusIcon
       :status="file.status"
@@ -41,7 +43,7 @@ const props = defineProps({
 </template>
 
 <style scoped>
-.router-link-active {
+.active {
   @apply bg-flamingo-50 text-flamingo-800 dark:bg-flamingo-900 dark:text-flamingo-200;
 
   .path {

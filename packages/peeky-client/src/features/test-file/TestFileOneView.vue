@@ -11,6 +11,7 @@ const route = useRoute()
 const runTestFileViewSuiteFragment = gql`
 fragment runTestFileViewSuite on TestSuite {
   id
+  slug
   title
   status
   duration
@@ -68,7 +69,7 @@ const { result, subscribeToMore, onResult } = useQuery(() => route.params.runId 
   }
   ${runTestFileViewFragment}
 `, () => ({
-  fileSlug: route.params.slug,
+  fileSlug: route.query.fileSlug,
   ...route.params.runId !== 'last-run' ? {
     runId: route.params.runId,
   } : {},
@@ -81,7 +82,7 @@ const runTestFile = useResult(result, null, data => data.run.runTestFile)
 
 let initSub = false
 onResult(({ data }) => {
-  if (data.run && !initSub) {
+  if (data?.run && !initSub) {
     initSub = true
 
     subscribeToMore(() => ({
@@ -116,7 +117,7 @@ onResult(({ data }) => {
     subscribeToMore(() => ({
       document: gql`
       subscription testUpdatedToRunTestFileView ($runId: ID!, $fileId: ID!) {
-        testUpdated(runId: $runId, runTestFileId: $fileId) {
+        testUpdatedInRun(runId: $runId, runTestFileId: $fileId) {
           ...testItem
         }
       }

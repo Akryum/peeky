@@ -18,6 +18,11 @@ const props = defineProps({
     type: RegExp,
     default: null,
   },
+
+  depth: {
+    type: Number,
+    required: true,
+  },
 })
 
 const filteredTests = computed(() => {
@@ -30,7 +35,12 @@ const filteredTests = computed(() => {
 
 <template>
   <div v-if="!searchReg || filteredTests.length">
-    <div class="flex items-center space-x-2 h-8 px-3">
+    <div
+      class="flex items-center space-x-2 h-8 px-3"
+      :style="{
+        paddingLeft: `${depth * 16 + 6}px`,
+      }"
+    >
       <StatusIcon
         :status="suite.status"
         class="w-4 h-4 flex-none"
@@ -62,12 +72,13 @@ const filteredTests = computed(() => {
       </div>
     </div>
 
-    <div class="pl-4">
+    <div>
       <TestItem
         v-for="test of filteredTests"
         :key="test.id"
         :test="test"
         :suite="suite"
+        :depth="depth + 1"
       />
     </div>
   </div>

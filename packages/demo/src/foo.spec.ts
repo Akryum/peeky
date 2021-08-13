@@ -36,6 +36,7 @@ describe('typescript test suite', () => {
   it('wait for async op 3', async () => {
     await wait(1000)
     expect(0).to.equal(0)
+    // doesntWork()
   })
 })
 

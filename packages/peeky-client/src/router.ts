@@ -1,7 +1,9 @@
-import { createRouter, createWebHistory, RouterView } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import Dashboard from './features/Dashboard.vue'
-import TestFileAllView from './features/test-file/TestFileAllView.vue'
-import TestFileOneView from './features/test-file/TestFileOneView.vue'
+import RunView from './features/run/RunView.vue'
+import TestView from './features/test/TestView.vue'
+import TestViewPlaceholder from './features/test/TestViewPlaceholder.vue'
+import TestResult from './features/test/TestResult.vue'
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -17,17 +19,23 @@ export const router = createRouter({
         },
         {
           path: 'run/:runId',
-          component: RouterView,
+          component: RunView,
           children: [
             {
               path: '',
               name: 'run',
-              component: TestFileAllView,
+              component: TestViewPlaceholder,
             },
             {
-              path: 'file/:slug',
-              name: 'run-test-file',
-              component: TestFileOneView,
+              path: 'test/:suiteSlug/:testSlug',
+              component: TestView,
+              children: [
+                {
+                  path: '',
+                  name: 'test',
+                  component: TestResult,
+                },
+              ],
             },
           ],
         },

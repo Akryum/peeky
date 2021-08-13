@@ -19,8 +19,9 @@
     "build-client": "vuedx-typecheck . && vite build --emptyOutDir"
   },
   "dependencies": {
-    "@apollo/client": "^3.3.7",
+    "@apollo/client": "^3.4.7",
     "@vue/apollo-composable": "^4.0.0-alpha.12",
+    "@vue/apollo-util": "^4.0.0-alpha.14",
     "@zhuowenli/vue-feather-icons": "^5",
     "graphql": "^15.4.0",
     "graphql-tag": "^2.11.0",

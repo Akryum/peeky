@@ -18,7 +18,7 @@ const props = defineProps({
       flat
       color="gray"
       class="flex-none p-2"
-      @click="$router.push({ name: 'run', params: { ...$route.params, slug: undefined } })"
+      @click="$router.push({ query: { ...$route.query, fileSlug: undefined } })"
     >
       <ArrowLeftIcon class="w-4 h-4" />
     </BaseButton>

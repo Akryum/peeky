@@ -4,12 +4,12 @@ import gql from 'graphql-tag'
 export const testItemFragment = gql`
 fragment testItem on Test {
   id
+  slug
   title
   status
   duration
   error {
     message
-    stack
     snippet
     line
     col
@@ -33,6 +33,11 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+
+  depth: {
+    type: Number,
+    required: true,
+  },
 })
 
 const { mutate: openInEditor } = useMutation(gql`
@@ -43,7 +48,25 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
 </script>
 
 <template>
-  <div class="flex items-center space-x-2 h-8 px-3">
+  <router-link
+    :to="{
+      name: 'test',
+      params: {
+        suiteSlug: suite.slug,
+        testSlug: test.slug,
+      },
+      query: {
+        ...$route.query,
+      },
+    }"
+    class="flex items-center space-x-2 h-8 px-3 hover:bg-gray-50 dark:hover:bg-gray-900"
+    :class="{
+      active: test.slug === $route.params.testSlug && $route.params.suiteSlug === suite.slug,
+    }"
+    :style="{
+      paddingLeft: `${depth * 16}px`,
+    }"
+  >
     <StatusIcon
       :status="test.status"
       class="w-4 h-4 flex-none"
@@ -57,13 +80,13 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
     >
       {{ test.duration }}ms
     </span>
-  </div>
+  </router-link>
 
   <div
     v-if="test.status === 'error'"
-    class="bg-blush-100 text-blush-600 m-1 rounded relative text-sm"
+    class="bg-blush-100 dark:bg-blush-900 text-blush-600 m-1 rounded relative text-sm"
   >
-    <div class="absolute left-10 -top-1 w-3 h-3 transform rotate-45 bg-blush-100" />
+    <div class="absolute left-10 -top-1 w-3 h-3 transform rotate-45 bg-blush-100 dark:bg-blush-900" />
 
     <div class="relative">
       <div class="flex items-baseline space-x-1 p-2">
@@ -88,3 +111,13 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
     </div>
   </div>
 </template>
+
+<style scoped>
+.active {
+  @apply bg-flamingo-50 text-flamingo-800 dark:bg-flamingo-900 dark:text-flamingo-200;
+
+  .path {
+    @apply opacity-100;
+  }
+}
+</style>

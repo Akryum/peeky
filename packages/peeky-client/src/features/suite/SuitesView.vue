@@ -53,6 +53,7 @@ const searchReg = computed(() => searchText.value ? new RegExp(searchText.value,
             :suite="suite"
             :run="run"
             :search-reg="searchReg"
+            :depth="0"
           />
 
           <div
@@ -68,13 +69,7 @@ const searchReg = computed(() => searchText.value ? new RegExp(searchText.value,
     </template>
 
     <template #last>
-      <div class="h-full flex items-center justify-center text-4xl">
-        <img
-          src="/src/assets/logo.svg"
-          alt="Peeky logo"
-          class="max-w-32 opacity-25"
-        >
-      </div>
+      <router-view />
     </template>
   </BaseSplitPane>
 </template>

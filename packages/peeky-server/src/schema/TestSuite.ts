@@ -1,7 +1,9 @@
 import { withFilter } from 'apollo-server-express'
-import { extendType, idArg, nonNull, objectType } from 'nexus'
+import { extendType, idArg, nonNull, objectType, stringArg } from 'nexus'
+import slugify from 'slugify'
 import { Context } from '../context'
 import { getSrcFile } from '../util'
+import { getRunId } from './Run'
 import { RunTestFile, RunTestFileData } from './RunTestFile'
 import { Status, StatusEnum } from './Status'
 import { createTest, TestData } from './Test'
@@ -14,6 +16,7 @@ export const TestSuite = objectType({
   },
   definition (t) {
     t.nonNull.id('id')
+    t.nonNull.string('slug')
     t.nonNull.string('title')
     t.nonNull.field('status', {
       type: Status,
@@ -32,6 +35,14 @@ export const TestSuiteExtendRun = extendType({
     t.nonNull.list.field('testSuites', {
       type: nonNull(TestSuite),
       resolve: (parent) => testSuites.filter(s => s.runId === parent.id),
+    })
+
+    t.field('testSuiteBySlug', {
+      type: TestSuite,
+      args: {
+        slug: nonNull(stringArg()),
+      },
+      resolve: (run, { slug }) => testSuites.find(s => s.runId === run.id && s.slug === slug),
     })
   },
 })
@@ -59,7 +70,7 @@ export const TestSuiteSubscriptions = extendType({
       },
       subscribe: withFilter(
         (_, args, ctx) => ctx.pubsub.asyncIterator(TestSuiteAdded),
-        (payload: TestSuiteAddedPayload, args) => payload.testSuite.runId === args.runId && (args.runTestFileId == null || payload.testSuite.runTestFile.id === args.runTestFileId),
+        (payload: TestSuiteAddedPayload, args) => payload.testSuite.runId === getRunId(args.runId) && (args.runTestFileId == null || payload.testSuite.runTestFile.id === args.runTestFileId),
       ),
       resolve: (payload: TestSuiteAddedPayload) => payload.testSuite,
     })
@@ -72,7 +83,7 @@ export const TestSuiteSubscriptions = extendType({
       },
       subscribe: withFilter(
         (_, args, ctx) => ctx.pubsub.asyncIterator(TestSuiteUpdated),
-        (payload: TestSuiteUpdatedPayload, args) => payload.testSuite.runId === args.runId && (args.runTestFileId == null || payload.testSuite.runTestFile.id === args.runTestFileId),
+        (payload: TestSuiteUpdatedPayload, args) => payload.testSuite.runId === getRunId(args.runId) && (args.runTestFileId == null || payload.testSuite.runTestFile.id === args.runTestFileId),
       ),
       resolve: (payload: TestSuiteUpdatedPayload) => payload.testSuite,
     })
@@ -81,6 +92,7 @@ export const TestSuiteSubscriptions = extendType({
 
 export interface TestSuiteData {
   id: string
+  slug: string
   runId: string
   runTestFile: RunTestFileData
   title: string
@@ -105,6 +117,7 @@ export interface CreateTestSuiteOptions {
 export async function createTestSuite (ctx: Context, options: CreateTestSuiteOptions) {
   const testSuite: TestSuiteData = {
     id: options.id,
+    slug: slugify(options.title),
     runId: options.runId,
     runTestFile: options.runTestFile,
     title: options.title,
