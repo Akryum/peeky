@@ -12,6 +12,7 @@ module.exports = {
     docsBranch: 'main',
     editLinks: true,
     editLinkText: 'Suggest changes to this page',
+    logo: 'logo.svg',
 
     nav: [
       { text: 'Guide', link: '/guide/' },
