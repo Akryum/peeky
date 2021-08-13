@@ -94,6 +94,7 @@ export interface NexusGenFieldTypes {
   Mutation: { // field return type
     clearRun: NexusGenRootTypes['Run']; // Run!
     clearRuns: boolean; // Boolean!
+    openFileInEditor: boolean | null; // Boolean
     openTestFileInEditor: boolean | null; // Boolean
     startRun: NexusGenRootTypes['Run']; // Run!
     updateSettings: NexusGenRootTypes['Settings']; // Settings!
@@ -188,6 +189,7 @@ export interface NexusGenFieldTypeNames {
   Mutation: { // field return type name
     clearRun: 'Run'
     clearRuns: 'Boolean'
+    openFileInEditor: 'Boolean'
     openTestFileInEditor: 'Boolean'
     startRun: 'Run'
     updateSettings: 'Settings'
@@ -282,6 +284,11 @@ export interface NexusGenArgTypes {
   Mutation: {
     clearRun: { // args
       input: NexusGenInputs['ClearRunInput']; // ClearRunInput!
+    }
+    openFileInEditor: { // args
+      col: number; // Int!
+      line: number; // Int!
+      path: string; // String!
     }
     openTestFileInEditor: { // args
       col: number; // Int!

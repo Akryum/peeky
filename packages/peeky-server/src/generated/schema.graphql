@@ -9,6 +9,7 @@ input ClearRunInput {
 type Mutation {
   clearRun(input: ClearRunInput!): Run!
   clearRuns: Boolean!
+  openFileInEditor(col: Int!, line: Int!, path: String!): Boolean
   openTestFileInEditor(col: Int!, id: ID!, line: Int!): Boolean
   startRun(input: StartRunInput!): Run!
   updateSettings(input: UpdateSettingsInput!): Settings!

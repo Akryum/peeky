@@ -1,4 +1,4 @@
-import { extendType, idArg, intArg, nonNull, objectType } from 'nexus'
+import { extendType, idArg, intArg, nonNull, objectType, stringArg } from 'nexus'
 import launchEditor from 'launch-editor'
 import { Context } from '../context'
 import { Status, StatusEnum } from './Status'
@@ -47,6 +47,18 @@ export const TestFileMutation = extendType({
       resolve: (root, { id, line, col }) => {
         const testFile = testFiles.find(f => f.id === id)
         launchEditor(`${testFile.absolutePath}:${line}:${col}`)
+        return true
+      },
+    })
+
+    t.boolean('openFileInEditor', {
+      args: {
+        path: nonNull(stringArg()),
+        line: nonNull(intArg()),
+        col: nonNull(intArg()),
+      },
+      resolve: (root, { path, line, col }) => {
+        launchEditor(`${path}:${line}:${col}`)
         return true
       },
     })

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useMutation } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
-import { defineProps } from 'vue'
+import { computed, defineProps } from 'vue'
 import { ChevronRightIcon, AlertCircleIcon } from '@zhuowenli/vue-feather-icons'
 import StatusIcon from '../StatusIcon.vue'
 
@@ -22,6 +22,26 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
   openTestFileInEditor (id: $id, line: $line, col: $col)
 }
 `)
+
+const stackHtml = computed(() => props.test.error.stack.replace(/\(((.*?\.\w+):(\d+):(\d+))\)/g,
+  '(<a class="cursor-pointer hover:text-blush-400" data-file="$2" data-line="$3" data-col="$4">$1</a>)'))
+
+const { mutate: openFileInEditor } = useMutation(gql`
+mutation openFileInEditor ($path: String!, $line: Int!, $col: Int!) {
+  openFileInEditor (path: $path, line: $line, col: $col)
+}
+`)
+
+function onStackClick (event: MouseEvent) {
+  const link = event.target as HTMLLinkElement
+  if (!link.attributes.getNamedItem('data-file')?.value) { return }
+
+  openFileInEditor({
+    path: link.attributes.getNamedItem('data-file')?.value,
+    line: Number(link.attributes.getNamedItem('data-line')?.value),
+    col: Number(link.attributes.getNamedItem('data-col')?.value),
+  })
+}
 </script>
 
 <template>
@@ -59,9 +79,11 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
         <span>{{ test.error.message }}</span>
       </div>
 
-      <div class="p-2 font-mono text-sm">
-        {{ test.error.stack }}
-      </div>
+      <div
+        class="p-2 font-mono text-sm"
+        @click="onStackClick"
+        v-html="stackHtml"
+      />
     </div>
   </div>
 </template>
