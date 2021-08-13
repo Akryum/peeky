@@ -176,18 +176,11 @@ module.exports = {
   variants: {
     extend: {},
   },
-  purge: {
-    content: [
-      './index.html',
-      './src/**/*.{vue,js,ts,jsx,tsx}',
-    ],
-    options: {
-      safelist: [
-        /bg-\w+-(2|3)00/,
-        /text-\w+-900/,
-      ],
-    },
-  },
+  mode: 'jit',
+  purge: [
+    './index.html',
+    './src/**/*.{vue,js,ts,jsx,tsx}',
+  ],
   darkMode: 'class', // or 'media' or 'class'
   plugins: [],
 }
