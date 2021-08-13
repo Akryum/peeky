@@ -72,7 +72,7 @@ const props = defineProps({
   <div
     class="relative"
     :class="{
-      [bgClasses[status] + ' rounded-full bg-opacity-25']: bg,
+      [bgClasses[status] + ' rounded-full !bg-opacity-25']: bg,
     }"
   >
     <component

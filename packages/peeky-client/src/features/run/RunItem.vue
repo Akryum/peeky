@@ -22,7 +22,7 @@ const props = defineProps({
     </span>
     <span
       v-if="run.duration != null"
-      class="text-gray-300 dark:text-gray-700"
+      class="text-black dark:text-white opacity-40"
     >{{ run.duration }}ms</span>
   </div>
 </template>
