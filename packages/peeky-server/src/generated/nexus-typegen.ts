@@ -5,9 +5,7 @@
 
 
 import type { Context } from "./../context"
-import type { TestSuiteData } from "./../schema/TestSuite"
-import type { RunData } from "./../schema/Run"
-import type { RunTestFileData } from "./../schema/RunTestFile"
+import type { RunData, RunTestFileData, TestSuiteData } from "./../standalone"
 
 
 

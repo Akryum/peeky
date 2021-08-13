@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 
-import must from 'must'
-import { PeekyGlobal } from '.'
+import { PeekyGlobal, must as _must, sinon as _sinon } from './dist/index'
 
 declare global {
   const describe: (title: string, handler: () => unknown) => void
@@ -11,10 +10,9 @@ declare global {
   const afterAll: (handler: () => unknown) => void
   const beforeEach: (handler: () => unknown) => void
   const afterEach: (handler: () => unknown) => void
-  const expect: typeof must
-  const sinon: typeof sinon
+  const expect: typeof _must
+  const sinon: typeof _sinon
   const peeky: PeekyGlobal
 }
 
-export { default as sinon } from 'sinon'
 export * from './dist/index'

@@ -7,6 +7,8 @@ require('esbuild').buildSync({
     'fsevents',
     'esbuild',
     '@peeky/*',
+    'must',
+    'sinon',
   ],
   sourcemap: true,
 })
