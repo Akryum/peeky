@@ -148,7 +148,7 @@ onResult(({ data }) => {
 
     <div
       v-else
-      class="flex flex-col divide-y divide-gray-100 dark:divide-gray-900"
+      class="flex flex-col divide-y divide-gray-100 dark:divide-gray-800"
     >
       <TestFileToolbar
         :file="runTestFile"

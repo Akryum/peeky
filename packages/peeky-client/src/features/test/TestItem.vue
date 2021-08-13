@@ -76,7 +76,7 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
     </span>
     <span
       v-if="test.duration != null"
-      class="text-gray-300 dark:text-gray-700"
+      class="text-black dark:text-white opacity-40"
     >
       {{ test.duration }}ms
     </span>
@@ -84,7 +84,7 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
 
   <div
     v-if="test.status === 'error'"
-    class="bg-blush-100 dark:bg-blush-900 text-blush-600 m-1 rounded relative text-sm"
+    class="bg-blush-100 dark:bg-blush-900 text-blush-600 dark:text-blush-300 m-1 rounded relative text-sm"
   >
     <div class="absolute left-10 -top-1 w-3 h-3 transform rotate-45 bg-blush-100 dark:bg-blush-900" />
 
@@ -105,7 +105,7 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
         </span>
       </div>
 
-      <div class="p-2 font-semibold border-t border-blush-200">
+      <div class="p-2 font-semibold border-t border-blush-200 dark:border-blush-800">
         {{ test.error.message }}
       </div>
     </div>
@@ -114,7 +114,7 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
 
 <style scoped>
 .active {
-  @apply bg-flamingo-50 text-flamingo-800 dark:bg-flamingo-900 dark:text-flamingo-200;
+  @apply bg-flamingo-50 text-flamingo-800 dark:bg-flamingo-900 dark:text-flamingo-300;
 
   .path {
     @apply opacity-100;

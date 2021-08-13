@@ -64,7 +64,7 @@ export default defineComponent({
       ref="input"
       :value="modelValue"
       v-bind="filteredAttrs"
-      class="flex-1 w-0 h-full outline-none"
+      class="flex-1 w-0 h-full outline-none bg-transparent"
       :class="{
         'px-3 py-2': size === 'md',
       }"

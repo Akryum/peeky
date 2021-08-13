@@ -55,7 +55,7 @@ const filteredTests = computed(() => {
       </span>
       <span
         v-if="suite.duration != null"
-        class="flex-none text-gray-300 dark:text-gray-700"
+        class="flex-none text-black dark:text-white opacity-40"
       >
         {{ suite.duration }}ms
       </span>
@@ -63,9 +63,9 @@ const filteredTests = computed(() => {
 
     <div
       v-if="!suite.tests.length"
-      class="bg-gray-50 text-gray-600 m-1 rounded relative text-sm"
+      class="bg-gray-50  dark:bg-gray-900 text-gray-600 dark:text-gray-400 m-1 rounded relative text-sm"
     >
-      <div class="absolute left-10 -top-1 w-3 h-3 transform rotate-45 bg-gray-100" />
+      <div class="absolute left-10 -top-1 w-3 h-3 transform rotate-45 bg-gray-100 dark:bg-gray-900" />
 
       <div class="relative px-2 py-1">
         😿️ No tests found in this suite

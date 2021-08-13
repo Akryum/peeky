@@ -35,7 +35,7 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
 
     <div
       v-else
-      class="bg-blush-100 dark:bg-blush-900 text-blush-600 rounded m-1 divide-y divide-blush-200"
+      class="bg-blush-100 dark:bg-blush-900 text-blush-600 dark:text-blush-300 rounded m-1 divide-y divide-blush-200 dark:divide-blush-800"
     >
       <div class="flex items-baseline space-x-1 p-2">
         <div class="flex-1 font-mono text-sm truncate space-x-1 flex">

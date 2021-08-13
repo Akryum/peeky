@@ -24,6 +24,7 @@ export interface NexusGenInputs {
     testFileIds?: string[] | null; // [String!]
   }
   UpdateSettingsInput: { // input type
+    darkMode: boolean; // Boolean!
     watch: boolean; // Boolean!
   }
 }
@@ -49,6 +50,7 @@ export interface NexusGenObjects {
     message: string; // String!
   }
   Settings: { // root type
+    darkMode: boolean; // Boolean!
     id: string; // ID!
     watch: boolean; // Boolean!
   }
@@ -130,6 +132,7 @@ export interface NexusGenFieldTypes {
     message: string; // String!
   }
   Settings: { // field return type
+    darkMode: boolean; // Boolean!
     id: string; // ID!
     watch: boolean; // Boolean!
   }
@@ -223,6 +226,7 @@ export interface NexusGenFieldTypeNames {
     message: 'String'
   }
   Settings: { // field return type name
+    darkMode: 'Boolean'
     id: 'ID'
     watch: 'Boolean'
   }

@@ -9,6 +9,8 @@ import {
   ActivityIcon,
   ChevronDownIcon,
   ChevronUpIcon,
+  SunIcon,
+  MoonIcon,
 } from '@zhuowenli/vue-feather-icons'
 import { useQuery, useResult } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
@@ -103,6 +105,17 @@ const watchEnabled = computed<boolean>({
     })
   },
 })
+
+const darkMode = computed<boolean>({
+  get () {
+    return !!settings.value?.darkMode
+  },
+  set (value) {
+    updateSettings({
+      darkMode: value,
+    })
+  },
+})
 </script>
 
 <template>
@@ -165,6 +178,17 @@ const watchEnabled = computed<boolean>({
       </BaseSwitch>
 
       <div class="w-0 flex-1" />
+
+      <BaseButton
+        flat
+        class="flex-none p-2"
+        @click="darkMode = !darkMode"
+      >
+        <component
+          :is="darkMode ? MoonIcon : SunIcon"
+          class="w-4 h-4"
+        />
+      </BaseButton>
 
       <BaseButton
         flat

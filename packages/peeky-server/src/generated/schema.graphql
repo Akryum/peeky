@@ -52,6 +52,7 @@ type RunTestFileError {
 }
 
 type Settings {
+  darkMode: Boolean!
   id: ID!
   watch: Boolean!
 }
@@ -120,5 +121,6 @@ type TestSuite {
 }
 
 input UpdateSettingsInput {
+  darkMode: Boolean!
   watch: Boolean!
 }

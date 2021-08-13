@@ -84,7 +84,7 @@ subscribeToMore({
 </script>
 
 <template>
-  <div class="flex flex-col divide-y divide-gray-100">
+  <div class="flex flex-col divide-y divide-gray-100 dark:divide-gray-800">
     <div class="flex-none">
       <BaseInput
         v-model="searchText"

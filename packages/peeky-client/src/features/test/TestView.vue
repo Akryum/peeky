@@ -86,7 +86,7 @@ subscribeToMore(() => ({
 <template>
   <div
     v-if="test"
-    class="divide-y divide-gray-100 dark:divide-gray-900 h-full flex flex-col"
+    class="divide-y divide-gray-100 dark:divide-gray-800 h-full flex flex-col"
   >
     <div class="flex items-center space-x-2 h-10 px-3 flex-none">
       <StatusIcon
@@ -98,7 +98,7 @@ subscribeToMore(() => ({
       </span>
       <span
         v-if="test.duration != null"
-        class="text-gray-300 dark:text-gray-700"
+        class="text-black dark:text-white opacity-40"
       >
         {{ test.duration }}ms
       </span>

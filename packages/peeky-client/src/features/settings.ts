@@ -7,6 +7,7 @@ export const settingsFragment = gql`
 fragment settings on Settings {
   id
   watch
+  darkMode
 }
 `
 
@@ -32,7 +33,12 @@ export function useSettings () {
 
   async function updateSettings (input: NexusGenInputs['UpdateSettingsInput']) {
     return mutate({
-      input,
+      input: {
+        ...settings.value,
+        ...input,
+        __typename: undefined,
+        id: undefined,
+      },
     })
   }
 

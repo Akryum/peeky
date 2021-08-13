@@ -35,7 +35,7 @@ const props = defineProps({
     </span>
     <span
       v-if="file.duration != null"
-      class="flex-none text-gray-300 dark:text-gray-700"
+      class="flex-none text-black dark:text-white opacity-40"
     >
       {{ file.duration }}ms
     </span>
@@ -44,7 +44,7 @@ const props = defineProps({
 
 <style scoped>
 .active {
-  @apply bg-flamingo-50 text-flamingo-800 dark:bg-flamingo-900 dark:text-flamingo-200;
+  @apply bg-flamingo-50 text-flamingo-800 dark:bg-flamingo-900 dark:text-flamingo-300;
 
   .path {
     @apply opacity-100;

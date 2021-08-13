@@ -39,8 +39,8 @@ export default defineComponent({
       <div
         class="switch-box relative flex-none block rounded-full border"
         :class="{
-          'bg-gray-300 border-gray-400': !modelValue,
-          'bg-flamingo-600 border-flamingo-600': modelValue,
+          'bg-gray-300 border-gray-400 dark:bg-gray-400 dark:border-gray-500': !modelValue,
+          'bg-flamingo-600 border-flamingo-600 dark:bg-flamingo-400 dark:border-flamingo-400': modelValue,
         }"
       >
         <div class="dot bg-white rounded-full absolute" />

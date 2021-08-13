@@ -3,6 +3,15 @@
 
 html {
   @apply text-sm;
+
+  &.loading {
+    @apply text-gray-300 bg-gray-600;
+  }
+
+  &.dark {
+    background: #080810;
+    color: white;
+  }
 }
 
 @tailwind utilities;

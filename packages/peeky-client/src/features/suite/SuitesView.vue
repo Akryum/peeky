@@ -30,7 +30,7 @@ const searchReg = computed(() => searchText.value ? new RegExp(searchText.value,
     class="h-full"
   >
     <template #first>
-      <div class="h-full flex flex-col divide-y divide-gray-100 dark:divide-gray-900">
+      <div class="h-full flex flex-col divide-y divide-gray-100 dark:divide-gray-800">
         <slot name="toolbar" />
 
         <div class="flex-none">
