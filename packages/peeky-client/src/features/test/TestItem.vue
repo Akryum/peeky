@@ -66,7 +66,7 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
     <div class="absolute left-10 -top-1 w-3 h-3 transform rotate-45 bg-blush-100" />
 
     <div class="relative">
-      <div class="flex items-center space-x-1 p-2">
+      <div class="flex items-baseline space-x-1 p-2">
         <div class="flex-1 font-mono text-sm truncate">
           {{ test.error.snippet }}
         </div>
