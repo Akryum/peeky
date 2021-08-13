@@ -3,10 +3,10 @@ import RunItem from './RunItem.vue'
 import { RotateCcwIcon } from '@zhuowenli/vue-feather-icons'
 import { useQuery, useResult } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
-import { defineEmit, watch } from 'vue'
+import { defineEmits, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
-const emit = defineEmit()
+const emit = defineEmits(['close'])
 
 const runListFragment = gql`
 fragment runList on Run {

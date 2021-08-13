@@ -1,6 +1,6 @@
 import {
   effect as rawEffect,
-  ReactiveEffect,
+  ReactiveEffectRunner,
   stop as stopEffect,
 } from '@vue/reactivity'
 import { ReactiveFileSystemOptions } from './options'
@@ -18,7 +18,7 @@ export async function createReactiveFileSystem (options: ReactiveFileSystemOptio
 
   const watcher = await createFileWatcher(ctx)
 
-  const effects: ReactiveEffect<unknown>[] = []
+  const effects: ReactiveEffectRunner<unknown>[] = []
 
   function effect (callback: () => unknown) {
     const e = rawEffect(callback)
@@ -26,7 +26,7 @@ export async function createReactiveFileSystem (options: ReactiveFileSystemOptio
     return e
   }
 
-  function removeEffect (e: ReactiveEffect<unknown>) {
+  function removeEffect (e: ReactiveEffectRunner<unknown>) {
     const index = effects.indexOf(e)
     if (index !== -1) {
       stopEffect(e)
