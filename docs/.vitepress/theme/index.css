@@ -25,6 +25,10 @@
   max-width: 120px;
 }
 
+.home .home-hero .description {
+  @apply text-flamingo-500;
+}
+
 .home div.home-features {
   background: var(--c-brand);
   padding: 5rem 3rem 4rem;

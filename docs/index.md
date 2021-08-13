@@ -1,6 +1,7 @@
 ---
 sidebar: false
 heroImage: /logo.svg
+tagline: A test framework for the curious minds
 
 actionText: Get Started
 actionLink: /guide/
