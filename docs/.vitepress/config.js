@@ -35,6 +35,10 @@ module.exports = {
               text: 'Getting Started',
               link: '/guide/',
             },
+            {
+              text: 'Writing tests',
+              link: '/guide/writing-tests',
+            },
           ],
         },
       ],
