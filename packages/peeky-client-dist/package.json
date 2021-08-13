@@ -1,6 +1,6 @@
 {
   "name": "@peeky/client-dist",
-  "version": "0.1.4",
+  "version": "0.1.6",
   "description": "Frontend production build for Peeky, the testing framework for curious minds",
   "license": "MIT",
   "author": {
@@ -18,6 +18,6 @@
     "prepublishOnly": "cd ../peeky-client && yarn build-client"
   },
   "devDependencies": {
-    "@peeky/client": "^0.1.4"
+    "@peeky/client": "^0.1.6"
   }
 }
