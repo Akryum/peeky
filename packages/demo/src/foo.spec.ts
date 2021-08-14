@@ -19,6 +19,31 @@ describe('typescript test suite', () => {
     expect(1).toBe(2)
   })
 
+  it('assertion error with objects', () => {
+    expect({
+      list: [
+        1,
+        2,
+        3,
+        { a: 1, b: 2 },
+        5,
+        6,
+        7,
+      ],
+      message: 'hello',
+    }).toEqual({
+      list: [
+        2,
+        3,
+        { a: 1, b: 3 },
+        5,
+        9,
+        7,
+      ],
+      message: 'hello!',
+    })
+  })
+
   it('the tested code crashes', () => {
     doesntWork()
   })

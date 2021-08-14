@@ -64,7 +64,9 @@ export interface NexusGenObjects {
     title: string; // String!
   }
   TestError: { // root type
+    actual?: string | null; // String
     col?: number | null; // Int
+    expected?: string | null; // String
     line?: number | null; // Int
     snippet?: string | null; // String
   }
@@ -158,7 +160,9 @@ export interface NexusGenFieldTypes {
     title: string; // String!
   }
   TestError: { // field return type
+    actual: string | null; // String
     col: number | null; // Int
+    expected: string | null; // String
     line: number | null; // Int
     message: string; // String!
     snippet: string | null; // String
@@ -253,7 +257,9 @@ export interface NexusGenFieldTypeNames {
     title: 'String'
   }
   TestError: { // field return type name
+    actual: 'String'
     col: 'Int'
+    expected: 'String'
     line: 'Int'
     message: 'String'
     snippet: 'String'

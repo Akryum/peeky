@@ -3,6 +3,7 @@ import { useQuery, useResult } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 import { useRoute } from 'vue-router'
 import StatusIcon from '../StatusIcon.vue'
+import { errorFragment } from './TestResult.vue'
 
 const route = useRoute()
 
@@ -13,13 +14,10 @@ fragment testView on Test {
   status
   duration
   error {
-    message
-    stack
-    snippet
-    line
-    col
+    ...testResultError
   }
 }
+${errorFragment}
 `
 
 const { result, subscribeToMore, onResult } = useQuery(() => gql`

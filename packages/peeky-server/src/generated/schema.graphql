@@ -95,7 +95,9 @@ type Test {
 }
 
 type TestError {
+  actual: String
   col: Int
+  expected: String
   line: Int
   message: String!
   snippet: String

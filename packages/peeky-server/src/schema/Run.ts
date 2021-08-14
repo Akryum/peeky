@@ -4,6 +4,7 @@ import { setupRunner, getStats, EventType } from '@peeky/runner'
 import { relative } from 'path'
 import nameGenerator from 'project-name-generator'
 import randomEmoji from 'random-emoji'
+import objectInspect from 'object-inspect'
 import { Context } from '../context'
 import { Status, StatusEnum } from './Status'
 import { updateTestFile, testFiles } from './TestFile'
@@ -268,7 +269,7 @@ export async function startRun (ctx: Context, id: string) {
         duration,
       })
     } else if (eventType === EventType.TEST_ERROR) {
-      const { suite, test, duration, error, stack } = payload
+      const { suite, test, duration, error, stack, matcherResult } = payload
       const testFile = testSuites.find(s => s.id === suite.id).runTestFile.testFile
       const { line, col } = getErrorPosition(testFile.relativePath, stack)
       const lineSource = (await ctx.reactiveFs.files[testFile.relativePath].waitForContent).split('\n')[line - 1]
@@ -281,6 +282,8 @@ export async function startRun (ctx: Context, id: string) {
           snippet: lineSource.trim(),
           line,
           col,
+          expected: matcherResult?.expected ? stringifyJS(matcherResult.expected) : null,
+          actual: matcherResult?.actual ? stringifyJS(matcherResult.actual) : null,
         },
       })
     }
@@ -365,4 +368,11 @@ export function clearRuns (ctx: Context) {
 
 export function isRunning () {
   return runs[runs.length - 1]?.status === 'in_progress'
+}
+
+function stringifyJS (object: any) {
+  return objectInspect(object, {
+    depth: 32,
+    indent: 2,
+  })
 }

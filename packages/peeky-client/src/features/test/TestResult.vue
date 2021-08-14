@@ -1,9 +1,24 @@
+<script lang="ts">
+export const errorFragment = gql`
+fragment testResultError on TestError {
+  message
+  stack
+  snippet
+  line
+  col
+  expected
+  actual
+}
+`
+</script>
+
 <script lang="ts" setup>
 import { useMutation } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 import { computed, defineProps } from 'vue'
 import { ChevronRightIcon } from '@zhuowenli/vue-feather-icons'
 import StatusIcon from '../StatusIcon.vue'
+import TestAssertionDiff from './TestAssertionDiff.vue'
 
 const props = defineProps({
   test: {
@@ -42,10 +57,12 @@ function onStackClick (event: MouseEvent) {
     col: Number(link.attributes.getNamedItem('data-col')?.value),
   })
 }
+
+const diffShown = computed(() => props.test?.error?.actual && props.test?.error?.expected)
 </script>
 
 <template>
-  <div class="flex flex-col space-y-12">
+  <div class="flex flex-col">
     <StatusIcon
       v-if="test.status !== 'error'"
       :status="test.status"
@@ -53,32 +70,38 @@ function onStackClick (event: MouseEvent) {
       bg
     />
 
-    <div
-      v-else
-      class="bg-blush-100 dark:bg-blush-900 text-blush-600 dark:text-blush-300 rounded m-1 divide-y divide-blush-200 dark:divide-blush-800"
-    >
-      <div class="flex items-baseline space-x-1 p-2">
-        <div class="flex-1 font-mono text-sm truncate space-x-1 flex">
-          <ChevronRightIcon class="w-4 h-4" />
-          <span>{{ test.error.snippet }}</span>
+    <template v-else>
+      <div class="bg-blush-100 dark:bg-blush-900 text-blush-600 dark:text-blush-300 rounded m-1 divide-y divide-blush-200 dark:divide-blush-800">
+        <div class="flex items-baseline space-x-1 p-2">
+          <div class="flex-1 font-mono text-sm truncate space-x-1 flex">
+            <ChevronRightIcon class="w-4 h-4" />
+            <span>{{ test.error.snippet }}</span>
+          </div>
+          <span
+            class="text-blush-300 hover:text-blush-400 cursor-pointer"
+            @click="openInEditor({
+              id: suite.runTestFile.testFile.id,
+              line: test.error.line,
+              col: test.error.col,
+            })"
+          >
+            {{ suite.runTestFile.testFile.relativePath }}:{{ test.error.line }}:{{ test.error.col }}
+          </span>
         </div>
-        <span
-          class="text-blush-300 hover:text-blush-400 cursor-pointer"
-          @click="openInEditor({
-            id: suite.runTestFile.testFile.id,
-            line: test.error.line,
-            col: test.error.col,
-          })"
-        >
-          {{ suite.runTestFile.testFile.relativePath }}:{{ test.error.line }}:{{ test.error.col }}
-        </span>
+
+        <div
+          class="p-2 font-mono text-sm"
+          @click="onStackClick"
+          v-html="stackHtml"
+        />
       </div>
 
-      <div
-        class="p-2 font-mono text-sm"
-        @click="onStackClick"
-        v-html="stackHtml"
+      <TestAssertionDiff
+        v-if="diffShown"
+        :actual="test.error.actual"
+        :expected="test.error.expected"
+        class="flex-1 m-1"
       />
-    </div>
+    </template>
   </div>
 </template>

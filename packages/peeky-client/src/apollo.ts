@@ -77,7 +77,16 @@ const cache = new InMemoryCache({
     TestSuite: {
       fields: {
         testBySlug: {
-          merge: false,
+          merge: (existing, incoming) => {
+            if (existing && incoming.status === 'idle') {
+              const existingRef = existing.__ref || `${existing.__typename}:${existing.id}`
+              const incomingRef = `${incoming.__typename}:${incoming.id}`
+              if (existingRef === incomingRef) {
+                return existing
+              }
+            }
+            return incoming
+          },
         },
       },
     },

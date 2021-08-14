@@ -37,6 +37,8 @@ export const TestError = objectType({
     t.string('snippet')
     t.int('line')
     t.int('col')
+    t.string('actual')
+    t.string('expected')
   },
 })
 
@@ -133,6 +135,8 @@ export interface TestErrorData {
   snippet: string
   line: number
   col: number
+  expected: any
+  actual: any
 }
 
 export interface CreateTestOptions {
