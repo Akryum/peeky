@@ -60,7 +60,7 @@ const searchReg = computed(() => searchText.value ? new RegExp(searchText.value,
             v-if="!suites.length"
             class="my-12 flex items-center justify-center"
           >
-            <div class="bg-gray-50 text-gray-600 text-center px-4 py-3 rounded">
+            <div class="bg-gray-50 text-gray-600 dark:bg-gray-900 dark:text-gray-400 text-center px-4 py-3 rounded">
               😿️ No test suites found
             </div>
           </div>
