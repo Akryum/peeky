@@ -9,8 +9,7 @@ html {
   }
 
   &.dark {
-    background: #1e1e25;
-    color: white;
+    @apply text-white bg-dark;
 
     *::-webkit-scrollbar-track {
       @apply bg-gray-900;
