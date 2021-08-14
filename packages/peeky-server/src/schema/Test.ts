@@ -8,6 +8,8 @@ import { Status, StatusEnum } from './Status'
 import { getTestSuite, TestSuiteData } from './TestSuite'
 
 const ansiUp = new AnsiUp()
+// eslint-disable-next-line @typescript-eslint/camelcase
+ansiUp.use_classes = true
 
 export const Test = objectType({
   name: 'Test',
