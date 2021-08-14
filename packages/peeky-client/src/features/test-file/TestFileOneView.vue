@@ -156,10 +156,10 @@ onResult(({ data }) => {
       />
 
       <div class="flex-1 flex flex-col p-4 space-y-2">
-        <div class="text-xl text-blush-500">
+        <div class="text-xl text-red-500">
           😿️ Running tests failed:
         </div>
-        <pre class="bg-blush-50 text-blush-600 px-4 py-3 rounded text-sm">{{ runTestFile.error.message }}</pre>
+        <pre class="bg-red-50 text-red-600 px-4 py-3 rounded text-sm">{{ runTestFile.error.message }}</pre>
       </div>
     </div>
   </template>

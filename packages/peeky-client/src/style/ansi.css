@@ -1,10 +1,10 @@
 .ansi-black-fg { @apply text-black; }
-.ansi-red-fg { @apply text-blush-500; }
-.ansi-green-fg { @apply text-shamrock-600 dark:text-shamrock-500; }
-.ansi-yellow-fg { @apply text-carrot-500; }
-.ansi-blue-fg { @apply text-denim-500; }
-.ansi-magenta-fg { @apply text-blush-500; }
-.ansi-cyan-fg { @apply text-pacific-500; }
+.ansi-red-fg { @apply text-red-500; }
+.ansi-green-fg { @apply text-green-600 dark:text-green-500; }
+.ansi-yellow-fg { @apply text-yellow-500; }
+.ansi-blue-fg { @apply text-blue-500; }
+.ansi-magenta-fg { @apply text-red-500; }
+.ansi-cyan-fg { @apply text-cyan-500; }
 .ansi-white-fg { @apply text-white; }
 .ansi-bright-black-fg { color: #5E5D5E; }
 .ansi-bright-red-fg { color: #E69B94; }
@@ -16,12 +16,12 @@
 .ansi-bright-white-fg { color: #FFF; }
 
 .ansi-black-bg { @apply bg-black; }
-.ansi-red-bg { @apply bg-blush-500; }
-.ansi-green-bg { @apply bg-shamrock-500 dark:bg-shamrock-600; }
-.ansi-yellow-bg { @apply bg-carrot-500; }
-.ansi-blue-bg { @apply bg-denim-500; }
-.ansi-magenta-bg { @apply bg-blush-500; }
-.ansi-cyan-bg { @apply bg-pacific-500; }
+.ansi-red-bg { @apply bg-red-500; }
+.ansi-green-bg { @apply bg-green-500 dark:bg-green-600; }
+.ansi-yellow-bg { @apply bg-yellow-500; }
+.ansi-blue-bg { @apply bg-blue-500; }
+.ansi-magenta-bg { @apply bg-red-500; }
+.ansi-cyan-bg { @apply bg-cyan-500; }
 .ansi-white-bg { @apply bg-white; }
 .ansi-bright-black-bg { background-color: #5E5D5E; }
 .ansi-bright-red-bg { background-color: #E69B94; }

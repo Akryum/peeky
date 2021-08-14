@@ -26,7 +26,7 @@
 }
 
 .home .home-hero .description {
-  @apply text-flamingo-500;
+  @apply text-primary-500;
 }
 
 .home div.home-features {

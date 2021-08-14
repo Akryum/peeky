@@ -23,7 +23,7 @@ module.exports = {
         900: '#252a31',
       },
 
-      flamingo: {
+      primary: {
         50: '#f9f5fd',
         100: '#f2eafc',
         200: '#dfcbf7',
@@ -36,20 +36,7 @@ module.exports = {
         900: '#3e176d',
       },
 
-      orchid: {
-        50: '#faf8fa',
-        100: '#f8eef8',
-        200: '#f2d1f3',
-        300: '#ecaeee',
-        400: '#ea7be6',
-        500: '#e84fdd',
-        600: '#d331c8',
-        700: '#a526a4',
-        800: '#792078',
-        900: '#5d1b5b',
-      },
-
-      blush: {
+      red: {
         50: '#fef5f7',
         100: '#feeaee',
         200: '#fccbd6',
@@ -62,7 +49,7 @@ module.exports = {
         900: '#4f111e',
       },
 
-      tomato: {
+      orange: {
         50: '#fcf8f5',
         100: '#fcf0eb',
         200: '#fad9d3',
@@ -75,20 +62,7 @@ module.exports = {
         900: '#801d22',
       },
 
-      chocolate: {
-        50: '#fbf8f2',
-        100: '#fbf2df',
-        200: '#f8e3b5',
-        300: '#f5ca78',
-        400: '#f1a238',
-        500: '#ee7a19',
-        600: '#de5510',
-        700: '#b73f13',
-        800: '#8e3118',
-        900: '#6f2817',
-      },
-
-      carrot: {
+      yellow: {
         50: '#fbf9f4',
         100: '#faf6df',
         200: '#f5ecad',
@@ -101,7 +75,7 @@ module.exports = {
         900: '#4c3212',
       },
 
-      shamrock: {
+      green: {
         50: '#e8f8f6',
         100: '#c9f7ee',
         200: '#95f3d9',
@@ -114,7 +88,7 @@ module.exports = {
         900: '#0f613a',
       },
 
-      pacific: {
+      cyan: {
         50: '#f4f9fa',
         100: '#e6f7f6',
         200: '#c7eded',
@@ -127,7 +101,7 @@ module.exports = {
         900: '#1a3c48',
       },
 
-      denim: {
+      blue: {
         50: '#f4fafc',
         100: '#e4f6fb',
         200: '#c1e8f8',
@@ -138,19 +112,6 @@ module.exports = {
         700: '#204dc7',
         800: '#1c3b95',
         900: '#183072',
-      },
-
-      royalblue: {
-        50: '#f5fafd',
-        100: '#e6f6fc',
-        200: '#c4e5fa',
-        300: '#9ecef9',
-        400: '#68a5f9',
-        500: '#3979f7',
-        600: '#2755f1',
-        700: '#2343d8',
-        800: '#1e34a7',
-        900: '#192b80',
       },
     },
 

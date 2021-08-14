@@ -77,7 +77,7 @@ export default defineComponent({
 
     <!-- Focus indicator -->
     <div
-      class="absolute bottom-0 left-0 w-full border-b border-flamingo-300 dark:border-flamingo-700 transition-all"
+      class="absolute bottom-0 left-0 w-full border-b border-primary-300 dark:border-primary-700 transition-all"
       :class="{
         'transform scale-x-0 opacity-0': !focused,
       }"

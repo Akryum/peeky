@@ -2,7 +2,7 @@
 
 <div class="my-12">
   <img src="/logo.svg" alt="Peeky logo" class="max-w-32 block mx-auto">
-  <p class="text-center text-flamingo-700 font-medium">Welcome to Peeky, a test framework for the curious minds!</p>
+  <p class="text-center text-primary-700 font-medium">Welcome to Peeky, a test framework for the curious minds!</p>
 </div>
 
 ## What is Peeky

@@ -22,8 +22,8 @@ defineProps({
     v-if="duration != null"
     class="text-black dark:text-white opacity-40"
     :class="{
-      '!text-carrot-500': duration > big && duration <= huge,
-      '!text-tomato-500': duration > huge,
+      '!text-yellow-500': duration > big && duration <= huge,
+      '!text-orange-500': duration > huge,
     }"
   >
     {{ duration }}ms

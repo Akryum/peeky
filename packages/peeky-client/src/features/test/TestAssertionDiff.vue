@@ -74,10 +74,10 @@ onResize(el, () => {
 <template>
   <div class="flex flex-col">
     <div class="flex-none flex justify-between px-1 mb-1">
-      <div class="text-shamrock-600 dark:text-shamrock-500">
+      <div class="text-green-600 dark:text-green-500">
         Expected
       </div>
-      <div class="text-blush-500 mr-8">
+      <div class="text-red-500 mr-8">
         Actual
       </div>
     </div>

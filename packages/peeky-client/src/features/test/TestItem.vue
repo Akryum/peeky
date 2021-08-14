@@ -80,9 +80,9 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
 
   <div
     v-if="test.status === 'error'"
-    class="bg-blush-100 dark:bg-blush-900 text-blush-600 dark:text-blush-300 m-1 rounded relative text-sm"
+    class="bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 m-1 rounded relative text-sm"
   >
-    <div class="absolute left-10 -top-1 w-3 h-3 transform rotate-45 bg-blush-100 dark:bg-blush-900" />
+    <div class="absolute left-10 -top-1 w-3 h-3 transform rotate-45 bg-red-100 dark:bg-red-900" />
 
     <div class="relative">
       <div class="flex items-baseline space-x-1 p-2">
@@ -90,7 +90,7 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
           {{ test.error.snippet }}
         </div>
         <span
-          class="text-blush-300 hover:text-blush-400 cursor-pointer"
+          class="text-red-300 hover:text-red-400 cursor-pointer"
           @click="openInEditor({
             id: suite.runTestFile.testFile.id,
             line: test.error.line,
@@ -102,7 +102,7 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
       </div>
 
       <div
-        class="p-2 font-semibold border-t border-blush-200 dark:border-blush-800 truncate"
+        class="p-2 font-semibold border-t border-red-200 dark:border-red-800 truncate"
         v-html="test.error.message"
       />
     </div>
@@ -111,7 +111,7 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
 
 <style scoped>
 .active {
-  @apply bg-flamingo-50 text-flamingo-800 dark:bg-flamingo-900 dark:text-flamingo-300;
+  @apply bg-primary-50 text-primary-800 dark:bg-primary-900 dark:text-primary-300;
 
   .path {
     @apply opacity-100;

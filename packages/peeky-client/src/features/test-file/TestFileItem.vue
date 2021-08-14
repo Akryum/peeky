@@ -45,7 +45,7 @@ const props = defineProps({
 
 <style scoped>
 .active {
-  @apply bg-flamingo-50 text-flamingo-800 dark:bg-flamingo-900 dark:text-flamingo-300;
+  @apply bg-primary-50 text-primary-800 dark:bg-primary-900 dark:text-primary-300;
 
   .path {
     @apply opacity-100;

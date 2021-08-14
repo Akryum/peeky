@@ -40,7 +40,7 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
 `)
 
 const stackHtml = computed(() => props.test.error.stack.replace(/(((\\|\/)?[A-Za-zÀ-ÖØ-öø-ÿ\d-_. ]+)+\.[A-Za-zÀ-ÖØ-öø-ÿ\d]+):(\d+):(\d+)/g,
-  '<a class="cursor-pointer hover:text-blush-400" data-file="$1" data-line="$4" data-col="$5">$&</a>'))
+  '<a class="cursor-pointer hover:text-red-400" data-file="$1" data-line="$4" data-col="$5">$&</a>'))
 
 const { mutate: openFileInEditor } = useMutation(gql`
 mutation openFileInEditor ($path: String!, $line: Int!, $col: Int!) {
@@ -74,14 +74,14 @@ const diffShown = computed(() => props.test?.error?.actual && props.test?.error?
     />
 
     <template v-else>
-      <div class="bg-blush-100 dark:bg-blush-900 text-blush-600 dark:text-blush-300 rounded m-1 divide-y divide-blush-200 dark:divide-blush-800">
+      <div class="bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 rounded m-1 divide-y divide-red-200 dark:divide-red-800">
         <div class="flex items-baseline space-x-1 p-2">
           <div class="flex-1 font-mono text-sm truncate space-x-1 flex">
             <ChevronRightIcon class="w-4 h-4" />
             <span>{{ test.error.snippet }}</span>
           </div>
           <span
-            class="text-blush-300 hover:text-blush-400 cursor-pointer"
+            class="text-red-300 hover:text-red-400 cursor-pointer"
             @click="openInEditor({
               id: suite.runTestFile.testFile.id,
               line: test.error.line,
@@ -103,7 +103,7 @@ const diffShown = computed(() => props.test?.error?.actual && props.test?.error?
 
         <div v-if="diffShown">
           <BaseButton
-            color="blush"
+            color="red"
             flat
             class="px-2 py-1 w-full"
             @click="showFullStack = !showFullStack"

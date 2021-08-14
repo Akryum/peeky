@@ -107,7 +107,7 @@ watch(() => route.params.runId, () => {
           runId: 'last-run',
         },
       }"
-      class="flex-none px-3 h-10 flex items-center hover:bg-flamingo-100 dark:hover:bg-flamingo-900"
+      class="flex-none px-3 h-10 flex items-center hover:bg-primary-100 dark:hover:bg-primary-900"
     >
       <RotateCcwIcon class="w-4 h-4 mr-2" />
       Last run
@@ -122,7 +122,7 @@ watch(() => route.params.runId, () => {
           runId: run.id,
         },
       }"
-      class="flex-none hover:bg-flamingo-100 dark:hover:bg-flamingo-900"
+      class="flex-none hover:bg-primary-100 dark:hover:bg-primary-900"
     >
       <RunItem
         :run="run"
@@ -133,6 +133,6 @@ watch(() => route.params.runId, () => {
 
 <style scoped>
 .router-link-active {
-  @apply bg-flamingo-50 text-flamingo-800 dark:bg-flamingo-900 dark:text-flamingo-200;
+  @apply bg-primary-50 text-primary-800 dark:bg-primary-900 dark:text-primary-200;
 }
 </style>

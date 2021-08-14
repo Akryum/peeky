@@ -20,15 +20,15 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="flex items-start space-x-4 bg-orchid-50 p-4 rounded relative">
-    <div class="mt-2 p-2 bg-flamingo-200 text-flamingo-700 rounded-full flex items-center justify-center">
+  <div class="flex items-start space-x-4 bg-red-50 p-4 rounded relative">
+    <div class="mt-2 p-2 bg-primary-200 text-primary-700 rounded-full flex items-center justify-center">
       <span
         class="fe"
         :class="`fe-${icon}`"
       />
     </div>
     <div>
-      <div class="font-medium text-flamingo-800">
+      <div class="font-medium text-primary-800">
         {{ title }}
       </div>
       <slot />
@@ -38,9 +38,9 @@ const props = defineProps({
       v-if="status"
       class="absolute top-3 right-3 text-xs px-1 rounded-sm"
       :class="{
-        'bg-blush-600 text-white': status === 'new',
-        'bg-chocolate-400 text-white': status === 'soon',
-        'bg-flamingo-400 text-white': status === 'wip',
+        'bg-red-600 text-white': status === 'new',
+        'bg-orange-400 text-white': status === 'soon',
+        'bg-primary-400 text-white': status === 'wip',
       }"
     >
       {{ status }}

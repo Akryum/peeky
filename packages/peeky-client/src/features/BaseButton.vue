@@ -6,13 +6,13 @@ const colors = {
     'hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-gray-100',
     'bg-gray-300 text-gray-900 dark:bg-gray-800 dark:text-gray-100',
   ],
-  flamingo: [
-    'hover:bg-flamingo-200 hover:text-flamingo-900 dark:hover:bg-flamingo-700 dark:hover:text-flamingo-100',
-    'bg-flamingo-300 text-flamingo-900 dark:bg-flamingo-800 dark:text-flamingo-200',
+  primary: [
+    'hover:bg-primary-200 hover:text-primary-900 dark:hover:bg-primary-700 dark:hover:text-primary-100',
+    'bg-primary-300 text-primary-900 dark:bg-primary-800 dark:text-primary-200',
   ],
-  blush: [
-    'hover:bg-blush-200 hover:text-blush-900 dark:hover:bg-blush-700 dark:hover:text-blush-100',
-    'bg-blush-300 text-blush-900 bg-blush-800 text-blush-200',
+  red: [
+    'hover:bg-red-200 hover:text-red-900 dark:hover:bg-red-700 dark:hover:text-red-100',
+    'bg-red-300 text-red-900 bg-red-800 text-red-200',
   ],
 }
 
@@ -25,7 +25,7 @@ export default defineComponent({
 
     color: {
       type: String,
-      default: 'flamingo',
+      default: 'primary',
     },
 
     flat: {
@@ -56,7 +56,7 @@ export default defineComponent({
 
 <template>
   <button
-    class="flex items-center justify-center rounded text-center focus:outline-none focus:ring-1 ring-flamingo-300 dark:ring-flamingo-700"
+    class="flex items-center justify-center rounded text-center focus:outline-none focus:ring-1 ring-primary-300 dark:ring-primary-700"
     :disabled="disabled"
     :class="[
       colors[0],
