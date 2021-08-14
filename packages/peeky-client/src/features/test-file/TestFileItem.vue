@@ -18,7 +18,7 @@ const props = defineProps({
     }"
     class="px-3 flex items-center hover:bg-gray-50 dark:hover:bg-gray-900 space-x-2 h-8"
     :class="{
-      active: $route.query.fileSlug === file.slug,
+      'active-colors': $route.query.fileSlug === file.slug,
     }"
   >
     <StatusIcon
@@ -42,13 +42,3 @@ const props = defineProps({
     />
   </router-link>
 </template>
-
-<style scoped>
-.active {
-  @apply bg-primary-50 text-primary-800 dark:bg-primary-900 dark:text-primary-300;
-
-  .path {
-    @apply opacity-100;
-  }
-}
-</style>

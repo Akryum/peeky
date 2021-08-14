@@ -62,7 +62,7 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
     }"
     class="flex items-center space-x-2 h-8 px-3 hover:bg-gray-50 dark:hover:bg-gray-900"
     :class="{
-      active: test.slug === $route.params.testSlug && $route.params.suiteSlug === suite.slug,
+      'active-colors': test.slug === $route.params.testSlug && $route.params.suiteSlug === suite.slug,
     }"
     :style="{
       paddingLeft: `${depth * 16}px`,
@@ -108,13 +108,3 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
     </div>
   </div>
 </template>
-
-<style scoped>
-.active {
-  @apply bg-primary-50 text-primary-800 dark:bg-primary-900 dark:text-primary-300;
-
-  .path {
-    @apply opacity-100;
-  }
-}
-</style>

@@ -45,5 +45,12 @@ a {
   border-radius: 2px;
 }
 
+.active-colors {
+  @apply bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-300;
+
+  .path {
+    @apply opacity-100;
+  }
+}
 
 @tailwind utilities;
