@@ -1,5 +1,3 @@
 import mock from 'mock-require'
 
-export function mockModule (path: string, stub: any) {
-  mock(path, stub)
-}
+export const mockModule: (path: string, stub: any) => void = mock

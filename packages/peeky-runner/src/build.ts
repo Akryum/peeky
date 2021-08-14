@@ -47,6 +47,8 @@ export async function buildTestFile (ctx: Context) {
       entryFileNames: outputFile,
       format: 'cjs',
       sourcemap: true,
+      chunkFileNames: '[name].js',
+      assetFileNames: '[name].[ext]',
     })
     const modules = Object.keys(rollupOutput.output[0].modules)
 
