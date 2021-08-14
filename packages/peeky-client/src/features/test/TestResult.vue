@@ -15,10 +15,11 @@ fragment testResultError on TestError {
 <script lang="ts" setup>
 import { useMutation } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
-import { computed, defineProps } from 'vue'
+import { computed, defineProps, ref } from 'vue'
 import { ChevronRightIcon } from '@zhuowenli/vue-feather-icons'
 import StatusIcon from '../StatusIcon.vue'
 import TestAssertionDiff from './TestAssertionDiff.vue'
+import BaseButton from '../BaseButton.vue'
 
 const props = defineProps({
   test: {
@@ -58,6 +59,8 @@ function onStackClick (event: MouseEvent) {
   })
 }
 
+const showFullStack = ref(false)
+
 const diffShown = computed(() => props.test?.error?.actual && props.test?.error?.expected)
 </script>
 
@@ -90,10 +93,29 @@ const diffShown = computed(() => props.test?.error?.actual && props.test?.error?
         </div>
 
         <div
-          class="p-2 font-mono text-sm"
+          class="p-2 font-mono text-sm overflow-hidden"
+          :class="{
+            'max-h-8': diffShown && !showFullStack,
+          }"
           @click="onStackClick"
           v-html="stackHtml"
         />
+
+        <div v-if="diffShown">
+          <BaseButton
+            color="blush"
+            flat
+            class="px-2 py-1 w-full"
+            @click="showFullStack = !showFullStack"
+          >
+            <template v-if="showFullStack">
+              Hide full stack trace
+            </template>
+            <template v-else>
+              Show full stack trace
+            </template>
+          </BaseButton>
+        </div>
       </div>
 
       <TestAssertionDiff
