@@ -78,7 +78,7 @@ onResize(el, () => {
         Expected
       </div>
       <div class="text-red-500 mr-8">
-        Actual
+        Received
       </div>
     </div>
 
