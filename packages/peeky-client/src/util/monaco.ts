@@ -20,7 +20,10 @@ window.MonacoEnvironment = {
 const lightTheme: monaco.editor.IStandaloneThemeData = {
   base: 'vs',
   inherit: true,
-  colors: {},
+  colors: {
+    'diffEditor.insertedTextBackground': '#f9abbd66',
+    'diffEditor.removedTextBackground': '#15de9966',
+  },
   rules: [],
 }
 
