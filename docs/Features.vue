@@ -3,7 +3,7 @@ import Feature from './Feature.vue'
 </script>
 
 <template>
-  <h2 class="border-none">
+  <h2 class="border-none text-center">
     Features
   </h2>
 
@@ -103,6 +103,13 @@ import Feature from './Feature.vue'
       icon="search"
     >
       Use globs and/or regular expressions to find test files
+    </Feature>
+
+    <Feature
+      title="Dark mode"
+      icon="moon"
+    >
+      Rest your eyes with our hand-crafted dark theme
     </Feature>
 
     <Feature

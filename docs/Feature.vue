@@ -20,7 +20,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="flex items-start space-x-4 bg-red-50 p-4 rounded relative">
+  <div class="flex items-start space-x-4 bg-primary-50 p-4 rounded relative">
     <div class="mt-2 p-2 bg-primary-200 text-primary-700 rounded-full flex items-center justify-center">
       <span
         class="fe"
@@ -36,7 +36,7 @@ const props = defineProps({
 
     <div
       v-if="status"
-      class="absolute top-3 right-3 text-xs px-1 rounded-sm"
+      class="absolute top-3 right-3 text-xs px-1.5 rounded-full"
       :class="{
         'bg-red-600 text-white': status === 'new',
         'bg-orange-400 text-white': status === 'soon',

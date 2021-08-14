@@ -30,7 +30,7 @@ import HomeScreenshot from './HomeScreenshot.vue'
   <template v-slot:hero>
     <HomeScreenshot />
   </template>
-  <div class="space-y-12 mb-12">
+  <div class="space-y-4 mb-12">
     <Features/>
   </div>
 </CustomHome>
