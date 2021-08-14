@@ -85,3 +85,95 @@ test('use a sinon mock', () => {
 ```
 
 Learn more at the [sinon docs](https://sinonjs.org/#fakes).
+
+## Module mocking
+
+::: warning
+This API is experimental and may change in the future.
+:::
+
+Sometimes it's useful to replace the existing implementation of a module used in the file you are testing. You can use `peeky.mockModule` to stub a module - it will replace the real module with the fake implementation you provide.
+
+Example:
+
+```js
+// bar.ts
+
+import { foo } from './foo'
+
+export function bar (meow) {
+  return foo(meow)
+}
+```
+
+```js
+// bar.spec.ts
+
+describe('mock module', () => {
+  test('mock a module during the test', async () => {
+    peeky.mockModule('./foo.js', {
+      foo (count) {
+        return count + 1
+      },
+    })
+    import('./foo')
+
+    const { bar } = await import('./bar')
+
+    expect(bar(42)).toBe(43)
+  })
+})
+```
+
+::: tip
+Even if you uses Typescript files, mock the module with the `js` version: use `peeky.mockModule('./foo.js')` instead of `peeky.mockModule('./foo')` or `peeky.mockModule('./foo.ts')`.
+:::
+
+## Retry
+
+::: warning
+This API is experimental and may change in the future.
+:::
+
+With `peeky.retry()`, you can enclose code in a fail-safe so it will retry automatically if an error is thrown inside.
+
+Example:
+
+```js
+describe('peeky.retry()', () => {
+  test('must not retry when no error', async () => {
+    const spy = sinon.fake()
+    expect(spy.callCount).toBe(0)
+    await peeky.retry(() => spy(), 10)
+    expect(spy.callCount).toBe(1)
+  })
+
+  test('retry multiple times', async () => {
+    let times = 0
+    const spy = sinon.fake(() => {
+      times++
+      if (times < 4) {
+        throw new Error('Not enough times')
+      }
+    })
+    expect(spy.callCount).toBe(0)
+    await peeky.retry(() => spy(), 5)
+    expect(spy.callCount).toBe(4)
+  })
+
+  test('retry multiple times and bail out', async () => {
+    const spy = sinon.fake(() => {
+      throw new Error('Not enough times')
+    })
+    expect(spy.callCount).toBe(0)
+    let error: Error
+    try {
+      await peeky.retry(() => spy(), 5)
+    } catch (e) {
+      error = e
+    }
+    expect(spy.callCount).toBe(5)
+    expect(error).not.toBeUndefined()
+  })
+})
+```
