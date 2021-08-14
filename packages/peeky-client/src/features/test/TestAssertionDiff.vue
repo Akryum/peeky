@@ -25,6 +25,7 @@ onMounted(() => {
   editor = monaco.editor.createDiffEditor(el.value, {
     readOnly: true,
     lineNumbers: 'off',
+    scrollBeyondLastLine: false,
   })
   updateEditorModel()
   updateEditorTheme()
