@@ -14,7 +14,7 @@ export default defineConfig({
 
 If you're using Typescript and would like to get the right typings for global test methods, make sure to add `@peeky/runner` to the types array in `tsconfig.json`. If you prefer writing your tests in a dedicated folder, also make sure to add it in the `include` array.
 
-```js
+```json
 // tsconfig.json
 
 {
