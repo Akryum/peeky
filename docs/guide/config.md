@@ -19,7 +19,8 @@ If you're using Typescript and would like to get the right typings for global te
 
 {
   "compilerOptions": {
-    "types": ["@peeky/runner"]
+    "types": ["@peeky/runner"],
+    "esModuleInterop": true // Necessary for 'expect' typing to work
   },
   "include": ["tests/**/*.spec.ts"]
 }
