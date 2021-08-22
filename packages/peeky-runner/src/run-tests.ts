@@ -65,7 +65,7 @@ export async function runTests (ctx: Context) {
           duration: Date.now() - time,
           error: { message: e.message, data: JSON.stringify(e) },
           stack: stackIndex !== -1 ? e.stack.substr(0, stackIndex) : e.stack,
-          matcherResult: e.matcherResult,
+          matcherResult: JSON.stringify(e.matcherResult),
         })
         suite.testErrors++
       }
