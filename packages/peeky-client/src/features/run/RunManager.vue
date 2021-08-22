@@ -81,7 +81,7 @@ subscribeToMore({
   ${runDetailsFragment}
   `,
   updateQuery: (previousResult, { subscriptionData: { data } }) => {
-    if (route.params.runId) {
+    if (route.params.runId && route.params.runId !== 'last-run') {
       return previousResult
     } else {
       return {
