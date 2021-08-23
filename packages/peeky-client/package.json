@@ -27,6 +27,7 @@
     "graphql": "^15.4.0",
     "graphql-tag": "^2.11.0",
     "monaco-editor": "^0.26.1",
+    "v-tooltip": "^4.0.0-alpha.1",
     "vue": "^3.0.5",
     "vue-router": "^4.0.3"
   },

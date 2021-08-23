@@ -5,20 +5,22 @@ import SuiteItem from './SuiteItem.vue'
 import { SearchIcon } from '@zhuowenli/vue-feather-icons'
 import { computed, defineProps, ref } from 'vue'
 
-const props = defineProps({
-  suites: {
-    type: Array,
-    required: true,
-  },
-
-  run: {
-    type: Object,
-    required: true,
-  },
-})
+const props = defineProps<{
+  suites: any[]
+  run: any
+}>()
 
 const searchText = ref('')
 const searchReg = computed(() => searchText.value ? new RegExp(searchText.value, 'gi') : null)
+const filterFailed = ref(false)
+
+const failedTestCount = computed(() => {
+  return props.suites.reduce((sum, suite) => {
+    return sum + suite.tests.reduce((sum, test) => {
+      return sum + (test.status === 'error' ? 1 : 0)
+    }, 0)
+  }, 0)
+})
 </script>
 
 <template>
@@ -41,6 +43,17 @@ const searchReg = computed(() => searchText.value ? new RegExp(searchText.value,
             class="h-10"
           >
             <template #after>
+              <button
+                v-tooltip="'Click to filter on failed tests'"
+                class="text-xs px-2 rounded cursor-pointer leading-tight"
+                :class="[
+                  filterFailed ? 'text-red-200 bg-red-600 font-bold' : 'text-red-600 dark:text-red-400 bg-red-100 dark:bg-red-900',
+                ]"
+                @click="filterFailed = !filterFailed"
+              >
+                {{ failedTestCount }}
+              </button>
+
               <SearchIcon class="mx-3 text-gray-500" />
             </template>
           </BaseInput>
@@ -52,7 +65,10 @@ const searchReg = computed(() => searchText.value ? new RegExp(searchText.value,
             :key="suite.id"
             :suite="suite"
             :run="run"
-            :search-reg="searchReg"
+            :search="{
+              searchReg,
+              filterFailed,
+            }"
             :depth="0"
           />
 

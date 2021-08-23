@@ -15,8 +15,8 @@ const props = defineProps({
     required: true,
   },
 
-  searchReg: {
-    type: RegExp,
+  search: {
+    type: Object,
     default: null,
   },
 
@@ -26,17 +26,26 @@ const props = defineProps({
   },
 })
 
+const hasSearch = computed(() => !!(props.search?.searchReg || props.search?.filterFailed))
+
 const filteredTests = computed(() => {
-  if (props.searchReg) {
-    return props.suite.tests.filter(t => t.title.search(props.searchReg) !== -1)
+  let tests = props.suite.tests
+
+  if (props.search?.filterFailed) {
+    tests = tests.filter(t => t.status === 'error')
   }
-  return props.suite.tests
+
+  if (props.search?.searchReg) {
+    tests = tests.filter(t => t.title.search(props.search.searchReg) !== -1)
+  }
+
+  return tests
 })
 </script>
 
 <template>
   <div
-    v-if="!searchReg || filteredTests.length"
+    v-if="!hasSearch || filteredTests.length"
     class="mb-2"
   >
     <div

@@ -2,10 +2,13 @@ import './style/vars.css'
 import './style/index.css'
 import './style/transitions.css'
 import './style/ansi.css'
+import 'v-tooltip/dist/v-tooltip.css'
+
 import { createApp, provide } from 'vue'
+import { DefaultApolloClient } from '@vue/apollo-composable'
+import VTooltip from 'v-tooltip'
 import App from './App.vue'
 import { router } from './router'
-import { DefaultApolloClient } from '@vue/apollo-composable'
 import { apolloClient } from './apollo'
 
 const app = createApp({
@@ -15,4 +18,5 @@ const app = createApp({
   },
 })
 app.use(router)
+app.use(VTooltip)
 app.mount('#app')
