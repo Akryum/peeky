@@ -39,8 +39,8 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
 }
 `)
 
-const stackHtml = computed(() => props.test.error.stack.replace(/(((\\|\/)?[A-Za-zÀ-ÖØ-öø-ÿ\d-_. ]+)+\.[A-Za-zÀ-ÖØ-öø-ÿ\d]+):(\d+):(\d+)/g,
-  '<a class="cursor-pointer hover:text-red-400" data-file="$1" data-line="$4" data-col="$5">$&</a>'))
+const stackHtml = computed(() => props.test.error.stack.replace(/((\w:\\|\/)([A-Za-zÀ-ÖØ-öø-ÿ\d-_. ]+(\\|\/))+[A-Za-zÀ-ÖØ-öø-ÿ\d-_. ]+\.[A-Za-zÀ-ÖØ-öø-ÿ\d]+):(\d+):(\d+)/g,
+  '<a class="cursor-pointer hover:text-red-400" data-file="$1" data-line="$5" data-col="$6">$&</a>'))
 
 const { mutate: openFileInEditor } = useMutation(gql`
 mutation openFileInEditor ($path: String!, $line: Int!, $col: Int!) {
