@@ -1,17 +1,31 @@
-name: Release
+name: Create release
+
 on:
   push:
     tags:
-      - v*
+      - "v*" # Push events to matching v*, i.e. v1.0, v20.15.10
+
 jobs:
-  release-notes:
-    runs-on: ubuntu-latest
+  build:
+    name: "🚀 Release"
+    runs-on: ubuntu-18.04
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - name: "📥 Check-out"
+        uses: actions/checkout@v1
+      - name: "✏️ Generate release changelog"
+        id: generate-release-changelog
+        uses: ./
         with:
-          fetch-depth: 0
-      - name: Release Notary Action
-        uses: docker://aevea/release-notary:0.9.1
+          token: ${{ secrets.GITHUB_TOKEN }}
+          onlyLastTag: "true"
+          stripHeaders: "true"
+          stripGeneratorNotice: "true"
+      - name: "🚀 Create GitHub release"
+        uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: ${{ steps.generate-release-changelog.outputs.changelog }}
+  
