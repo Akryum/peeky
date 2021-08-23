@@ -1,6 +1,6 @@
 {
   "name": "peeky-mono-repo",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "private": true,
   "workspaces": [
     "packages/*"
@@ -16,7 +16,7 @@
     "watch": "yarn build && lerna run watch --parallel",
     "test": "lerna run test --parallel",
     "release": "yarn lint && yarn build && yarn test && lerna publish && yarn changelog",
-    "changelog": "node ./scripts/update-version.mjs && conventional-changelog -p angular -i CHANGELOG.md -s && (git add CHANGELOG.md && git commit -m \"chore: changelog\" && git push || exit 0)",
+    "changelog": "node ./scripts/update-version.mjs && conventional-changelog -p angular -i CHANGELOG.md -s && (git add CHANGELOG.md && git add package.json && git commit -m \"chore: changelog\" && git push || exit 0)",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:serve": "vitepress serve docs"
