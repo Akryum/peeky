@@ -1,3 +1,13 @@
+## [0.3.3](https://github.com/Akryum/peeky/compare/v0.3.2...v0.3.3) (2021-08-23)
+
+
+### Bug Fixes
+
+* **client:** min height for diff editor ([14c8310](https://github.com/Akryum/peeky/commit/14c831092f5c5583bedc23be1d1245fedfc6d5c8))
+* **client:** rewored regex that had catastrophic backtracking (causing browser hang) ([d21e770](https://github.com/Akryum/peeky/commit/d21e770d9efe4e9e8741ba0dc15ef1f0cd81faf2))
+
+
+
 ## [0.3.2](https://github.com/Akryum/peeky/compare/v0.3.1...v0.3.2) (2021-08-23)
 
 
