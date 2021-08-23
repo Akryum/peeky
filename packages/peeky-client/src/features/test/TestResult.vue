@@ -93,7 +93,7 @@ const diffShown = computed(() => props.test?.error?.actual && props.test?.error?
         </div>
 
         <div
-          class="p-2 font-mono text-sm overflow-hidden"
+          class="p-2 font-mono text-sm overflow-hidden whitespace-pre-wrap"
           :class="{
             'max-h-8': diffShown && !showFullStack,
           }"
@@ -122,7 +122,7 @@ const diffShown = computed(() => props.test?.error?.actual && props.test?.error?
         v-if="diffShown"
         :actual="test.error.actual"
         :expected="test.error.expected"
-        class="flex-1 m-1"
+        class="flex-1 m-1 min-h-64"
       />
     </template>
   </div>

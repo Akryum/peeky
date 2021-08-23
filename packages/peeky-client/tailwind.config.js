@@ -121,6 +121,18 @@ module.exports = {
         ...theme('width'),
       }),
 
+      maxHeight: theme => ({
+        ...theme('height'),
+      }),
+
+      minWidth: theme => ({
+        ...theme('width'),
+      }),
+
+      minHeight: theme => ({
+        ...theme('height'),
+      }),
+
       screens: Object.keys(defaultTheme.screens).reduce((obj, key) => {
         const [rawMin] = defaultTheme.screens[key].split('px')
         const max = parseInt(rawMin) - 1
