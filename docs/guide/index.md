@@ -109,7 +109,7 @@ Back to Peeky, the error is now gone and all tests are passing again:
 
 ## Terminal only
 
-To run all the tests with the UI, you can run the `test` script:
+To run all the tests without the UI, you can run the `test` script:
 
 ```shell
 npm run test
