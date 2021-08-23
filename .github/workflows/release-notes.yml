@@ -7,25 +7,17 @@ on:
 
 jobs:
   build:
-    name: "🚀 Release"
-    runs-on: ubuntu-18.04
+    name: Create Release
+    runs-on: ubuntu-latest
     steps:
-      - name: "📥 Check-out"
-        uses: actions/checkout@v1
-      - name: "✏️ Generate release changelog"
-        id: generate-release-changelog
-        uses: ./
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          onlyLastTag: "true"
-          stripHeaders: "true"
-          stripGeneratorNotice: "true"
-      - name: "🚀 Create GitHub release"
-        uses: actions/create-release@v1
+      - name: Checkout code
+        uses: actions/checkout@master
+      - name: Create Release for Tag
+        id: release_tag
+        uses: yyx990803/release-tag@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          body: ${{ steps.generate-release-changelog.outputs.changelog }}
-  
+          body: |
+            Please refer to [CHANGELOG.md](https://github.com/Akryum/peeky/blob/master/CHANGELOG.md) for details.
