@@ -20,6 +20,10 @@ module.exports = {
         text: '💜️ Sponsor',
         link: 'https://github.com/sponsors/Akryum',
       },
+      {
+        text: 'Changelog',
+        link: 'https://github.com/Akryum/peeky/blob/master/CHANGELOG.md',
+      },
     ],
 
     sidebar: {
