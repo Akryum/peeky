@@ -21,6 +21,9 @@
     "docs:build": "vitepress build docs",
     "docs:serve": "vitepress serve docs"
   },
+  "engines": {
+    "node": ">14.5.0"
+  },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^2.29.0",
     "@typescript-eslint/parser": "^2.29.0",
