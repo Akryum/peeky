@@ -45,6 +45,10 @@ module.exports = {
               link: '/guide/writing-tests',
             },
             {
+              text: 'TypeScript',
+              link: '/guide/typescript',
+            },
+            {
               text: 'Configuration',
               link: '/guide/config',
             },
