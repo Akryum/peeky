@@ -1,8 +1,9 @@
 # peeky
 A testing framework for curious minds 🐈️
 
-[Docs](https://peeky.netlify.app/)
+Read the [documentation](https://peeky.netlify.app/)
 
+![Screenshot of the UI](docs/public/home-screenshot.png)
 
 [💚️ Become a Sponsor](https://github.com/sponsors/Akryum)
 
