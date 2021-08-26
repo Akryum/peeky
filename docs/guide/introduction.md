@@ -27,7 +27,7 @@ Why should you try Peeky?
 - It includes a **visual user interface**!?
 - TypeScript is supported out-of-the box without any configuration!
 - The file system is automatically stubbed while your tests are being built and run. Your code can write files but instead of being written to the disk, they stay in memory.
-- Peeky also provides verything else you need to run most tests for your library or application with sane defaults. (Support for React, Vue, etc. is work in progress.)
+- Peeky also provides everything else you need to run most tests for your library or application with sane defaults. (Support for React, Vue, etc. is work in progress.)
 
 ## Tech Stack
 
