@@ -26,7 +26,8 @@
   "dependencies": {
     "@peeky/config": "^0.3.0",
     "@peeky/runner": "^0.3.1",
-    "@peeky/server": "^0.3.3"
+    "@peeky/server": "^0.3.3",
+    "@peeky/eslint-plugin": "^0.1.0"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.167",
