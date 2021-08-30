@@ -16,7 +16,7 @@ html {
     }
 
     *::-webkit-scrollbar-thumb {
-      @apply bg-gray-700 border border-gray-900;
+      @apply bg-gray-700;
     }
   }
 }
@@ -36,12 +36,12 @@ a {
 }
 
 *::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
 }
 
 *::-webkit-scrollbar-thumb {
-  @apply bg-gray-200 border border-gray-50;
-  border-radius: 2px;
+  @apply bg-gray-200;
+  border-radius: 4px;
 }
 
 .active-colors {
