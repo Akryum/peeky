@@ -1,6 +1,6 @@
 {
   "name": "@peeky/cli",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Command-line interface for Peeky, the testing framework for curious minds",
   "license": "MIT",
   "author": {
@@ -26,8 +26,8 @@
   "dependencies": {
     "@peeky/config": "^0.4.0",
     "@peeky/eslint-plugin": "^0.4.0",
-    "@peeky/runner": "^0.4.0",
-    "@peeky/server": "^0.4.0"
+    "@peeky/runner": "^0.4.1",
+    "@peeky/server": "^0.4.1"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.167",
