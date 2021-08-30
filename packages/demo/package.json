@@ -5,11 +5,13 @@
   "scripts": {
     "dev-server": "nodemon ../peeky-server/dist/standalone.js --watch .. --delay 200ms -e js --ignore tests/ --ignore demo/ --nexus-artifacts",
     "dev-open": "peeky open",
-    "dev-run": "peeky run"
+    "dev-run": "peeky run",
+    "lint": "eslint . --ext js,ts"
   },
   "devDependencies": {
     "@peeky/cli": "^0.3.3",
     "@peeky/runner": "^0.3.1",
+    "@peeky/eslint-plugin": "^0.1.0",
     "nodemon": "^2.0.7",
     "ts-node": "^9.1.1"
   }
