@@ -1,5 +1,8 @@
 require('esbuild').buildSync({
-  entryPoints: ['./src/index.ts'],
+  entryPoints: [
+    './src/index.ts',
+    './src/bin.ts',
+  ],
   bundle: true,
   platform: 'node',
   outdir: 'dist',
