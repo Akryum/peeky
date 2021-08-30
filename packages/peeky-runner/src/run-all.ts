@@ -52,9 +52,11 @@ export async function runAllTests (config: PeekyConfig) {
   const coveredFilesCount = mergedCoverage.length - uncoveredFiles.length
   const totalLines = mergedCoverage.reduce((a, c) => a + c.linesTotal, 0)
   const coveredLines = mergedCoverage.reduce((a, c) => a + c.linesCovered, 0)
-  console.log(chalk[coveredLines === totalLines ? 'green' : 'yellow'].bold(`Coverage: ${coveredFilesCount}/${mergedCoverage.length} files (${
-    Math.round(coveredFilesCount / mergedCoverage.length * 10000) / 100
-  }%) | ${coveredLines}/${totalLines} lines (${
+  console.log(chalk[coveredLines === totalLines ? 'green' : 'yellow'].bold(`Coverage: ${
+    chalk[coveredFilesCount === mergedCoverage.length ? 'green' : 'yellow']`${coveredFilesCount}/${mergedCoverage.length} files (${
+      Math.round(coveredFilesCount / mergedCoverage.length * 10000) / 100
+    }%)`
+  } | ${coveredLines}/${totalLines} lines (${
     Math.round(coveredLines / totalLines * 10000) / 100
   }%)`))
 
