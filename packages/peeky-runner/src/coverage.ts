@@ -45,7 +45,10 @@ export async function getCoverage (
   const coverageItems: Map<string, InternalFileCoverage> = new Map()
 
   function addCoverage (fullPath: string, sourceContent: string, functionName: string, coveredRange?: CoverageLineRange) {
-    const relativePath = path.relative(ctx.options.coverage.root, fullPath)
+    let relativePath = path.relative(ctx.options.coverage.root, fullPath)
+    if (relativePath.startsWith('..')) {
+      relativePath = fullPath
+    }
     if (match(ctx.options.coverage.ignored, relativePath)) return
 
     if (!functionName) {
