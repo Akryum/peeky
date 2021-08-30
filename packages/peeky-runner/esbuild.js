@@ -10,6 +10,7 @@ require('esbuild').buildSync({
     'expect',
     'sinon',
     'source-map',
+    'source-map-support',
   ],
   sourcemap: true,
 })
