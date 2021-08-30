@@ -1,3 +1,13 @@
+## [0.4.1](https://github.com/Akryum/peeky/compare/v0.4.0...v0.4.1) (2021-08-30)
+
+
+### Bug Fixes
+
+* **runner:** move source-map-support to external ([8b58f5e](https://github.com/Akryum/peeky/commit/8b58f5e624f11a50d47ae3f0e8f583792de7f526))
+* **runner:** source map in error stack traces ([681655c](https://github.com/Akryum/peeky/commit/681655c0ea469c91dc3e630dbe83b1c979a2942f))
+
+
+
 # [0.4.0](https://github.com/Akryum/peeky/compare/v0.3.3...v0.4.0) (2021-08-30)
 
 
