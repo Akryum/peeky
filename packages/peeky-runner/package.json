@@ -19,7 +19,7 @@
   "scripts": {
     "build": "rimraf dist && node esbuild.js && tsc -d --emitDeclarationOnly",
     "watch": "tsc -d -w --sourceMap",
-    "test": "../peeky-cli/dist/index.js run"
+    "test": "../peeky-cli/dist/bin.js run"
   },
   "dependencies": {
     "@types/sinon": "^9.0.10",
