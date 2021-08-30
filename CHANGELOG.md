@@ -1,3 +1,13 @@
+## [0.4.2](https://github.com/Akryum/peeky/compare/v0.4.1...v0.4.2) (2021-08-30)
+
+
+### Bug Fixes
+
+* **coverage:** handle no sourceContent ([14b1854](https://github.com/Akryum/peeky/commit/14b18541192df9385211a3f6a6b16afb622c0c11))
+* **coverage:** ignore node_modules in parent dirs ([1fad546](https://github.com/Akryum/peeky/commit/1fad54636ffb6cdf1446e7ea6ede592c08df389d))
+
+
+
 ## [0.4.1](https://github.com/Akryum/peeky/compare/v0.4.0...v0.4.1) (2021-08-30)
 
 
