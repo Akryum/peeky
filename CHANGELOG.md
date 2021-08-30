@@ -1,3 +1,23 @@
+# [0.4.0](https://github.com/Akryum/peeky/compare/v0.3.3...v0.4.0) (2021-08-30)
+
+
+### Bug Fixes
+
+* **coverage:** don't treeshake + silence warning ([e01c387](https://github.com/Akryum/peeky/commit/e01c38769f4cee6dbfa5b990ad6ab4e37ec79e53))
+* **coverage:** move source-map to external ([7f517cd](https://github.com/Akryum/peeky/commit/7f517cd4c586824611f64dd11f4fac353c50b52b))
+
+
+### Features
+
+* add eslint plugin ([#23](https://github.com/Akryum/peeky/issues/23)) ([ed5cc51](https://github.com/Akryum/peeky/commit/ed5cc51258f063b6496b29512de3d7c5927f6063))
+* basic coverage ([ae91f10](https://github.com/Akryum/peeky/commit/ae91f10716ba936b3780229572b0a7d99f1ca443))
+* **cli:** export defineConfig ([6d0829d](https://github.com/Akryum/peeky/commit/6d0829dc58f27a1ac0e9610aeb0c49c9ad51519d))
+* **coverage:** improve log ([db1fe56](https://github.com/Akryum/peeky/commit/db1fe56622310e726e19b7f9c9a3ad195737fbed))
+* new logs design ([c0f2a5a](https://github.com/Akryum/peeky/commit/c0f2a5a8614a0ed3dd0ac2dafa22000ec7fde1fd))
+* **ui:** new scrollbar design ([b4e54cf](https://github.com/Akryum/peeky/commit/b4e54cfb2d067af293e6c62543ae19fe13f7ab4a))
+
+
+
 ## [0.3.3](https://github.com/Akryum/peeky/compare/v0.3.2...v0.3.3) (2021-08-23)
 
 
