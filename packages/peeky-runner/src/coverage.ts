@@ -153,6 +153,7 @@ export async function getCoverage (
 }
 
 export function getCoverageTotalLines (sourceContent: string): number {
+  if (!sourceContent) return 1
   return sourceContent
     // Remove comments
     .replace(/\/\*[\s\S]*?\*\/|\/\/.*/g, '')
