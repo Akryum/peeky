@@ -9,6 +9,7 @@ require('esbuild').buildSync({
     '@peeky/*',
     'expect',
     'sinon',
+    'source-map',
   ],
   sourcemap: true,
 })
