@@ -139,3 +139,21 @@ export default defineConfig({
   emptySuiteError: true,
 })
 ```
+
+## collectCoverageMatch
+
+An array of [anymatch](https://github.com/micromatch/anymatch) search patterns to find the files from which coverage will be collected.
+
+Default value is:
+
+```js
+['(src|lib)/**/*.(ts|js)']
+```
+
+Example:
+
+```js
+export default defineConfig({
+  collectCoverageMatch: ['lib/**/*.js'],
+})
+```
