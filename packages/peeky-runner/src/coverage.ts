@@ -5,6 +5,7 @@ import path from 'path'
 import { SourceMapConsumer } from 'source-map'
 import copy from 'fast-copy'
 import glob from 'fast-glob'
+import shortid from 'shortid'
 import { Context } from './types'
 
 export interface FileCoverage {
@@ -46,6 +47,10 @@ export async function getCoverage (
   function addCoverage (fullPath: string, sourceContent: string, functionName: string, coveredRange?: CoverageLineRange) {
     const relativePath = path.relative(ctx.options.coverage.root, fullPath)
     if (match(ctx.options.coverage.ignored, relativePath)) return
+
+    if (!functionName) {
+      functionName = `anonymous-${shortid()}`
+    }
 
     let fileCoverage: InternalFileCoverage = coverageItems.get(fullPath)
     if (!fileCoverage) {
@@ -95,8 +100,7 @@ export async function getCoverage (
     }
 
     // Functions
-    const fns = c.functions.filter(fn => !!fn.functionName)
-    for (const fn of fns) {
+    for (const fn of c.functions) {
       for (const range of fn.ranges) {
         const rangeData: CoverageLineRange = {
           start: rawContent.substring(0, range.startOffset).split('\n').length,
@@ -111,12 +115,13 @@ export async function getCoverage (
             column: 0,
             bias: SourceMapConsumer.LEAST_UPPER_BOUND,
           })
-          rangeData.start = original.line
 
           if (original.source == null) {
-            console.error(`Couldn't map source for ${file} ${rangeData}, ${rawContent.substring(range.startOffset, range.endOffset)}`)
+            // console.error(`Couldn't map source for ${file}`, rangeData, rawContent.substring(range.startOffset, range.endOffset))
             continue
           }
+
+          rangeData.start = original.line
 
           if (covered) {
             const originalEnd = sourceMapConsumer.originalPositionFor({

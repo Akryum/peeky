@@ -40,6 +40,7 @@ export async function buildTestFile (ctx: Context) {
         /node_modules/,
       ],
       cache,
+      treeshake: false,
     })
 
     const rollupOutput = await bundle.write({
