@@ -37,24 +37,24 @@ export async function setupRunner (options: RunnerOptions) {
       on: (eventType, payload) => {
         if (eventType === EventType.BUILD_FAILED) {
           const { error } = payload
-          consola.error(`Test build failed: ${error.message}`)
+          consola.error(`Test build failed: ${error.stack ?? error.message}`)
         } else if (eventType === EventType.BUILD_COMPLETED) {
-          const { testFilePath, duration } = payload
-          consola.info(`Built ${relative(ctx.options.config.targetDirectory, testFilePath)} in ${duration}ms`)
+          // const { testFilePath, duration } = payload
+          // consola.info(`Built ${relative(ctx.options.config.targetDirectory, testFilePath)} in ${duration}ms`)
         } else if (eventType === EventType.SUITE_START) {
           const suite: TestSuiteInfo = payload.suite
-          consola.start(suite.title)
+          // consola.log(chalk.blue(`START ${suite.title}`))
           suiteMap[suite.id] = suite
         } else if (eventType === EventType.SUITE_COMPLETED) {
           const { duration, suite: { testErrors, otherErrors } } = payload
           const suite = suiteMap[payload.suite.id]
-          consola.log(chalk[testErrors + otherErrors.length ? 'red' : 'green'](`  ${suite.tests.length - testErrors} / ${suite.tests.length} tests passed: ${suite.title} ${chalk.grey(`(${duration}ms)`)}`))
+          consola.log(chalk[testErrors + otherErrors.length ? 'red' : 'green'].italic(`  ${chalk.bold(suite.title)} ${suite.tests.length - testErrors} / ${suite.tests.length} tests passed ${chalk.grey(`(${duration}ms)`)} (${suite.filePath})`))
         } else if (eventType === EventType.TEST_ERROR) {
           const { duration, error, stack } = payload
           const suite = suiteMap[payload.suite.id]
           const test = suite.tests.find(t => t.id === payload.test.id)
-          consola.log(chalk.red(`  ✗ ${test.title} ${chalk.grey(`(${duration}ms)`)}`))
-          consola.error(stack ?? error.message)
+          consola.log(chalk.red(`${chalk.bgRedBright.black.bold(' FAIL ')} ${suite.title} 🞂 ${chalk.bold(test.title)} ${chalk.grey(`(${duration}ms)`)}`))
+          consola.log(`\n${stack ?? error.message}\n`)
           if (typeof payload.matcherResult === 'string') {
             payload.matcherResult = JSON.parse(payload.matcherResult)
           }
@@ -62,7 +62,7 @@ export async function setupRunner (options: RunnerOptions) {
           const { duration } = payload
           const suite = suiteMap[payload.suite.id]
           const test = suite.tests.find(t => t.id === payload.test.id)
-          consola.log(chalk.green(`  \u{2714} ${test.title} ${chalk.grey(`(${duration}ms)`)}`))
+          consola.log(chalk.green(`${chalk.bgGreenBright.black.bold(' PASS ')} ${suite.title} 🞂 ${chalk.bold(test.title)} ${chalk.grey(`(${duration}ms)`)}`))
         }
 
         for (const handler of eventHandlers) {
