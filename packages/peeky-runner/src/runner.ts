@@ -82,6 +82,10 @@ export async function setupRunner (options: RunnerOptions) {
       const result = await runTestFileWorker({
         entry: file.absolutePath,
         emptySuitesError: ctx.options.config.emptySuiteError,
+        coverage: {
+          root: ctx.options.config.targetDirectory,
+          ignored: [...ctx.options.config.match ?? [], ...ctx.options.config.ignored ?? []],
+        },
       })
 
       // Patch filePath

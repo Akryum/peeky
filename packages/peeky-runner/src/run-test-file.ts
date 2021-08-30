@@ -8,6 +8,8 @@ import { workerEmit } from '@akryum/workerpool'
 import mockModule from 'mock-require'
 import { setupRegister } from './test-register'
 import { mockFileSystem } from './fs'
+import { CoverageInstrumenter } from 'collect-v8-coverage'
+import { getCoverage } from './coverage'
 
 export async function runTestFile (options: RunTestFileOptions) {
   try {
@@ -42,9 +44,14 @@ export async function runTestFile (options: RunTestFileOptions) {
     // Register suites and tests
     await register.run()
 
+    const instrumenter = new CoverageInstrumenter()
+    await instrumenter.startInstrumenting()
+
     // Run all tests in the test file
     await runTests(ctx)
     const duration = Date.now() - time
+
+    const coverage = await getCoverage(await instrumenter.stopInstrumenting(), ctx)
 
     workerEmit(EventType.TEST_FILE_COMPLETED, {
       filePath: ctx.options.entry,
@@ -70,6 +77,7 @@ export async function runTestFile (options: RunTestFileOptions) {
       suites,
       duration,
       modules,
+      coverage,
     }
   } catch (e) {
     consola.error(`Running tests failed: ${e.stack}`)

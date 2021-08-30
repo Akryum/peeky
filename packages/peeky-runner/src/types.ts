@@ -1,7 +1,12 @@
-
 export interface RunTestFileOptions {
   entry: string
   emptySuitesError: boolean
+  coverage: CoverageOptions
+}
+
+export interface CoverageOptions {
+  root: string
+  ignored: string[]
 }
 
 export interface Context {

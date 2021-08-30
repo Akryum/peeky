@@ -11,4 +11,5 @@ export const defaultPeekyConfig: () => PeekyConfig = () => ({
   watchIgnored: ['**/node_modules/**'],
   watchThrottle: 100,
   emptySuiteError: false,
+  collectCoverageMatch: ['(src|lib)/**/*.(ts|js)'],
 })

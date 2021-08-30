@@ -8,4 +8,5 @@ export interface PeekyConfig {
   watchThrottle?: number
   maxWorkers?: number
   emptySuiteError?: boolean
+  collectCoverageMatch?: string | string[]
 }
