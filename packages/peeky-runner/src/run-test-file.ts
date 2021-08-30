@@ -36,7 +36,9 @@ export async function runTestFile (options: RunTestFileOptions) {
     registerGlobals(ctx, global, register)
 
     // Source map support
-    installSourceMap()
+    installSourceMap({
+      hookRequire: true,
+    })
 
     // Execute test file
     require(outputPath)
