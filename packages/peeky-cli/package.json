@@ -17,10 +17,10 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": {
-    "peeky": "./dist/index.js"
+    "peeky": "./dist/bin.js"
   },
   "scripts": {
-    "build": "rimraf dist && node esbuild.js && tsc -d --emitDeclarationOnly && chmod +x ./dist/index.js",
+    "build": "rimraf dist && node esbuild.js && tsc -d --emitDeclarationOnly && chmod +x ./dist/bin.js",
     "watch": "tsc -d -w --sourceMap"
   },
   "dependencies": {
