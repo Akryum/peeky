@@ -49,6 +49,10 @@ module.exports = {
               link: '/guide/typescript',
             },
             {
+              text: 'Eslint',
+              link: '/guide/eslint',
+            },
+            {
               text: 'Configuration',
               link: '/guide/config',
             },
