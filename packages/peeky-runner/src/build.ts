@@ -1,5 +1,6 @@
 import esbuild from '@akryum/rollup-plugin-esbuild'
 import { rollup } from 'rollup'
+import { nodeResolve } from '@rollup/plugin-node-resolve'
 import { dirname, join, relative } from 'path'
 import { workerEmit } from '@akryum/workerpool'
 import { Context, EventType } from './types'
@@ -30,15 +31,14 @@ export async function buildTestFile (ctx: Context) {
     const bundle = await rollup({
       input: ctx.options.entry,
       plugins: [
+        nodeResolve(),
         esbuild({
           service: esbuildService,
           tsconfig: join(process.cwd(), 'tsconfig.json'),
           minify: false,
         }),
       ],
-      external: [
-        /node_modules/,
-      ],
+      external: ctx.options.config.external,
       cache,
       treeshake: false,
     })

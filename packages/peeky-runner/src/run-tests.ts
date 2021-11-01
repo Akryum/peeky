@@ -79,7 +79,7 @@ export async function runTests (ctx: Context) {
       await handler()
     }
 
-    if (ctx.options.emptySuitesError && !suite.tests.length) {
+    if (ctx.options.config.emptySuiteError && !suite.tests.length) {
       suite.otherErrors.push(new Error(`Empty test suite: ${suite.title}`))
     }
 

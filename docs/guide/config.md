@@ -170,3 +170,19 @@ export default defineConfig({
   collectCoverageMatch: ['lib/**/*.js'],
 })
 ```
+
+## external
+
+An array of RegExp or module names that should not be processed during building. This can improve performance.
+
+Default value is `[]`.
+
+Example:
+
+```js
+export default defineConfig({
+  external: [
+    /node_modules/,
+  ],
+})
+```

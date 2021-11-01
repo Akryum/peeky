@@ -1,3 +1,13 @@
+type ExternalOption =
+  | (string | RegExp)[]
+  | string
+  | RegExp
+  | ((
+    source: string,
+    importer: string | undefined,
+    isResolved: boolean
+  ) => boolean | null | undefined)
+
 export interface PeekyConfig {
   targetDirectory?: string
   match?: string | string[]
@@ -9,4 +19,5 @@ export interface PeekyConfig {
   maxWorkers?: number
   emptySuiteError?: boolean
   collectCoverageMatch?: string | string[]
+  external?: ExternalOption
 }

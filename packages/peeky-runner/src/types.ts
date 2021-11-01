@@ -1,6 +1,8 @@
+import { PeekyConfig } from '@peeky/config'
+
 export interface RunTestFileOptions {
   entry: string
-  emptySuitesError: boolean
+  config: PeekyConfig
   coverage: CoverageOptions
 }
 

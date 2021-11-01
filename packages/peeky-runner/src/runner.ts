@@ -81,7 +81,7 @@ export async function setupRunner (options: RunnerOptions) {
     if (file) {
       const result = await runTestFileWorker({
         entry: file.absolutePath,
-        emptySuitesError: ctx.options.config.emptySuiteError,
+        config: ctx.options.config,
         coverage: {
           root: ctx.options.config.targetDirectory,
           ignored: [...ctx.options.config.match ?? [], ...ctx.options.config.ignored ?? []],
