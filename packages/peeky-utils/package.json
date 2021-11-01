@@ -21,7 +21,7 @@
     "watch": "tsc -d -w --sourceMap"
   },
   "dependencies": {
-    "esbuild": "^0.8.34"
+    "esbuild": "^0.13.12"
   },
   "devDependencies": {
     "@types/node": "^14.14.21",

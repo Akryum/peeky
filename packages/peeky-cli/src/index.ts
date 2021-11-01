@@ -4,14 +4,12 @@ import { createServer } from '@peeky/server'
 import { pick } from 'lodash'
 import consola from 'consola'
 import openInBrowser from 'open'
-import { ensureESBuildService } from '@peeky/utils'
 import portfinder from 'portfinder'
 
 export { defineConfig } from '@peeky/config'
 
 export const run = async (options) => {
   try {
-    await ensureESBuildService()
     const configLoader = await setupConfigLoader()
     const config = await configLoader.loadConfig(false)
     await configLoader.destroy()
@@ -35,7 +33,6 @@ export const run = async (options) => {
 
 export const open = async (options) => {
   try {
-    await ensureESBuildService()
     const {
       http,
     } = await createServer()

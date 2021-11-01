@@ -1,4 +1,4 @@
-import esbuild from '@akryum/rollup-plugin-esbuild'
+import esbuild from 'rollup-plugin-esbuild'
 import { rollup } from 'rollup'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
@@ -8,7 +8,6 @@ import { workerEmit } from '@akryum/workerpool'
 import { Context, EventType } from './types'
 import shortid from 'shortid'
 import { fs, realFs } from './fs'
-import { ensureESBuildService } from '@peeky/utils'
 
 export async function buildTestFile (ctx: Context) {
   const targetDir = dirname(ctx.options.entry)
@@ -29,7 +28,6 @@ export async function buildTestFile (ctx: Context) {
     const outputPath = join(targetDir, outputFile)
 
     const time = Date.now()
-    const esbuildService = await ensureESBuildService()
     const bundle = await rollup({
       input: ctx.options.entry,
       plugins: [
@@ -39,7 +37,6 @@ export async function buildTestFile (ctx: Context) {
         commonjs(),
         json(),
         esbuild({
-          service: esbuildService,
           tsconfig: join(process.cwd(), 'tsconfig.json'),
           minify: false,
         }),

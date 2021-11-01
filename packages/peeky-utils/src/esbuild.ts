@@ -1,40 +1,21 @@
 import { extname } from 'path'
 import chalk from 'chalk'
 import {
-  Service,
   Message,
   Loader,
   TransformOptions,
   TransformResult,
+  transform,
 } from 'esbuild'
 import mergeSourceMap from 'merge-source-map'
 import { SourceMap } from 'rollup'
 import consola from 'consola'
 import { cleanUrl } from './net'
 import { generateCodeFrame } from './code'
-
-// lazy start the service
-let _servicePromise: Promise<Service> | undefined
-
 export interface ESBuildOptions extends TransformOptions {
   include?: string | RegExp | string[] | RegExp[]
   exclude?: string | RegExp | string[] | RegExp[]
   jsxInject?: string
-}
-
-export async function ensureESBuildService () {
-  if (!_servicePromise) {
-    _servicePromise = require('esbuild').startService()
-  }
-  return _servicePromise!
-}
-
-export async function stopESBuildService () {
-  if (_servicePromise) {
-    const service = await _servicePromise
-    service.stop()
-    _servicePromise = undefined
-  }
 }
 
 export type EsbuildTransformResult = Omit<TransformResult, 'map'> & {
@@ -47,7 +28,6 @@ export async function transformWithEsbuild (
   options?: TransformOptions,
   inMap?: object,
 ): Promise<EsbuildTransformResult> {
-  const service = await ensureESBuildService()
   // if the id ends with a valid ext, use it (e.g. vue blocks)
   // otherwise, cleanup the query before checking the ext
   const ext = extname(
@@ -66,7 +46,7 @@ export async function transformWithEsbuild (
   delete resolvedOptions.jsxInject
 
   try {
-    const result = await service.transform(code, resolvedOptions)
+    const result = await transform(code, resolvedOptions)
     if (inMap) {
       const nextMap = JSON.parse(result.map)
       // merge-source-map will overwrite original sources if newMap also has
