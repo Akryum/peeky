@@ -11,7 +11,7 @@ export { defineConfig } from '@peeky/config'
 export const run = async (options) => {
   try {
     const configLoader = await setupConfigLoader()
-    const config = await configLoader.loadConfig(false)
+    const config = await configLoader.loadConfig()
     await configLoader.destroy()
     const finalConfig = mergeConfig(config, (pick<any>(options, [
       'match',

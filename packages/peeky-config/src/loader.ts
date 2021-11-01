@@ -1,6 +1,5 @@
 import fs from 'fs'
 import consola from 'consola'
-import { stopESBuildService } from '@peeky/utils'
 import { setupConfigContentLoader } from './fs'
 import { PeekyConfig } from './types'
 import { transformConfigCode } from './transform'
@@ -16,7 +15,7 @@ export interface PeekyConfigLoaderOptions {
 export async function setupConfigLoader (options: PeekyConfigLoaderOptions = {}) {
   const contentLoader = await setupConfigContentLoader(options.baseDir, options.glob)
 
-  async function loadConfig (stopEsBuild = true): Promise<PeekyConfig> {
+  async function loadConfig (): Promise<PeekyConfig> {
     try {
       const file = contentLoader.getConfigPath()
       if (file) {
@@ -35,10 +34,6 @@ export async function setupConfigLoader (options: PeekyConfigLoaderOptions = {})
       }
     } catch (e) {
       consola.error(e)
-    } finally {
-      if (stopEsBuild) {
-        stopESBuildService()
-      }
     }
   }
 
