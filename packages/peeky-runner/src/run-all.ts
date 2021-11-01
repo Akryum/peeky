@@ -27,6 +27,33 @@ export async function runAllTests (config: PeekyConfig) {
   const time = Date.now()
   const result = await Promise.all(fileList.map(f => runner.runTestFile(f)))
 
+  const stats = getStats(result)
+  const {
+    suiteCount,
+    errorSuiteCount,
+    testCount,
+    errorTestCount,
+  } = stats
+
+  // Error summary
+  if (errorTestCount) {
+    console.log('―'.repeat(16))
+    consola.log(chalk.red.bold(`Errors: ${testCount - errorTestCount} / ${testCount} tests`))
+    console.log('―'.repeat(16))
+    for (const file of result) {
+      for (const suite of file.suites) {
+        if (suite.testErrors) {
+          for (const test of suite.tests) {
+            if (test.error) {
+              consola.log(chalk.red(`${chalk.bgRedBright.black.bold(' FAIL ')} ${suite.title} 🞂 ${chalk.bold(test.title)}`))
+              consola.log(`\n${test.error.stack ?? test.error.message}\n`)
+            }
+          }
+        }
+      }
+    }
+  }
+
   console.log('―'.repeat(16))
 
   // Coverage
@@ -63,14 +90,6 @@ export async function runAllTests (config: PeekyConfig) {
   // Summary
 
   consola.info(`Ran ${fileList.length} tests files (${Date.now() - time}ms, using ${runner.pool.stats().totalWorkers} parallel workers)`)
-
-  const stats = getStats(result)
-  const {
-    suiteCount,
-    errorSuiteCount,
-    testCount,
-    errorTestCount,
-  } = stats
   consola.log(chalk[errorSuiteCount ? 'red' : 'green'].bold(`Suites : ${suiteCount - errorSuiteCount} / ${suiteCount}\nTests  : ${testCount - errorTestCount} / ${testCount}`))
 
   await runner.close()
