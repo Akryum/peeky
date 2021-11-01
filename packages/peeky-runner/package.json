@@ -1,6 +1,6 @@
 {
   "name": "@peeky/runner",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "description": "Test runner for Peeky, the testing framework for curious minds",
   "license": "MIT",
   "author": {
@@ -32,8 +32,8 @@
   },
   "devDependencies": {
     "@akryum/workerpool": "^6.0.5-alpha.2",
-    "@peeky/config": "^0.4.0",
-    "@peeky/utils": "^0.4.0",
+    "@peeky/config": "^0.5.0",
+    "@peeky/utils": "^0.5.0",
     "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.0.6",
