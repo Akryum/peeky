@@ -175,7 +175,7 @@ export default defineConfig({
 
 An array of RegExp or module names that should not be processed during building. This can improve performance.
 
-Default value is `[]`.
+Default value is `[/node_modules/]`.
 
 Example:
 

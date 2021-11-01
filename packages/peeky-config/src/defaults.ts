@@ -12,5 +12,7 @@ export const defaultPeekyConfig: () => PeekyConfig = () => ({
   watchThrottle: 100,
   emptySuiteError: false,
   collectCoverageMatch: ['(src|lib)/**/*.(ts|js)'],
-  external: [],
+  external: [
+    /node_modules/,
+  ],
 })
