@@ -1,4 +1,4 @@
-import { ReactiveFileSystem } from '@peeky/reactive-fs'
+import { ReactiveFileSystem } from 'reactive-fs'
 import { PubSubEngine } from 'apollo-server-express'
 import { PeekyConfig } from '@peeky/config/dist'
 

@@ -24,8 +24,8 @@
   "dependencies": {
     "@peeky/client-dist": "^0.4.0",
     "@peeky/config": "^0.4.0",
-    "@peeky/reactive-fs": "^0.4.0",
-    "@peeky/runner": "^0.4.2"
+    "@peeky/runner": "^0.4.2",
+    "reactive-fs": "^0.4.1"
   },
   "devDependencies": {
     "@types/node": "^14.14.21",

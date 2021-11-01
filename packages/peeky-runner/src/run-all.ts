@@ -1,6 +1,6 @@
 import consola from 'consola'
 import chalk from 'chalk'
-import { createReactiveFileSystem } from '@peeky/reactive-fs'
+import { createReactiveFileSystem } from 'reactive-fs'
 import { PeekyConfig } from '@peeky/config'
 import { setupRunner } from './runner'
 import { getStats } from './stats'

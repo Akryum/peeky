@@ -35,7 +35,7 @@ Under-the-hood it's also using those furry libraries:
 
 - [ESBuild](https://esbuild.github.io/) to compile JavaScript and TypeScript faster than the speed of light ⚡️
 - [Rollup](https://www.rollupjs.org/) to bundle the files and support other types of files (like Vue files)
-- [reactive-fs](https://github.com/Akryum/peeky/tree/master/packages/reactive-fs) to handle the almighty File System
+- [reactive-fs](https://github.com/Akryum/reactive-fs) to handle the almighty File System
 - [Chokidar](https://github.com/paulmillr/chokidar) to watch for file changes
 - [Apollo](https://apollographql.com/) for GraphQL-related stuff
 - [Vue](https://vuejs.org/) for the UI frontend

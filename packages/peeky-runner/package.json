@@ -32,7 +32,6 @@
   "devDependencies": {
     "@akryum/workerpool": "^6.0.5-alpha.2",
     "@peeky/config": "^0.4.0",
-    "@peeky/reactive-fs": "^0.4.0",
     "@peeky/utils": "^0.4.0",
     "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-json": "^4.1.0",
@@ -48,6 +47,7 @@
     "fs-monkey": "^1.0.1",
     "memfs": "^3.2.0",
     "mock-require": "^3.0.3",
+    "reactive-fs": "^0.4.1",
     "rollup": "^2.59.0",
     "rollup-plugin-esbuild": "^4.6.0",
     "shortid": "^2.2.16",

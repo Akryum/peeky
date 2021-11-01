@@ -28,7 +28,7 @@ You can execute some code at some specific point in your test suite with the fol
 Example:
 
 ```js
-import { createReactiveFileSystem } from '@peeky/reactive-fs'
+import { createReactiveFileSystem } from 'reactive-fs'
 
 let fs
 

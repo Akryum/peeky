@@ -1,4 +1,4 @@
-import { createReactiveFileSystem } from '@peeky/reactive-fs'
+import { createReactiveFileSystem } from 'reactive-fs'
 import { ApolloServer, PubSub } from 'apollo-server-express'
 import express from 'express'
 import historyFallback from 'express-history-api-fallback'
