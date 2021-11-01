@@ -1,3 +1,17 @@
+## [0.5.1](https://github.com/Akryum/peeky/compare/v0.5.0...v0.5.1) (2021-11-01)
+
+
+### Bug Fixes
+
+* **client:** undefined `__DEV__` ([8c3f68c](https://github.com/Akryum/peeky/commit/8c3f68ce9c7ecd98a686d04d8a38813f6305d9ff))
+
+
+### Features
+
+* error summary, closes [#32](https://github.com/Akryum/peeky/issues/32) ([712a7ef](https://github.com/Akryum/peeky/commit/712a7efa6186c31aab01bd25ed7838a246373d96))
+
+
+
 # [0.5.0](https://github.com/Akryum/peeky/compare/v0.4.2...v0.5.0) (2021-11-01)
 
 
