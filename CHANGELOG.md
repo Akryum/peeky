@@ -1,3 +1,21 @@
+# [0.5.0](https://github.com/Akryum/peeky/compare/v0.4.2...v0.5.0) (2021-11-01)
+
+
+### Bug Fixes
+
+* defualt external to /node_modules/ ([b8d2947](https://github.com/Akryum/peeky/commit/b8d2947c66bea0b80969da5ee4aa4c57f7bdbcb0))
+* externalize jsonc-parser ([5f49c74](https://github.com/Akryum/peeky/commit/5f49c74eff83458bf6491db920695f98954ce389))
+* remove stopESBuildService calls ([ec0c05d](https://github.com/Akryum/peeky/commit/ec0c05db5d627164a725d03996d6b4da832578a3))
+
+
+### Features
+
+* add json and cjs rollup plugins ([7479c74](https://github.com/Akryum/peeky/commit/7479c74d8f2a86c411d535914163b13fcd63a6be))
+* external config, no external by default ([330eb94](https://github.com/Akryum/peeky/commit/330eb94eb130b11e72a71e5c646cbf2d0e675a6b))
+* upgrade esbuild ([000d4c7](https://github.com/Akryum/peeky/commit/000d4c73b7a1d6d55748fe45832f128df723470d))
+
+
+
 ## [0.4.2](https://github.com/Akryum/peeky/compare/v0.4.1...v0.4.2) (2021-08-30)
 
 
