@@ -11,6 +11,8 @@ require('esbuild').buildSync({
     'sinon',
     'source-map',
     'source-map-support',
+    'rollup-plugin-esbuild',
+    'jsonc-parser',
   ],
   sourcemap: true,
 })
