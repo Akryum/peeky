@@ -38,7 +38,7 @@ export async function runAllTests (config: PeekyConfig) {
   // Error summary
   if (errorTestCount) {
     console.log('―'.repeat(16))
-    consola.log(chalk.red.bold(`Errors: ${testCount - errorTestCount} / ${testCount} tests`))
+    consola.log(chalk.red.bold(`Errors: ${errorTestCount} / ${testCount} tests`))
     console.log('―'.repeat(16))
     for (const file of result) {
       for (const suite of file.suites) {
