@@ -1,3 +1,12 @@
+## [0.5.2](https://github.com/Akryum/peeky/compare/v0.5.1...v0.5.2) (2021-11-01)
+
+
+### Bug Fixes
+
+* inverted errors count in error summary ([690d6c4](https://github.com/Akryum/peeky/commit/690d6c4a138da0ec4ab3ae135c2e790723d520f5))
+
+
+
 ## [0.5.1](https://github.com/Akryum/peeky/compare/v0.5.0...v0.5.1) (2021-11-01)
 
 
