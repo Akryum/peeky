@@ -14,7 +14,8 @@
     "release": "pnpm run lint && pnpm run build && pnpm run test && echo \"TODO publish\"",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
-    "docs:serve": "vitepress serve docs"
+    "docs:serve": "vitepress serve docs",
+    "fix-pnpm-bin": "mkdir ./packages/peeky-cli/dist && touch ./packages/peeky-cli/dist/bin.js"
   },
   "engines": {
     "node": ">14.5.0"

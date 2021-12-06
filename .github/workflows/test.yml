@@ -20,7 +20,7 @@ jobs:
           node-version: 16
           cache: 'pnpm'
 
-      - run: pnpm install
+      - run: npm run fix-pnpm-bin && pnpm install
 
       - name: Lint
         run: pnpm run lint
