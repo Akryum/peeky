@@ -12,12 +12,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@master
+        with:
+          fetch-depth: 0 # Fetch all tags
+
       - name: Create Release for Tag
         id: release_tag
-        uses: yyx990803/release-tag@master
+        uses: Akryum/release-tag@conventional
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref }}
-          body: |
-            Please refer to [CHANGELOG.md](https://github.com/Akryum/peeky/blob/master/CHANGELOG.md) for details.
+          preset: angular # Use conventional-changelog preset
