@@ -17,7 +17,7 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "yarn run gen && rimraf dist && tsc -d --emitDeclarationOnly && cp src/context.d.ts dist/context.d.ts && node esbuild.js",
+    "build": "pnpm run gen && rimraf dist && tsc -d --emitDeclarationOnly && cp src/context.d.ts dist/context.d.ts && node esbuild.js",
     "gen": "rimraf dist src/generated && tsc && cp src/context.d.ts dist/context.d.ts && node ./dist/standalone.js --nexus-artifacts --nexus-exit",
     "watch": "tsc -d -w --sourceMap"
   },
@@ -34,6 +34,7 @@
     "apollo-server-express": "^2.19.2",
     "chokidar": "^3.5.1",
     "consola": "^2.15.0",
+    "esbuild": "^0.13.12",
     "express": "^4.17.1",
     "express-history-api-fallback": "^2.2.1",
     "fs-extra": "^9.0.1",

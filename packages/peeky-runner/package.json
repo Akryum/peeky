@@ -43,6 +43,7 @@
     "chalk": "^4.1.0",
     "collect-v8-coverage": "^1.0.1",
     "consola": "^2.15.0",
+    "esbuild": "^0.13.12",
     "fast-copy": "^2.1.1",
     "fast-glob": "^3.2.7",
     "fs-monkey": "^1.0.1",

@@ -2,21 +2,16 @@
   "name": "peeky-mono-repo",
   "version": "0.5.2",
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
   "repository": {
     "url": "https://github.com/Akryum/peeky.git",
     "type": "git"
   },
   "scripts": {
     "lint": "eslint . --ext js,vue,ts",
-    "build": "lerna run build",
-    "link": "lerna link",
-    "watch": "yarn build && lerna run watch --parallel",
-    "test": "lerna run test --parallel",
-    "release": "yarn lint && yarn build && yarn test && lerna publish && yarn changelog",
-    "changelog": "node ./scripts/update-version.mjs && conventional-changelog -p angular -i CHANGELOG.md -s -r 2 && (git add CHANGELOG.md && git add package.json && git commit -m \"chore: changelog\" && git push || exit 0)",
+    "build": "pnpm run -r build",
+    "watch": "pnpm run build && pnpm run -r --parallel watch",
+    "test": "pnpm run -r --parallel test",
+    "release": "pnpm run lint && pnpm run build && pnpm run test && echo \"TODO publish\"",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:serve": "vitepress serve docs"
@@ -36,7 +31,6 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^5.0.0",
     "eslint-plugin-vue": "^7.4.1",
-    "lerna": "^3.22.1",
     "postcss": "^8.2.4",
     "postcss-nested": "^5.0.3",
     "rimraf": "^3.0.2",

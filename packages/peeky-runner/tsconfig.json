@@ -4,6 +4,7 @@
     "module": "CommonJS",
     "moduleResolution": "node",
     "outDir": "dist",
+    "rootDir": "src",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "removeComments": false,
@@ -12,19 +13,27 @@
     "types": [
       "node"
     ],
+    "lib": [
+      "ESNext",
+      "DOM"
+    ],
     "sourceMap": false,
     "preserveWatchOutput": true,
+    "preserveSymlinks": true,
     // Strict
     "noImplicitAny": false,
     "noImplicitThis": true,
     "alwaysStrict": true,
     "strictBindCallApply": true,
     "strictFunctionTypes": true,
-    "lib": [
-      "ESNext",
-      "DOM"
-    ]
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist/**/*", "src/**/*.spec.ts"]
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules",
+    "generated/**/*",
+    "dist/**/*",
+    "src/**/*.spec.ts"
+  ]
 }

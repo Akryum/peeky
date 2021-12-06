@@ -15,7 +15,7 @@
     "access": "public"
   },
   "scripts": {
-    "prepublishOnly": "cd ../peeky-client && yarn build-client"
+    "prepublishOnly": "cd ../peeky-client && pnpm run build-client"
   },
   "devDependencies": {
     "@peeky/client": "^0.5.1"
