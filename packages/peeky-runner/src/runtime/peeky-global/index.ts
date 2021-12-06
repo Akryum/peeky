@@ -1,4 +1,4 @@
-import { Context } from '../types'
+import { Context } from '../../types'
 import { retry } from './test-flow'
 import { mockModule } from './mock'
 

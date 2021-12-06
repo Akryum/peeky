@@ -2,8 +2,8 @@ import consola from 'consola'
 import chalk from 'chalk'
 import { createReactiveFileSystem } from 'reactive-fs'
 import { PeekyConfig } from '@peeky/config'
-import { setupRunner } from './runner'
-import { getStats } from './stats'
+import { setupRunner } from '../runner'
+import { getStats } from '../stats'
 import { computeCoveredLines, getEmptyCoverageFromFiles, mergeCoverage } from './coverage'
 
 export async function runAllTests (config: PeekyConfig) {

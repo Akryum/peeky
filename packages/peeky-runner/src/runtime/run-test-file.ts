@@ -1,14 +1,14 @@
 import { install as installSourceMap } from 'source-map-support'
 import consola from 'consola'
-import { Context, EventType, RunTestFileOptions, TestSuiteResult } from './types'
+import { workerEmit } from '@akryum/workerpool'
+import mockModule from 'mock-require'
+import { CoverageInstrumenter } from 'collect-v8-coverage'
+import { Context, EventType, RunTestFileOptions, TestSuiteResult } from '../types'
 import { buildTestFile } from './build'
 import { registerGlobals } from './globals'
 import { runTests } from './run-tests'
-import { workerEmit } from '@akryum/workerpool'
-import mockModule from 'mock-require'
 import { setupRegister } from './test-register'
 import { mockFileSystem } from './fs'
-import { CoverageInstrumenter } from 'collect-v8-coverage'
 import { getCoverage } from './coverage'
 
 export async function runTestFile (options: RunTestFileOptions) {

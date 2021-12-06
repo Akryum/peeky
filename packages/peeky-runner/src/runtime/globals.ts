@@ -1,6 +1,6 @@
 import sinon from 'sinon'
 import expect from 'expect'
-import { Context } from './types'
+import { Context } from '../types'
 import { createPeekyGlobal } from './peeky-global'
 import { Register } from './test-register'
 

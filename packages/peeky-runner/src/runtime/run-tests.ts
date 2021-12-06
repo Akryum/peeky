@@ -1,7 +1,7 @@
+import { basename } from 'path'
 import sinon from 'sinon'
 import { workerEmit } from '@akryum/workerpool'
-import { Context, EventType, TestSuiteInfo } from './types'
-import { basename } from 'path'
+import { Context, EventType, TestSuiteInfo } from '../types'
 
 export async function runTests (ctx: Context) {
   for (const suite of ctx.suites) {

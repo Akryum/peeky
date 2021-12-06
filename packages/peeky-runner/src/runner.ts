@@ -4,9 +4,9 @@ import chalk from 'chalk'
 import workerpool from '@akryum/workerpool'
 import { ReactiveFileSystem } from 'reactive-fs'
 import { Awaited } from '@peeky/utils'
-import type { runTestFile as rawRunTestFile } from './run-test-file'
-import { RunTestFileOptions, TestSuiteInfo, EventType } from './types'
 import { PeekyConfig } from '@peeky/config'
+import type { runTestFile as rawRunTestFile } from './runtime/run-test-file'
+import { RunTestFileOptions, TestSuiteInfo, EventType } from './types'
 
 export interface RunnerOptions {
   config: PeekyConfig
@@ -24,7 +24,7 @@ export async function setupRunner (options: RunnerOptions) {
     options,
   }
 
-  const pool = workerpool.pool(join(__dirname, 'worker.js'), {
+  const pool = workerpool.pool(join(__dirname, 'runtime/worker.js'), {
     ...options.config.maxWorkers ? { maxWorkers: options.config.maxWorkers } : {},
   })
   const { testFiles } = options

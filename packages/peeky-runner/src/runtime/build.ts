@@ -5,8 +5,8 @@ import commonjs from '@rollup/plugin-commonjs'
 import json from '@rollup/plugin-json'
 import { dirname, join, relative } from 'path'
 import { workerEmit } from '@akryum/workerpool'
-import { Context, EventType } from './types'
 import shortid from 'shortid'
+import { Context, EventType } from '../types'
 import { fs, realFs } from './fs'
 
 export async function buildTestFile (ctx: Context) {
