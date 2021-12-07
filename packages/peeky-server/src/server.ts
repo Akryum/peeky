@@ -8,6 +8,8 @@ import express from 'express'
 import historyFallback from 'express-history-api-fallback'
 import { makeSchema } from 'nexus'
 import consola from 'consola'
+import { WebSocketServer } from 'ws'
+import { useServer } from 'graphql-ws/lib/use/ws'
 import { setupConfigLoader } from '@peeky/config'
 import type { Context } from './context'
 import * as types from './schema/index.js'
@@ -57,9 +59,6 @@ export async function createServer () {
     schema,
     context: createContext,
     playground: true,
-    subscriptions: {
-      path: '/api',
-    },
     formatError (error) {
       consola.error(error)
       consola.log(JSON.stringify(error, null, 2))
@@ -74,7 +73,15 @@ export async function createServer () {
     app,
     path: '/api',
   })
-  apollo.installSubscriptionHandlers(http)
+
+  const wsServer = new WebSocketServer({
+    server: http,
+    path: '/api',
+  })
+  useServer({
+    schema,
+    context: createContext,
+  }, wsServer)
 
   const require = createRequire(import.meta.url)
   const staticRoot = join(dirname(require.resolve('@peeky/client-dist/package.json')), 'dist')
@@ -90,5 +97,6 @@ export async function createServer () {
     apollo,
     app,
     http,
+    ws: wsServer,
   }
 }

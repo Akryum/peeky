@@ -1,8 +1,18 @@
-import { ApolloClient, createHttpLink, InMemoryCache, split } from '@apollo/client/core'
-import { WebSocketLink } from '@apollo/client/link/ws'
+import {
+  ApolloClient,
+  createHttpLink,
+  InMemoryCache,
+  split,
+  ApolloLink,
+  Operation,
+  Observable,
+  FetchResult,
+} from '@apollo/client/core'
 import { getMainDefinition } from '@apollo/client/utilities'
 import { onError } from '@apollo/client/link/error'
 import { logErrorMessages } from '@vue/apollo-util'
+import { createClient, ClientOptions, Client } from 'graphql-ws'
+import { print } from 'graphql'
 
 const apiUrl = import.meta.env.VITE_GQL_URL as string
 
@@ -20,11 +30,49 @@ if (apiUrl.includes('http')) {
   wsUrl = `${window.location.protocol.replace('http', 'ws')}${window.location.hostname}:${window.location.port}${apiUrl}`
 }
 
+class WebSocketLink extends ApolloLink {
+  private client: Client;
+
+  constructor (options: ClientOptions) {
+    super()
+    this.client = createClient(options)
+  }
+
+  public request (operation: Operation): Observable<FetchResult> {
+    return new Observable((sink) => {
+      return this.client.subscribe<FetchResult>(
+        { ...operation, query: print(operation.query) },
+        {
+          next: sink.next.bind(sink),
+          complete: sink.complete.bind(sink),
+          error: (err) => {
+            if (Array.isArray(err))
+            // GraphQLError[]
+            {
+              return sink.error(
+                new Error(err.map(({ message }) => message).join(', ')),
+              )
+            }
+
+            if (err instanceof CloseEvent) {
+              return sink.error(
+                new Error(
+                  `Socket closed with event ${err.code} ${err.reason || ''}`, // reason will be available on clean closes only
+                ),
+              )
+            }
+
+            return sink.error(err)
+          },
+        },
+      )
+    })
+  }
+}
+
 const wsLink = new WebSocketLink({
-  uri: wsUrl,
-  options: {
-    reconnect: true,
-  },
+  url: wsUrl,
+  retryAttempts: Infinity,
 })
 
 const link = onError(error => {
