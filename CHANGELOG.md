@@ -1,3 +1,18 @@
+## [0.6.2](https://github.com/Akryum/peeky/compare/v0.6.1...v0.6.2) (2021-12-07)
+
+
+### Bug Fixes
+
+* arrow character on MacOS ([03e18d9](https://github.com/Akryum/peeky/commit/03e18d9db3e194aec7835f0194f260feb1b85f1a))
+* **client:** error dark style ([75ae791](https://github.com/Akryum/peeky/commit/75ae7916893e86a3cd276d0cb3fd8379274d5c1e))
+* config loading ([bcf0fcb](https://github.com/Akryum/peeky/commit/bcf0fcb6544fcd3b273fb82e52f83b3f9d13cbce))
+* don't externalize by default with vite ([f2ba872](https://github.com/Akryum/peeky/commit/f2ba872e731479eb11a7d9cb8283d0c71224bc5c))
+* improve fs mock and vite ([11e9ad7](https://github.com/Akryum/peeky/commit/11e9ad74a07d6246f531645966fba42d498861ed))
+* remove console.log ([d4df1c3](https://github.com/Akryum/peeky/commit/d4df1c390044f031926496e3638d54939fa975de))
+* **server:** watch didn't run on new test files ([2d74eb3](https://github.com/Akryum/peeky/commit/2d74eb37aa96a42aaaca97ddb9b0502630462e39))
+
+
+
 ## [0.6.1](https://github.com/Akryum/peeky/compare/v0.6.0...v0.6.1) (2021-12-07)
 
 
