@@ -27,7 +27,7 @@
   "scripts": {
     "build": "rimraf dist && tsc -d",
     "watch": "tsc -d -w --sourceMap",
-    "test": "../peeky-cli/dist/bin.js run"
+    "test": "../peeky-cli/bin.mjs run"
   },
   "dependencies": {
     "@akryum/workerpool": "^6.0.5-alpha.2",
