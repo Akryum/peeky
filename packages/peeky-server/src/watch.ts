@@ -14,9 +14,10 @@ export async function setupRunWatch (ctx: Context) {
     persistent: true,
     ignorePermissionErrors: true,
     ignored: ctx.config.watchIgnored,
+    ignoreInitial: true,
   })
 
-  watcher.on('change', (relativePath) => {
+  function onChange (relativePath: string) {
     const path = join(watchBase, relativePath)
     if (settings.watch) {
       changedFiles.push(path)
@@ -27,7 +28,10 @@ export async function setupRunWatch (ctx: Context) {
         }, ctx.config.watchThrottle)
       }
     }
-  })
+  }
+
+  watcher.on('change', onChange)
+  watcher.on('add', onChange)
 }
 
 export function mightRunOnChangedFiles (ctx: Context) {
@@ -41,5 +45,5 @@ export function mightRunOnChangedFiles (ctx: Context) {
 }
 
 export function getTestFilesWithChangedModules (ctx: Context, files: string[]) {
-  return testFiles.filter(f => !f.deleted && f.modules.some(m => files.includes(m)))
+  return testFiles.filter(f => !f.deleted && (files.includes(f.absolutePath) || f.modules.some(m => files.includes(m))))
 }
