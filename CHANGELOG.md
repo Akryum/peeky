@@ -1,3 +1,13 @@
+# [0.6.0](https://github.com/Akryum/peeky/compare/v0.5.2...v0.6.0) (2021-12-07)
+
+
+### Features
+
+* move to full ESM + use vite dev server ([4d92739](https://github.com/Akryum/peeky/commit/4d92739719706810aecf3de74b2963024b2dbc87))
+* vite external support ([148c5d4](https://github.com/Akryum/peeky/commit/148c5d4f5b1de1a5a5bb5ae2a615c55380e3f6f9))
+* move to PNPM
+
+
 ## [0.5.2](https://github.com/Akryum/peeky/compare/v0.5.1...v0.5.2) (2021-11-01)
 
 
