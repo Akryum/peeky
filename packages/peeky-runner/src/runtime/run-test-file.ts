@@ -32,11 +32,11 @@ export async function runTestFile (options: RunTestFileOptions) {
     })
     const buildTime = Date.now()
     await initViteServer({
-      configFile: null,
+      configFile: options.config.viteConfigFile,
       defaultConfig: {},
       rootDir: options.config.targetDirectory,
       external: options.config.external,
-      userInlineConfig: {},
+      userInlineConfig: options.config.vite,
     })
     workerEmit(EventType.BUILD_COMPLETED, {
       testFilePath: ctx.options.entry,

@@ -1,3 +1,5 @@
+import type { UserConfig as ViteConfig } from 'vite'
+
 export type ExternalOption =
   | (string | RegExp)[]
   | string
@@ -16,4 +18,6 @@ export interface PeekyConfig {
   emptySuiteError?: boolean
   collectCoverageMatch?: string | string[]
   external?: ExternalOption
+  vite?: ViteConfig
+  viteConfigFile?: string
 }
