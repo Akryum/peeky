@@ -1,26 +1,17 @@
 import {
   ApolloClient,
-  createHttpLink,
   InMemoryCache,
-  split,
   ApolloLink,
   Operation,
   Observable,
   FetchResult,
 } from '@apollo/client/core'
-import { getMainDefinition } from '@apollo/client/utilities'
 import { onError } from '@apollo/client/link/error'
 import { logErrorMessages } from '@vue/apollo-util'
 import { createClient, ClientOptions, Client } from 'graphql-ws'
 import { print } from 'graphql'
 
 const apiUrl = import.meta.env.VITE_GQL_URL as string
-
-// HTTP connection to the API
-const httpLink = createHttpLink({
-  // You should use an absolute URL here
-  uri: apiUrl,
-})
 
 // WebSocket link
 let wsUrl: string
@@ -46,9 +37,7 @@ class WebSocketLink extends ApolloLink {
           next: sink.next.bind(sink),
           complete: sink.complete.bind(sink),
           error: (err) => {
-            if (Array.isArray(err))
-            // GraphQLError[]
-            {
+            if (Array.isArray(err)) {
               return sink.error(
                 new Error(err.map(({ message }) => message).join(', ')),
               )
@@ -77,18 +66,7 @@ const wsLink = new WebSocketLink({
 
 const link = onError(error => {
   logErrorMessages(error)
-}).concat(split(
-  // split based on operation type
-  ({ query }) => {
-    const definition = getMainDefinition(query)
-    return (
-      definition.kind === 'OperationDefinition' &&
-      definition.operation === 'subscription'
-    )
-  },
-  wsLink,
-  httpLink,
-))
+}).concat(wsLink)
 
 // Cache implementation
 function dedupeRefs (existing: { __ref: string }[], incoming: { __ref: string }[]) {
