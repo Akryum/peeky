@@ -13,6 +13,7 @@ import { ExternalOption } from '@peeky/config'
 import { slash } from '@peeky/utils'
 import { mockedModules } from './mocked-files.js'
 import { createPeekyGlobal } from '../index.js'
+import { mockFileSystem } from './fs.js'
 
 let viteServer: ViteDevServer
 let initPromise: Promise<void>
@@ -124,6 +125,10 @@ export function getFileDependencies (id: string, entryFiles: string[], result = 
  * @returns
  */
 function cachedRequest (rawId: string, callstack: string[], deps: Set<string>, executionContext: Record<string, any>): Promise<any> {
+  if (rawId === 'fs') {
+    return Promise.resolve(mockFileSystem())
+  }
+
   if (builtinModules.includes(rawId)) {
     return import(rawId)
   }

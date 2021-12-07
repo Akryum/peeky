@@ -1,7 +1,6 @@
 import fs from 'fs'
 import { fs as memfs } from 'memfs'
 import { ufs } from 'unionfs'
-import { patchFs, patchRequire } from 'fs-monkey'
 import { dirname } from 'path'
 
 export { fs as memfs } from 'memfs'
@@ -11,7 +10,7 @@ export const realFs = { ...fs }
 let mockedFs = false
 
 export function mockFileSystem () {
-  if (mockedFs) return
+  if (mockedFs) return ufs
   mockedFs = true
   // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
@@ -33,6 +32,5 @@ export function mockFileSystem () {
       return memfs.writeFileSync(path, ...args)
     },
   })
-  patchFs(ufs)
-  patchRequire(ufs)
+  return ufs
 }

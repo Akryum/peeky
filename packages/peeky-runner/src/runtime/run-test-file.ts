@@ -8,7 +8,6 @@ import { executeWithVite, initViteServer } from './vite.js'
 import { getGlobals } from './globals.js'
 import { runTests } from './run-tests.js'
 import { setupRegister } from './test-register.js'
-import { mockFileSystem } from './fs.js'
 import { getCoverage } from './coverage.js'
 import { mockedModules } from './mocked-files.js'
 
@@ -23,8 +22,6 @@ export async function runTestFile (options: RunTestFileOptions) {
 
     // Restore mocked module
     mockedModules.clear()
-
-    mockFileSystem()
 
     // Build
     workerEmit(EventType.BUILDING, {
