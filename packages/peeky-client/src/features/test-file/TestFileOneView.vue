@@ -159,7 +159,7 @@ onResult(({ data }) => {
         <div class="text-xl text-red-500">
           😿️ Running tests failed:
         </div>
-        <pre class="bg-red-50 text-red-600 px-4 py-3 rounded text-sm">{{ runTestFile.error.message }}</pre>
+        <pre class="bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 px-4 py-3 rounded text-sm">{{ runTestFile.error.message }}</pre>
       </div>
     </div>
   </template>
