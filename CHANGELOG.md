@@ -1,3 +1,19 @@
+## [0.6.1](https://github.com/Akryum/peeky/compare/v0.6.0...v0.6.1) (2021-12-07)
+
+
+### Bug Fixes
+
+* **client:** only use websocket to prevent missed UI updates ([3b89a4e](https://github.com/Akryum/peeky/commit/3b89a4ed7ddcef624b31c9ae496499a55b7a4da7))
+* watch not working on test deps ([27a85a7](https://github.com/Akryum/peeky/commit/27a85a7dcd4485da28a35118bee620585cde5c33))
+
+
+### Features
+
+* use graphql-ws ([0d44a1e](https://github.com/Akryum/peeky/commit/0d44a1e6dddea7df9b5932fd52df38d6f881270d))
+* vite options in peeky config ([47f0be0](https://github.com/Akryum/peeky/commit/47f0be02dedce561650b3bb6240d6fc276e323c5))
+
+
+
 # [0.6.0](https://github.com/Akryum/peeky/compare/v0.5.2...v0.6.0) (2021-12-07)
 
 

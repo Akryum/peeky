@@ -40,9 +40,9 @@ importers:
 
   packages/demo:
     specifiers:
-      '@peeky/cli': ^0.6.0
-      '@peeky/eslint-plugin': ^0.6.0
-      '@peeky/runner': ^0.6.0
+      '@peeky/cli': ^0.6.1
+      '@peeky/eslint-plugin': ^0.6.1
+      '@peeky/runner': ^0.6.1
       lodash-es: ^4.17.21
       nodemon: ^2.0.7
       ts-node: ^9.1.1
@@ -56,10 +56,10 @@ importers:
 
   packages/peeky-cli:
     specifiers:
-      '@peeky/config': ^0.6.0
-      '@peeky/eslint-plugin': ^0.6.0
-      '@peeky/runner': ^0.6.0
-      '@peeky/server': ^0.6.0
+      '@peeky/config': ^0.6.1
+      '@peeky/eslint-plugin': ^0.6.1
+      '@peeky/runner': ^0.6.1
+      '@peeky/server': ^0.6.1
       '@types/lodash-es': ^4.17.5
       '@types/node': ^14.14.21
       commander: ^7.0.0
@@ -132,13 +132,13 @@ importers:
 
   packages/peeky-client-dist:
     specifiers:
-      '@peeky/client': ^0.6.0
+      '@peeky/client': ^0.6.1
     devDependencies:
       '@peeky/client': link:../peeky-client
 
   packages/peeky-config:
     specifiers:
-      '@peeky/utils': ^0.6.0
+      '@peeky/utils': ^0.6.1
       '@types/node': ^14.14.21
       consola: ^2.15.0
       reactive-fs: ^0.4.1
@@ -166,8 +166,8 @@ importers:
   packages/peeky-runner:
     specifiers:
       '@akryum/workerpool': ^6.0.5-alpha.2
-      '@peeky/config': ^0.6.0
-      '@peeky/utils': ^0.6.0
+      '@peeky/config': ^0.6.1
+      '@peeky/utils': ^0.6.1
       '@types/lodash-es': ^4.17.5
       '@types/node': ^14.14.21
       '@types/shortid': ^0.0.29
@@ -222,9 +222,9 @@ importers:
 
   packages/peeky-server:
     specifiers:
-      '@peeky/client-dist': ^0.6.0
-      '@peeky/config': ^0.6.0
-      '@peeky/runner': ^0.6.0
+      '@peeky/client-dist': ^0.6.1
+      '@peeky/config': ^0.6.1
+      '@peeky/runner': ^0.6.1
       '@types/node': ^14.14.21
       '@types/shortid': ^0.0.29
       '@types/ws': ^8.2.2
