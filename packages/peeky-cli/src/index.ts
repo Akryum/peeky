@@ -1,7 +1,7 @@
 import { setupConfigLoader, mergeConfig, PeekyConfig } from '@peeky/config'
 import { runAllTests } from '@peeky/runner'
 import { createServer } from '@peeky/server'
-import { pick } from 'lodash'
+import { pick } from 'lodash-es'
 import consola from 'consola'
 import openInBrowser from 'open'
 import portfinder from 'portfinder'

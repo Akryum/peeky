@@ -1,9 +1,15 @@
-#!/usr/bin/env node
+import fs from 'fs'
+import { dirname, resolve } from 'path'
+import { fileURLToPath } from 'url'
 import { Command } from 'commander'
-import { open, run } from './index'
+import { open, run } from './index.js'
 
-const program = new Command()
-program.version(require('../package.json').version)
+const __dirname = dirname(fileURLToPath(import.meta.url))
+
+const { version } = JSON.parse(fs.readFileSync(resolve(__dirname, '../package.json'), 'utf8'))
+
+const program = new Command('peeky')
+program.version(version)
 
 program.command('run')
   .description('run all tests, useful for continuous integration environments')

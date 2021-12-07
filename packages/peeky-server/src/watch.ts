@@ -1,8 +1,8 @@
 import chokidar from 'chokidar'
 import { join } from 'path'
-import { Context } from './context'
-import { run } from './run'
-import { isRunning, settings, testFiles } from './schema'
+import type { Context } from './context'
+import { run } from './run.js'
+import { isRunning, settings, testFiles } from './schema/index.js'
 
 let changedFiles: string[] = []
 let timer

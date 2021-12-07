@@ -1,4 +1,4 @@
-import { PeekyConfig } from './types'
+import type { PeekyConfig } from './types'
 
 export const peekyConfigFileMatch = ['**/peeky.config.(js|ts)']
 

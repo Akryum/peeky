@@ -1,12 +1,15 @@
+import { fileURLToPath } from 'url'
 import { withFilter } from 'apollo-server-express'
 import { extendType, idArg, nonNull, objectType, stringArg } from 'nexus'
 import slugify from 'slugify'
-import { Context } from '../context'
-import { getSrcFile } from '../util'
-import { getRunId } from './Run'
-import { RunTestFile, RunTestFileData } from './RunTestFile'
-import { Status, StatusEnum } from './Status'
-import { createTest, TestData } from './Test'
+import type { Context } from '../context'
+import { getSrcFile } from '../util.js'
+import { getRunId } from './Run.js'
+import { RunTestFile, RunTestFileData } from './RunTestFile.js'
+import { Status, StatusEnum } from './Status.js'
+import { createTest, TestData } from './Test.js'
+
+const __filename = fileURLToPath(import.meta.url)
 
 export const TestSuite = objectType({
   name: 'TestSuite',

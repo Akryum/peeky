@@ -1,10 +1,10 @@
 import fs from 'fs'
 import consola from 'consola'
-import { setupConfigContentLoader } from './fs'
-import { PeekyConfig } from './types'
-import { transformConfigCode } from './transform'
-import { defaultPeekyConfig } from './defaults'
-import { mergeConfig } from './util'
+import type { PeekyConfig } from './types'
+import { setupConfigContentLoader } from './fs.js'
+import { transformConfigCode } from './transform.js'
+import { defaultPeekyConfig } from './defaults.js'
+import { mergeConfig } from './util.js'
 import { join } from 'path'
 
 export interface PeekyConfigLoaderOptions {
@@ -16,12 +16,12 @@ export async function setupConfigLoader (options: PeekyConfigLoaderOptions = {})
   const contentLoader = await setupConfigContentLoader(options.baseDir, options.glob)
 
   async function loadConfig (): Promise<PeekyConfig> {
+    const file = contentLoader.getConfigPath()
+    const resolvedPath = join(options.baseDir || process.cwd(), file + '.temp.mjs')
     try {
-      const file = contentLoader.getConfigPath()
       if (file) {
         const rawCode = await contentLoader.loadConfigFileContent()
         const result = await transformConfigCode(rawCode, file)
-        const resolvedPath = join(options.baseDir || process.cwd(), file + '.temp.js')
         fs.writeFileSync(resolvedPath, result.code)
         const { default: config } = (
           // eslint-disable-next-line no-eval
@@ -33,6 +33,9 @@ export async function setupConfigLoader (options: PeekyConfigLoaderOptions = {})
         return defaultPeekyConfig()
       }
     } catch (e) {
+      if (fs.existsSync(resolvedPath)) {
+        fs.unlinkSync(resolvedPath)
+      }
       consola.error(e)
     }
   }

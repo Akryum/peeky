@@ -1,19 +1,22 @@
+import { relative } from 'path'
+import { fileURLToPath } from 'url'
 import { arg, extendType, idArg, inputObjectType, nonNull, objectType } from 'nexus'
 import shortid from 'shortid'
 import { setupRunner, getStats, EventType } from '@peeky/runner'
-import { relative } from 'path'
 import nameGenerator from 'project-name-generator'
 import randomEmoji from 'random-emoji'
 import objectInspect from 'object-inspect'
-import { Context } from '../context'
-import { Status, StatusEnum } from './Status'
-import { updateTestFile, testFiles } from './TestFile'
-import { clearTestSuites, createTestSuite, updateTestSuite, testSuites } from './TestSuite'
-import { updateTest } from './Test'
-import { RunTestFileData, updateRunTestFile } from './RunTestFile'
-import { getErrorPosition, getSrcFile, formatRunTestFileErrorMessage } from '../util'
-import { settings } from './Settings'
-import { mightRunOnChangedFiles } from '../watch'
+import type { Context } from '../context'
+import { Status, StatusEnum } from './Status.js'
+import { updateTestFile, testFiles } from './TestFile.js'
+import { clearTestSuites, createTestSuite, updateTestSuite, testSuites } from './TestSuite.js'
+import { updateTest } from './Test.js'
+import { RunTestFileData, updateRunTestFile } from './RunTestFile.js'
+import { getErrorPosition, getSrcFile, formatRunTestFileErrorMessage } from '../util.js'
+import { settings } from './Settings.js'
+import { mightRunOnChangedFiles } from '../watch.js'
+
+const __filename = fileURLToPath(import.meta.url)
 
 export const Run = objectType({
   name: 'Run',

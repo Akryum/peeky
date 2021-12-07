@@ -1,8 +1,8 @@
+import { join } from 'path'
 import { extendType, idArg, intArg, nonNull, objectType, stringArg } from 'nexus'
 import launchEditor from 'launch-editor'
-import { Context } from '../context'
-import { Status, StatusEnum } from './Status'
-import { join } from 'path'
+import type { Context } from '../context'
+import { Status, StatusEnum } from './Status.js'
 
 export const TestFile = objectType({
   name: 'TestFile',

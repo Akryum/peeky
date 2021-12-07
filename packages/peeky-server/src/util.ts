@@ -1,6 +1,6 @@
-import consola from 'consola'
 import { basename } from 'path'
-import { RunTestFileData } from './schema'
+import consola from 'consola'
+import { RunTestFileData } from './schema/index.js'
 
 export function getSrcFile (path: string) {
   return path.replace('dist', 'src').replace('js', 'ts')

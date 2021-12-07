@@ -1,3 +1,9 @@
-import mock from 'mock-require'
+import { resolve, dirname } from 'path'
+import { mockedModules } from '../mocked-files.js'
+import { PeekyGlobalContext } from './index.js'
 
-export const mockModule: (path: string, stub: any) => void = mock
+export function createMockModule (ctx: PeekyGlobalContext) {
+  return (path: string, stub: any) => {
+    mockedModules.set(resolve(dirname(ctx.filename), path), stub)
+  }
+}

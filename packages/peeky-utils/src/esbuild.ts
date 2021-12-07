@@ -10,8 +10,8 @@ import {
 import mergeSourceMap from 'merge-source-map'
 import { SourceMap } from 'rollup'
 import consola from 'consola'
-import { cleanUrl } from './net'
-import { generateCodeFrame } from './code'
+import { cleanUrl } from './net.js'
+import { generateCodeFrame } from './code.js'
 export interface ESBuildOptions extends TransformOptions {
   include?: string | RegExp | string[] | RegExp[]
   exclude?: string | RegExp | string[] | RegExp[]

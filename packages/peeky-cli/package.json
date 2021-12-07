@@ -14,30 +14,38 @@
   "publishConfig": {
     "access": "public"
   },
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./*": "./*"
+  },
   "main": "./dist/index.js",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": {
-    "peeky": "./dist/bin.js"
+    "peeky": "./bin.mjs"
   },
   "scripts": {
-    "build": "rimraf dist && node esbuild.js && tsc -d --emitDeclarationOnly && chmod +x ./dist/bin.js",
+    "build": "rimraf dist && tsc -d && chmod +x ./dist/bin.js",
     "watch": "tsc -d -w --sourceMap"
   },
   "dependencies": {
     "@peeky/config": "^0.5.0",
     "@peeky/eslint-plugin": "^0.5.0",
     "@peeky/runner": "^0.5.2",
-    "@peeky/server": "^0.5.2"
+    "@peeky/server": "^0.5.2",
+    "consola": "^2.15.0",
+    "commander": "^7.0.0",
+    "lodash-es": "^4.17.21",
+    "open": "^7.3.1",
+    "portfinder": "^1.0.28"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.167",
+    "@types/lodash-es": "^4.17.5",
     "@types/node": "^14.14.21",
-    "commander": "^7.0.0",
-    "consola": "^2.15.0",
-    "esbuild": "^0.13.12",
-    "lodash": "^4.17.20",
-    "open": "^7.3.1",
-    "portfinder": "^1.0.28",
     "typescript": "^4.1.3"
   }
 }

@@ -1,5 +1,5 @@
 import consola from 'consola'
-import { createServer } from '.'
+import { createServer } from './server.js'
 
 (async () => {
   const {

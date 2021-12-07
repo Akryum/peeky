@@ -1,5 +1,3 @@
-/// <reference types="@peeky/runner"/>
-
 import { getStats } from './stats'
 
 describe('getStats()', () => {

@@ -109,24 +109,45 @@ export function bar (meow) {
 ```js
 // bar.spec.ts
 
+peeky.mockModule('./foo.ts', {
+  foo (count) {
+    return count + 1
+  },
+})
+
+// Should be imported after relevant modules are mocked
+// Example comment to disable the ESLint rule:
+/* eslint-disable-next-line import/first */
+import { bar } from './bar'
+
+describe('mock module', () => {
+  test('mock a module during the test', () => {
+    expect(bar(42)).toBe(43)
+  })
+})
+```
+
+You can also use dynamic import:
+
+```js
+// bar.spec.ts
+
+peeky.mockModule('./foo.ts', {
+  foo (count) {
+    return count + 1
+  },
+})
+
 describe('mock module', () => {
   test('mock a module during the test', async () => {
-    peeky.mockModule('./foo.js', {
-      foo (count) {
-        return count + 1
-      },
-    })
-    import('./foo')
-
     const { bar } = await import('./bar')
-
     expect(bar(42)).toBe(43)
   })
 })
 ```
 
 ::: tip
-Even if you uses Typescript files, mock the module with the `js` version: use `peeky.mockModule('./foo.js')` instead of `peeky.mockModule('./foo')` or `peeky.mockModule('./foo.ts')`.
+Please include the file extension when mocking a module so it can be resolved correctly.
 :::
 
 ## Retry

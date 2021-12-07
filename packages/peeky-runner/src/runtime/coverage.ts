@@ -6,7 +6,7 @@ import { SourceMapConsumer } from 'source-map'
 import copy from 'fast-copy'
 import glob from 'fast-glob'
 import shortid from 'shortid'
-import { Context } from '../types'
+import type { Context } from '../types'
 
 export interface FileCoverage {
   path: string

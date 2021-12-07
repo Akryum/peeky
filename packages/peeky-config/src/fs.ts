@@ -1,5 +1,5 @@
 import { createReactiveFileSystem } from 'reactive-fs'
-import { peekyConfigFileMatch } from './defaults'
+import { peekyConfigFileMatch } from './defaults.js'
 
 export async function setupConfigContentLoader (baseDir: string = process.cwd(), glob: string | string[] = peekyConfigFileMatch) {
   const fs = await createReactiveFileSystem({

@@ -1,5 +1,5 @@
 import shortid from 'shortid'
-import { Context, TestSuite } from '../types'
+import type { Context, TestSuite } from '../types'
 
 export function setupRegister (ctx: Context) {
   const suiteHandlers: (() => Promise<unknown>)[] = []

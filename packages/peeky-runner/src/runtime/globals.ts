@@ -1,12 +1,11 @@
 import sinon from 'sinon'
 import expect from 'expect'
-import { Context } from '../types'
-import { createPeekyGlobal } from './peeky-global'
-import { Register } from './test-register'
+import type { Context } from '../types'
+import { Register } from './test-register.js'
 
-export function registerGlobals (ctx: Context, target: any, register: Register) {
+export function getGlobals (ctx: Context, register: Register) {
+  const target = {} as any
   // Global objects
-  target.peeky = createPeekyGlobal(ctx)
   target.expect = expect
   target.sinon = sinon
 
@@ -17,4 +16,6 @@ export function registerGlobals (ctx: Context, target: any, register: Register) 
   target.afterAll = register.exposed.afterAll
   target.beforeEach = register.exposed.beforeEach
   target.afterEach = register.exposed.afterEach
+
+  return target
 }

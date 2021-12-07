@@ -1,13 +1,17 @@
 import { withFilter } from 'apollo-server-express'
 import { extendType, idArg, nonNull, objectType, stringArg } from 'nexus'
 import slugify from 'slugify'
-import AnsiUp from 'ansi_up'
-import { Context } from '../context'
-import { getRunId } from './Run'
-import { Status, StatusEnum } from './Status'
-import { getTestSuite, TestSuiteData } from './TestSuite'
+import AnsiUpPackage from 'ansi_up'
+import type { Context } from '../context'
+import { getRunId } from './Run.js'
+import { Status, StatusEnum } from './Status.js'
+import { getTestSuite, TestSuiteData } from './TestSuite.js'
+
+// @ts-expect-error ansi_up doesn't support Node esm correctly
+const AnsiUp = AnsiUpPackage.default as typeof AnsiUpPackage
 
 const ansiUp = new AnsiUp()
+
 // eslint-disable-next-line @typescript-eslint/camelcase
 ansiUp.use_classes = true
 

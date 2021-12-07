@@ -2,9 +2,9 @@ import consola from 'consola'
 import chalk from 'chalk'
 import { createReactiveFileSystem } from 'reactive-fs'
 import { PeekyConfig } from '@peeky/config'
-import { setupRunner } from '../runner'
-import { getStats } from '../stats'
-import { computeCoveredLines, getEmptyCoverageFromFiles, mergeCoverage } from './coverage'
+import { setupRunner } from '../runner.js'
+import { getStats } from '../stats.js'
+import { computeCoveredLines, getEmptyCoverageFromFiles, mergeCoverage } from './coverage.js'
 
 export async function runAllTests (config: PeekyConfig) {
   const fsTime = Date.now()
@@ -80,9 +80,9 @@ export async function runAllTests (config: PeekyConfig) {
   const totalLines = mergedCoverage.reduce((a, c) => a + c.linesTotal, 0)
   const coveredLines = mergedCoverage.reduce((a, c) => a + c.linesCovered, 0)
   console.log(chalk[coveredLines === totalLines ? 'green' : 'yellow'].bold(`Coverage: ${
-    chalk[coveredFilesCount === mergedCoverage.length ? 'green' : 'yellow']`${coveredFilesCount}/${mergedCoverage.length} files (${
+    chalk[coveredFilesCount === mergedCoverage.length ? 'green' : 'yellow'](`${coveredFilesCount}/${mergedCoverage.length} files (${
       Math.round(coveredFilesCount / mergedCoverage.length * 10000) / 100
-    }%)`
+    }%)`)
   } | ${coveredLines}/${totalLines} lines (${
     Math.round(coveredLines / totalLines * 10000) / 100
   }%)`))

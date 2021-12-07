@@ -2,11 +2,7 @@ type ExternalOption =
   | (string | RegExp)[]
   | string
   | RegExp
-  | ((
-    source: string,
-    importer: string | undefined,
-    isResolved: boolean
-  ) => boolean | null | undefined)
+  | ((file: string) => boolean)
 
 export interface PeekyConfig {
   targetDirectory?: string
@@ -20,4 +16,8 @@ export interface PeekyConfig {
   emptySuiteError?: boolean
   collectCoverageMatch?: string | string[]
   external?: ExternalOption
+}
+
+export interface FinalPeekyConfig extends Omit<PeekyConfig, 'external'> {
+  external?: (file: string) => boolean
 }

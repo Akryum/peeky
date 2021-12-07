@@ -1,10 +1,13 @@
+import { fileURLToPath } from 'url'
 import { extendType, nonNull, objectType, stringArg } from 'nexus'
-import { Context } from '../context'
-import { getSrcFile } from '../util'
-import { getRun } from './Run'
-import { Status, StatusEnum } from './Status'
-import { TestFile, TestFileData } from './TestFile'
-import { TestSuite, testSuites } from './TestSuite'
+import type { Context } from '../context'
+import { getSrcFile } from '../util.js'
+import { getRun } from './Run.js'
+import { Status, StatusEnum } from './Status.js'
+import { TestFile, TestFileData } from './TestFile.js'
+import { TestSuite, testSuites } from './TestSuite.js'
+
+const __filename = fileURLToPath(import.meta.url)
 
 export const RunTestFile = objectType({
   name: 'RunTestFile',

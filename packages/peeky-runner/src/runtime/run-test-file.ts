@@ -1,15 +1,16 @@
 import { install as installSourceMap } from 'source-map-support'
 import consola from 'consola'
 import { workerEmit } from '@akryum/workerpool'
-import mockModule from 'mock-require'
 import { CoverageInstrumenter } from 'collect-v8-coverage'
-import { Context, EventType, RunTestFileOptions, TestSuiteResult } from '../types'
-import { buildTestFile } from './build'
-import { registerGlobals } from './globals'
-import { runTests } from './run-tests'
-import { setupRegister } from './test-register'
-import { mockFileSystem } from './fs'
-import { getCoverage } from './coverage'
+import type { Context, RunTestFileOptions, TestSuiteResult } from '../types'
+import { EventType } from '../types.js'
+import { executeWithVite, initViteServer } from './vite.js'
+import { getGlobals } from './globals.js'
+import { runTests } from './run-tests.js'
+import { setupRegister } from './test-register.js'
+import { mockFileSystem } from './fs.js'
+import { getCoverage } from './coverage.js'
+import { mockedModules } from './mocked-files.js'
 
 export async function runTestFile (options: RunTestFileOptions) {
   try {
@@ -21,19 +22,29 @@ export async function runTestFile (options: RunTestFileOptions) {
     const time = Date.now()
 
     // Restore mocked module
-    mockModule.stopAll()
+    mockedModules.clear()
 
     mockFileSystem()
 
     // Build
-    const {
-      outputPath,
-      modules,
-    } = await buildTestFile(ctx)
+    workerEmit(EventType.BUILDING, {
+      testFilePath: ctx.options.entry,
+    })
+    const buildTime = Date.now()
+    await initViteServer({
+      configFile: null,
+      defaultConfig: {},
+      rootDir: options.config.targetDirectory,
+      shouldExternalize: null,
+      userInlineConfig: {},
+    })
+    workerEmit(EventType.BUILD_COMPLETED, {
+      testFilePath: ctx.options.entry,
+      duration: Date.now() - buildTime,
+    })
 
     // Globals
     const register = setupRegister(ctx)
-    registerGlobals(ctx, global, register)
 
     // Source map support
     installSourceMap({
@@ -41,7 +52,8 @@ export async function runTestFile (options: RunTestFileOptions) {
     })
 
     // Execute test file
-    require(outputPath)
+    const executionResult = await executeWithVite(options.entry, getGlobals(ctx, register))
+    console.log('execution result:', executionResult)
 
     // Register suites and tests
     await register.run()
@@ -78,8 +90,8 @@ export async function runTestFile (options: RunTestFileOptions) {
       filePath: options.entry,
       suites,
       duration,
-      modules,
       coverage,
+      modules: executionResult.deps.concat(options.entry),
     }
   } catch (e) {
     consola.error(`Running tests failed: ${e.stack}`)

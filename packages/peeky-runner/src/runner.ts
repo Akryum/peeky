@@ -1,12 +1,16 @@
-import { join, relative } from 'path'
+import { dirname, join, relative } from 'path'
+import { fileURLToPath } from 'url'
 import consola from 'consola'
 import chalk from 'chalk'
 import workerpool from '@akryum/workerpool'
 import { ReactiveFileSystem } from 'reactive-fs'
 import { Awaited } from '@peeky/utils'
 import { PeekyConfig } from '@peeky/config'
-import type { runTestFile as rawRunTestFile } from './runtime/run-test-file'
-import { RunTestFileOptions, TestSuiteInfo, EventType } from './types'
+import type { runTestFile as rawRunTestFile } from './runtime/run-test-file.js'
+import type { RunTestFileOptions, TestSuiteInfo } from './types'
+import { EventType } from './types.js'
+
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
 export interface RunnerOptions {
   config: PeekyConfig
@@ -23,6 +27,8 @@ export async function setupRunner (options: RunnerOptions) {
   const ctx: Context = {
     options,
   }
+
+  process.chdir(options.config.targetDirectory)
 
   const pool = workerpool.pool(join(__dirname, 'runtime/worker.js'), {
     ...options.config.maxWorkers ? { maxWorkers: options.config.maxWorkers } : {},

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 
-import { PeekyGlobal, expect as _expect, sinon as _sinon } from './dist/index'
+import { createPeekyGlobal, expect as _expect, sinon as _sinon } from './dist/index'
 
 declare global {
   const describe: (title: string, handler: () => unknown) => void
@@ -12,7 +12,7 @@ declare global {
   const afterEach: (handler: () => unknown) => void
   const expect: typeof _expect
   const sinon: typeof _sinon
-  const peeky: PeekyGlobal
+  const peeky: ReturnType<typeof createPeekyGlobal>
 }
 
 export * from './dist/index'

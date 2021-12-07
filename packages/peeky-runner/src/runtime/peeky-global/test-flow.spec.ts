@@ -1,6 +1,6 @@
-/// <reference types="@peeky/runner"/>
+import { createRetry } from './test-flow'
 
-import { retry } from './test-flow'
+const retry = createRetry({ filename: 'foo.ts' })
 
 describe('peeky.retry()', () => {
   test('must not retry when no error', async () => {

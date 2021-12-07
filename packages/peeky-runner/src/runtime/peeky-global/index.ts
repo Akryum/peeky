@@ -1,12 +1,13 @@
-import { Context } from '../../types'
-import { retry } from './test-flow'
-import { mockModule } from './mock'
+import { createRetry } from './test-flow.js'
+import { createMockModule } from './mock.js'
 
-export function createPeekyGlobal (ctx: Context) {
-  return {
-    retry,
-    mockModule,
-  }
+export interface PeekyGlobalContext {
+  filename: string
 }
 
-export type PeekyGlobal = ReturnType<typeof createPeekyGlobal>
+export function createPeekyGlobal (ctx: PeekyGlobalContext) {
+  return {
+    retry: createRetry(ctx),
+    mockModule: createMockModule(ctx),
+  }
+}

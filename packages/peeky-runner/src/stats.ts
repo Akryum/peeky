@@ -1,4 +1,4 @@
-import { RunTestFileResult } from './runner'
+import { RunTestFileResult } from './runner.js'
 
 export function getStats (results: RunTestFileResult[]) {
   let suiteCount = 0

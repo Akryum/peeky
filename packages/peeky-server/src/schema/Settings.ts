@@ -2,7 +2,7 @@ import { arg, extendType, inputObjectType, nonNull, objectType } from 'nexus'
 import path from 'path'
 import fs from 'fs-extra'
 import os from 'os'
-import { Context } from '../context'
+import type { Context } from '../context'
 
 export const Settings = objectType({
   name: 'Settings',
