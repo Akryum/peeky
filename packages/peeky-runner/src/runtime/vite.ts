@@ -167,7 +167,7 @@ async function rawRequest (id: string, realPath: string, callstack: string[], de
   }
 
   if (result.deps) {
-    result.deps.forEach(dep => deps.add(dep))
+    result.deps.forEach(dep => deps.add(toFilePath(normalizeId(dep))))
   }
 
   const url = pathToFileURL(realPath)
