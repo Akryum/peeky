@@ -23,9 +23,9 @@ export async function setupConfigLoader (options: PeekyConfigLoaderOptions = {})
         const rawCode = await contentLoader.loadConfigFileContent()
         const result = await transformConfigCode(rawCode, file)
         fs.writeFileSync(resolvedPath, result.code)
-        const { default: config } = (
+        const config = (
           // eslint-disable-next-line no-eval
-          await eval(`import(resolvedPath + '?t=${Date.now()}')`)
+          await eval(`import('${resolvedPath}?t=${Date.now()}')`)
         ).default
         fs.unlinkSync(resolvedPath)
         return mergeConfig(defaultPeekyConfig(), config)
