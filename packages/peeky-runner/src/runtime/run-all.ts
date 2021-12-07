@@ -45,7 +45,7 @@ export async function runAllTests (config: PeekyConfig) {
         if (suite.testErrors) {
           for (const test of suite.tests) {
             if (test.error) {
-              consola.log(chalk.red(`${chalk.bgRedBright.black.bold(' FAIL ')} ${suite.title} 🞂 ${chalk.bold(test.title)}`))
+              consola.log(chalk.red(`${chalk.bgRedBright.black.bold(' FAIL ')} ${suite.title} › ${chalk.bold(test.title)}`))
               consola.log(`\n${test.error.stack ?? test.error.message}\n`)
             }
           }

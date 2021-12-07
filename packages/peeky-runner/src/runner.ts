@@ -59,7 +59,7 @@ export async function setupRunner (options: RunnerOptions) {
           const { duration, error, stack } = payload
           const suite = suiteMap[payload.suite.id]
           const test = suite.tests.find(t => t.id === payload.test.id)
-          consola.log(chalk.red(`${chalk.bgRedBright.black.bold(' FAIL ')} ${suite.title} 🞂 ${chalk.bold(test.title)} ${chalk.grey(`(${duration}ms)`)}`))
+          consola.log(chalk.red(`${chalk.bgRedBright.black.bold(' FAIL ')} ${suite.title} › ${chalk.bold(test.title)} ${chalk.grey(`(${duration}ms)`)}`))
           consola.log(`\n${stack ?? error.message}\n`)
           if (typeof payload.matcherResult === 'string') {
             payload.matcherResult = JSON.parse(payload.matcherResult)
@@ -68,7 +68,7 @@ export async function setupRunner (options: RunnerOptions) {
           const { duration } = payload
           const suite = suiteMap[payload.suite.id]
           const test = suite.tests.find(t => t.id === payload.test.id)
-          consola.log(chalk.green(`${chalk.bgGreenBright.black.bold(' PASS ')} ${suite.title} 🞂 ${chalk.bold(test.title)} ${chalk.grey(`(${duration}ms)`)}`))
+          consola.log(chalk.green(`${chalk.bgGreenBright.black.bold(' PASS ')} ${suite.title} › ${chalk.bold(test.title)} ${chalk.grey(`(${duration}ms)`)}`))
         }
 
         for (const handler of eventHandlers) {
