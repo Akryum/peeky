@@ -8,6 +8,8 @@ import { ViteDevServer, InlineConfig, createServer, mergeConfig } from 'vite'
 import chalk from 'chalk'
 import shortid from 'shortid'
 import { isEqual } from 'lodash-es'
+import match from 'anymatch'
+import { ExternalOption } from '@peeky/config'
 import { slash } from '@peeky/utils'
 import { mockedModules } from './mocked-files.js'
 import { createPeekyGlobal } from '../index.js'
@@ -21,7 +23,7 @@ export interface InitViteServerOptions {
   userInlineConfig: InlineConfig
   configFile: string
   rootDir: string
-  shouldExternalize: (file: string) => boolean
+  external: ExternalOption
 }
 
 let currentOptions: InitViteServerOptions
@@ -43,8 +45,6 @@ export async function initViteServer (options: InitViteServerOptions) {
       currentOptions = {
         ...options,
       }
-
-      currentOptions.shouldExternalize = currentOptions.shouldExternalize || (id => id.includes('/node_modules/'))
 
       const server = await createServer(mergeConfig(mergeConfig(options.defaultConfig ?? {}, options.userInlineConfig ?? {}), {
         logLevel: 'error',
@@ -135,7 +135,7 @@ function cachedRequest (rawId: string, callstack: string[], deps: Set<string>, e
     return Promise.resolve(mockedModules.get(realPath))
   }
 
-  if (currentOptions.shouldExternalize(realPath)) {
+  if (shouldExternalize(realPath)) {
     return import(realPath)
   }
 
@@ -230,4 +230,20 @@ function exportAll (exports: any, sourceModule: any) {
       } catch (_err) { }
     }
   }
+}
+
+function shouldExternalize (filePath: string): boolean {
+  if (typeof currentOptions.external === 'function') {
+    return currentOptions.external(filePath)
+  }
+
+  const filters = Array.isArray(currentOptions.external) ? currentOptions.external : [currentOptions.external]
+
+  return filters.some(filter => {
+    if (typeof filter === 'string') {
+      return match(filter, filePath)
+    } else if (filter instanceof RegExp) {
+      return filter.test(filePath)
+    }
+  })
 }

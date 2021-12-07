@@ -35,7 +35,7 @@ export async function runTestFile (options: RunTestFileOptions) {
       configFile: null,
       defaultConfig: {},
       rootDir: options.config.targetDirectory,
-      shouldExternalize: null,
+      external: options.config.external,
       userInlineConfig: {},
     })
     workerEmit(EventType.BUILD_COMPLETED, {
