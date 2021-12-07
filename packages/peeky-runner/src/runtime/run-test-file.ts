@@ -53,7 +53,6 @@ export async function runTestFile (options: RunTestFileOptions) {
 
     // Execute test file
     const executionResult = await executeWithVite(options.entry, getGlobals(ctx, register))
-    console.log('execution result:', executionResult)
 
     // Register suites and tests
     await register.run()
