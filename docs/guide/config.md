@@ -44,7 +44,7 @@ An array of [anymatch](https://github.com/micromatch/anymatch) search patterns t
 Default value is:
 
 ```js
-['**/*.(spec|test).(ts|js)', '**/__tests__/**/*.(ts|js)']
+['**/*.(spec|test).(ts|js|mjs|cjs|jsx|tsx)', '**/__tests__/**/*.(ts|js|mjs|cjs|jsx|tsx)']
 ```
 
 So by default Peeky will match those files:
@@ -68,7 +68,7 @@ export default defineConfig({
 
 ## ignored
 
-Array of [anymatch](https://github.com/micromatch/anymatch) patterns to ignore when looking for test files. By default Peeky ignores `node_modules`.
+Array of [anymatch](https://github.com/micromatch/anymatch) patterns to ignore when looking for test files. By default Peeky ignores `node_modules` and `dist` folders.
 
 Example:
 
