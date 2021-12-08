@@ -45,7 +45,6 @@ export function createMockedFileSystem (): any {
           try {
             error = null
             if (!s[method]) throw new Error(`${method} not found`)
-            // console.log(`${allFss.indexOf(s)} ${method}(${args.map(a => JSON.stringify(a)).join(', ')})`)
             return s[method].apply(s, args)
           } catch (e) {
             error = e
@@ -103,7 +102,6 @@ export function createMockedFileSystem (): any {
           if (!func) {
             iterate(i + 1, new Error(`${method} not found`))
           } else {
-            // console.log(`${allFss.indexOf(s)} ${method}(${args.map(a => JSON.stringify(a)).join(', ')})`)
             func.apply(s, args)
           }
         }
@@ -130,7 +128,6 @@ export function createMockedFileSystem (): any {
           try {
             error = null
             if (!s.promises?.[method]) throw new Error(`promises.${method} not found`)
-            // console.log(`${allFss.indexOf(s)} ${method}(${args.map(a => JSON.stringify(a)).join(', ')})`)
             const result = await s.promises[method].apply(s, args)
             // Use await to catch errors
             return result
@@ -423,15 +420,6 @@ export function createMockedFileSystem (): any {
 }
 
 function patchFs (ufs): () => void {
-  // Promises patching (https://github.com/streamich/fs-monkey/issues/202)
-  // let promisesBackup
-  // try {
-  //   promisesBackup = fs.promises
-  //   Object.defineProperty(fs, 'promises', {
-  //     get: () => ufs.promises,
-  //   })
-  // } catch {}
-
   // Monkey patch
   const unpatch = patch(ufs)
 
@@ -444,13 +432,6 @@ function patchFs (ufs): () => void {
 
   return () => {
     unpatch()
-
-    // Restore promises
-    // if (promisesBackup) {
-    //   Object.defineProperty(fs, 'promises', {
-    //     get: () => promisesBackup,
-    //   })
-    // }
   }
 }
 
