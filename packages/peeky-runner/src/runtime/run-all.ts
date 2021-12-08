@@ -91,6 +91,7 @@ export async function runAllTests (config: PeekyConfig) {
 
   consola.info(`Ran ${fileList.length} tests files (${Date.now() - time}ms, using ${runner.pool.stats().totalWorkers} parallel workers)`)
   consola.log(chalk[errorSuiteCount ? 'red' : 'green'].bold(`Suites : ${suiteCount - errorSuiteCount} / ${suiteCount}\nTests  : ${testCount - errorTestCount} / ${testCount}`))
+  consola.log(chalk[errorSuiteCount ? 'red' : 'green'].bold(`Errors : ${errorTestCount}`))
 
   await runner.close()
 
