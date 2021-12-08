@@ -23,6 +23,20 @@ module.exports = defineConfig({
 
 :::
 
+If you are in a Vite project, you can also put Peeky config in the `test` option in the Vite configuration:
+
+```js
+// vite.config.ts
+
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  test: {
+    // Peeky options here...
+  },
+})
+```
+
 ## targetDirectory
 
 Allows you to change the working folder for running the tests.

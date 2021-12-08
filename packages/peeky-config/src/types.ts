@@ -22,3 +22,12 @@ export interface PeekyConfig {
   vite?: ViteConfig
   viteConfigFile?: string
 }
+
+declare module 'vite' {
+  interface UserConfig {
+    /**
+     * Peeky configuration
+     */
+    test?: PeekyConfig
+  }
+}
