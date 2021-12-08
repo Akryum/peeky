@@ -26,16 +26,17 @@ Why should you try Peeky?
 - It's fast: using a fast build system and multiple parallel workers, your tests will be run in not time!
 - It includes a **visual user interface**!?
 - TypeScript is supported out-of-the box without any configuration!
+- Peeky uses Vite internally and automatically integrates with any Vite project.
 - The file system is automatically stubbed while your tests are being built and run. Your code can write files but instead of being written to the disk, they stay in memory.
-- Peeky also provides everything else you need to run most tests for your library or application with sane defaults. (Support for React, Vue, etc. is work in progress.)
+- Peeky also provides everything else you need to run most tests for your library or application with sane defaults.
 
 ## Tech Stack
 
 Under-the-hood it's also using those furry libraries:
 
-- [ESBuild](https://esbuild.github.io/) to compile JavaScript and TypeScript faster than the speed of light ⚡️
-- [Rollup](https://www.rollupjs.org/) to bundle the files and support other types of files (like Vue files)
-- [reactive-fs](https://github.com/Akryum/reactive-fs) to handle the almighty File System
+- [Vite](https://vitejs.dev/) to compile JavaScript and TypeScript faster than the speed of light ⚡️
+- [Happy DOM](https://github.com/capricorn86/happy-dom) for the browser-like environment
 - [Chokidar](https://github.com/paulmillr/chokidar) to watch for file changes
 - [Apollo](https://apollographql.com/) for GraphQL-related stuff
 - [Vue](https://vuejs.org/) for the UI frontend
+- [reactive-fs](https://github.com/Akryum/reactive-fs) to handle the File System
