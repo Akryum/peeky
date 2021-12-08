@@ -9,9 +9,8 @@
     "lint": "eslint . --ext js,ts"
   },
   "devDependencies": {
-    "@peeky/cli": "^0.6.2",
     "@peeky/eslint-plugin": "^0.6.2",
-    "@peeky/runner": "^0.6.2",
+    "@peeky/test": "^0.6.2",
     "lodash-es": "^4.17.21",
     "nodemon": "^2.0.7",
     "ts-node": "^9.1.1",

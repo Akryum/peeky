@@ -40,17 +40,15 @@ importers:
 
   packages/demo:
     specifiers:
-      '@peeky/cli': ^0.6.2
       '@peeky/eslint-plugin': ^0.6.2
-      '@peeky/runner': ^0.6.2
+      '@peeky/test': ^0.6.2
       lodash-es: ^4.17.21
       nodemon: ^2.0.7
       ts-node: ^9.1.1
       vue: ^3.2
     devDependencies:
-      '@peeky/cli': link:../peeky-cli
       '@peeky/eslint-plugin': link:../peeky-eslint-plugin
-      '@peeky/runner': link:../peeky-runner
+      '@peeky/test': link:../peeky-test
       lodash-es: 4.17.21
       nodemon: 2.0.15
       ts-node: 9.1.1
@@ -277,6 +275,23 @@ importers:
       '@types/node': 14.18.0
       '@types/shortid': 0.0.29
       '@types/ws': 8.2.2
+      typescript: 4.5.2
+
+  packages/peeky-test:
+    specifiers:
+      '@peeky/cli': ^0.6.2
+      '@peeky/config': ^0.6.2
+      '@peeky/eslint-plugin': ^0.6.2
+      '@peeky/runner': ^0.6.2
+      '@types/node': ^14.14.21
+      typescript: ^4.1.3
+    dependencies:
+      '@peeky/cli': link:../peeky-cli
+      '@peeky/config': link:../peeky-config
+      '@peeky/eslint-plugin': link:../peeky-eslint-plugin
+      '@peeky/runner': link:../peeky-runner
+    devDependencies:
+      '@types/node': 14.18.0
       typescript: 4.5.2
 
   packages/peeky-utils:

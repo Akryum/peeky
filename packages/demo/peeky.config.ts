@@ -1,4 +1,4 @@
-import { defineConfig } from '@peeky/cli'
+import { defineConfig } from '@peeky/test'
 
 // class MyEnv extends TestEnvironmentBase {
 //   create () {
