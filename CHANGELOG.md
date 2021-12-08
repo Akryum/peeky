@@ -1,3 +1,23 @@
+# [0.7.0](https://github.com/Akryum/peeky/compare/v0.6.2...v0.7.0) (2021-12-08)
+
+
+### Features
+
+* integrate Peeky in Vite config file ([04166e5](https://github.com/Akryum/peeky/commit/04166e56cd853a3fba2c1f433fa35981572dc0a3))
+* new @peeky/test main package ([3ada676](https://github.com/Akryum/peeky/commit/3ada6768bac067d73fc71afd3c3bef3c37b5d302))
+* new buildExclude & buildInclude config options ([ba74d5d](https://github.com/Akryum/peeky/commit/ba74d5d0b4ef43ee129e6bf88156a5d370fe6228))
+* new match and ignored defaults ([f299088](https://github.com/Akryum/peeky/commit/f2990881e60b5f60b2e9c537b99e6b129114625d))
+* **run all:** display error count at the end ([fd5b7cf](https://github.com/Akryum/peeky/commit/fd5b7cf9c8f75f636db3ae40a940422ce4397f69))
+* runtime env + happy-dom integration ([adb3f01](https://github.com/Akryum/peeky/commit/adb3f01a32b83192ac1961d04c25820cff9044bc))
+* upgrade to vite 2.7 ([58a13e3](https://github.com/Akryum/peeky/commit/58a13e34fdcf2c69f5d172faccb0474c7afa41bc))
+
+
+### BREAKING CHANGES
+
+* exclude config option was removed
+
+
+
 ## [0.6.2](https://github.com/Akryum/peeky/compare/v0.6.1...v0.6.2) (2021-12-07)
 
 
