@@ -1,3 +1,17 @@
+## [0.7.2](https://github.com/Akryum/peeky/compare/v0.7.1...v0.7.2) (2021-12-08)
+
+
+### Bug Fixes
+
+* mock fs promises & native ([b5f2a67](https://github.com/Akryum/peeky/commit/b5f2a6705d192b69a829d4a18da4467840e3fb46))
+
+
+### Features
+
+* custom mock fs implementation with improved flow ([de3e43a](https://github.com/Akryum/peeky/commit/de3e43aaf287615cc370f1ac75aa8bb05a2783d0))
+
+
+
 ## [0.7.1](https://github.com/Akryum/peeky/compare/v0.7.0...v0.7.1) (2021-12-08)
 
 
