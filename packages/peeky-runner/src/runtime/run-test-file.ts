@@ -58,7 +58,7 @@ export async function runTestFile (options: RunTestFileOptions) {
     })
 
     // Runtime env
-    const runtimeEnvOption = ctx.pragma?.peeky?.runtimeEnv ?? options.config.runtimeEnv
+    const runtimeEnvOption = ctx.pragma.peeky?.runtimeEnv ?? options.config.runtimeEnv
     let RuntimeEnv: InstantiableTestEnvironmentClass
     if (typeof runtimeEnvOption === 'string') {
       RuntimeEnv = getTestEnvironment(runtimeEnvOption, options.config)
@@ -73,8 +73,11 @@ export async function runTestFile (options: RunTestFileOptions) {
     })
     await runtimeEnv.create()
 
-    const ufs = createMockedFileSystem()
-    const unpatchFs = patchFs(ufs)
+    let unpatchFs: () => void
+    if ((options.config.mockFs && ctx.pragma.peeky?.mockFs !== false) || ctx.pragma.peeky?.mockFs) {
+      const ufs = createMockedFileSystem()
+      unpatchFs = patchFs(ufs)
+    }
 
     // Execute test file
     const executionResult = await executeWithVite(options.entry, getGlobals(ctx, register))
@@ -92,7 +95,7 @@ export async function runTestFile (options: RunTestFileOptions) {
     const coverage = await getCoverage(await instrumenter.stopInstrumenting(), ctx)
 
     await runtimeEnv.destroy()
-    unpatchFs()
+    unpatchFs?.()
 
     workerEmit(EventType.TEST_FILE_COMPLETED, {
       filePath: ctx.options.entry,

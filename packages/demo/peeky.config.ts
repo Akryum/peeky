@@ -14,4 +14,5 @@ export default defineConfig({
   // match: ['**/bar.spec.ts'],
   // external: [],
   // runtimeEnv: MyEnv,
+  // mockFs: false,
 })

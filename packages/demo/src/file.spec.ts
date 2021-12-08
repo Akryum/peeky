@@ -1,3 +1,7 @@
+/* @peeky {
+  mockFs: true,
+} */
+
 import fs from 'fs'
 import path from 'path'
 

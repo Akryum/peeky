@@ -20,6 +20,7 @@ export interface PeekyConfig {
   collectCoverageMatch?: string | string[]
   runtimeEnv?: 'node' | 'dom' | typeof TestEnvironmentBase
   runtimeAvailableEnvs?: Record<string, typeof TestEnvironmentBase>
+  mockFs?: boolean
   buildExclude?: ModuleFilterOption
   buildInclude?: ModuleFilterOption
   vite?: ViteConfig

@@ -15,4 +15,5 @@ export const defaultPeekyConfig: () => PeekyConfig = () => ({
   buildExclude: [/node_modules/],
   buildInclude: [/node_modules\/(vue|@vue|diff)/],
   runtimeEnv: 'node',
+  mockFs: true,
 })
