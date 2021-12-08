@@ -12,7 +12,6 @@ import { defineProps } from 'vue'
 
 const icons = {
   idle: CircleIcon,
-  // eslint-disable-next-line @typescript-eslint/camelcase
   in_progress: ClockIcon,
   success: CheckCircleIcon,
   error: XCircleIcon,
@@ -21,7 +20,6 @@ const icons = {
 
 const classes = {
   idle: 'text-gray-300 dark:text-gray-700',
-  // eslint-disable-next-line @typescript-eslint/camelcase
   in_progress: 'text-primary-500',
   success: 'text-green-500',
   error: 'text-red-500',
@@ -30,7 +28,6 @@ const classes = {
 
 const bgClasses = {
   idle: 'bg-gray-300 dark:bg-gray-700',
-  // eslint-disable-next-line @typescript-eslint/camelcase
   in_progress: 'bg-primary-500',
   success: 'bg-green-500',
   error: 'bg-red-500',
@@ -38,7 +35,6 @@ const bgClasses = {
 }
 
 const smallIcons = {
-  // eslint-disable-next-line @typescript-eslint/camelcase
   in_progress: ClockIcon,
   success: CheckIcon,
   error: XIcon,
@@ -46,7 +42,6 @@ const smallIcons = {
 }
 
 const smallClasses = {
-  // eslint-disable-next-line @typescript-eslint/camelcase
   in_progress: 'bg-primary-500 text-white',
   success: 'bg-green-500 text-white',
   error: 'bg-red-500 text-white',

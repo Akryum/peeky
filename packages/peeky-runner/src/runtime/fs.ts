@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable prefer-spread */
 
 import fs from 'fs'
@@ -14,7 +15,7 @@ let _memfs: InstanceType<typeof Volume>
 
 export function createMockedFileSystem (): any {
   if (_ufs) {
-    _memfs.reset
+    _memfs.reset()
     return _ufs
   }
 
@@ -255,7 +256,7 @@ export function createMockedFileSystem (): any {
         if (result.size === 0 && e) {
           return iterate(i + 1, e)
         }
-        
+
         if (entries) {
           for (const entry of entries) {
             result.set(getPathFromReaddirEntry(entry), entry)
@@ -273,7 +274,7 @@ export function createMockedFileSystem (): any {
       const func = s.readdir
 
       if (!func) {
-        iterate(i + 1, new Error(`readdir not found`))
+        iterate(i + 1, new Error('readdir not found'))
       } else {
         func.apply(s, args)
       }
@@ -293,7 +294,7 @@ export function createMockedFileSystem (): any {
     for (const s of readFss) {
       try {
         error = null
-        if (!s.promises?.readdir) throw new Error(`promises.readdir not found`)
+        if (!s.promises?.readdir) throw new Error('promises.readdir not found')
         for (const entry of await s.promises.readdir.apply(s, args)) {
           result.set(getPathFromReaddirEntry(entry), entry)
         }
@@ -311,18 +312,18 @@ export function createMockedFileSystem (): any {
   ufs.createReadStream = (path: string) => {
     if (!ufs._enabled) {
       ufs.ReadStream = realFs.ReadStream
-      return realFs.createReadStream(path) 
+      return realFs.createReadStream(path)
     }
 
     let error: Error = null
 
     for (const s of readFss) {
       try {
-        if (!s.createReadStream) throw new Error(`createReadStream not found`)
-        
+        if (!s.createReadStream) throw new Error('createReadStream not found')
+
         const stream = s.createReadStream(path)
         if (!stream) {
-          throw new Error(`couldn't create read stream`)
+          throw new Error('couldn\'t create read stream')
         }
         ufs.ReadStream = s.ReadStream
         return stream
@@ -344,11 +345,11 @@ export function createMockedFileSystem (): any {
 
     for (const s of writeFss) {
       try {
-        if (!s.createWriteStream) throw new Error(`createWriteStream not found`)
-        
+        if (!s.createWriteStream) throw new Error('createWriteStream not found')
+
         const stream = s.createWriteStream(path)
         if (!stream) {
-          throw new Error(`couldn't create write stream`)
+          throw new Error('couldn\'t create write stream')
         }
         ufs.WriteStream = s.WriteStream
         return stream
@@ -439,7 +440,7 @@ function createFSWatcherProxy (watchers: fs.FSWatcher[]) {
   return new Proxy(
     {},
     {
-      get(_obj, property) {
+      get (_obj, property) {
         const funcCallers: Array<[fs.FSWatcher, Function]> = []
         let prop: Function | undefined
         for (const watcher of watchers) {

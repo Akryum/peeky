@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-/* eslint-disable @typescript-eslint/camelcase */
 
 import { resolve, dirname, relative } from 'path'
 import { builtinModules, createRequire } from 'module'

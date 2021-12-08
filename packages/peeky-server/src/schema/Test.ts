@@ -12,7 +12,6 @@ const AnsiUp = AnsiUpPackage.default as typeof AnsiUpPackage
 
 const ansiUp = new AnsiUp()
 
-// eslint-disable-next-line @typescript-eslint/camelcase
 ansiUp.use_classes = true
 
 export const Test = objectType({
