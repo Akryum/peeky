@@ -1,17 +1,15 @@
 import fs from 'fs'
 import { fs as memfs } from 'memfs'
-import { ufs } from 'unionfs'
+import { IUnionFs, Union } from 'unionfs'
 import { dirname } from 'path'
+import { patchFs as patch } from 'fs-monkey'
 
 export { fs as memfs } from 'memfs'
-export { ufs as fs } from 'unionfs'
 
 export const realFs = { ...fs }
-let mockedFs = false
 
-export function mockFileSystem () {
-  if (mockedFs) return ufs
-  mockedFs = true
+export function createMockedFileSystem () {
+  const ufs = new Union()
   // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
   ufs.use(realFs).use(memfs)
@@ -33,4 +31,8 @@ export function mockFileSystem () {
     },
   })
   return ufs
+}
+
+export function patchFs (ufs: IUnionFs): () => void {
+  return patch(ufs)
 }

@@ -43,6 +43,7 @@
     "fast-copy": "^2.1.1",
     "fast-glob": "^3.2.7",
     "fs-extra": "^10.0.0",
+    "fs-monkey": "^1.0.3",
     "happy-dom": "^2.24.4",
     "lodash-es": "^4.17.21",
     "memfs": "^3.2.0",

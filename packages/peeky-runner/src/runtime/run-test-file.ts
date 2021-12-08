@@ -14,6 +14,7 @@ import { setupRegister } from './test-register.js'
 import { getCoverage } from './coverage.js'
 import { mockedModules } from './mocked-files.js'
 import { getTestEnvironment, NodeEnvironment } from './environment.js'
+import { createMockedFileSystem, patchFs } from './fs.js'
 
 export async function runTestFile (options: RunTestFileOptions) {
   try {
@@ -72,6 +73,9 @@ export async function runTestFile (options: RunTestFileOptions) {
     })
     await runtimeEnv.create()
 
+    const ufs = createMockedFileSystem()
+    const unpatchFs = patchFs(ufs)
+
     // Execute test file
     const executionResult = await executeWithVite(options.entry, getGlobals(ctx, register))
 
@@ -88,6 +92,7 @@ export async function runTestFile (options: RunTestFileOptions) {
     const coverage = await getCoverage(await instrumenter.stopInstrumenting(), ctx)
 
     await runtimeEnv.destroy()
+    unpatchFs()
 
     workerEmit(EventType.TEST_FILE_COMPLETED, {
       filePath: ctx.options.entry,

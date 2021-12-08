@@ -6,12 +6,12 @@
     "esModuleInterop": true,
     "types": [
       "node",
-      "@peeky/runner"
+      "@peeky/test"
     ],
     "lib": [
       "ESNext"
     ]
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "**/*.spec.ts"]
+  "include": ["src/**/*", "**/*.spec.ts"],
+  "exclude": ["node_modules"]
 }
