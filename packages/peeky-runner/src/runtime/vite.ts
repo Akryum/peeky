@@ -81,13 +81,13 @@ export interface ViteExecutionResult {
   deps: string[]
 }
 
-export async function executeWithVite (file: string, executionContext: Record<string, any>): Promise<ViteExecutionResult> {
+export async function executeWithVite (file: string, executionContext: Record<string, any>, root: string): Promise<ViteExecutionResult> {
   if (!viteServer) {
     throw new Error('Vite server is not initialized, use `initViteServer` first')
   }
   const fileId = `/@fs/${slash(resolve(file))}`
   const deps = new Set<string>()
-  const exports = await cachedRequest(fileId, [], deps, executionContext)
+  const exports = await cachedRequest(fileId, [], deps, executionContext, root)
   return {
     exports,
     deps: Array.from(deps),
@@ -124,13 +124,13 @@ export function getFileDependencies (id: string, entryFiles: string[], result = 
  * @param callstack To detect circular dependencies
  * @returns
  */
-function cachedRequest (rawId: string, callstack: string[], deps: Set<string>, executionContext: Record<string, any>): Promise<any> {
+function cachedRequest (rawId: string, callstack: string[], deps: Set<string>, executionContext: Record<string, any>, root: string): Promise<any> {
   if (builtinModules.includes(rawId)) {
     return import(rawId)
   }
 
   const id = normalizeId(rawId)
-  const realPath = toFilePath(id)
+  const realPath = toFilePath(id, root)
 
   if (mockedModules.has(realPath)) {
     return Promise.resolve(mockedModules.get(realPath))
@@ -144,22 +144,22 @@ function cachedRequest (rawId: string, callstack: string[], deps: Set<string>, e
     return moduleCache.get(id)
   }
 
-  const promise = rawRequest(id, realPath, callstack, deps, executionContext)
+  const promise = rawRequest(id, realPath, callstack, deps, executionContext, root)
   moduleCache.set(id, promise)
   return promise
 }
 
-async function rawRequest (id: string, realPath: string, callstack: string[], deps: Set<string>, executionContext: Record<string, any>): Promise<any> {
+async function rawRequest (id: string, realPath: string, callstack: string[], deps: Set<string>, executionContext: Record<string, any>, root: string): Promise<any> {
   // Circular dependencies detection
   callstack = [...callstack, id]
   const request = async (dep: string) => {
     if (callstack.includes(dep)) {
       throw new Error(`${chalk.red('Circular dependency detected')}\nStack:\n${[...callstack, dep].reverse().map((i) => {
-        const path = relative(viteServer.config.root, toFilePath(normalizeId(i)))
+        const path = relative(viteServer.config.root, toFilePath(normalizeId(i), root))
         return chalk.dim(' -> ') + (i === dep ? chalk.yellow(path) : path)
       }).join('\n')}\n`)
     }
-    return cachedRequest(dep, callstack, deps, executionContext)
+    return cachedRequest(dep, callstack, deps, executionContext, root)
   }
 
   const result = await viteServer.transformRequest(id, { ssr: true })
@@ -168,7 +168,7 @@ async function rawRequest (id: string, realPath: string, callstack: string[], de
   }
 
   if (result.deps) {
-    result.deps.forEach(dep => deps.add(toFilePath(normalizeId(dep))))
+    result.deps.forEach(dep => deps.add(toFilePath(normalizeId(dep), root)))
   }
 
   const url = pathToFileURL(realPath)
@@ -201,20 +201,20 @@ function normalizeId (id: string): string {
   // Virtual modules start with `\0`
   if (id && id.startsWith('/@id/__x00__')) { id = `\0${id.slice('/@id/__x00__'.length)}` }
   if (id && id.startsWith('/@id/')) { id = id.slice('/@id/'.length) }
+  if (id.startsWith('__vite-browser-external:')) { id = id.slice('__vite-browser-external:'.length) }
   return id
 }
 
-function toFilePath (id: string): string {
-  let absolute = id.startsWith('/@fs/')
+function toFilePath (id: string, root: string): string {
+  let absolute = slash(id).startsWith('/@fs/')
     ? id.slice(4)
-    : id.startsWith(dirname(viteServer.config.root))
+    : id.startsWith(dirname(root))
       ? id
       : id.startsWith('/')
-        ? slash(resolve(viteServer.config.root, id.slice(1)))
+        ? slash(resolve(root, id.slice(1)))
         : id
 
   if (absolute.startsWith('//')) { absolute = absolute.slice(1) }
-  if (!absolute.startsWith('/')) { absolute = `/${absolute}` }
 
   return absolute
 }
