@@ -14,7 +14,7 @@ import { setupRegister } from './test-register.js'
 import { getCoverage } from './coverage.js'
 import { mockedModules } from './mocked-files.js'
 import { getTestEnvironment, NodeEnvironment } from './environment.js'
-import { createMockedFileSystem, patchFs } from './fs.js'
+import { createMockedFileSystem } from './fs.js'
 
 export async function runTestFile (options: RunTestFileOptions) {
   try {
@@ -73,10 +73,9 @@ export async function runTestFile (options: RunTestFileOptions) {
     })
     await runtimeEnv.create()
 
-    let unpatchFs: () => void
+    let ufs
     if ((options.config.mockFs && ctx.pragma.peeky?.mockFs !== false) || ctx.pragma.peeky?.mockFs) {
-      const ufs = createMockedFileSystem()
-      unpatchFs = patchFs(ufs)
+      ufs = createMockedFileSystem()
     }
 
     // Execute test file
@@ -89,13 +88,15 @@ export async function runTestFile (options: RunTestFileOptions) {
     await instrumenter.startInstrumenting()
 
     // Run all tests in the test file
+    if (ufs) ufs._enabled = true
     await runTests(ctx)
+    await new Promise(resolve => setImmediate(resolve))
+    if (ufs) ufs._enabled = false
     const duration = Date.now() - time
 
     const coverage = await getCoverage(await instrumenter.stopInstrumenting(), ctx)
 
     await runtimeEnv.destroy()
-    unpatchFs?.()
 
     workerEmit(EventType.TEST_FILE_COMPLETED, {
       filePath: ctx.options.entry,
