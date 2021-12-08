@@ -13,7 +13,7 @@ export const TestFile = objectType({
       type: Status,
     })
     t.nonNull.boolean('deleted')
-    t.int('duration')
+    t.float('duration')
   },
 })
 

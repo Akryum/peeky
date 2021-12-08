@@ -56,7 +56,7 @@ export interface NexusGenObjects {
   }
   Subscription: {};
   Test: { // root type
-    duration?: number | null; // Int
+    duration?: number | null; // Float
     error?: NexusGenRootTypes['TestError'] | null; // TestError
     id: string; // ID!
     slug: string; // String!
@@ -72,7 +72,7 @@ export interface NexusGenObjects {
   }
   TestFile: { // root type
     deleted: boolean; // Boolean!
-    duration?: number | null; // Int
+    duration?: number | null; // Float
     id: string; // ID!
     relativePath: string; // String!
     status: NexusGenEnums['Status']; // Status!
@@ -108,7 +108,7 @@ export interface NexusGenFieldTypes {
     testFiles: NexusGenRootTypes['TestFile'][]; // [TestFile!]!
   }
   Run: { // field return type
-    duration: number | null; // Int
+    duration: number | null; // Float
     emoji: string; // String!
     id: string; // ID!
     progress: number; // Float!
@@ -120,8 +120,8 @@ export interface NexusGenFieldTypes {
     title: string; // String!
   }
   RunTestFile: { // field return type
-    buildDuration: number | null; // Int
-    duration: number | null; // Int
+    buildDuration: number | null; // Float
+    duration: number | null; // Float
     error: NexusGenRootTypes['RunTestFileError'] | null; // RunTestFileError
     id: string; // ID!
     slug: string; // String!
@@ -152,7 +152,7 @@ export interface NexusGenFieldTypes {
     testUpdatedInRun: NexusGenRootTypes['Test']; // Test!
   }
   Test: { // field return type
-    duration: number | null; // Int
+    duration: number | null; // Float
     error: NexusGenRootTypes['TestError'] | null; // TestError
     id: string; // ID!
     slug: string; // String!
@@ -170,13 +170,13 @@ export interface NexusGenFieldTypes {
   }
   TestFile: { // field return type
     deleted: boolean; // Boolean!
-    duration: number | null; // Int
+    duration: number | null; // Float
     id: string; // ID!
     relativePath: string; // String!
     status: NexusGenEnums['Status']; // Status!
   }
   TestSuite: { // field return type
-    duration: number | null; // Int
+    duration: number | null; // Float
     id: string; // ID!
     runTestFile: NexusGenRootTypes['RunTestFile']; // RunTestFile!
     slug: string; // String!
@@ -205,7 +205,7 @@ export interface NexusGenFieldTypeNames {
     testFiles: 'TestFile'
   }
   Run: { // field return type name
-    duration: 'Int'
+    duration: 'Float'
     emoji: 'String'
     id: 'ID'
     progress: 'Float'
@@ -217,8 +217,8 @@ export interface NexusGenFieldTypeNames {
     title: 'String'
   }
   RunTestFile: { // field return type name
-    buildDuration: 'Int'
-    duration: 'Int'
+    buildDuration: 'Float'
+    duration: 'Float'
     error: 'RunTestFileError'
     id: 'ID'
     slug: 'String'
@@ -249,7 +249,7 @@ export interface NexusGenFieldTypeNames {
     testUpdatedInRun: 'Test'
   }
   Test: { // field return type name
-    duration: 'Int'
+    duration: 'Float'
     error: 'TestError'
     id: 'ID'
     slug: 'String'
@@ -267,13 +267,13 @@ export interface NexusGenFieldTypeNames {
   }
   TestFile: { // field return type name
     deleted: 'Boolean'
-    duration: 'Int'
+    duration: 'Float'
     id: 'ID'
     relativePath: 'String'
     status: 'Status'
   }
   TestSuite: { // field return type name
-    duration: 'Int'
+    duration: 'Float'
     id: 'ID'
     runTestFile: 'RunTestFile'
     slug: 'String'

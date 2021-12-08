@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import BaseButton from '../BaseButton.vue'
 import StatusIcon from '../StatusIcon.vue'
+import Duration from '../Duration.vue'
 import { ArrowLeftIcon, FileIcon } from '@zhuowenli/vue-feather-icons'
 import { defineProps } from 'vue'
 
@@ -31,11 +32,9 @@ const props = defineProps({
     <span class="flex-1 truncate py-1">
       {{ file.testFile.relativePath }}
     </span>
-    <span
+    <Duration
       v-if="file.duration != null"
-      class="flex-none text-gray-300 dark:text-gray-700"
-    >
-      {{ file.duration }}ms
-    </span>
+      :duration="file.duration"
+    />
   </div>
 </template>

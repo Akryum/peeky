@@ -7,7 +7,6 @@ fragment runTestFileList on RunTestFile {
   slug
   status
   duration
-  buildDuration
   testFile {
     id
     relativePath

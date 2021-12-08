@@ -1,5 +1,6 @@
 import { relative } from 'path'
 import { fileURLToPath } from 'url'
+import { performance } from 'perf_hooks'
 import { arg, extendType, idArg, inputObjectType, nonNull, objectType } from 'nexus'
 import shortid from 'shortid'
 import { setupRunner, getStats, EventType } from '@peeky/runner'
@@ -32,7 +33,7 @@ export const Run = objectType({
     t.nonNull.field('status', {
       type: Status,
     })
-    t.int('duration')
+    t.float('duration')
   },
 })
 
@@ -230,7 +231,7 @@ export async function startRun (ctx: Context, id: string) {
     updateRunTestFile(ctx, run.id, f.id, { status: 'in_progress' })
   }))
 
-  const time = Date.now()
+  const time = performance.now()
   const runner = await setupRunner({
     config: ctx.config,
     testFiles: ctx.reactiveFs,
@@ -332,7 +333,7 @@ export async function startRun (ctx: Context, id: string) {
     const stats = getStats(results)
     await updateRun(ctx, id, {
       status: stats.errorTestCount > 0 ? 'error' : 'success',
-      duration: Date.now() - time,
+      duration: performance.now() - time,
     })
 
     if (settings.watch) {

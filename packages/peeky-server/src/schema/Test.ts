@@ -24,7 +24,7 @@ export const Test = objectType({
     t.nonNull.field('status', {
       type: Status,
     })
-    t.int('duration')
+    t.float('duration')
     t.field('error', {
       type: TestError,
     })

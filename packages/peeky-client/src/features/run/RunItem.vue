@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import StatusIcon from '../StatusIcon.vue'
+import Duration from '../Duration.vue'
 import { defineProps } from 'vue'
 
 const props = defineProps({
@@ -20,9 +21,10 @@ const props = defineProps({
       <span>{{ run.title }}</span>
       <span>{{ run.emoji }}</span>
     </span>
-    <span
+    <Duration
       v-if="run.duration != null"
-      class="text-black dark:text-white opacity-40"
-    >{{ run.duration }}ms</span>
+      :duration="run.duration"
+      no-colors
+    />
   </div>
 </template>

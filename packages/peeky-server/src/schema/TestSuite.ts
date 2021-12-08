@@ -24,7 +24,7 @@ export const TestSuite = objectType({
     t.nonNull.field('status', {
       type: Status,
     })
-    t.int('duration')
+    t.float('duration')
     t.nonNull.field('runTestFile', {
       type: RunTestFile,
       resolve: (parent) => parent.runTestFile,

@@ -1,3 +1,4 @@
+import { performance } from 'perf_hooks'
 import { install as installSourceMap } from 'source-map-support'
 import consola from 'consola'
 import { workerEmit } from '@akryum/workerpool'
@@ -18,7 +19,7 @@ import { createMockedFileSystem } from './fs.js'
 
 export async function runTestFile (options: RunTestFileOptions) {
   try {
-    const time = Date.now()
+    const time = performance.now()
 
     const source = await fs.readFile(options.entry, { encoding: 'utf8' })
 
@@ -32,7 +33,7 @@ export async function runTestFile (options: RunTestFileOptions) {
     mockedModules.clear()
 
     // Build
-    const buildTime = Date.now()
+    const buildTime = performance.now()
     workerEmit(EventType.BUILDING, {
       testFilePath: ctx.options.entry,
     })
@@ -46,7 +47,7 @@ export async function runTestFile (options: RunTestFileOptions) {
     })
     workerEmit(EventType.BUILD_COMPLETED, {
       testFilePath: ctx.options.entry,
-      duration: Date.now() - buildTime,
+      duration: performance.now() - buildTime,
     })
 
     // Globals
@@ -92,7 +93,7 @@ export async function runTestFile (options: RunTestFileOptions) {
     await runTests(ctx)
     await new Promise(resolve => setImmediate(resolve))
     if (ufs) ufs._enabled = false
-    const duration = Date.now() - time
+    const duration = performance.now() - time
 
     const coverage = await getCoverage(await instrumenter.stopInstrumenting(), ctx)
 

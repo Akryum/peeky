@@ -1,19 +1,21 @@
+import { performance } from 'perf_hooks'
 import consola from 'consola'
 import chalk from 'chalk'
 import { createReactiveFileSystem } from 'reactive-fs'
 import { PeekyConfig } from '@peeky/config'
+import { formatDurationToString } from '@peeky/utils'
 import { setupRunner } from '../runner.js'
 import { getStats } from '../stats.js'
 import { computeCoveredLines, getEmptyCoverageFromFiles, mergeCoverage } from './coverage.js'
 
 export async function runAllTests (config: PeekyConfig) {
-  const fsTime = Date.now()
+  const fsTime = performance.now()
   const testFiles = await createReactiveFileSystem({
     baseDir: config.targetDirectory,
     glob: config.match,
     ignored: config.ignored,
   })
-  consola.info(`FS initialized in ${Date.now() - fsTime}ms`)
+  consola.info(`FS initialized in ${formatDurationToString(performance.now() - fsTime)}`)
 
   const runner = await setupRunner({
     config,
@@ -24,7 +26,7 @@ export async function runAllTests (config: PeekyConfig) {
 
   consola.info(`Found ${fileList.length} test files.`)
 
-  const time = Date.now()
+  const time = performance.now()
   const result = await Promise.all(fileList.map(f => runner.runTestFile(f)))
 
   const stats = getStats(result)
@@ -89,7 +91,7 @@ export async function runAllTests (config: PeekyConfig) {
 
   // Summary
 
-  consola.info(`Ran ${fileList.length} tests files (${Date.now() - time}ms, using ${runner.pool.stats().totalWorkers} parallel workers)`)
+  consola.info(`Ran ${fileList.length} tests files (${formatDurationToString(performance.now() - time)}, using ${runner.pool.stats().totalWorkers} parallel workers)`)
   consola.log(chalk[errorSuiteCount ? 'red' : 'green'].bold(`Suites : ${suiteCount - errorSuiteCount} / ${suiteCount}\nTests  : ${testCount - errorTestCount} / ${testCount}`))
   consola.log(chalk[errorSuiteCount ? 'red' : 'green'].bold(`Errors : ${errorTestCount}`))
 

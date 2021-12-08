@@ -3,6 +3,7 @@ import { useQuery, useResult } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 import { useRoute } from 'vue-router'
 import StatusIcon from '../StatusIcon.vue'
+import Duration from '../Duration.vue'
 import { errorFragment } from './TestResult.vue'
 
 const route = useRoute()
@@ -94,12 +95,10 @@ subscribeToMore(() => ({
       <span class="flex-1 truncate py-1">
         {{ test.title }}
       </span>
-      <span
+      <Duration
         v-if="test.duration != null"
-        class="text-black dark:text-white opacity-40"
-      >
-        {{ test.duration }}ms
-      </span>
+        :duration="test.duration"
+      />
     </div>
 
     <router-view

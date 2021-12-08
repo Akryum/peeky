@@ -1,4 +1,5 @@
 import { basename } from 'path'
+import { performance } from 'perf_hooks'
 import sinon from 'sinon'
 import { workerEmit } from '@akryum/workerpool'
 import type { Context, TestSuiteInfo } from '../types'
@@ -17,7 +18,7 @@ export async function runTests (ctx: Context) {
         })),
       } as TestSuiteInfo,
     })
-    const suiteTime = Date.now()
+    const suiteTime = performance.now()
     for (const handler of suite.beforeAllHandlers) {
       await handler()
     }
@@ -29,7 +30,7 @@ export async function runTests (ctx: Context) {
         await handler()
       }
 
-      const time = Date.now()
+      const time = performance.now()
       workerEmit(EventType.TEST_START, {
         suite: {
           id: suite.id,
@@ -47,7 +48,7 @@ export async function runTests (ctx: Context) {
           test: {
             id: test.id,
           },
-          duration: Date.now() - time,
+          duration: performance.now() - time,
         })
       } catch (e) {
         test.error = e
@@ -63,7 +64,7 @@ export async function runTests (ctx: Context) {
           test: {
             id: test.id,
           },
-          duration: Date.now() - time,
+          duration: performance.now() - time,
           error: { message: e.message, data: JSON.stringify(e) },
           stack: stackIndex !== -1 ? e.stack.substr(0, stackIndex) : e.stack,
           matcherResult: JSON.stringify(e.matcherResult),
@@ -90,7 +91,7 @@ export async function runTests (ctx: Context) {
         testErrors: suite.testErrors,
         otherErrors: suite.otherErrors,
       },
-      duration: Date.now() - suiteTime,
+      duration: performance.now() - suiteTime,
     })
   }
 }

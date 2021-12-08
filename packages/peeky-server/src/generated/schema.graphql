@@ -25,7 +25,7 @@ type Query {
 }
 
 type Run {
-  duration: Int
+  duration: Float
   emoji: String!
   id: ID!
   progress: Float!
@@ -38,8 +38,8 @@ type Run {
 }
 
 type RunTestFile {
-  buildDuration: Int
-  duration: Int
+  buildDuration: Float
+  duration: Float
   error: RunTestFileError
   id: ID!
   slug: String!
@@ -86,7 +86,7 @@ type Subscription {
 }
 
 type Test {
-  duration: Int
+  duration: Float
   error: TestError
   id: ID!
   slug: String!
@@ -106,14 +106,14 @@ type TestError {
 
 type TestFile {
   deleted: Boolean!
-  duration: Int
+  duration: Float
   id: ID!
   relativePath: String!
   status: Status!
 }
 
 type TestSuite {
-  duration: Int
+  duration: Float
   id: ID!
   runTestFile: RunTestFile!
   slug: String!
