@@ -10,6 +10,6 @@ describe('import vue', () => {
       },
       template: '<div>hello</div>',
     })
-    expect(app._instance.proxy.msg).toBe('hello')
+    expect(typeof app.version).toBe('string')
   })
 })
