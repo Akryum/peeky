@@ -180,7 +180,7 @@ async function rawRequest (id: string, realPath: string, callstack: string[], de
     return cachedRequest(dep, callstack, deps, executionContext, root)
   }
 
-  const result = await viteServer.transformRequest(id, { ssr: true })
+  const result = await transform(id)
   if (!result) {
     throw new Error(`failed to load ${id}`)
   }
@@ -276,4 +276,18 @@ function matchModuleFilter (filters: (string | RegExp) | (string | RegExp)[], fi
       return filter.test(filePath)
     }
   })
+}
+
+async function transform (id: string) {
+  if (id.match(/\.(?:[cm]?[jt]sx?|json)$/)) {
+    return await viteServer.transformRequest(id, { ssr: true })
+  } else {
+    // for components like Vue, we want to use the client side plugins
+    // but then convert the code to be consumed by the server
+    const result = await viteServer.transformRequest(id)
+    if (!result) {
+      return undefined
+    }
+    return await viteServer.ssrTransform(result.code, result.map, id)
+  }
 }
