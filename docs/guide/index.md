@@ -125,3 +125,9 @@ Meow*! 🐈️
 
 
 <p class="text-xs text-gray-500 mt-12">*: Peeky is happy!</p>
+
+## Component testing
+
+Peeky uses [Vite](https://vitejs.dev/) to transform your files automatically. If you are testing components in a Vite project, they should be already transformed correctly. Otherwise, you can use the `vite` option in the [Peeky config](./config.md) to configure Vite depending on your needs.
+
+By default, Peeky use the native Node.js environment to run your tests. You can switch to a browser-like environment (simulating the DOM) to be able to test your web components: see [Runtime environments](./runtime-env.md).

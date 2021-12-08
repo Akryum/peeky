@@ -45,6 +45,10 @@ module.exports = {
               link: '/guide/writing-tests',
             },
             {
+              text: 'Runtime environments',
+              link: '/guide/runtime-env',
+            },
+            {
               text: 'TypeScript',
               link: '/guide/typescript',
             },
