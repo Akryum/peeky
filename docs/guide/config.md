@@ -171,9 +171,9 @@ export default defineConfig({
 })
 ```
 
-## external
+## buildExclude
 
-An array of RegExp or module names that should not be processed during building. This can improve performance.
+An array of RegExp, file glob or function of the form `(absolutePath: string) => boolean` that should not be processed during building. This can improve performance.
 
 Default value is `[/node_modules/]`.
 
@@ -181,8 +181,28 @@ Example:
 
 ```js
 export default defineConfig({
-  external: [
+  buildExclude: [
     /node_modules/,
+    // Or:
+    (absolutePath) => absolutePath.includes('/node_modules/'),
+  ],
+})
+```
+
+## buildInclude
+
+An array of RegExp, file glob or function of the form `(absolutePath: string) => boolean` that should be processed during building. This is useful if some packages you use are using ESM format but are not correctly set up to tell Node.js to use ESM. This takes precedence over `buildExclude`.
+
+Default value is `[/node_modules\/(vue|@vue|diff)/]`.
+
+Example:
+
+```js
+export default defineConfig({
+  buildInclude: [
+    /node_modules\/vue/,
+    // Or:
+    (absolutePath) => absolutePath.includes('/node_modules/vue'),
   ],
 })
 ```

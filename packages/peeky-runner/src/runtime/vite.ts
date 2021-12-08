@@ -9,7 +9,7 @@ import chalk from 'chalk'
 import shortid from 'shortid'
 import { isEqual } from 'lodash-es'
 import match from 'anymatch'
-import { ExternalOption } from '@peeky/config'
+import { ModuleFilterOption } from '@peeky/config'
 import { slash } from '@peeky/utils'
 import { mockedModules } from './mocked-files.js'
 import { createPeekyGlobal } from '../index.js'
@@ -24,7 +24,8 @@ export interface InitViteServerOptions {
   userInlineConfig: InlineConfig
   configFile: string
   rootDir: string
-  external: ExternalOption
+  exclude: ModuleFilterOption
+  include: ModuleFilterOption
 }
 
 let currentOptions: InitViteServerOptions
@@ -238,13 +239,24 @@ function exportAll (exports: any, sourceModule: any) {
 }
 
 function shouldExternalize (filePath: string): boolean {
-  if (typeof currentOptions.external === 'function') {
-    return currentOptions.external(filePath)
+  if (typeof currentOptions.include === 'function') {
+    if (currentOptions.include(filePath)) {
+      return false
+    }
+  } else if (matchModuleFilter(currentOptions.include, filePath)) {
+    return false
   }
 
-  const filters = Array.isArray(currentOptions.external) ? currentOptions.external : [currentOptions.external]
+  if (typeof currentOptions.exclude === 'function') {
+    return currentOptions.exclude(filePath)
+  }
 
-  return filters.some(filter => {
+  return matchModuleFilter(currentOptions.exclude, filePath)
+}
+
+function matchModuleFilter (filters: (string | RegExp) | (string | RegExp)[], filePath: string): boolean {
+  const filtersList = Array.isArray(filters) ? filters : [filters]
+  return filtersList.some(filter => {
     if (typeof filter === 'string') {
       return match(filter, filePath)
     } else if (filter instanceof RegExp) {

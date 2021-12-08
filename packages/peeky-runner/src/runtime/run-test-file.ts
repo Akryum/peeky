@@ -32,8 +32,9 @@ export async function runTestFile (options: RunTestFileOptions) {
       configFile: options.config.viteConfigFile,
       defaultConfig: {},
       rootDir: options.config.targetDirectory,
-      external: options.config.external,
       userInlineConfig: options.config.vite,
+      exclude: options.config.buildExclude,
+      include: options.config.buildInclude,
     })
     workerEmit(EventType.BUILD_COMPLETED, {
       testFilePath: ctx.options.entry,

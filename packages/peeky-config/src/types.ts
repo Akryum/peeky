@@ -1,10 +1,10 @@
 import type { UserConfig as ViteConfig } from 'vite'
 
-export type ExternalOption =
+export type ModuleFilterOption =
   | (string | RegExp)[]
   | string
   | RegExp
-  | ((file: string) => boolean)
+  | ((absolutePath: string) => boolean)
 
 export interface PeekyConfig {
   targetDirectory?: string
@@ -17,7 +17,8 @@ export interface PeekyConfig {
   maxWorkers?: number
   emptySuiteError?: boolean
   collectCoverageMatch?: string | string[]
-  external?: ExternalOption
+  buildExclude?: ModuleFilterOption
+  buildInclude?: ModuleFilterOption
   vite?: ViteConfig
   viteConfigFile?: string
 }
