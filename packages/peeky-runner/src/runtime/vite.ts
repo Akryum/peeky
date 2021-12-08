@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/camelcase */
 
 import { resolve, dirname, relative } from 'path'
@@ -81,6 +82,19 @@ export interface ViteExecutionResult {
   deps: string[]
 }
 
+export const stubbedRequests: Record<string, any> = {
+  '/@vite/client': {
+    injectQuery: (id: string) => id,
+    createHotContext () {
+      return {
+        accept: () => {},
+        prune: () => {},
+      }
+    },
+    updateStyle () {},
+  },
+}
+
 export async function executeWithVite (file: string, executionContext: Record<string, any>, root: string): Promise<ViteExecutionResult> {
   if (!viteServer) {
     throw new Error('Vite server is not initialized, use `initViteServer` first')
@@ -134,6 +148,10 @@ function cachedRequest (rawId: string, callstack: string[], deps: Set<string>, e
 
   if (mockedModules.has(realPath)) {
     return Promise.resolve(mockedModules.get(realPath))
+  }
+
+  if (id in stubbedRequests) {
+    return Promise.resolve(stubbedRequests[id])
   }
 
   if (shouldExternalize(realPath)) {
