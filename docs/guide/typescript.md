@@ -59,3 +59,9 @@ You can also create another `tsconfig.json` file in the tests folder. Let's say 
   }
 }
 ```
+
+You can also put this reference at the top of your test files:
+
+```ts
+/// <reference types="@peeky/test"/>
+```
