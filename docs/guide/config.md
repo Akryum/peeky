@@ -186,3 +186,17 @@ export default defineConfig({
   ],
 })
 ```
+
+## vite
+
+Vite [config object](https://vitejs.dev/config/).
+
+Example:
+
+```js
+export default defineConfig({
+  vite: {
+    // vite options here...
+  },
+})
+```
