@@ -1,3 +1,19 @@
+## [0.7.3](https://github.com/Akryum/peeky/compare/v0.7.2...v0.7.3) (2021-12-08)
+
+
+### Bug Fixes
+
+* stub vite client ([627867d](https://github.com/Akryum/peeky/commit/627867d6a2e4552ccfcbe26645be5868b66df699))
+* transform components (.vue) with ssr: false ([51cd0a1](https://github.com/Akryum/peeky/commit/51cd0a1abee146d161b63c3d282003ad615565c6))
+* vite buld windows fixes ([086575e](https://github.com/Akryum/peeky/commit/086575ee55f0f3e560688f5d2329b7ee826789ba))
+
+
+### Features
+
+* improved and more precise duration display ([867c618](https://github.com/Akryum/peeky/commit/867c618652c950366f0e995758dafc1ba91d5a39))
+
+
+
 ## [0.7.2](https://github.com/Akryum/peeky/compare/v0.7.1...v0.7.2) (2021-12-08)
 
 
