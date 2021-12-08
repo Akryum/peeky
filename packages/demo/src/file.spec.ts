@@ -11,5 +11,6 @@ describe('file system', () => {
     fs.writeFileSync(file, 'Hello World', 'utf8')
     const contents = fs.readFileSync(file, 'utf8')
     expect(contents).toBe('Hello World')
+    expect(fs.realpathSync.native(file)).toBe(file)
   })
 })

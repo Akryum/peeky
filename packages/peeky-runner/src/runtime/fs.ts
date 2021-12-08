@@ -34,5 +34,33 @@ export function createMockedFileSystem () {
 }
 
 export function patchFs (ufs: IUnionFs): () => void {
-  return patch(ufs)
+  // Promises patching (https://github.com/streamich/fs-monkey/issues/202)
+  let promisesBackup
+  try {
+    promisesBackup = fs.promises
+    Object.defineProperty(fs, 'promises', {
+      get: () => ufs.promises,
+    })
+  } catch {}
+
+  // Monkey patch
+  const unpatch = patch(ufs)
+
+  // Patch <method>.native()
+  for (const key in realFs) {
+    if (realFs[key]?.native && !fs[key].native) {
+      fs[key].native = (...args) => ufs[key](...args)
+    }
+  }
+
+  return () => {
+    unpatch()
+
+    // Restore promises
+    if (promisesBackup) {
+      Object.defineProperty(fs, 'promises', {
+        get: () => promisesBackup,
+      })
+    }
+  }
 }
