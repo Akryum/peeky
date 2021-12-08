@@ -4,12 +4,12 @@ Welcome! In this guide, you'll learn how to get around Peeky. [Learn more about 
 
 ## Installation
 
-Install the Peeky CLI into your project:
+Install the Peeky into your project:
 
 ```shell
-npm i -D @peeky/cli
+npm i -D @peeky/test
 # OR
-yarn add -D @peeky/cli
+yarn add -D @peeky/test
 ```
 
 Add scripts to use the CLI in your `package.json` file:
@@ -24,7 +24,7 @@ Add scripts to use the CLI in your `package.json` file:
     "test": "peeky run"
   },
   "devDependencies": {
-    "@peeky/cli": "^0.1.0"
+    "@peeky/test": "^0.6.2"
   }
 }
 ```

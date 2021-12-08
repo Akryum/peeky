@@ -3,7 +3,7 @@
 To configure Peeky, create a `peeky.config.mjs` or `peeky.config.ts` (Typescript) file in the project root (where you run the `peeky` command).
 
 ```js
-import { defineConfig } from '@peeky/cli'
+import { defineConfig } from '@peeky/test'
 
 export default defineConfig({
   // Peeky options here...
@@ -14,7 +14,7 @@ export default defineConfig({
 If you want to use `peeky.config.js`, you need to use the old `require()` and `module.exports =` syntax.
 
 ```js
-const { defineConfig } = require('@peeky/cli')
+const { defineConfig } = require('@peeky/test')
 
 module.exports = defineConfig({
   // Peeky options here...
