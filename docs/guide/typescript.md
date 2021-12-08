@@ -2,13 +2,13 @@
 
 Peeky will automatically handle the Typescript files in your project. You can for example create a test file called `foo.spec.ts` and import other TypeScript files inside.
 
-If you're using Typescript and would like to get the right typings for global test methods, make sure to add `@peeky/runner` to the types array in `tsconfig.json`.
+If you're using Typescript and would like to get the right typings for global test methods, make sure to add `@peeky/test` to the types array in `tsconfig.json`.
 
 ```json
 /* tsconfig.json */
 {
   "compilerOptions": {
-    "types": ["@peeky/runner"],
+    "types": ["@peeky/test"],
     "esModuleInterop": true // Necessary for 'expect' typing to work
   }
 }
@@ -35,7 +35,7 @@ If you prefer writing your tests in a dedicated folder, also make sure to add it
 /* tsconfig.json */
 {
   "compilerOptions": {
-    "types": ["@peeky/runner"],
+    "types": ["@peeky/test"],
     "esModuleInterop": true // Necessary for 'expect' typing to work
   },
   "include": ["tests/**/*.spec.ts"]
@@ -53,7 +53,7 @@ You can also create another `tsconfig.json` file in the tests folder. Let's say 
     ],
     "types": [
       "node",
-      "@peeky/runner"
+      "@peeky/test"
     ],
     "esModuleInterop": true
   }
