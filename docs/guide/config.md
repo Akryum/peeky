@@ -37,6 +37,22 @@ export default defineConfig({
 })
 ```
 
+## Comment Pragma
+
+Some options can be overriden using comment pragma in specific test files.
+
+Example:
+
+```js
+/* @peeky {
+  runtimeEnv: 'dom',
+  mockFs: false
+} */
+```
+
+- [runtimeEnv](#runtimeenv)
+- [mockFs](#mockfs)
+
 ## targetDirectory
 
 Allows you to change the working folder for running the tests.
@@ -185,6 +201,137 @@ export default defineConfig({
 })
 ```
 
+## runtimeEnv
+
+Set the runtime environment for all tests. [More info here](./runtime-env.md).
+
+Default is `'node'`.
+
+Example:
+
+```js
+export default defineConfig({
+  runtimeEnv: 'dom',
+})
+```
+
+You can use comment pragma in a specific test to override the global configuration:
+
+```js
+/* @peeky {
+  runtimeEnv: 'dom'
+} */
+
+describe('DOM', () => {
+  test('create a div', () => {
+    // Dumb example test
+    const el = document.createElement('div')
+    el.innerText = 'hello'
+    document.body.appendChild(el)
+    expect(el.innerHTML).toBe('<div>hello</div>')
+
+    // Test your Vue, React, etc. components here
+  })
+})
+```
+
+## runtimeAvailableEnvs
+
+Exposes custom runtime environments to be used with comment pragma in tests. [More info here](./runtime-env.md).
+
+Default is `{}`.
+
+Example:
+
+```js
+import { defineConfig, TestEnvironmentBase } from '@peeky/test'
+
+class MyEnv extends TestEnvironmentBase {
+  constructor (config, context) {
+    super(config, context)
+  }
+
+  create () {
+    // do something
+  }
+
+  destroy () {
+    // do something
+  }
+}
+
+export default defineConfig({
+  runtimeAvailableEnvs: {
+    'my-env': MyEnv,
+  },
+})
+```
+
+Then in a test:
+
+```js
+/* @peeky {
+  runtimeEnv: 'my-env'
+} */
+
+describe('Using my custom env', () => {
+  // ...
+})
+```
+
+## mockFs
+
+Enable or disable mocking the file system to prevent writing files to the real disk when executing tests. The mocked filesystem will read existing files from disk and write changes to memory instead of the physical disk.
+
+Default is `true`.
+
+Example:
+
+```js
+export default defineConfig({
+  mockFs: false,
+})
+```
+
+You can use comment pragma in a specific test to override the global configuration:
+
+```js
+/* @peeky {
+  mockFs: true
+} */
+
+import fs from 'fs'
+import path from 'path'
+
+describe('file system', () => {
+  test('write a file', () => {
+    const file = path.resolve(__dirname, './test.txt')
+    // This file WILL NOT be written to disk
+    fs.writeFileSync(file, 'Hello World', 'utf8')
+    const contents = fs.readFileSync(file, 'utf8')
+    expect(contents).toBe('Hello World')
+  })
+})
+```
+
+```js
+/* @peeky {
+  mockFs: false
+} */
+
+import fs from 'fs'
+import path from 'path'
+
+describe('file system', () => {
+  test('write a file', () => {
+    const file = path.resolve(__dirname, './test.txt')
+    // This file WILL be written to disk
+    fs.writeFileSync(file, 'Hello World', 'utf8')
+    const contents = fs.readFileSync(file, 'utf8')
+    expect(contents).toBe('Hello World')
+  })
+})
+```
 ## buildExclude
 
 An array of RegExp, file glob or function of the form `(absolutePath: string) => boolean` that should not be processed during building. This can improve performance.
