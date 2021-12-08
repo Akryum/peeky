@@ -26,7 +26,10 @@ import Feature from './Feature.vue'
       title="Fast build"
       icon="zap"
     >
-      Build files very quickly with a binary native bundler
+      Build files very quickly thanks to <a
+        href="https://vitejs.dev"
+        target="_blank"
+      >Vite</a>
     </Feature>
 
     <Feature
@@ -109,7 +112,21 @@ import Feature from './Feature.vue'
       title="Dark mode"
       icon="moon"
     >
-      Rest your eyes with our hand-crafted dark theme
+      Rest your eyes with our hand-crafted dark theme in the UI
+    </Feature>
+
+    <Feature
+      title="Web apps"
+      icon="globe"
+    >
+      Test your components<br>(React, Vue...)
+    </Feature>
+
+    <Feature
+      title="GraphQL API"
+      icon="share"
+    >
+      Hack Peeky with the builtin GraphQL server
     </Feature>
 
     <Feature
@@ -121,27 +138,19 @@ import Feature from './Feature.vue'
     </Feature>
 
     <Feature
+      title="Plugins"
+      icon="package"
+      status="wip"
+    >
+      Extend Peeky with third-party plugins
+    </Feature>
+
+    <Feature
       title="Text Snaphots"
       icon="type"
       status="soon"
     >
       Compare text snapshots such as rendered HTML or file content
-    </Feature>
-
-    <Feature
-      title="Web apps"
-      icon="globe"
-      status="soon"
-    >
-      Test your components (React, Vue...)
-    </Feature>
-
-    <Feature
-      title="Plugins"
-      icon="package"
-      status="soon"
-    >
-      Extend Peeky with third-party plugins
     </Feature>
   </div>
 </template>
