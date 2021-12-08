@@ -1,3 +1,17 @@
+## [0.7.1](https://github.com/Akryum/peeky/compare/v0.7.0...v0.7.1) (2021-12-08)
+
+
+### Bug Fixes
+
+* mock fs in externalized packages ([d7a47ba](https://github.com/Akryum/peeky/commit/d7a47ba7db1f0b22ff43c95536ddb65252eee308))
+
+
+### Features
+
+* new mockFs option to disable fs auto mocking ([44f4468](https://github.com/Akryum/peeky/commit/44f4468ba38ad9e326ab85d1bbf70071e3703612))
+
+
+
 # [0.7.0](https://github.com/Akryum/peeky/compare/v0.6.2...v0.7.0) (2021-12-08)
 
 
