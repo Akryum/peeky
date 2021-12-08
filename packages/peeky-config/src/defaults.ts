@@ -14,4 +14,5 @@ export const defaultPeekyConfig: () => PeekyConfig = () => ({
   collectCoverageMatch: ['(src|lib)/**/*.(ts|js)'],
   buildExclude: [/node_modules/],
   buildInclude: [/node_modules\/(vue|@vue|diff)/],
+  runtimeEnv: 'node',
 })

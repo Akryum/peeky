@@ -14,6 +14,7 @@ export interface CoverageOptions {
 export interface Context {
   options: RunTestFileOptions
   suites: TestSuite[]
+  pragma: Record<string, any>
 }
 
 export interface TestSuiteInfo {

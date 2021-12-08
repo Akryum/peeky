@@ -1,6 +1,7 @@
 export * from './runner.js'
-export * from './types.js'
 export * from './stats.js'
+export * from './types.js'
+export * from './runtime/environment.js'
 export * from './runtime/run-all.js'
 export * from './runtime/peeky-global/index.js'
 export { default as expect } from 'expect'

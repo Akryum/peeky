@@ -1,4 +1,5 @@
 import type { UserConfig as ViteConfig } from 'vite'
+import { Awaitable } from '@peeky/utils'
 
 export type ModuleFilterOption =
   | (string | RegExp)[]
@@ -17,10 +18,35 @@ export interface PeekyConfig {
   maxWorkers?: number
   emptySuiteError?: boolean
   collectCoverageMatch?: string | string[]
+  runtimeEnv?: 'node' | 'dom' | typeof TestEnvironmentBase
+  runtimeAvailableEnvs?: Record<string, typeof TestEnvironmentBase>
   buildExclude?: ModuleFilterOption
   buildInclude?: ModuleFilterOption
   vite?: ViteConfig
   viteConfigFile?: string
+}
+
+export interface TestEnvironmentContext {
+  testPath: string
+  pragma: Record<string, any>
+}
+
+export abstract class TestEnvironmentBase {
+  config: PeekyConfig
+  context: TestEnvironmentContext
+
+  constructor (config: PeekyConfig, context: TestEnvironmentContext) {
+    this.config = config
+    this.context = context
+  }
+
+  abstract create (): Awaitable<void>
+
+  abstract destroy (): Awaitable<void>
+}
+
+export type InstantiableTestEnvironmentClass = {
+  new(...args: ConstructorParameters<typeof TestEnvironmentBase>): TestEnvironmentBase
 }
 
 declare module 'vite' {
