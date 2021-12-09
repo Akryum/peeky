@@ -9,7 +9,7 @@ module.exports = {
   themeConfig: {
     repo: 'Akryum/peeky',
     docsDir: 'docs',
-    docsBranch: 'main',
+    docsBranch: 'master',
     editLinks: true,
     editLinkText: 'Suggest changes to this page',
     logo: 'logo.svg',
