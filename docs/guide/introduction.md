@@ -40,3 +40,7 @@ Under-the-hood it's also using those furry libraries:
 - [Apollo](https://apollographql.com/) for GraphQL-related stuff
 - [Vue](https://vuejs.org/) for the UI frontend
 - [reactive-fs](https://github.com/Akryum/reactive-fs) to handle the File System
+
+## Special thanks 💚️
+
+- [antfu](https://github.com/antfu) helped Peeky migrate from rollup+esbuild to Vite (checkout [his test library vitest](https://vitest.dev/) and [vite-node](https://github.com/antfu/vite-node))

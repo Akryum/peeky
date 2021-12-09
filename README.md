@@ -6,6 +6,8 @@
 
 <p align="center"><img src="docs/public/home-screenshot.png" alt="Screenshot of the UI"></p>
 
+Powered by [Vite](https://vitejs.dev/) ⚡️
+
 Main features:
 
 - Fast (native code building + parallel runner)
