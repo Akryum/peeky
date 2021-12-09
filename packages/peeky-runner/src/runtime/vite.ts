@@ -291,6 +291,10 @@ function matchModuleFilter (filters: (string | RegExp) | (string | RegExp)[], fi
   const filtersList = Array.isArray(filters) ? filters : [filters]
   return filtersList.some(filter => {
     if (typeof filter === 'string') {
+      if (!filter.includes('*') && !filter.startsWith('.')) {
+        // Probably a module name
+        filter = `**/node_modules/${filter}`
+      }
       return match(filter, filePath)
     } else if (filter instanceof RegExp) {
       return filter.test(filePath)
