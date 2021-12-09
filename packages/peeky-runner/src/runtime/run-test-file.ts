@@ -25,10 +25,24 @@ export async function runTestFile (options: RunTestFileOptions) {
 
     const source = await fs.readFile(options.entry, { encoding: 'utf8' })
 
+    let pragmaObject: Record<string, any>
+
+    try {
+      const index = source.indexOf('/* @peeky')
+      if (index !== -1) {
+        const endIndex = source.indexOf('*/', index)
+        if (endIndex !== -1) {
+          pragmaObject = pragma(source.substring(index, endIndex + 2)).peeky
+        }
+      }
+    } catch (e) {
+      consola.warn(`Failed to parse pragma for ${options.entry}: ${e.message}`)
+    }
+
     const ctx: Context = {
       options,
       suites: [],
-      pragma: pragma(source),
+      pragma: pragmaObject ?? {},
     }
 
     // Restore mocked module
@@ -53,7 +67,7 @@ export async function runTestFile (options: RunTestFileOptions) {
     })
 
     // Runtime env
-    const runtimeEnvOption = ctx.pragma.peeky?.runtimeEnv ?? options.config.runtimeEnv
+    const runtimeEnvOption = ctx.pragma.runtimeEnv ?? options.config.runtimeEnv
     let RuntimeEnv: InstantiableTestEnvironmentClass
     if (typeof runtimeEnvOption === 'string') {
       RuntimeEnv = getTestEnvironment(runtimeEnvOption, options.config)
@@ -69,7 +83,7 @@ export async function runTestFile (options: RunTestFileOptions) {
     await runtimeEnv.create()
 
     let ufs
-    if ((options.config.mockFs && ctx.pragma.peeky?.mockFs !== false) || ctx.pragma.peeky?.mockFs) {
+    if ((options.config.mockFs && ctx.pragma.mockFs !== false) || ctx.pragma.mockFs) {
       ufs = createMockedFileSystem()
     }
 
