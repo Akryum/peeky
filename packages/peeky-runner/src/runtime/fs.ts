@@ -378,7 +378,6 @@ export function createMockedFileSystem (): any {
       return realFs.writeFileSync(path, ...args)
     }
 
-    // @ts-ignore
     memfs.mkdirpSync(dirname(path))
     // @ts-ignore
     return memfs.writeFileSync(path, ...args)
@@ -390,7 +389,6 @@ export function createMockedFileSystem (): any {
       return realFs.promises.writeFile(path, ...args)
     }
 
-    // @ts-ignore
     memfs.mkdirpSync(dirname(path))
     // @ts-ignore
     return memfs.promises.writeFile(path, ...args)
