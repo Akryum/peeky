@@ -5,7 +5,7 @@ import { workerEmit } from '@akryum/workerpool'
 import { CoverageInstrumenter } from 'collect-v8-coverage'
 import fs from 'fs-extra'
 import pragma from 'pragma'
-import { InstantiableTestEnvironmentClass } from '@peeky/config'
+import type { InstantiableTestEnvironmentClass } from '@peeky/config'
 import type { Context, RunTestFileOptions, TestSuiteResult } from '../types'
 import { EventType } from '../types.js'
 import { executeWithVite, initViteServer } from './vite.js'
@@ -74,7 +74,7 @@ export async function runTestFile (options: RunTestFileOptions) {
     }
 
     // Execute test file
-    const executionResult = await executeWithVite(options.entry, getGlobals(ctx, register), options.config.targetDirectory)
+    const executionResult = await executeWithVite(options.entry, await getGlobals(ctx, register), options.config.targetDirectory)
 
     // Register suites and tests
     await register.run()
@@ -85,13 +85,13 @@ export async function runTestFile (options: RunTestFileOptions) {
     // Run all tests in the test file
     if (ufs) ufs._enabled = true
     await runTests(ctx)
-    await new Promise(resolve => setImmediate(resolve))
     if (ufs) ufs._enabled = false
-    const duration = performance.now() - time
 
     const coverage = await getCoverage(await instrumenter.stopInstrumenting(), ctx)
 
     await runtimeEnv.destroy()
+
+    const duration = performance.now() - time
 
     workerEmit(EventType.TEST_FILE_COMPLETED, {
       filePath: ctx.options.entry,

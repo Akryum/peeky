@@ -1,7 +1,6 @@
 import fs from 'fs'
 import { join } from 'path'
 import consola from 'consola'
-import { resolveConfig as resolveViteConfig } from 'vite'
 import type { PeekyConfig } from './types'
 import { setupConfigContentLoader } from './fs.js'
 import { transformConfigCode } from './transform.js'
@@ -35,6 +34,7 @@ export async function setupConfigLoader (options: PeekyConfigLoaderOptions = {})
 
       // Integrate in vite config
       try {
+        const { resolveConfig: resolveViteConfig } = await import('vite')
         const viteConfig = await resolveViteConfig({}, 'serve')
         if (viteConfig?.test) {
           config = mergeConfig(config, viteConfig.test)

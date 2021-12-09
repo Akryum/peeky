@@ -11,13 +11,12 @@ import { pathToFileURL } from 'url'
 import { ViteDevServer, InlineConfig, createServer, mergeConfig } from 'vite'
 import chalk from 'chalk'
 import shortid from 'shortid'
-import { isEqual } from 'lodash-es'
-import match from 'anymatch'
-import { ModuleFilterOption } from '@peeky/config'
+import isEqual from 'lodash/isEqual.js'
+import type { ModuleFilterOption } from '@peeky/config'
 import { slash } from '@peeky/utils'
 import { moduleCache } from './module-cache.js'
 import { mockedModules } from './mocked-files.js'
-import { createPeekyGlobal } from '../index.js'
+import { createPeekyGlobal } from './peeky-global/index.js'
 
 let viteServer: ViteDevServer
 let initPromise: Promise<void>

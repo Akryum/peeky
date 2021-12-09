@@ -1,9 +1,10 @@
-import sinon from 'sinon'
-import expect from 'expect'
 import type { Context } from '../types'
-import { Register } from './test-register.js'
+import type { Register } from './test-register.js'
 
-export function getGlobals (ctx: Context, register: Register) {
+export async function getGlobals (ctx: Context, register: Register) {
+  const { default: sinon } = await import('sinon')
+  const { default: expect } = await import('expect')
+
   const target = {} as any
   // Global objects
   target.expect = expect

@@ -1,11 +1,12 @@
 import { basename } from 'path'
 import { performance } from 'perf_hooks'
-import sinon from 'sinon'
 import { workerEmit } from '@akryum/workerpool'
 import type { Context, TestSuiteInfo } from '../types'
 import { EventType } from '../types.js'
 
 export async function runTests (ctx: Context) {
+  const { default: sinon } = await import('sinon')
+
   for (const suite of ctx.suites) {
     workerEmit(EventType.SUITE_START, {
       suite: {

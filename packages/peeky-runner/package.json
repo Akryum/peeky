@@ -45,7 +45,7 @@
     "fs-extra": "^10.0.0",
     "fs-monkey": "^1.0.3",
     "happy-dom": "^2.24.4",
-    "lodash-es": "^4.17.21",
+    "lodash": "^4.17.21",
     "memfs": "^3.2.0",
     "pragma": "^1.0.0",
     "reactive-fs": "^0.4.1",
@@ -57,7 +57,7 @@
     "vite": "^2.7.1"
   },
   "devDependencies": {
-    "@types/lodash-es": "^4.17.5",
+    "@types/lodash": "^4.14.178",
     "@types/node": "^14.14.21",
     "@types/shortid": "^0.0.29"
   }

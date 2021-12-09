@@ -1,14 +1,12 @@
+import type { Window } from 'happy-dom'
 import { PeekyConfig, TestEnvironmentBase, InstantiableTestEnvironmentClass } from '@peeky/config'
-import { Awaitable } from '@peeky/utils'
-import { Window } from 'happy-dom'
-import { KEYS } from './dom-keys.js'
 
 export class NodeEnvironment extends TestEnvironmentBase {
-  create (): Awaitable<void> {
+  create () {
     // do nothing
   }
 
-  destroy (): Awaitable<void> {
+  destroy () {
     // do nothing
   }
 }
@@ -17,7 +15,9 @@ export class DomEnvironment extends TestEnvironmentBase {
   window: Window
   globalKeys: string[]
 
-  create (): Awaitable<void> {
+  async create () {
+    const { Window } = await import('happy-dom')
+    const { KEYS } = await import('./dom-keys.js')
     this.window = new Window()
 
     this.globalKeys = KEYS.concat(Object.getOwnPropertyNames(this.window))
@@ -29,7 +29,7 @@ export class DomEnvironment extends TestEnvironmentBase {
     }
   }
 
-  destroy (): Awaitable<void> {
+  destroy () {
     this.globalKeys.forEach(key => delete global[key])
     this.globalKeys.length = 0
     this.window.happyDOM.cancelAsync()
