@@ -1,3 +1,35 @@
+# [0.8.0](https://github.com/Akryum/peeky/compare/v0.7.3...v0.8.0) (2021-12-09)
+
+
+### Bug Fixes
+
+* **config:** merge buildInclude array ([4529125](https://github.com/Akryum/peeky/commit/4529125aeb812ccc07caf137624940d43497185b))
+* return circular ref if in cache ([ceaaa61](https://github.com/Akryum/peeky/commit/ceaaa61945540c421ef0218c85ee4dd8cd396678))
+
+
+### Features
+
+* buildInclude/buildExclude improve filter if just a module name ([45810a6](https://github.com/Akryum/peeky/commit/45810a6faacfb41c193085049a6d7b0129dc9044))
+* changed the run all time stats ([2be3f96](https://github.com/Akryum/peeky/commit/2be3f9643fc15ebc32385b5418ad247d1930a265))
+* **cli:** lazy load command modules, moved to sade ([40aa207](https://github.com/Akryum/peeky/commit/40aa2074991bece5308676eb722c11948cc21ba8))
+* remove anymatch from shouldExternalize ([53bc14a](https://github.com/Akryum/peeky/commit/53bc14a060dfbe2d8b8d60c55bf8db92748e076a))
+* remove buildDuration stat ([0dda172](https://github.com/Akryum/peeky/commit/0dda1724b16d26fee41937e0412f2ea5041b66b4))
+* **server:** reuse workers ([ac57eba](https://github.com/Akryum/peeky/commit/ac57eba8d90c0b3bb178cac03c72e1c76a5080d9))
+
+
+### Performance Improvements
+
+* lazy load more modules ([49ecb11](https://github.com/Akryum/peeky/commit/49ecb11c36824fc2ba4440b9b25a0b0fb7260146))
+
+
+### BREAKING CHANGES
+
+* buildInclude and buildExclude no longer accept file globs, use RegExp or function instead
+
+Improve performance by not loading anymatch in worker
+
+
+
 ## [0.7.3](https://github.com/Akryum/peeky/compare/v0.7.2...v0.7.3) (2021-12-08)
 
 
