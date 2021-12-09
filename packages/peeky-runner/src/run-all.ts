@@ -4,9 +4,9 @@ import chalk from 'chalk'
 import { createReactiveFileSystem } from 'reactive-fs'
 import { PeekyConfig } from '@peeky/config'
 import { formatDurationToString } from '@peeky/utils'
-import { setupRunner } from '../runner.js'
-import { getStats } from '../stats.js'
-import { computeCoveredLines, getEmptyCoverageFromFiles, mergeCoverage } from './coverage.js'
+import { setupRunner } from './runner.js'
+import { getStats } from './stats.js'
+import { computeCoveredLines, getEmptyCoverageFromFiles, mergeCoverage } from './runtime/coverage.js'
 
 export async function runAllTests (config: PeekyConfig) {
   const fsTime = performance.now()
