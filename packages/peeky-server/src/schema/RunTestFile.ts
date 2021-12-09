@@ -25,7 +25,6 @@ export const RunTestFile = objectType({
       type: Status,
     })
     t.float('duration')
-    t.float('buildDuration')
     t.nonNull.list.field('suites', {
       type: nonNull(TestSuite),
       resolve: (parent) => testSuites.filter(s => s.runTestFile === parent),
@@ -85,7 +84,6 @@ export interface RunTestFileData {
   testFile: TestFileData
   status: StatusEnum
   duration: number
-  buildDuration: number
   error: RunTestFileErrorData
 }
 

@@ -179,7 +179,6 @@ export async function createRun (ctx: Context, options: CreateRunOptions) {
     testFile: f,
     status: 'in_progress',
     duration: null,
-    buildDuration: null,
     error: null,
   }))
 

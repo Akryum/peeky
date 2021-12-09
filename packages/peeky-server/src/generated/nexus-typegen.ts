@@ -120,7 +120,6 @@ export interface NexusGenFieldTypes {
     title: string; // String!
   }
   RunTestFile: { // field return type
-    buildDuration: number | null; // Float
     duration: number | null; // Float
     error: NexusGenRootTypes['RunTestFileError'] | null; // RunTestFileError
     id: string; // ID!
@@ -217,7 +216,6 @@ export interface NexusGenFieldTypeNames {
     title: 'String'
   }
   RunTestFile: { // field return type name
-    buildDuration: 'Float'
     duration: 'Float'
     error: 'RunTestFileError'
     id: 'ID'

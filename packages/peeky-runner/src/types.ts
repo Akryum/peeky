@@ -62,12 +62,6 @@ export interface Test {
 }
 
 export enum EventType {
-  BUILDING = 'test-file:building',
-  BUILD_COMPLETED = 'test-file:build-completed',
-  BUILD_FAILED = 'test-file:build-failed',
-  CACHE_LOAD_FAILED = 'test-file:cache-load-failed',
-  CACHE_SAVE_SUCCESS = 'test-file:cache-save-success',
-  CACHE_SAVE_FAILED = 'test-file:cache-save-failed',
   SUITE_START = 'suite:start',
   SUITE_COMPLETED = 'suite:completed',
   TEST_START = 'test:start',

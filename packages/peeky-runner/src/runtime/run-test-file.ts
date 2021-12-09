@@ -35,10 +35,6 @@ export async function runTestFile (options: RunTestFileOptions) {
     mockedModules.clear()
 
     // Build
-    const buildTime = performance.now()
-    workerEmit(EventType.BUILDING, {
-      testFilePath: ctx.options.entry,
-    })
     await initViteServer({
       configFile: options.config.viteConfigFile,
       defaultConfig: {},
@@ -46,10 +42,6 @@ export async function runTestFile (options: RunTestFileOptions) {
       userInlineConfig: options.config.vite,
       exclude: options.config.buildExclude,
       include: options.config.buildInclude,
-    })
-    workerEmit(EventType.BUILD_COMPLETED, {
-      testFilePath: ctx.options.entry,
-      duration: performance.now() - buildTime,
     })
 
     // Globals

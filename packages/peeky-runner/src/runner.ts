@@ -41,13 +41,7 @@ export async function setupRunner (options: RunnerOptions) {
     const suiteMap: { [id: string]: TestSuiteInfo } = {}
     return pool.exec('runTestFile', [options], {
       on: (eventType, payload) => {
-        if (eventType === EventType.BUILD_FAILED) {
-          const { error } = payload
-          consola.error(`Test build failed: ${error.stack ?? error.message}`)
-        } else if (eventType === EventType.BUILD_COMPLETED) {
-          // const { testFilePath, duration } = payload
-          // consola.info(`Built ${relative(ctx.options.config.targetDirectory, testFilePath)} in ${formatDurationToString(duration)}`)
-        } else if (eventType === EventType.SUITE_START) {
+        if (eventType === EventType.SUITE_START) {
           const suite: TestSuiteInfo = payload.suite
           // consola.log(chalk.blue(`START ${suite.title}`))
           suiteMap[suite.id] = suite
