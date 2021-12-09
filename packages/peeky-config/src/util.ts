@@ -1,6 +1,8 @@
 import { isObject } from '@peeky/utils'
 
-const mergedArrays: string[] = []
+const mergedArrays: string[] = [
+  'buildInclude',
+]
 
 export function mergeConfig<T extends (Record<string, any>) = Record<string, any>> (a: T, b: T): T {
   const merged: T = { ...a }
