@@ -107,30 +107,6 @@ export async function executeWithVite (file: string, executionContext: Record<st
   }
 }
 
-export function getFileDependencies (id: string, entryFiles: string[], result = new Set<string>(), seen = new Set<string>()): Set<string> {
-  if (seen.has(id) || result.has(id)) {
-    return result
-  }
-
-  seen.add(id)
-  if (entryFiles.includes(id)) {
-    result.add(id)
-    return result
-  }
-
-  const mod = viteServer.moduleGraph.getModuleById(id)
-
-  if (mod) {
-    mod.importers.forEach((i) => {
-      if (i.id) {
-        getFileDependencies(i.id, entryFiles, result, seen)
-      }
-    })
-  }
-
-  return result
-}
-
 /**
  * Can return a cached request
  * @param rawId
