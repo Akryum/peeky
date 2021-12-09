@@ -171,10 +171,15 @@ async function rawRequest (id: string, realPath: string, callstack: string[], de
   callstack = [...callstack, id]
   const request = async (dep: string) => {
     if (callstack.includes(dep)) {
-      throw new Error(`${chalk.red('Circular dependency detected')}\nStack:\n${[...callstack, dep].reverse().map((i) => {
-        const path = relative(viteServer.config.root, toFilePath(normalizeId(i), root))
-        return chalk.dim(' -> ') + (i === dep ? chalk.yellow(path) : path)
-      }).join('\n')}\n`)
+      const cacheKey = toFilePath(dep, root)
+      if (!moduleCache.has(cacheKey)) {
+        throw new Error(`${chalk.red('Circular dependency detected')}\nStack:\n${[...callstack, dep].reverse().map((i) => {
+          const path = relative(viteServer.config.root, toFilePath(normalizeId(i), root))
+          return chalk.dim(' -> ') + (i === dep ? chalk.yellow(path) : path)
+        }).join('\n')}\n`)
+      } else {
+        return (await moduleCache.get(cacheKey)).exports
+      }
     }
     return cachedRequest(dep, callstack, deps, executionContext, root)
   }
