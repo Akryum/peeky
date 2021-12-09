@@ -60,27 +60,29 @@ importers:
       '@peeky/eslint-plugin': ^0.7.3
       '@peeky/runner': ^0.7.3
       '@peeky/server': ^0.7.3
-      '@types/lodash-es': ^4.17.5
+      '@types/lodash': ^4.14.178
       '@types/node': ^14.14.21
-      commander: ^7.0.0
+      '@types/sade': ^1.7.3
       consola: ^2.15.0
-      lodash-es: ^4.17.21
+      lodash: ^4.17.21
       open: ^7.3.1
       portfinder: ^1.0.28
+      sade: ^1.7.4
       typescript: ^4.1.3
     dependencies:
       '@peeky/config': link:../peeky-config
       '@peeky/eslint-plugin': link:../peeky-eslint-plugin
       '@peeky/runner': link:../peeky-runner
       '@peeky/server': link:../peeky-server
-      commander: 7.2.0
       consola: 2.15.3
-      lodash-es: 4.17.21
+      lodash: 4.17.21
       open: 7.4.2
       portfinder: 1.0.28
+      sade: 1.7.4
     devDependencies:
-      '@types/lodash-es': 4.17.5
+      '@types/lodash': 4.14.178
       '@types/node': 14.18.0
+      '@types/sade': 1.7.3
       typescript: 4.5.2
 
   packages/peeky-client:
@@ -168,7 +170,7 @@ importers:
       '@akryum/workerpool': ^6.0.5-alpha.2
       '@peeky/config': ^0.7.3
       '@peeky/utils': ^0.7.3
-      '@types/lodash-es': ^4.17.5
+      '@types/lodash': ^4.14.178
       '@types/node': ^14.14.21
       '@types/shortid': ^0.0.29
       '@types/sinon': ^9.0.10
@@ -183,7 +185,7 @@ importers:
       fs-extra: ^10.0.0
       fs-monkey: ^1.0.3
       happy-dom: ^2.24.4
-      lodash-es: ^4.17.21
+      lodash: ^4.17.21
       memfs: ^3.2.0
       pragma: ^1.0.0
       reactive-fs: ^0.4.1
@@ -209,7 +211,7 @@ importers:
       fs-extra: 10.0.0
       fs-monkey: 1.0.3
       happy-dom: 2.24.4
-      lodash-es: 4.17.21
+      lodash: 4.17.21
       memfs: 3.4.0
       pragma: 1.0.0
       reactive-fs: 0.4.1
@@ -220,7 +222,7 @@ importers:
       typescript: 4.5.2
       vite: 2.7.1
     devDependencies:
-      '@types/lodash-es': 4.17.5
+      '@types/lodash': 4.14.178
       '@types/node': 14.18.0
       '@types/shortid': 0.0.29
 
@@ -1066,14 +1068,8 @@ packages:
       '@types/node': 14.18.0
     dev: false
 
-  /@types/lodash-es/4.17.5:
-    resolution: {integrity: sha512-SHBoI8/0aoMQWAgUHMQ599VM6ZiSKg8sh/0cFqqlQQMyY9uEplc0ULU5yQNzcvdR4ZKa0ey8+vFmahuRbOCT1A==}
-    dependencies:
-      '@types/lodash': 4.14.177
-    dev: true
-
-  /@types/lodash/4.14.177:
-    resolution: {integrity: sha512-0fDwydE2clKe9MNfvXHBHF9WEahRuj+msTuQqOmAApNORFvhMYZKNGGJdCzuhheVjMps/ti0Ak/iJPACMaevvw==}
+  /@types/lodash/4.14.178:
+    resolution: {integrity: sha512-0d5Wd09ItQWH1qFbEyQ7oTQ3GZrMfth5JkbN3EvTKLXcHLRDSXeLnlvlOn0wvxVIwK5o2M8JzP/OWz7T3NRsbw==}
     dev: true
 
   /@types/long/4.0.1:
@@ -1092,6 +1088,10 @@ packages:
 
   /@types/minimist/1.2.2:
     resolution: {integrity: sha512-jhuKLIRrhvCPLqwPcx6INqmKeiA5EWrsCOPhrlFSrbrmU4ZMPjj5Ul/oLCMDO98XRUIwVm78xICz4EPCektzeQ==}
+    dev: true
+
+  /@types/mri/1.1.1:
+    resolution: {integrity: sha512-nJOuiTlsvmClSr3+a/trTSx4DTuY/VURsWGKSf/eeavh0LRMqdsK60ti0TlwM5iHiGOK3/Ibkxsbr7i9rzGreA==}
     dev: true
 
   /@types/node/10.17.60:
@@ -1120,6 +1120,12 @@ packages:
   /@types/range-parser/1.2.4:
     resolution: {integrity: sha512-EEhsLsD6UsDM1yFhAvy0Cjr6VwmpMWqFBCb9w07wVugF7w9nfajxLuVmngTIpgS6svCnm6Vaw+MZhoDCKnOfsw==}
     dev: false
+
+  /@types/sade/1.7.3:
+    resolution: {integrity: sha512-OFZ2ZotV3+kA3utubCtPDDM8PTdqmpgmEM+hqxyqzfX2ACpUtTnFUxDCSJIJ/249JbIyfjKWyO0FFtIlrLS9YA==}
+    dependencies:
+      '@types/mri': 1.1.1
+    dev: true
 
   /@types/serve-static/1.13.10:
     resolution: {integrity: sha512-nCkHGI4w7ZgAdNkrEu0bv+4xNV/XDqW+DydknebMOQwkpDGx8G+HTlj7R7ABI8i8nKxVw0wtKPi1D+lPOkh4YQ==}
@@ -2381,11 +2387,6 @@ packages:
   /commander/6.2.1:
     resolution: {integrity: sha512-U7VdrJFnJgo4xjrHpTzu0yrHPGImdsmD95ZlgYSEajAn2JKzDhDTPG9kBTefmObL2w/ngeZnilk+OV9CG3d7UA==}
     engines: {node: '>= 6'}
-
-  /commander/7.2.0:
-    resolution: {integrity: sha512-QrWXB+ZQSVPmIWIhtEO9H+gwHaMGYiF5ChvoJ+K9ZGHG/sVsa6yiesAD1GC/x46sET00Xlwo1u49RVVVzvcSkw==}
-    engines: {node: '>= 10'}
-    dev: false
 
   /commander/8.3.0:
     resolution: {integrity: sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww==}
@@ -4595,6 +4596,7 @@ packages:
 
   /lodash-es/4.17.21:
     resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
+    dev: true
 
   /lodash.get/4.4.2:
     resolution: {integrity: sha1-LRd/ZS+jHpObRDjVNBSZ36OCXpk=}
@@ -4837,6 +4839,11 @@ packages:
 
   /monaco-editor/0.26.1:
     resolution: {integrity: sha512-mm45nUrBDk0DgZKgbD7+bhDOtcAFNGPJJRAdS6Su1kTGl6XEgC7U3xOmDUW/0RrLf+jlvCGaqLvD4p2VjwuwwQ==}
+    dev: false
+
+  /mri/1.2.0:
+    resolution: {integrity: sha512-tzzskb3bG8LvYGFF/mDTpq3jpI6Q9wc3LEmBaghu+DdCssd1FakN7Bc0hVNmEyGq1bq3RgfkCb3cmQLpNPOroA==}
+    engines: {node: '>=4'}
     dev: false
 
   /ms/2.0.0:
@@ -5764,6 +5771,13 @@ packages:
     resolution: {integrity: sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==}
     dependencies:
       queue-microtask: 1.2.3
+
+  /sade/1.7.4:
+    resolution: {integrity: sha512-y5yauMD93rX840MwUJr7C1ysLFBgMspsdTo4UVrDg3fXDvtwOyIqykhVAAm6fk/3au77773itJStObgK+LKaiA==}
+    engines: {node: '>= 6'}
+    dependencies:
+      mri: 1.2.0
+    dev: false
 
   /safe-buffer/5.1.2:
     resolution: {integrity: sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==}
