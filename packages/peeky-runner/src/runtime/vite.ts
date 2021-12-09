@@ -1,3 +1,7 @@
+/**
+ * Some code adapted from vitest https://github.com/antfu-sponsors/vitest by @antfu and @patak
+ */
+
 /* eslint-disable @typescript-eslint/no-empty-function */
 
 import { resolve, dirname, relative } from 'path'
@@ -31,6 +35,11 @@ let currentOptions: InitViteServerOptions
 let lastOptions: InitViteServerOptions
 let initId: string
 
+/**
+ * Create a Vite server or reuse the existing one if options are the same
+ * @param options
+ * @returns
+ */
 export async function initViteServer (options: InitViteServerOptions) {
   if (initPromise && isEqual(lastOptions, options)) return initPromise
 
@@ -81,6 +90,9 @@ export interface ViteExecutionResult {
   deps: string[]
 }
 
+/**
+ * Stubs modules (internal, do not clear)
+ */
 export const stubbedRequests: Record<string, any> = {
   '/@vite/client': {
     injectQuery: (id: string) => id,
@@ -111,7 +123,9 @@ export async function executeWithVite (file: string, executionContext: Record<st
  * Can return a cached request
  * @param rawId
  * @param callstack To detect circular dependencies
- * @returns
+ * @param deps Dependency graph
+ * @param executionContext Globals to pass to the execution VM
+ * @returns Executed module exports
  */
 function cachedRequest (rawId: string, callstack: string[], deps: Set<string>, executionContext: Record<string, any>, root: string): Promise<any> {
   if (builtinModules.includes(rawId)) {
@@ -142,6 +156,16 @@ function cachedRequest (rawId: string, callstack: string[], deps: Set<string>, e
   return promise
 }
 
+/**
+ * Transform a module with vite then execute if in a VM
+ * @param id
+ * @param realPath
+ * @param callstack To detect circular dependencies
+ * @param deps Dependency graph
+ * @param executionContext Globals to pass to the VM
+ * @param root Root directory path
+ * @returns Executed module exports
+ */
 async function rawRequest (id: string, realPath: string, callstack: string[], deps: Set<string>, executionContext: Record<string, any>, root: string): Promise<any> {
   // Circular dependencies detection
   callstack = [...callstack, id]
@@ -190,6 +214,11 @@ async function rawRequest (id: string, realPath: string, callstack: string[], de
   return exports
 }
 
+/**
+ * Normalize Vite module id
+ * @param id
+ * @returns
+ */
 function normalizeId (id: string): string {
   // Virtual modules start with `\0`
   if (id && id.startsWith('/@id/__x00__')) { id = `\0${id.slice('/@id/__x00__'.length)}` }
@@ -198,6 +227,12 @@ function normalizeId (id: string): string {
   return id
 }
 
+/**
+ * Convert a normalized vite id to an absolute file system path
+ * @param id Normalized vite id
+ * @param root Root directory
+ * @returns
+ */
 function toFilePath (id: string, root: string): string {
   let absolute = slash(id).startsWith('/@fs/')
     ? id.slice(4)
@@ -226,6 +261,11 @@ function exportAll (exports: any, sourceModule: any) {
   }
 }
 
+/**
+ * Check if a module should not be processed by Vite
+ * @param filePath
+ * @returns
+ */
 function shouldExternalize (filePath: string): boolean {
   if (typeof currentOptions.include === 'function') {
     if (currentOptions.include(filePath)) {
@@ -253,6 +293,11 @@ function matchModuleFilter (filters: (string | RegExp) | (string | RegExp)[], fi
   })
 }
 
+/**
+ * Select the correct vite mode to transform a module
+ * @param id Module id
+ * @returns Transformed code result object
+ */
 async function transform (id: string) {
   if (id.match(/\.(?:[cm]?[jt]sx?|json)$/)) {
     return await viteServer.transformRequest(id, { ssr: true })
