@@ -49,17 +49,17 @@ describe('typescript test suite', () => {
   })
 
   it('wait for async op', async () => {
-    await wait(1000)
+    // await wait(1000)
     expect(0).toBe(0)
   })
 
   it('wait for async op 2', async () => {
-    await wait(1000)
+    // await wait(1000)
     expect(0).toBe(0)
   })
 
   it('wait for async op 3', async () => {
-    await wait(1000)
+    // await wait(1000)
     expect(0).toBe(0)
     // doesntWork()
   })
