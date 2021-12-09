@@ -82,7 +82,11 @@ export async function setupRunner (options: RunnerOptions) {
     eventHandlers.push(handler)
   }
 
-  async function runTestFile (relativePath: string) {
+  function clearEventListeners () {
+    eventHandlers.length = 0
+  }
+
+  async function runTestFile (relativePath: string, clearDeps: string[] = []) {
     const file = testFiles.files[relativePath]
     if (file) {
       const result = await runTestFileWorker({
@@ -92,6 +96,7 @@ export async function setupRunner (options: RunnerOptions) {
           root: ctx.options.config.targetDirectory,
           ignored: [...ctx.options.config.match ?? [], ...ctx.options.config.ignored ?? []],
         },
+        clearDeps,
       })
 
       // Patch filePath
@@ -106,7 +111,7 @@ export async function setupRunner (options: RunnerOptions) {
   async function close () {
     await testFiles.destroy()
     await pool.terminate()
-    eventHandlers.length = 0
+    clearEventListeners()
   }
 
   return {
@@ -114,8 +119,11 @@ export async function setupRunner (options: RunnerOptions) {
     runTestFile,
     close,
     onEvent,
+    clearEventListeners,
     pool,
   }
 }
 
-export type RunTestFileResult = Awaited<ReturnType<Awaited<ReturnType<typeof setupRunner>>['runTestFile']>>
+export type Runner = Awaited<ReturnType<typeof setupRunner>>
+
+export type RunTestFileResult = Awaited<ReturnType<Runner['runTestFile']>>

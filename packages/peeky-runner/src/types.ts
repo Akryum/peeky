@@ -4,6 +4,7 @@ export interface RunTestFileOptions {
   entry: string
   config: PeekyConfig
   coverage: CoverageOptions
+  clearDeps?: string[]
 }
 
 export interface CoverageOptions {

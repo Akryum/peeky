@@ -15,12 +15,12 @@ import { isEqual } from 'lodash-es'
 import match from 'anymatch'
 import { ModuleFilterOption } from '@peeky/config'
 import { slash } from '@peeky/utils'
+import { moduleCache } from './module-cache.js'
 import { mockedModules } from './mocked-files.js'
 import { createPeekyGlobal } from '../index.js'
 
 let viteServer: ViteDevServer
 let initPromise: Promise<void>
-const moduleCache: Map<string, Promise<ViteExecutionResult>> = new Map()
 
 export interface InitViteServerOptions {
   defaultConfig: InlineConfig
@@ -147,12 +147,12 @@ function cachedRequest (rawId: string, callstack: string[], deps: Set<string>, e
     return import(realPath)
   }
 
-  if (moduleCache.has(id)) {
-    return moduleCache.get(id)
+  if (moduleCache.has(realPath)) {
+    return moduleCache.get(realPath)
   }
 
-  const promise = rawRequest(id, realPath, callstack, deps, executionContext, root)
-  moduleCache.set(id, promise)
+  const promise = rawRequest(realPath, realPath, callstack, deps, executionContext, root)
+  moduleCache.set(realPath, promise)
   return promise
 }
 
@@ -171,7 +171,7 @@ async function rawRequest (id: string, realPath: string, callstack: string[], de
   callstack = [...callstack, id]
   const request = async (dep: string) => {
     if (callstack.includes(dep)) {
-      const cacheKey = toFilePath(dep, root)
+      const cacheKey = toFilePath(normalizeId(dep), root)
       if (!moduleCache.has(cacheKey)) {
         throw new Error(`${chalk.red('Circular dependency detected')}\nStack:\n${[...callstack, dep].reverse().map((i) => {
           const path = relative(viteServer.config.root, toFilePath(normalizeId(i), root))

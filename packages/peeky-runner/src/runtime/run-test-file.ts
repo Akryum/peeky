@@ -16,10 +16,12 @@ import { getCoverage } from './coverage.js'
 import { mockedModules } from './mocked-files.js'
 import { getTestEnvironment, NodeEnvironment } from './environment.js'
 import { createMockedFileSystem } from './fs.js'
+import { moduleCache } from './module-cache.js'
 
 export async function runTestFile (options: RunTestFileOptions) {
   try {
     const time = performance.now()
+    options.clearDeps.forEach(file => moduleCache.delete(file))
 
     const source = await fs.readFile(options.entry, { encoding: 'utf8' })
 

@@ -3,7 +3,7 @@ import { fileURLToPath } from 'url'
 import { performance } from 'perf_hooks'
 import { arg, extendType, idArg, inputObjectType, nonNull, objectType } from 'nexus'
 import shortid from 'shortid'
-import { setupRunner, getStats, EventType } from '@peeky/runner'
+import { setupRunner, getStats, EventType, Runner } from '@peeky/runner'
 import nameGenerator from 'project-name-generator'
 import randomEmoji from 'random-emoji'
 import objectInspect from 'object-inspect'
@@ -223,6 +223,8 @@ export async function updateRun (ctx: Context, id: string, data: Partial<Omit<Ru
   return run
 }
 
+let runner: Runner
+
 export async function startRun (ctx: Context, id: string) {
   const run = await getRun(ctx, id)
 
@@ -232,19 +234,16 @@ export async function startRun (ctx: Context, id: string) {
   }))
 
   const time = performance.now()
-  const runner = await setupRunner({
-    config: ctx.config,
-    testFiles: ctx.reactiveFs,
-  })
+  if (!runner) {
+    runner = await setupRunner({
+      config: ctx.config,
+      testFiles: ctx.reactiveFs,
+    })
+  } else {
+    runner.clearEventListeners()
+  }
   runner.onEvent(async (eventType, payload) => {
-    if (eventType === EventType.BUILD_COMPLETED) {
-      const { testFilePath, duration } = payload
-      const testFileId = relative(ctx.config.targetDirectory, testFilePath)
-      const runTestFileId = run.runTestFiles.find(rf => rf.testFile.id === testFileId)?.id
-      updateRunTestFile(ctx, run.id, runTestFileId, {
-        buildDuration: duration,
-      })
-    } else if (eventType === EventType.SUITE_START) {
+    if (eventType === EventType.SUITE_START) {
       const { suite } = payload
       const testFileId = relative(ctx.config.targetDirectory, suite.filePath)
       createTestSuite(ctx, {
@@ -298,7 +297,7 @@ export async function startRun (ctx: Context, id: string) {
 
     const results = await Promise.all(run.runTestFiles.map(async f => {
       try {
-        const result = await runner.runTestFile(f.testFile.relativePath)
+        const result = await runner.runTestFile(f.testFile.relativePath, f.testFile.modules)
         const stats = getStats([result])
         const status: StatusEnum = !stats.testCount ? 'skipped' : stats.errorTestCount > 0 ? 'error' : 'success'
         await updateTestFile(ctx, f.testFile.id, {
