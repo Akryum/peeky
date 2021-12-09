@@ -15,7 +15,6 @@ export async function runAllTests (config: PeekyConfig) {
     glob: config.match,
     ignored: config.ignored,
   })
-  consola.info(`FS initialized in ${formatDurationToString(performance.now() - fsTime)}`)
 
   const runner = await setupRunner({
     config,
@@ -24,10 +23,11 @@ export async function runAllTests (config: PeekyConfig) {
 
   const fileList = runner.testFiles.list()
 
-  consola.info(`Found ${fileList.length} test files.`)
+  consola.info(`Found ${fileList.length} test files in ${formatDurationToString(performance.now() - fsTime)}.`)
 
   const time = performance.now()
   const result = await Promise.all(fileList.map(f => runner.runTestFile(f)))
+  const endTime = performance.now()
 
   const stats = getStats(result)
   const {
@@ -68,11 +68,11 @@ export async function runAllTests (config: PeekyConfig) {
   mergedCoverage = computeCoveredLines(mergedCoverage)
   const uncoveredFiles = mergedCoverage.filter(c => c.linesCovered === 0)
   if (uncoveredFiles.length > 0) {
-    console.log(chalk.red(`No coverage:\n${uncoveredFiles.map(c => `  ${c.path}`).join('\n')}`))
+    consola.log(chalk.red(`No coverage:\n${uncoveredFiles.map(c => `  ${c.path}`).join('\n')}`))
   }
   const partiallyCoveredFiles = mergedCoverage.filter(c => c.linesCovered > 0 && c.linesCovered < c.linesTotal)
   if (partiallyCoveredFiles.length > 0) {
-    console.log(chalk.yellow(`Partial coverage:\n${
+    consola.log(chalk.yellow(`Partial coverage:\n${
       partiallyCoveredFiles.map(c => `  ${c.path} | ${c.linesCovered}/${c.linesTotal} lines (${
         Math.round(c.linesCovered / c.linesTotal * 10000) / 100
       }%)`).join('\n')
@@ -81,7 +81,7 @@ export async function runAllTests (config: PeekyConfig) {
   const coveredFilesCount = mergedCoverage.length - uncoveredFiles.length
   const totalLines = mergedCoverage.reduce((a, c) => a + c.linesTotal, 0)
   const coveredLines = mergedCoverage.reduce((a, c) => a + c.linesCovered, 0)
-  console.log(chalk[coveredLines === totalLines ? 'green' : 'yellow'].bold(`Coverage: ${
+  consola.log(chalk[coveredLines === totalLines ? 'green' : 'yellow'].bold(`Coverage: ${
     chalk[coveredFilesCount === mergedCoverage.length ? 'green' : 'yellow'](`${coveredFilesCount}/${mergedCoverage.length} files (${
       Math.round(coveredFilesCount / mergedCoverage.length * 10000) / 100
     }%)`)
@@ -91,7 +91,7 @@ export async function runAllTests (config: PeekyConfig) {
 
   // Summary
 
-  consola.info(`Ran ${fileList.length} tests files (${formatDurationToString(performance.now() - time)}, using ${runner.pool.stats().totalWorkers} parallel workers)`)
+  consola.info(`Ran ${fileList.length} tests files (${formatDurationToString(endTime - time)}, using ${runner.pool.stats().totalWorkers} parallel workers)`)
   consola.log(chalk[errorSuiteCount ? 'red' : 'green'].bold(`Suites : ${suiteCount - errorSuiteCount} / ${suiteCount}\nTests  : ${testCount - errorTestCount} / ${testCount}`))
   consola.log(chalk[errorSuiteCount ? 'red' : 'green'].bold(`Errors : ${errorTestCount}`))
 
