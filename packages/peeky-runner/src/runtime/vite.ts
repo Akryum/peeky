@@ -291,14 +291,9 @@ function matchModuleFilter (filters: (string | RegExp) | (string | RegExp)[], fi
   const filtersList = Array.isArray(filters) ? filters : [filters]
   return filtersList.some(filter => {
     if (typeof filter === 'string') {
-      if (!filter.includes('*') && !filter.startsWith('.')) {
-        // Probably a module name
-        filter = `**/node_modules/${filter}`
-      }
-      return match(filter, filePath)
-    } else if (filter instanceof RegExp) {
-      return filter.test(filePath)
+      filter = new RegExp(`node_modules/${escapeRegExp(filter)}`)
     }
+    return filter.test(filePath)
   })
 }
 
@@ -319,4 +314,8 @@ async function transform (id: string) {
     }
     return await viteServer.ssrTransform(result.code, result.map, id)
   }
+}
+
+function escapeRegExp (text: string) {
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
 }
