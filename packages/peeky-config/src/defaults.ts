@@ -13,7 +13,7 @@ export const defaultPeekyConfig: () => PeekyConfig = () => ({
   emptySuiteError: false,
   collectCoverageMatch: ['(src|lib)/**/*.(ts|js)'],
   buildExclude: [/node_modules/],
-  buildInclude: [/node_modules\/(vue|@vue|diff)/],
+  buildInclude: [/node_modules\/(vue|@vue|diff|tslib)/],
   runtimeEnv: 'node',
   mockFs: true,
 })
