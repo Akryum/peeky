@@ -187,6 +187,7 @@ importers:
       happy-dom: ^2.24.4
       lodash: ^4.17.21
       memfs: ^3.2.0
+      mlly: ^0.3.15
       pragma: ^1.0.0
       reactive-fs: ^0.4.1
       shortid: ^2.2.16
@@ -213,6 +214,7 @@ importers:
       happy-dom: 2.24.4
       lodash: 4.17.21
       memfs: 3.4.0
+      mlly: 0.3.15
       pragma: 1.0.0
       reactive-fs: 0.4.1
       shortid: 2.2.16
@@ -4825,6 +4827,10 @@ packages:
     hasBin: true
     dependencies:
       minimist: 1.2.5
+    dev: false
+
+  /mlly/0.3.15:
+    resolution: {integrity: sha512-3btbOX6XaoIMXRhLu0T/D9jPRrjJXl4R7Dl+EbpN7BYcQwehmt5UAYrIa2m9D/ywcXIUvDM+OTCON+ShFggndg==}
     dev: false
 
   /modern-normalize/1.1.0:

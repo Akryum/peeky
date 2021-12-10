@@ -12,6 +12,7 @@ import { ViteDevServer, InlineConfig, createServer, mergeConfig } from 'vite'
 import chalk from 'chalk'
 import shortid from 'shortid'
 import isEqual from 'lodash/isEqual.js'
+import { isValidNodeImport } from 'mlly'
 import type { ModuleFilterOption } from '@peeky/config'
 import { slash } from '@peeky/utils'
 import { moduleCache } from './module-cache.js'
@@ -126,7 +127,7 @@ export async function executeWithVite (file: string, executionContext: Record<st
  * @param executionContext Globals to pass to the execution VM
  * @returns Executed module exports
  */
-function cachedRequest (rawId: string, callstack: string[], deps: Set<string>, executionContext: Record<string, any>, root: string): Promise<any> {
+async function cachedRequest (rawId: string, callstack: string[], deps: Set<string>, executionContext: Record<string, any>, root: string): Promise<any> {
   if (builtinModules.includes(rawId)) {
     return import(rawId)
   }
@@ -142,12 +143,12 @@ function cachedRequest (rawId: string, callstack: string[], deps: Set<string>, e
     return Promise.resolve(stubbedRequests[id])
   }
 
-  if (shouldExternalize(realPath)) {
-    return import(realPath)
-  }
-
   if (moduleCache.has(realPath)) {
     return moduleCache.get(realPath)
+  }
+
+  if (shouldExternalize(realPath) && (await isValidNodeImport(realPath))) {
+    return import(realPath)
   }
 
   const promise = rawRequest(realPath, realPath, callstack, deps, executionContext, root)
