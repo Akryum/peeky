@@ -2,11 +2,9 @@ import type { UserConfig as ViteConfig } from 'vite'
 import { Awaitable } from '@peeky/utils'
 
 export type ModuleFilter = string | RegExp | ((absolutePath: string) => boolean)
+export type ModuleFilterOption<T = ModuleFilter> = T[] | T
 
-export type ModuleFilterOption =
-  | (ModuleFilter)[]
-  | ModuleFilter
-
+export type SerializableRuntimeEnv = 'node' | 'dom'
 export interface PeekyConfig {
   targetDirectory?: string
   match?: string | string[]
@@ -18,13 +16,17 @@ export interface PeekyConfig {
   maxWorkers?: number
   emptySuiteError?: boolean
   collectCoverageMatch?: string | string[]
-  runtimeEnv?: 'node' | 'dom' | typeof TestEnvironmentBase
+  runtimeEnv?: SerializableRuntimeEnv | typeof TestEnvironmentBase
   runtimeAvailableEnvs?: Record<string, typeof TestEnvironmentBase>
   mockFs?: boolean
   buildExclude?: ModuleFilterOption
   buildInclude?: ModuleFilterOption
   vite?: ViteConfig
   viteConfigFile?: string
+}
+
+export type SerializablePeekyConfig = Omit<PeekyConfig, 'runtimeEnv' | 'runtimeAvailableEnvs' | 'buildExclude' | 'buildInclude' | 'vite'> & {
+  runtimeEnv?: SerializableRuntimeEnv
 }
 
 export interface TestEnvironmentContext {

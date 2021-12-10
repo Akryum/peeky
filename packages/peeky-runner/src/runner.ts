@@ -5,7 +5,7 @@ import chalk from 'chalk'
 import workerpool from '@akryum/workerpool'
 import { ReactiveFileSystem } from 'reactive-fs'
 import { Awaited, formatDurationToString } from '@peeky/utils'
-import { PeekyConfig } from '@peeky/config'
+import { SerializablePeekyConfig } from '@peeky/config'
 import type { runTestFile as rawRunTestFile } from './runtime/run-test-file.js'
 import type { RunTestFileOptions, TestSuiteInfo } from './types'
 import { EventType } from './types.js'
@@ -13,7 +13,7 @@ import { EventType } from './types.js'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
 export interface RunnerOptions {
-  config: PeekyConfig
+  config: SerializablePeekyConfig
   testFiles: ReactiveFileSystem
 }
 
@@ -36,6 +36,8 @@ export async function setupRunner (options: RunnerOptions) {
   const { testFiles } = options
 
   const eventHandlers: EventHandler[] = []
+
+  await pool.exec('setupWorker', [])
 
   async function runTestFileWorker (options: RunTestFileOptions): ReturnType<typeof rawRunTestFile> {
     const suiteMap: { [id: string]: TestSuiteInfo } = {}

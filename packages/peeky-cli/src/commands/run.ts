@@ -1,4 +1,4 @@
-import { setupConfigLoader, mergeConfig, PeekyConfig } from '@peeky/config'
+import { setupConfigLoader, mergeConfig, PeekyConfig, toSerializableConfig } from '@peeky/config'
 import { runAllTests } from '@peeky/runner'
 import pick from 'lodash/pick.js'
 import consola from 'consola'
@@ -16,7 +16,7 @@ export async function run (options) {
     ]) as PeekyConfig))
     consola.info('Setup done in', (performance.now() - time).toFixed(2), 'ms')
 
-    const { stats: { errorSuiteCount } } = await runAllTests(finalConfig)
+    const { stats: { errorSuiteCount } } = await runAllTests(toSerializableConfig(finalConfig))
 
     if (errorSuiteCount) {
       const e = new Error('Some tests failed')

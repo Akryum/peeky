@@ -2,13 +2,13 @@ import { performance } from 'perf_hooks'
 import consola from 'consola'
 import chalk from 'chalk'
 import { createReactiveFileSystem } from 'reactive-fs'
-import { PeekyConfig } from '@peeky/config'
+import { SerializablePeekyConfig } from '@peeky/config'
 import { formatDurationToString } from '@peeky/utils'
 import { setupRunner } from './runner.js'
 import { getStats } from './stats.js'
 import { computeCoveredLines, getEmptyCoverageFromFiles, mergeCoverage } from './runtime/coverage.js'
 
-export async function runAllTests (config: PeekyConfig) {
+export async function runAllTests (config: SerializablePeekyConfig) {
   const fsTime = performance.now()
   const testFiles = await createReactiveFileSystem({
     baseDir: config.targetDirectory,

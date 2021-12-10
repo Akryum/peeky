@@ -5,7 +5,7 @@ import { workerEmit } from '@akryum/workerpool'
 import { CoverageInstrumenter } from 'collect-v8-coverage'
 import fs from 'fs-extra'
 import pragma from 'pragma'
-import type { InstantiableTestEnvironmentClass } from '@peeky/config'
+import { InstantiableTestEnvironmentClass, mergeConfig } from '@peeky/config'
 import type { Context, RunTestFileOptions, TestSuiteResult } from '../types'
 import { EventType } from '../types.js'
 import { executeWithVite, initViteServer } from './vite.js'
@@ -17,10 +17,13 @@ import { mockedModules } from './mocked-files.js'
 import { getTestEnvironment, NodeEnvironment } from './environment.js'
 import { createMockedFileSystem } from './fs.js'
 import { moduleCache, sourceMaps } from './module-cache.js'
+import { baseConfig } from './setup.js'
 
 export async function runTestFile (options: RunTestFileOptions) {
   try {
     const time = performance.now()
+    options.config = mergeConfig(baseConfig, options.config)
+
     options.clearDeps.forEach(file => moduleCache.delete(file))
 
     const source = await fs.readFile(options.entry, { encoding: 'utf8' })

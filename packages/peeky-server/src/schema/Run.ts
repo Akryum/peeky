@@ -16,6 +16,7 @@ import { RunTestFileData, updateRunTestFile } from './RunTestFile.js'
 import { getErrorPosition, getSrcFile, formatRunTestFileErrorMessage } from '../util.js'
 import { settings } from './Settings.js'
 import { mightRunOnChangedFiles } from '../watch.js'
+import { toSerializableConfig } from '@peeky/config'
 
 const __filename = fileURLToPath(import.meta.url)
 
@@ -235,7 +236,7 @@ export async function startRun (ctx: Context, id: string) {
   const time = performance.now()
   if (!runner) {
     runner = await setupRunner({
-      config: ctx.config,
+      config: toSerializableConfig(ctx.config),
       testFiles: ctx.reactiveFs,
     })
   } else {
