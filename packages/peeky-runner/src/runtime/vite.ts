@@ -106,17 +106,29 @@ export const stubbedRequests: Record<string, any> = {
   },
 }
 
-export async function executeWithVite (file: string, executionContext: Record<string, any>, root: string): Promise<ViteExecutionResult> {
+export async function executeWithVite (file: string, globals: Record<string, any>, root: string): Promise<ViteExecutionResult> {
   if (!viteServer) {
     throw new Error('Vite server is not initialized, use `initViteServer` first')
   }
   const fileId = `/@fs/${slash(resolve(file))}`
-  const deps = new Set<string>()
-  const exports = await cachedRequest(fileId, [], deps, executionContext, root)
+  const ctx: ExecutionContext = {
+    callstack: [],
+    deps: new Set(),
+    globals,
+    root,
+  }
+  const exports = await cachedRequest(fileId, ctx)
   return {
     exports,
-    deps: Array.from(deps),
+    deps: Array.from(ctx.deps),
   }
+}
+
+interface ExecutionContext {
+  callstack: string[]
+  deps: Set<string>
+  globals: Record<string, any>
+  root: string
 }
 
 /**
@@ -127,13 +139,13 @@ export async function executeWithVite (file: string, executionContext: Record<st
  * @param executionContext Globals to pass to the execution VM
  * @returns Executed module exports
  */
-async function cachedRequest (rawId: string, callstack: string[], deps: Set<string>, executionContext: Record<string, any>, root: string): Promise<any> {
+async function cachedRequest (rawId: string, ctx: ExecutionContext): Promise<any> {
   if (builtinModules.includes(rawId)) {
     return import(rawId)
   }
 
   const id = normalizeId(rawId)
-  const realPath = toFilePath(id, root)
+  const realPath = toFilePath(id, ctx.root)
 
   if (mockedModules.has(realPath)) {
     return Promise.resolve(mockedModules.get(realPath))
@@ -157,7 +169,7 @@ async function cachedRequest (rawId: string, callstack: string[], deps: Set<stri
     throw e
   }
 
-  const promise = rawRequest(realPath, realPath, callstack, deps, executionContext, root)
+  const promise = rawRequest(id, realPath, ctx)
   moduleCache.set(realPath, promise)
   return promise
 }
@@ -172,22 +184,22 @@ async function cachedRequest (rawId: string, callstack: string[], deps: Set<stri
  * @param root Root directory path
  * @returns Executed module exports
  */
-async function rawRequest (id: string, realPath: string, callstack: string[], deps: Set<string>, executionContext: Record<string, any>, root: string): Promise<any> {
+async function rawRequest (id: string, realPath: string, ctx: ExecutionContext): Promise<any> {
   // Circular dependencies detection
-  callstack = [...callstack, id]
+  ctx.callstack = [...ctx.callstack, realPath]
   const request = async (dep: string) => {
-    if (callstack.includes(dep)) {
-      const cacheKey = toFilePath(normalizeId(dep), root)
+    if (ctx.callstack.includes(dep)) {
+      const cacheKey = toFilePath(normalizeId(dep), ctx.root)
       if (!moduleCache.has(cacheKey)) {
-        throw new Error(`${chalk.red('Circular dependency detected')}\nStack:\n${[...callstack, dep].reverse().map((i) => {
-          const path = relative(viteServer.config.root, toFilePath(normalizeId(i), root))
+        throw new Error(`${chalk.red('Circular dependency detected')}\nStack:\n${[...ctx.callstack, dep].reverse().map((i) => {
+          const path = relative(viteServer.config.root, toFilePath(normalizeId(i), ctx.root))
           return chalk.dim(' -> ') + (i === dep ? chalk.yellow(path) : path)
         }).join('\n')}\n`)
       } else {
         return (await moduleCache.get(cacheKey)).exports
       }
     }
-    return cachedRequest(dep, callstack, deps, executionContext, root)
+    return cachedRequest(dep, ctx)
   }
 
   let result
@@ -199,7 +211,7 @@ async function rawRequest (id: string, realPath: string, callstack: string[], de
     }
 
     if (result.deps) {
-      result.deps.forEach(dep => deps.add(toFilePath(normalizeId(dep), root)))
+      result.deps.forEach(dep => ctx.deps.add(toFilePath(normalizeId(dep), ctx.root)))
     }
 
     if (result.map) {
@@ -219,7 +231,7 @@ async function rawRequest (id: string, realPath: string, callstack: string[], de
       __vite_ssr_exports__: exports,
       __vite_ssr_exportAll__: (obj: any) => exportAll(exports, obj),
       __vite_ssr_import_meta__: { url },
-      ...executionContext,
+      ...ctx.globals,
       peeky: createPeekyGlobal({
         filename: realPath,
       }),
