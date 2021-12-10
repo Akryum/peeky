@@ -116,6 +116,7 @@ export async function executeWithVite (file: string, globals: Record<string, any
     deps: new Set(),
     globals,
     root,
+    externalsCache: new Set(),
   }
   const exports = await cachedRequest(fileId, ctx)
   return {
@@ -129,6 +130,7 @@ interface ExecutionContext {
   deps: Set<string>
   globals: Record<string, any>
   root: string
+  externalsCache: Set<string>
 }
 
 /**
@@ -159,9 +161,14 @@ async function cachedRequest (rawId: string, ctx: ExecutionContext): Promise<any
     return moduleCache.get(realPath)
   }
 
+  if (ctx.externalsCache.has(realPath)) {
+    return import(realPath)
+  }
+
   try {
     if (shouldExternalize(realPath) && (await isValidNodeImport(realPath))) {
       const exports = await import(realPath)
+      ctx.externalsCache.add(realPath)
       return exports
     }
   } catch (e) {
