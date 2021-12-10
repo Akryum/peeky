@@ -334,7 +334,7 @@ describe('file system', () => {
 ```
 ## buildExclude
 
-An array of RegExp, module names or function of the form `(absolutePath: string) => boolean` that should not be processed during building. This can improve performance.
+An array of RegExp, module names or functions of the form `(absolutePath: string) => boolean` that should not be processed during building. This can improve performance.
 
 Default value is `[/node_modules/]`.
 
@@ -352,7 +352,7 @@ export default defineConfig({
 
 ## buildInclude
 
-An array of RegExp, module names or function of the form `(absolutePath: string) => boolean` that should be processed during building. This is useful if some packages you use are using ESM format but are not correctly set up to tell Node.js to use ESM. This takes precedence over `buildExclude`.
+An array of RegExp, module names or functions of the form `(absolutePath: string) => boolean` that should be processed during building. This is useful if some packages you use are using ESM format but are not correctly set up to tell Node.js to use ESM. This takes precedence over `buildExclude`.
 
 Default value is `[/node_modules\/(vue|@vue|diff)/]`. It will be merged with your configuration.
 

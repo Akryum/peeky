@@ -6,6 +6,7 @@ import { setupConfigContentLoader } from './fs.js'
 import { transformConfigCode } from './transform.js'
 import { defaultPeekyConfig } from './defaults.js'
 import { mergeConfig } from './util.js'
+import { processConfig } from './process.js'
 
 export interface PeekyConfigLoaderOptions {
   baseDir?: string
@@ -45,7 +46,7 @@ export async function setupConfigLoader (options: PeekyConfigLoaderOptions = {})
 
       config = mergeConfig(defaultPeekyConfig(), config)
 
-      return config
+      return processConfig(config)
     } catch (e) {
       if (fs.existsSync(resolvedPath)) {
         fs.unlinkSync(resolvedPath)

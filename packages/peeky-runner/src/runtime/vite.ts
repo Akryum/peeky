@@ -13,7 +13,7 @@ import chalk from 'chalk'
 import shortid from 'shortid'
 import isEqual from 'lodash/isEqual.js'
 import { isValidNodeImport } from 'mlly'
-import type { ModuleFilterOption } from '@peeky/config'
+import type { ModuleFilterOption, ModuleFilter } from '@peeky/config'
 import { slash } from '@peeky/utils'
 import { moduleCache, sourceMaps } from './module-cache.js'
 import { mockedModules } from './mocked-files.js'
@@ -289,28 +289,20 @@ function exportAll (exports: any, sourceModule: any) {
  * @returns
  */
 function shouldExternalize (filePath: string): boolean {
-  if (typeof currentOptions.include === 'function') {
-    if (currentOptions.include(filePath)) {
-      return false
-    }
-  } else if (matchModuleFilter(currentOptions.include, filePath)) {
+  if (matchModuleFilter(currentOptions.include as ModuleFilter[], filePath)) {
     return false
   }
 
-  if (typeof currentOptions.exclude === 'function') {
-    return currentOptions.exclude(filePath)
-  }
-
-  return matchModuleFilter(currentOptions.exclude, filePath)
+  return matchModuleFilter(currentOptions.exclude as ModuleFilter[], filePath)
 }
 
-function matchModuleFilter (filters: (string | RegExp) | (string | RegExp)[], filePath: string): boolean {
-  const filtersList = Array.isArray(filters) ? filters : [filters]
-  return filtersList.some(filter => {
-    if (typeof filter === 'string') {
-      filter = new RegExp(`node_modules/${escapeRegExp(filter)}`)
+function matchModuleFilter (filters: ModuleFilter[], filePath: string): boolean {
+  return filters.some(filter => {
+    if (typeof filter === 'function') {
+      return filter(filePath)
+    } else {
+      (filter as RegExp).test(filePath)
     }
-    return filter.test(filePath)
   })
 }
 
@@ -331,8 +323,4 @@ async function transform (id: string) {
     }
     return await viteServer.ssrTransform(result.code, result.map, id)
   }
-}
-
-function escapeRegExp (text: string) {
-  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
 }

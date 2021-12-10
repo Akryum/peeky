@@ -1,11 +1,11 @@
 import type { UserConfig as ViteConfig } from 'vite'
 import { Awaitable } from '@peeky/utils'
 
+export type ModuleFilter = string | RegExp | ((absolutePath: string) => boolean)
+
 export type ModuleFilterOption =
-  | (string | RegExp)[]
-  | string
-  | RegExp
-  | ((absolutePath: string) => boolean)
+  | (ModuleFilter)[]
+  | ModuleFilter
 
 export interface PeekyConfig {
   targetDirectory?: string
