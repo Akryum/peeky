@@ -1,3 +1,20 @@
+## [0.8.1](https://github.com/Akryum/peeky/compare/v0.8.0...v0.8.1) (2021-12-10)
+
+
+### Bug Fixes
+
+* improve pragma parsing error handling ([c5f612b](https://github.com/Akryum/peeky/commit/c5f612b0d6814c3a548397d81038532195da5601))
+* transpile tslib ([4b0cfc9](https://github.com/Akryum/peeky/commit/4b0cfc900739be72c21c89e9567aab63852122c7))
+* use sourcemaps from vite ([0f12843](https://github.com/Akryum/peeky/commit/0f128434be644c846b677aaa25243011669e0bc9))
+
+
+### Features
+
+* add module id to import/vite errors ([74d9d3e](https://github.com/Akryum/peeky/commit/74d9d3e5b28a7dc75a9567600cfc95392db7fec6))
+* auto transform esm modules that are not correctly configured for native Node esm ([397cf8f](https://github.com/Akryum/peeky/commit/397cf8f4e7dd54fc0303a2a577d07fb01ea27226))
+
+
+
 # [0.8.0](https://github.com/Akryum/peeky/compare/v0.7.3...v0.8.0) (2021-12-09)
 
 

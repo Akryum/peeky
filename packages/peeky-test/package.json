@@ -1,6 +1,6 @@
 {
   "name": "@peeky/test",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "Peeky, the testing framework for curious minds",
   "license": "MIT",
   "author": {
@@ -33,10 +33,10 @@
     "watch": "tsc -d -w --sourceMap"
   },
   "dependencies": {
-    "@peeky/cli": "^0.8.0",
-    "@peeky/config": "^0.8.0",
-    "@peeky/eslint-plugin": "^0.8.0",
-    "@peeky/runner": "^0.8.0"
+    "@peeky/cli": "^0.8.1",
+    "@peeky/config": "^0.8.1",
+    "@peeky/eslint-plugin": "^0.8.1",
+    "@peeky/runner": "^0.8.1"
   },
   "devDependencies": {
     "@types/node": "^14.14.21",
