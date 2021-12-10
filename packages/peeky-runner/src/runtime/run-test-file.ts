@@ -16,7 +16,7 @@ import { getCoverage } from './coverage.js'
 import { mockedModules } from './mocked-files.js'
 import { getTestEnvironment, NodeEnvironment } from './environment.js'
 import { createMockedFileSystem } from './fs.js'
-import { moduleCache } from './module-cache.js'
+import { moduleCache, sourceMaps } from './module-cache.js'
 
 export async function runTestFile (options: RunTestFileOptions) {
   try {
@@ -63,7 +63,14 @@ export async function runTestFile (options: RunTestFileOptions) {
 
     // Source map support
     installSourceMap({
-      hookRequire: true,
+      retrieveSourceMap: (source) => {
+        if (sourceMaps.has(source)) {
+          return {
+            url: source,
+            map: sourceMaps.get(source),
+          }
+        }
+      },
     })
 
     // Runtime env

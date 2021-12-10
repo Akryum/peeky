@@ -15,7 +15,7 @@ import isEqual from 'lodash/isEqual.js'
 import { isValidNodeImport } from 'mlly'
 import type { ModuleFilterOption } from '@peeky/config'
 import { slash } from '@peeky/utils'
-import { moduleCache } from './module-cache.js'
+import { moduleCache, sourceMaps } from './module-cache.js'
 import { mockedModules } from './mocked-files.js'
 import { createPeekyGlobal } from './peeky-global/index.js'
 
@@ -192,6 +192,10 @@ async function rawRequest (id: string, realPath: string, callstack: string[], de
   if (result.deps) {
     result.deps.forEach(dep => deps.add(toFilePath(normalizeId(dep), root)))
   }
+
+    if (result.map) {
+      sourceMaps.set(realPath, result.map)
+    }
 
   const url = pathToFileURL(realPath)
   const exports = {}
