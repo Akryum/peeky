@@ -16,7 +16,7 @@ export const defaultPeekyConfig: () => PeekyConfig = () => ({
   buildInclude: [
     'vitest/dist',
     'vitest/src',
-    '@vue',
+    (file) => file.includes('@vue') && !file.endsWith('@vue/test-utils/dist/vue-test-utils.js'),
     '@vueuse',
     'vue-demi',
     'vue',
