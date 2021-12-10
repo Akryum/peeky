@@ -1,3 +1,20 @@
+## [0.8.2](https://github.com/Akryum/peeky/compare/v0.8.1...v0.8.2) (2021-12-10)
+
+
+### Bug Fixes
+
+* **config:** normalize buildInclude & buildExclude + improved default buildInclude ([41fa34d](https://github.com/Akryum/peeky/commit/41fa34de04f997979eef3bd3487f7b779813ca8e))
+* externalize @vue/test-utils@1 ([dacc8a2](https://github.com/Akryum/peeky/commit/dacc8a2f793d68be9e84102f08ac08e615e941d5))
+* load unserializable config options in workers ([8a00059](https://github.com/Akryum/peeky/commit/8a00059353b66951753feeacdd93f2fda6cd5e12))
+
+
+### Performance Improvements
+
+* externals cache ([72d0b29](https://github.com/Akryum/peeky/commit/72d0b2989ca86691f1a8521ebd4ef6f2da7792d0))
+* optimize shouldBeExternal ([3a4f63b](https://github.com/Akryum/peeky/commit/3a4f63be161803aa736f44d1492e78e2f21ce9ed))
+
+
+
 ## [0.8.1](https://github.com/Akryum/peeky/compare/v0.8.0...v0.8.1) (2021-12-10)
 
 
