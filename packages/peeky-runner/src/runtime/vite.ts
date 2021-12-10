@@ -147,8 +147,14 @@ async function cachedRequest (rawId: string, callstack: string[], deps: Set<stri
     return moduleCache.get(realPath)
   }
 
-  if (shouldExternalize(realPath) && (await isValidNodeImport(realPath))) {
-    return import(realPath)
+  try {
+    if (shouldExternalize(realPath) && (await isValidNodeImport(realPath))) {
+      const exports = await import(realPath)
+      return exports
+    }
+  } catch (e) {
+    e.message = `${e.message}(${id})`
+    throw e
   }
 
   const promise = rawRequest(realPath, realPath, callstack, deps, executionContext, root)
@@ -184,43 +190,50 @@ async function rawRequest (id: string, realPath: string, callstack: string[], de
     return cachedRequest(dep, callstack, deps, executionContext, root)
   }
 
-  const result = await transform(id)
-  if (!result) {
-    throw new Error(`failed to load ${id}`)
-  }
+  let result
 
-  if (result.deps) {
-    result.deps.forEach(dep => deps.add(toFilePath(normalizeId(dep), root)))
-  }
+  try {
+    result = await transform(id)
+    if (!result) {
+      throw new Error(`failed to load ${id}`)
+    }
+
+    if (result.deps) {
+      result.deps.forEach(dep => deps.add(toFilePath(normalizeId(dep), root)))
+    }
 
     if (result.map) {
       sourceMaps.set(realPath, result.map)
     }
 
-  const url = pathToFileURL(realPath)
-  const exports = {}
+    const url = pathToFileURL(realPath)
 
-  const context = {
-    require: createRequire(url),
-    __filename: realPath,
-    __dirname: dirname(realPath),
-    __vite_ssr_import__: request,
-    __vite_ssr_dynamic_import__: request,
-    __vite_ssr_exports__: exports,
-    __vite_ssr_exportAll__: (obj: any) => exportAll(exports, obj),
-    __vite_ssr_import_meta__: { url },
-    ...executionContext,
-    peeky: createPeekyGlobal({
+    const exports = {}
+
+    const context = {
+      require: createRequire(url),
+      __filename: realPath,
+      __dirname: dirname(realPath),
+      __vite_ssr_import__: request,
+      __vite_ssr_dynamic_import__: request,
+      __vite_ssr_exports__: exports,
+      __vite_ssr_exportAll__: (obj: any) => exportAll(exports, obj),
+      __vite_ssr_import_meta__: { url },
+      ...executionContext,
+      peeky: createPeekyGlobal({
+        filename: realPath,
+      }),
+    }
+    const fn = vm.runInThisContext(`async (${Object.keys(context).join(',')}) => { ${result.code}\n }`, {
       filename: realPath,
-    }),
+    })
+    await fn(...Object.values(context))
+
+    return exports
+  } catch (e) {
+    e.message = `${e.message} (${id})`
+    throw e
   }
-
-  const fn = vm.runInThisContext(`async (${Object.keys(context).join(',')}) => { ${result.code} }`, {
-    filename: realPath,
-  })
-  await fn(...Object.values(context))
-
-  return exports
 }
 
 /**
