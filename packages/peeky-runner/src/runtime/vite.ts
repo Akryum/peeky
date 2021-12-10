@@ -300,8 +300,10 @@ function matchModuleFilter (filters: ModuleFilter[], filePath: string): boolean 
   return filters.some(filter => {
     if (typeof filter === 'function') {
       return filter(filePath)
+    } else if (typeof filter === 'string') {
+      return filePath.includes(filter)
     } else {
-      (filter as RegExp).test(filePath)
+      return filter.test(filePath)
     }
   })
 }
