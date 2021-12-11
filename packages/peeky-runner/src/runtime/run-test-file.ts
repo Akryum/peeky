@@ -17,11 +17,13 @@ import { mockedModules } from './mocked-files.js'
 import { getTestEnvironment, NodeEnvironment } from './environment.js'
 import { createMockedFileSystem } from './fs.js'
 import { moduleCache, sourceMaps } from './module-cache.js'
-import { baseConfig } from './setup.js'
+import { baseConfig, setupWorker } from './setup.js'
 
 export async function runTestFile (options: RunTestFileOptions) {
   try {
     const time = performance.now()
+    await setupWorker()
+
     options.config = mergeConfig(baseConfig, options.config)
 
     options.clearDeps.forEach(file => moduleCache.delete(file))

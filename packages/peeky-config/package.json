@@ -32,6 +32,7 @@
     "@peeky/utils": "^0.8.2",
     "consola": "^2.15.0",
     "reactive-fs": "^0.4.1",
+    "shortid": "^2.2.16",
     "vite": "^2.7.1"
   },
   "devDependencies": {

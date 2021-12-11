@@ -37,8 +37,6 @@ export async function setupRunner (options: RunnerOptions) {
 
   const eventHandlers: EventHandler[] = []
 
-  await pool.exec('setupWorker', [])
-
   async function runTestFileWorker (options: RunTestFileOptions): ReturnType<typeof rawRunTestFile> {
     const suiteMap: { [id: string]: TestSuiteInfo } = {}
     return pool.exec('runTestFile', [options], {

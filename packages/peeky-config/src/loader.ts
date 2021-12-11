@@ -1,6 +1,7 @@
 import fs from 'fs'
 import { join } from 'path'
 import consola from 'consola'
+import shortid from 'shortid'
 import type { PeekyConfig } from './types'
 import { setupConfigContentLoader } from './fs.js'
 import { transformConfigCode } from './transform.js'
@@ -18,7 +19,7 @@ export async function setupConfigLoader (options: PeekyConfigLoaderOptions = {})
 
   async function loadConfig (): Promise<PeekyConfig> {
     const file = contentLoader.getConfigPath()
-    const resolvedPath = join(options.baseDir || process.cwd(), file + '.temp.mjs')
+    const resolvedPath = join(options.baseDir || process.cwd(), file + shortid() + '.temp.mjs')
     try {
       let config: PeekyConfig = {}
 
@@ -28,7 +29,7 @@ export async function setupConfigLoader (options: PeekyConfigLoaderOptions = {})
         fs.writeFileSync(resolvedPath, result.code)
         config = (
           // eslint-disable-next-line no-eval
-          await eval(`import('${resolvedPath}?t=${Date.now()}')`)
+          await eval(`import('${resolvedPath}')`)
         ).default
         fs.unlinkSync(resolvedPath)
       }
