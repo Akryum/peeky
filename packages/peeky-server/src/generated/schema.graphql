@@ -28,6 +28,7 @@ type Run {
   duration: Float
   emoji: String!
   id: ID!
+  previousErrorRunTestFiles: [RunTestFile!]!
   progress: Float!
   runTestFile(slug: String!): RunTestFile
   runTestFiles: [RunTestFile!]!

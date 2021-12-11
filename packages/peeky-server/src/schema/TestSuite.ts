@@ -8,6 +8,7 @@ import { getRunId } from './Run.js'
 import { RunTestFile, RunTestFileData } from './RunTestFile.js'
 import { Status, StatusEnum } from './Status.js'
 import { createTest, TestData } from './Test.js'
+import { RunData } from './Run'
 
 const __filename = fileURLToPath(import.meta.url)
 
@@ -45,7 +46,8 @@ export const TestSuiteExtendRun = extendType({
       args: {
         slug: nonNull(stringArg()),
       },
-      resolve: (run, { slug }) => testSuites.find(s => s.runId === run.id && s.slug === slug),
+      resolve: (run, { slug }) => testSuites.find(s => s.runId === run.id && s.slug === slug) ??
+        findSuiteInPreviousErrorFiles(run, slug),
     })
   },
 })
@@ -160,4 +162,14 @@ export async function updateTestSuite (ctx: Context, id: string, data: Partial<O
 
 export function clearTestSuites (ctx: Context, runId: string = null) {
   testSuites = runId ? testSuites.filter(s => s.runId !== runId) : []
+}
+
+function findSuiteInPreviousErrorFiles (run: RunData, suiteSlug: string) {
+  for (const rf of run.previousErrorRunTestFiles) {
+    const s = testSuites.find(s => s.runId === rf.runId && s.slug === suiteSlug)
+    if (s) {
+      return s
+    }
+  }
+  return null
 }

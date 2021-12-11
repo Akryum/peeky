@@ -49,12 +49,17 @@ export const RunTestFileExtendRun = extendType({
       type: nonNull(RunTestFile),
     })
 
+    t.nonNull.list.field('previousErrorRunTestFiles', {
+      type: nonNull(RunTestFile),
+    })
+
     t.field('runTestFile', {
       type: RunTestFile,
       args: {
         slug: nonNull(stringArg()),
       },
-      resolve: (parent, { slug }) => parent.runTestFiles.find(f => f.slug === slug),
+      resolve: (parent, { slug }) => parent.runTestFiles.find(f => f.slug === slug) ??
+        parent.previousErrorRunTestFiles.find(f => f.slug === slug),
     })
   },
 })

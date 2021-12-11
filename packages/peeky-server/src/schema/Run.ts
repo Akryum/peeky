@@ -161,6 +161,7 @@ export interface RunData {
   status: StatusEnum
   duration: number
   runTestFiles: RunTestFileData[]
+  previousErrorRunTestFiles: RunTestFileData[]
 }
 
 export let runs: RunData[] = []
@@ -183,6 +184,15 @@ export async function createRun (ctx: Context, options: CreateRunOptions) {
     error: null,
   }))
 
+  const previousRun = runs[runs.length - 1]
+  const previousErrorRunTestFiles = []
+  if (previousRun) {
+    previousErrorRunTestFiles.push(...previousRun.runTestFiles.filter(f =>
+      f.status === 'error' && !runTestFiles.some(tf => tf.testFile.id === f.testFile.id)))
+    previousErrorRunTestFiles.push(...previousRun.previousErrorRunTestFiles.filter(f =>
+      !runTestFiles.some(tf => tf.testFile.id === f.testFile.id)))
+  }
+
   const run: RunData = {
     id: runId,
     title: nameGenerator().dashed,
@@ -191,6 +201,7 @@ export async function createRun (ctx: Context, options: CreateRunOptions) {
     status: 'in_progress',
     duration: null,
     runTestFiles: runTestFiles,
+    previousErrorRunTestFiles,
   }
   runs.push(run)
 

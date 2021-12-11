@@ -20,7 +20,7 @@ fragment runTestFileList on RunTestFile {
 import BaseInput from '../BaseInput.vue'
 import TestFileItem from './TestFileItem.vue'
 import { SearchIcon } from '@zhuowenli/vue-feather-icons'
-import { computed, ref } from 'vue'
+import { computed, Ref, ref } from 'vue'
 import { useQuery, useResult } from '@vue/apollo-composable'
 import { useRoute } from 'vue-router'
 
@@ -33,6 +33,10 @@ const { result, subscribeToMore } = useQuery(() => route.params.runId !== 'last-
       runTestFiles {
         ...runTestFileList
       }
+
+      previousErrorRunTestFiles {
+        ...runTestFileList
+      }
     }
   }
   ${runTestFileListFragment}
@@ -43,6 +47,10 @@ const { result, subscribeToMore } = useQuery(() => route.params.runId !== 'last-
       runTestFiles {
         ...runTestFileList
       }
+
+      previousErrorRunTestFiles {
+        ...runTestFileList
+      }
     }
   }
   ${runTestFileListFragment}
@@ -50,22 +58,27 @@ const { result, subscribeToMore } = useQuery(() => route.params.runId !== 'last-
   id: route.params.runId,
 } : {})
 const testFiles = useResult(result, [], data => data.run.runTestFiles)
+const previousErrorFiles = useResult(result, [], data => data.run.previousErrorRunTestFiles)
 
 // Filtering
 const searchText = ref('')
-const filteredFiles = computed(() => {
-  if (!searchText.value) {
-    return testFiles.value
-  } else {
-    const reg = new RegExp(searchText.value, 'i')
-    return testFiles.value.filter(f => f.testFile.relativePath.search(reg) !== -1)
+const createFilter = (target: Readonly<Ref<Readonly<any>>>) => {
+  return () => {
+    if (!searchText.value) {
+      return target.value
+    } else {
+      const reg = new RegExp(searchText.value, 'i')
+      return target.value.filter((f: any) => f.testFile.relativePath.search(reg) !== -1)
+    }
   }
-})
+}
+const filteredFiles = computed(createFilter(testFiles))
+const filteredPreviousFiles = computed(createFilter(previousErrorFiles))
 
 // Sorting
-const sortedFiles = computed(() => filteredFiles.value.slice().sort(
-  (a, b) => a.testFile.relativePath.localeCompare(b.testFile.relativePath),
-))
+const compare = (a, b) => a.testFile.relativePath.localeCompare(b.testFile.relativePath)
+const sortedFiles = computed(() => filteredFiles.value.slice().sort(compare))
+const sortedPreviousFiles = computed(() => filteredPreviousFiles.value.slice().sort(compare))
 
 // Subscriptions
 
@@ -102,6 +115,23 @@ subscribeToMore({
         :key="file.id"
         :file="file"
       />
+
+      <template v-if="sortedPreviousFiles.length">
+        <div class="flex items-center space-x-2 mt-3 mb-1">
+          <div class="h-[1px] bg-gray-100 dark:bg-gray-900 flex-1" />
+          <div class="flex-none text-gray-300 dark:text-gray-700">
+            Previous errors
+          </div>
+          <div class="h-[1px] bg-gray-100 dark:bg-gray-900 flex-1" />
+        </div>
+        <TestFileItem
+          v-for="file of sortedPreviousFiles"
+          :key="file.id"
+          :file="file"
+          previous
+          class="opacity-70"
+        />
+      </template>
     </div>
   </div>
 </template>

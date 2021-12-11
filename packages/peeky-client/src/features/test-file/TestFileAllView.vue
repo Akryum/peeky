@@ -75,7 +75,7 @@ subscribeToMore(() => ({
       run: {
         ...previousResult.run,
         testSuites: [
-          ...previousResult.run.testSuites,
+          ...previousResult.run.testSuites ?? [],
           data.testSuiteAdded,
         ],
       },

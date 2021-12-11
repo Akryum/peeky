@@ -111,6 +111,7 @@ export interface NexusGenFieldTypes {
     duration: number | null; // Float
     emoji: string; // String!
     id: string; // ID!
+    previousErrorRunTestFiles: NexusGenRootTypes['RunTestFile'][]; // [RunTestFile!]!
     progress: number; // Float!
     runTestFile: NexusGenRootTypes['RunTestFile'] | null; // RunTestFile
     runTestFiles: NexusGenRootTypes['RunTestFile'][]; // [RunTestFile!]!
@@ -207,6 +208,7 @@ export interface NexusGenFieldTypeNames {
     duration: 'Float'
     emoji: 'String'
     id: 'ID'
+    previousErrorRunTestFiles: 'RunTestFile'
     progress: 'Float'
     runTestFile: 'RunTestFile'
     runTestFiles: 'RunTestFile'
