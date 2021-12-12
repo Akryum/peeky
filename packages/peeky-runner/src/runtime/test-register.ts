@@ -1,38 +1,57 @@
+import { basename, extname } from 'path'
 import shortid from 'shortid'
+import slugify from 'slugify'
 import type { Context, TestSuite } from '../types'
 
 export function setupRegister (ctx: Context) {
   const suiteHandlers: (() => Promise<unknown>)[] = []
   let currentSuite: TestSuite
+  let anonymouseSuite: TestSuite
+
+  const createSuite = (title: string) => {
+    const suite = {
+      id: shortid(),
+      title,
+      filePath: ctx.options.entry,
+      tests: [],
+      beforeAllHandlers: [],
+      beforeEachHandlers: [],
+      afterAllHandlers: [],
+      afterEachHandlers: [],
+      testErrors: 0,
+      otherErrors: [],
+    }
+    ctx.suites.push(suite)
+    return suite
+  }
+
+  const ensureAnonymousSuite = () => {
+    if (!anonymouseSuite) {
+      const title = slugify(basename(ctx.options.entry, extname(ctx.options.entry)))
+        .replace(/\.(test|spec)/g, '')
+        .replace(/\./g, '-')
+      anonymouseSuite = createSuite(title)
+    }
+    return anonymouseSuite
+  }
 
   function describe (title: string, handler: () => unknown) {
     suiteHandlers.push(async () => {
       if (currentSuite) {
         throw new Error('Nested describe() calls are not supported yet')
       }
-      currentSuite = {
-        id: shortid(),
-        title,
-        filePath: ctx.options.entry,
-        tests: [],
-        beforeAllHandlers: [],
-        beforeEachHandlers: [],
-        afterAllHandlers: [],
-        afterEachHandlers: [],
-        testErrors: 0,
-        otherErrors: [],
-      }
-      ctx.suites.push(currentSuite)
+      currentSuite = createSuite(title)
       await handler()
       currentSuite = null
     })
   }
 
   function test (title: string, handler: () => unknown) {
+    let target = currentSuite
     if (!currentSuite) {
-      throw new Error('test() must be used inside the describe() handler')
+      target = ensureAnonymousSuite()
     }
-    currentSuite.tests.push({
+    target.tests.push({
       id: shortid(),
       title,
       handler,
@@ -41,31 +60,35 @@ export function setupRegister (ctx: Context) {
   }
 
   function beforeAll (handler: () => unknown) {
+    let target = currentSuite
     if (!currentSuite) {
-      throw new Error('beforeAll() must be used inside the describe() handler')
+      target = ensureAnonymousSuite()
     }
-    currentSuite.beforeAllHandlers.push(handler)
+    target.beforeAllHandlers.push(handler)
   }
 
   function afterAll (handler: () => unknown) {
+    let target = currentSuite
     if (!currentSuite) {
-      throw new Error('afterAll() must be used inside the describe() handler')
+      target = ensureAnonymousSuite()
     }
-    currentSuite.afterAllHandlers.push(handler)
+    target.afterAllHandlers.push(handler)
   }
 
   function beforeEach (handler: () => unknown) {
+    let target = currentSuite
     if (!currentSuite) {
-      throw new Error('beforeEach() must be used inside the describe() handler')
+      target = ensureAnonymousSuite()
     }
-    currentSuite.beforeEachHandlers.push(handler)
+    target.beforeEachHandlers.push(handler)
   }
 
   function afterEach (handler: () => unknown) {
+    let target = currentSuite
     if (!currentSuite) {
-      throw new Error('afterEach() must be used inside the describe() handler')
+      target = ensureAnonymousSuite()
     }
-    currentSuite.afterEachHandlers.push(handler)
+    target.afterEachHandlers.push(handler)
   }
 
   /**
