@@ -1,3 +1,20 @@
+## [0.8.3](https://github.com/Akryum/peeky/compare/v0.8.2...v0.8.3) (2021-12-12)
+
+
+### Bug Fixes
+
+* **ui:** search test field height not aligned ([483bf34](https://github.com/Akryum/peeky/commit/483bf34dafb3d4e9f185b85944f09fffb1b37e66))
+* worker setup, closes [#47](https://github.com/Akryum/peeky/issues/47) ([2a92f42](https://github.com/Akryum/peeky/commit/2a92f4229038f49678a117040ee1868cf0b1fb24))
+
+
+### Features
+
+* allow file without describe(), closes [#41](https://github.com/Akryum/peeky/issues/41) ([c3540fe](https://github.com/Akryum/peeky/commit/c3540fee0499cc0557f0f8309bfdeddc4861e108))
+* **ui:** display more context in test view ([e94947c](https://github.com/Akryum/peeky/commit/e94947cc76974a78118f4f3ae26c16716e0a3c1f))
+* **ui:** display previous errors, closes [#42](https://github.com/Akryum/peeky/issues/42) ([d4154bb](https://github.com/Akryum/peeky/commit/d4154bbc8d310b07acc6e6ee16b2604839a22345))
+
+
+
 ## [0.8.2](https://github.com/Akryum/peeky/compare/v0.8.1...v0.8.2) (2021-12-10)
 
 

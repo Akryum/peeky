@@ -1,6 +1,6 @@
 {
   "name": "@peeky/server",
-  "version": "0.8.2",
+  "version": "0.8.3",
   "description": "Server for Peeky, the testing framework for curious minds",
   "license": "MIT",
   "author": {
@@ -30,9 +30,9 @@
     "watch": "tsc -d -w --sourceMap"
   },
   "dependencies": {
-    "@peeky/client-dist": "^0.8.2",
-    "@peeky/config": "^0.8.2",
-    "@peeky/runner": "^0.8.2",
+    "@peeky/client-dist": "^0.8.3",
+    "@peeky/config": "^0.8.3",
+    "@peeky/runner": "^0.8.3",
     "ansi_up": "^5.1.0",
     "apollo-server-express": "^2.19.2",
     "chokidar": "^3.5.1",
