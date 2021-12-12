@@ -4,6 +4,7 @@ import gql from 'graphql-tag'
 import { useRoute } from 'vue-router'
 import StatusIcon from '../StatusIcon.vue'
 import Duration from '../Duration.vue'
+import TestFileItem from '../test-file/TestFileItem.vue'
 import { errorFragment } from './TestResult.vue'
 
 const route = useRoute()
@@ -27,8 +28,12 @@ const { result, subscribeToMore, onResult } = useQuery(() => gql`
       id
       testSuite: testSuiteBySlug (slug: $suiteSlug) {
         id
+        title
         runTestFile {
           id
+          slug
+          status
+          duration
           testFile {
             id
             relativePath
@@ -87,12 +92,18 @@ subscribeToMore(() => ({
     v-if="test"
     class="divide-y divide-gray-100 dark:divide-gray-800 h-full flex flex-col"
   >
+    <TestFileItem
+      :file="suite.runTestFile"
+      class="!h-10"
+    />
+
     <div class="flex items-center space-x-2 h-10 px-3 flex-none">
       <StatusIcon
         :status="test.status"
-        class="w-4 h-4 flex-none"
+        class="w-5 h-5 flex-none"
       />
       <span class="flex-1 truncate py-1">
+        {{ suite.title }} ›
         {{ test.title }}
       </span>
       <Duration
