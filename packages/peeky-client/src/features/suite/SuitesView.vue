@@ -35,12 +35,12 @@ const failedTestCount = computed(() => {
       <div class="h-full flex flex-col divide-y divide-gray-100 dark:divide-gray-800">
         <slot name="toolbar" />
 
-        <div class="flex-none">
+        <div class="flex-none h-10">
           <BaseInput
             v-model="searchText"
             size="md"
             placeholder="Filter tests..."
-            class="h-10"
+            class="h-full"
           >
             <template #after>
               <button
