@@ -103,7 +103,7 @@ subscribeToMore(() => ({
         class="w-5 h-5 flex-none"
       />
       <span class="flex-1 truncate py-1">
-        {{ suite.title }} ›
+        {{ suite.title }} ›
         {{ test.title }}
       </span>
       <Duration
