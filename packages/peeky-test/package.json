@@ -1,7 +1,7 @@
 {
   "name": "@peeky/test",
   "version": "0.8.3",
-  "description": "Peeky, the testing framework for curious minds",
+  "description": "A fast and fun test runner for Vite & Node 🐈️",
   "license": "MIT",
   "author": {
     "name": "Guillaume Chau"

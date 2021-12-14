@@ -1,7 +1,7 @@
 ---
 sidebar: false
 heroImage: /logo.svg
-tagline: A test framework for the curious minds
+tagline: A fast and fun test runner for Vite & Node 🐈️
 
 actionText: Get Started
 actionLink: /guide/

@@ -1,6 +1,6 @@
 module.exports = {
   title: 'Peeky',
-  description: 'A test framework for the curious minds',
+  description: 'A fast and fun test runner for Vite & Node 🐈️',
 
   head: [
     ['link', { rel: 'stylesheet', href: 'https://cdn.rawgit.com/luizbills/feather-icon-font/v4.7.0/dist/feather.css' }],
@@ -41,20 +41,29 @@ module.exports = {
               link: '/guide/',
             },
             {
+              text: 'Setup guides',
+              children: [
+                {
+                  text: 'Vite',
+                  link: '/guide/setup/vite',
+                },
+                {
+                  text: 'TypeScript',
+                  link: '/guide/setup/typescript',
+                },
+                {
+                  text: 'Eslint',
+                  link: '/guide/setup/eslint',
+                },
+              ],
+            },
+            {
               text: 'Writing tests',
               link: '/guide/writing-tests',
             },
             {
               text: 'Runtime environments',
               link: '/guide/runtime-env',
-            },
-            {
-              text: 'TypeScript',
-              link: '/guide/typescript',
-            },
-            {
-              text: 'Eslint',
-              link: '/guide/eslint',
             },
             {
               text: 'Configuration',
