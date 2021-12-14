@@ -2,7 +2,7 @@
 
 <h1 align="center">Peeky</h1>
 
-<p align="center">A testing framework for curious minds 🐈️</p>
+<p align="center">A fast and fun test runner for Vite & Node 🐈️</p>
 
 <p align="center"><img src="docs/public/home-screenshot.png" alt="Screenshot of the UI"></p>
 
