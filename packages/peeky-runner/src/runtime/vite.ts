@@ -244,14 +244,18 @@ async function rawRequest (id: string, realPath: string, ctx: ExecutionContext):
     const exports = {}
 
     const context = {
-      require: createRequire(url),
-      __filename: realPath,
-      __dirname: dirname(realPath),
+      // Vite SSR transforms
       __vite_ssr_import__: request,
       __vite_ssr_dynamic_import__: request,
       __vite_ssr_exports__: exports,
       __vite_ssr_exportAll__: (obj: any) => exportAll(exports, obj),
       __vite_ssr_import_meta__: { url },
+      // CJS compatibility
+      require: createRequire(url),
+      exports,
+      __filename: realPath,
+      __dirname: dirname(realPath),
+      // Peeky globals
       ...ctx.globals,
       peeky: peekyGlobals,
     }
