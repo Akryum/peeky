@@ -23,7 +23,7 @@
     "./*": "./*"
   },
   "main": "./dist/index.js",
-  "types": "./types.d.ts",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "build": "rimraf dist && tsc -d",
     "watch": "tsc -d -w --sourceMap",

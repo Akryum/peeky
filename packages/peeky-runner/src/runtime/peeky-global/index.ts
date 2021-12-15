@@ -11,3 +11,5 @@ export function createPeekyGlobal (ctx: PeekyGlobalContext) {
     mockModule: createMockModule(ctx),
   }
 }
+
+export type PeekyGlobals = ReturnType<typeof createPeekyGlobal>

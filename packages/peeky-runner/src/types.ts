@@ -1,4 +1,5 @@
-import { PeekyConfig } from '@peeky/config'
+import type { PeekyConfig } from '@peeky/config'
+import type { Awaitable } from '@peeky/utils'
 
 export interface RunTestFileOptions {
   entry: string
@@ -59,6 +60,7 @@ export interface Test {
   title: string
   handler: () => unknown
   error: Error
+  flag: 'only' | 'skip' | 'todo' | null
 }
 
 export enum EventType {
@@ -69,3 +71,10 @@ export enum EventType {
   TEST_SUCCESS = 'test:success',
   TEST_FILE_COMPLETED = 'test-file:completed',
 }
+
+export type DescribeFn = (title: string, handler: () => Awaitable<void>) => void
+export type TestFn = (title: string, handler: () => Awaitable<void>) => void
+export type BeforeAllFn = (handler: () => Awaitable<void>) => void
+export type AfterAllFn = (handler: () => Awaitable<void>) => void
+export type BeforeEachFn = (handler: () => Awaitable<void>) => void
+export type AfterEachFn = (handler: () => Awaitable<void>) => void

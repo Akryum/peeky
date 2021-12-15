@@ -1,9 +1,28 @@
 import { basename, extname } from 'path'
 import shortid from 'shortid'
 import slugify from 'slugify'
-import type { Context, TestSuite } from '../types'
+import type {
+  AfterAllFn,
+  AfterEachFn,
+  BeforeAllFn,
+  BeforeEachFn,
+  Context,
+  DescribeFn,
+  TestFn,
+  TestSuite,
+} from '../types'
 
-export function setupRegister (ctx: Context) {
+export function setupRegister (ctx: Context): {
+  exposed: {
+    describe: DescribeFn
+    test: TestFn
+    beforeAll: BeforeAllFn
+    afterAll: AfterAllFn
+    beforeEach: BeforeEachFn
+    afterEach: AfterEachFn
+  }
+  run: () => Promise<void>
+} {
   const suiteHandlers: (() => Promise<unknown>)[] = []
   let currentSuite: TestSuite
   let anonymouseSuite: TestSuite
@@ -56,6 +75,7 @@ export function setupRegister (ctx: Context) {
       title,
       handler,
       error: null,
+      flag: null,
     })
   }
 

@@ -192,9 +192,23 @@ async function cachedRequest (rawId: string, ctx: ExecutionContext): Promise<any
  * @returns Executed module exports
  */
 async function rawRequest (id: string, realPath: string, ctx: ExecutionContext): Promise<any> {
+  const peekyGlobals = createPeekyGlobal({
+    filename: realPath,
+  })
+
+  // @peeky/test package stub
+  const peekyTestStub = () => ({
+    ...peekyGlobals,
+    ...ctx.globals,
+  })
+
   // Circular dependencies detection
   ctx.callstack = [...ctx.callstack, realPath]
   const request = async (dep: string) => {
+    if (dep.includes('@peeky/test') || dep.includes('peeky-test')) {
+      return peekyTestStub()
+    }
+
     if (ctx.callstack.includes(dep)) {
       const cacheKey = toFilePath(normalizeId(dep), ctx.root)
       if (!moduleCache.has(cacheKey)) {
@@ -239,9 +253,7 @@ async function rawRequest (id: string, realPath: string, ctx: ExecutionContext):
       __vite_ssr_exportAll__: (obj: any) => exportAll(exports, obj),
       __vite_ssr_import_meta__: { url },
       ...ctx.globals,
-      peeky: createPeekyGlobal({
-        filename: realPath,
-      }),
+      peeky: peekyGlobals,
     }
     const fn = vm.runInThisContext(`async (${Object.keys(context).join(',')}) => { ${result.code}\n }`, {
       filename: realPath,
