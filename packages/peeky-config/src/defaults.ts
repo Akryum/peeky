@@ -12,7 +12,10 @@ export const defaultPeekyConfig: () => PeekyConfig = () => ({
   watchThrottle: 100,
   emptySuiteError: false,
   collectCoverageMatch: ['(src|lib)/**/*.(ts|js)'],
-  buildExclude: [/node_modules/],
+  buildExclude: [
+    /\.cjs.js$/,
+    /\.mjs$/,
+  ],
   buildInclude: [
     /virtual:/,
     /\.ts$/,

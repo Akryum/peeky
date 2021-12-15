@@ -166,7 +166,7 @@ async function cachedRequest (rawId: string, ctx: ExecutionContext): Promise<any
   }
 
   try {
-    if (shouldExternalize(realPath) && (await isValidNodeImport(realPath))) {
+    if (await shouldExternalize(realPath)) {
       const exports = await import(realPath)
       ctx.externalsCache.add(realPath)
       return exports
@@ -323,12 +323,16 @@ function exportAll (exports: any, sourceModule: any) {
  * @param filePath
  * @returns
  */
-function shouldExternalize (filePath: string): boolean {
+async function shouldExternalize (filePath: string): Promise<boolean> {
   if (matchModuleFilter(currentOptions.include as ModuleFilter[], filePath)) {
     return false
   }
 
-  return matchModuleFilter(currentOptions.exclude as ModuleFilter[], filePath)
+  if (matchModuleFilter(currentOptions.exclude as ModuleFilter[], filePath)) {
+    return true
+  }
+
+  return filePath.includes('/node_modules/') && await isValidNodeImport(filePath)
 }
 
 function matchModuleFilter (filters: ModuleFilter[], filePath: string): boolean {
