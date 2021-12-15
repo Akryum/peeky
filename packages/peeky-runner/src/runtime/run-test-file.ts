@@ -143,7 +143,7 @@ export async function runTestFile (options: RunTestFileOptions) {
       suites,
       duration,
       coverage,
-      modules: executionResult.deps.concat(options.entry),
+      deps: executionResult.deps.concat(options.entry),
     }
   } catch (e) {
     consola.error(`Running tests failed: ${e.stack}`)

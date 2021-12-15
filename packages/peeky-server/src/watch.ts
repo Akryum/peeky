@@ -45,5 +45,5 @@ export function mightRunOnChangedFiles (ctx: Context) {
 }
 
 export function getTestFilesWithChangedModules (ctx: Context, files: string[]) {
-  return testFiles.filter(f => !f.deleted && (files.includes(f.absolutePath) || f.modules.some(m => files.includes(m))))
+  return testFiles.filter(f => !f.deleted && (files.includes(f.absolutePath) || f.deps.some(m => files.includes(m))))
 }

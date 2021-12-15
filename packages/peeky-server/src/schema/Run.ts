@@ -308,13 +308,13 @@ export async function startRun (ctx: Context, id: string) {
 
     const results = await Promise.all(run.runTestFiles.map(async f => {
       try {
-        const result = await runner.runTestFile(f.testFile.relativePath, f.testFile.modules)
+        const result = await runner.runTestFile(f.testFile.relativePath, f.testFile.deps)
         const stats = getStats([result])
         const status: StatusEnum = !stats.testCount ? 'skipped' : stats.errorTestCount > 0 ? 'error' : 'success'
         await updateTestFile(ctx, f.testFile.id, {
           status,
           duration: result.duration,
-          modules: result.modules,
+          deps: result.deps,
         })
         await updateRunTestFile(ctx, run.id, f.id, {
           status,
