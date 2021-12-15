@@ -37,9 +37,9 @@ export async function getCoverage (
   // Filter
   const filteredCoverage = coverage.filter(item => {
     if (!item.url.startsWith('file://')) return false
-    const file = item.url.substr(7)
+    const file = item.url.substring(7)
     return file.startsWith(ctx.options.coverage.root) &&
-      !match(ctx.options.coverage.ignored, file)
+      !match(ctx.options.coverage.ignored, file, { dot: true })
   })
 
   const coverageItems: Map<string, InternalFileCoverage> = new Map()
