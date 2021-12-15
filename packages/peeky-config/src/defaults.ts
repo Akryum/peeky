@@ -14,12 +14,6 @@ export const defaultPeekyConfig: () => PeekyConfig = () => ({
   collectCoverageMatch: ['(src|lib)/**/*.(ts|js)'],
   buildExclude: [/node_modules/],
   buildInclude: [
-    'vitest/dist',
-    'vitest/src',
-    (file) => file.includes('@vue') && !file.endsWith('@vue/test-utils/dist/vue-test-utils.js'),
-    '@vueuse',
-    'vue-demi',
-    'vue',
     /virtual:/,
     /\.ts$/,
     /\/esm\/.*\.js$/,
