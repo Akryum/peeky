@@ -13,7 +13,7 @@ import TestFiles from './test-file/TestFiles.vue'
     class="h-screen"
   >
     <template #first>
-      <div class="h-full flex flex-col divide-y divide-gray-100 dark:divide-gray-900 relative">
+      <div class="h-full flex flex-col divide-y divide-gray-100 dark:divide-gray-800 relative">
         <RunManager class="flex-none" />
         <TestFiles class="flex-1 h-0" />
       </div>
