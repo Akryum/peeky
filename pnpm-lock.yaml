@@ -135,10 +135,7 @@ importers:
       vite: 2.7.1
 
   packages/peeky-client-dist:
-    specifiers:
-      '@peeky/client': ^0.8.4
-    devDependencies:
-      '@peeky/client': link:../peeky-client
+    specifiers: {}
 
   packages/peeky-config:
     specifiers:
