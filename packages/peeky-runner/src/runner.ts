@@ -4,7 +4,7 @@ import consola from 'consola'
 import chalk from 'chalk'
 import workerpool from '@akryum/workerpool'
 import { ReactiveFileSystem } from 'reactive-fs'
-import { Awaited, formatDurationToString } from '@peeky/utils'
+import { Awaited, formatDurationToString, italic } from '@peeky/utils'
 import { SerializablePeekyConfig } from '@peeky/config'
 import type { runTestFile as rawRunTestFile } from './runtime/run-test-file.js'
 import type { RunTestFileOptions, TestSuiteInfo } from './types'
@@ -48,7 +48,7 @@ export async function setupRunner (options: RunnerOptions) {
         } else if (eventType === EventType.SUITE_COMPLETED) {
           const { duration, suite: { testErrors, otherErrors } } = payload
           const suite = suiteMap[payload.suite.id]
-          consola.log(chalk[testErrors + otherErrors.length ? 'red' : 'green'].italic(`  ${chalk.bold(suite.title)} ${suite.runTestCount - testErrors} / ${suite.runTestCount} tests passed ${chalk.grey(`(${formatDurationToString(duration)})`)} (${suite.filePath})`))
+          consola.log(italic(chalk[testErrors + otherErrors.length ? 'red' : 'green'](`  ${chalk.bold(suite.title)} ${suite.runTestCount - testErrors} / ${suite.runTestCount} tests passed ${chalk.grey(`(${formatDurationToString(duration)})`)} (${suite.filePath})`)))
         } else if (eventType === EventType.TEST_ERROR) {
           const { duration, error, stack } = payload
           const suite = suiteMap[payload.suite.id]

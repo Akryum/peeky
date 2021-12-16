@@ -1,4 +1,5 @@
 export * from './code.js'
+export * from './console.js'
 export * from './env.js'
 export * from './esbuild.js'
 export * from './format.js'
