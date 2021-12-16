@@ -7,6 +7,7 @@ import {
   CheckIcon,
   XIcon,
   ChevronsRightIcon,
+  EditIcon,
 } from '@zhuowenli/vue-feather-icons'
 import { defineProps } from 'vue'
 
@@ -16,6 +17,7 @@ const icons = {
   success: CheckCircleIcon,
   error: XCircleIcon,
   skipped: ChevronsRightIcon,
+  todo: EditIcon,
 }
 
 const classes = {
@@ -24,6 +26,7 @@ const classes = {
   success: 'text-green-500',
   error: 'text-red-500',
   skipped: 'text-gray-300 dark:text-gray-700',
+  todo: 'text-yellow-500',
 }
 
 const bgClasses = {
@@ -32,6 +35,7 @@ const bgClasses = {
   success: 'bg-green-500',
   error: 'bg-red-500',
   skipped: 'bg-gray-300 dark:bg-gray-700',
+  todo: 'bg-yellow-500',
 }
 
 const smallIcons = {
@@ -39,6 +43,7 @@ const smallIcons = {
   success: CheckIcon,
   error: XIcon,
   skipped: ChevronsRightIcon,
+  todo: EditIcon,
 }
 
 const smallClasses = {
@@ -46,6 +51,15 @@ const smallClasses = {
   success: 'bg-green-500 text-white',
   error: 'bg-red-500 text-white',
   skipped: 'bg-gray-300 dark:bg-gray-700 text-white',
+  todo: 'bg-yellow-500 text-white',
+}
+
+const tooltips = {
+  in_progress: 'In progress',
+  success: 'Success',
+  error: 'Error',
+  skipped: 'Skipped',
+  todo: 'Todo',
 }
 
 const props = defineProps({
@@ -56,7 +70,14 @@ const props = defineProps({
 
   icon: {},
 
+  iconClass: {},
+
   bg: {
+    type: Boolean,
+    default: false,
+  },
+
+  pill: {
     type: Boolean,
     default: false,
   },
@@ -65,27 +86,46 @@ const props = defineProps({
 
 <template>
   <div
-    class="relative"
-    :class="{
-      [bgClasses[status] + ' rounded-full !bg-opacity-25']: bg,
-    }"
+    v-tooltip="!pill && tooltips[status]"
+    class="flex space-x-2"
   >
-    <component
-      :is="icon || icons[status]"
-      :key="status"
-      class=" w-full h-full stroke-current"
-      :class="classes[status]"
-    />
-
     <div
-      v-if="icon && smallIcons[status]"
-      class="absolute bottom-0 right-0 -m-0.5 rounded-full w-3/5 h-3/5"
-      :class="smallClasses[status]"
+      class="relative"
+      :class="[
+        {
+          [bgClasses[status] + ' rounded-full !bg-opacity-25']: bg,
+        },
+        iconClass,
+      ]"
     >
       <component
-        :is="smallIcons[status]"
-        class="w-full h-full stroke-current"
+        :is="icon || icons[status]"
+        :key="status"
+        class=" w-full h-full stroke-current"
+        :class="classes[status]"
       />
+
+      <div
+        v-if="icon && smallIcons[status]"
+        class="absolute bottom-0 right-0 -m-0.5 rounded-full w-3/5 h-3/5"
+        :class="smallClasses[status]"
+      >
+        <component
+          :is="smallIcons[status]"
+          class="w-full h-full stroke-current"
+        />
+      </div>
+    </div>
+
+    <div
+      v-if="pill"
+      class="rounded-full !bg-opacity-25 px-2"
+      :class="[
+        bgClasses[status],
+        classes[status]
+      ]"
+    >
+      {{ tooltips[status] }}
     </div>
   </div>
 </template>

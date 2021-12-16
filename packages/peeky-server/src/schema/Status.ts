@@ -8,7 +8,8 @@ export const Status = enumType({
     'success',
     'error',
     'skipped',
+    'todo',
   ],
 })
 
-export type StatusEnum = 'idle' | 'in_progress' | 'success' | 'error' | 'skipped'
+export type StatusEnum = 'idle' | 'in_progress' | 'success' | 'error' | 'skipped' | 'todo'

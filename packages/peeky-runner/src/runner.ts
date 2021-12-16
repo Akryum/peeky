@@ -48,7 +48,7 @@ export async function setupRunner (options: RunnerOptions) {
         } else if (eventType === EventType.SUITE_COMPLETED) {
           const { duration, suite: { testErrors, otherErrors } } = payload
           const suite = suiteMap[payload.suite.id]
-          consola.log(chalk[testErrors + otherErrors.length ? 'red' : 'green'].italic(`  ${chalk.bold(suite.title)} ${suite.tests.length - testErrors} / ${suite.tests.length} tests passed ${chalk.grey(`(${formatDurationToString(duration)})`)} (${suite.filePath})`))
+          consola.log(chalk[testErrors + otherErrors.length ? 'red' : 'green'].italic(`  ${chalk.bold(suite.title)} ${suite.runTestCount - testErrors} / ${suite.runTestCount} tests passed ${chalk.grey(`(${formatDurationToString(duration)})`)} (${suite.filePath})`))
         } else if (eventType === EventType.TEST_ERROR) {
           const { duration, error, stack } = payload
           const suite = suiteMap[payload.suite.id]

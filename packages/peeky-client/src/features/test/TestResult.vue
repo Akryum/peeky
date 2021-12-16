@@ -69,7 +69,8 @@ const diffShown = computed(() => props.test?.error?.actual && props.test?.error?
     <StatusIcon
       v-if="test.status !== 'error'"
       :status="test.status"
-      class="w-24 h-24 flex-none p-4 mx-auto my-auto"
+      class="flex-none mx-auto my-auto"
+      icon-class="w-24 h-24 p-4"
       bg
     />
 

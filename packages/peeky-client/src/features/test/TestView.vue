@@ -100,7 +100,9 @@ subscribeToMore(() => ({
     <div class="flex items-center space-x-2 h-10 px-3 flex-none">
       <StatusIcon
         :status="test.status"
-        class="w-5 h-5 flex-none"
+        class="flex-none"
+        icon-class="w-5 h-5"
+        pill
       />
       <span class="flex-1 truncate py-1">
         {{ suite.title }} ›

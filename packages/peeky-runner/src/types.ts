@@ -26,7 +26,9 @@ export interface TestSuiteInfo {
   tests: {
     id: string
     title: string
+    flag: TestFlag
   }[]
+  runTestCount: number
 }
 
 export interface TestSuiteResult {
@@ -39,7 +41,9 @@ export interface TestSuiteResult {
     id: string
     title: string
     error: Error
+    flag: TestFlag
   }[]
+  runTestCount: number
 }
 
 export interface TestSuite {
@@ -51,16 +55,19 @@ export interface TestSuite {
   afterAllHandlers: (() => unknown)[]
   afterEachHandlers: (() => unknown)[]
   tests: Test[]
+  ranTests: Test[]
   testErrors: number
   otherErrors: Error[]
 }
+
+export type TestFlag = 'only' | 'skip' | 'todo' | null
 
 export interface Test {
   id: string
   title: string
   handler: () => unknown
   error: Error
-  flag: 'only' | 'skip' | 'todo' | null
+  flag: TestFlag
 }
 
 export enum EventType {
@@ -73,7 +80,11 @@ export enum EventType {
 }
 
 export type DescribeFn = (title: string, handler: () => Awaitable<void>) => void
-export type TestFn = (title: string, handler: () => Awaitable<void>) => void
+export type TestFn = ((title: string, handler: () => Awaitable<void>) => void) & {
+  skip: (title: string, handler: () => Awaitable<void>) => void
+  only: (title: string, handler: () => Awaitable<void>) => void
+  todo: (title: string, handler?: () => Awaitable<void>) => void
+}
 export type BeforeAllFn = (handler: () => Awaitable<void>) => void
 export type AfterAllFn = (handler: () => Awaitable<void>) => void
 export type BeforeEachFn = (handler: () => Awaitable<void>) => void

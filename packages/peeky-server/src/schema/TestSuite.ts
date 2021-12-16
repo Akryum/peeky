@@ -2,6 +2,7 @@ import { fileURLToPath } from 'url'
 import { withFilter } from 'apollo-server-express'
 import { extendType, idArg, nonNull, objectType, stringArg } from 'nexus'
 import slugify from 'slugify'
+import { TestFlag } from '@peeky/runner'
 import type { Context } from '../context'
 import { getSrcFile } from '../util.js'
 import { getRunId } from './Run.js'
@@ -116,6 +117,7 @@ export interface CreateTestSuiteOptions {
   tests: {
     id: string
     title: string
+    flag: TestFlag
   }[]
 }
 
@@ -131,11 +133,14 @@ export async function createTestSuite (ctx: Context, options: CreateTestSuiteOpt
     tests: [],
   }
   testSuites.push(testSuite)
+  const hasOnlyTests = options.tests.some(t => t.flag === 'only')
   testSuite.tests = await Promise.all(options.tests.map(t => createTest(ctx, {
     id: t.id,
     runId: options.runId,
     testSuite,
     title: t.title,
+    flag: t.flag,
+    status: t.flag === 'todo' ? 'todo' : (hasOnlyTests && t.flag !== 'only') || t.flag === 'skip' ? 'skipped' : 'idle',
   })))
   ctx.pubsub.publish(TestSuiteAdded, {
     testSuite,
