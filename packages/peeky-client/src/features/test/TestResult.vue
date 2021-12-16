@@ -17,9 +17,9 @@ import { useMutation } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 import { computed, defineProps, ref } from 'vue'
 import { ChevronRightIcon } from '@zhuowenli/vue-feather-icons'
+import BaseButton from '../BaseButton.vue'
 import StatusIcon from '../StatusIcon.vue'
 import TestAssertionDiff from './TestAssertionDiff.vue'
-import BaseButton from '../BaseButton.vue'
 
 const props = defineProps({
   test: {
@@ -66,13 +66,26 @@ const diffShown = computed(() => props.test?.error?.actual && props.test?.error?
 
 <template>
   <div class="flex flex-col">
-    <StatusIcon
+    <div
       v-if="test.status !== 'error'"
-      :status="test.status"
-      class="flex-none mx-auto my-auto"
-      icon-class="w-24 h-24 p-4"
-      bg
-    />
+      class="flex-none mx-auto my-auto flex flex-col items-center space-y-4"
+    >
+      <StatusIcon
+        :status="test.status"
+        class="flex-none"
+        icon-class="w-24 h-24 p-4"
+        bg
+      />
+
+      <BaseButton
+        v-if="test.status === 'todo'"
+        color="gray"
+        class="px-4 py-2"
+        @click="openInEditor({ id: suite.runTestFile.testFile.id, line: 1, col: 1 })"
+      >
+        Open in your editor
+      </BaseButton>
+    </div>
 
     <template v-else>
       <div class="bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 rounded m-1 divide-y divide-red-200 dark:divide-red-800">
