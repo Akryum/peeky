@@ -2,6 +2,7 @@ import fs from 'fs'
 import { join } from 'path'
 import consola from 'consola'
 import shortid from 'shortid'
+import { fixWindowsAbsoluteFileUrl } from '@peeky/utils'
 import type { PeekyConfig } from './types'
 import { setupConfigContentLoader } from './fs.js'
 import { transformConfigCode } from './transform.js'
@@ -29,7 +30,7 @@ export async function setupConfigLoader (options: PeekyConfigLoaderOptions = {})
         fs.writeFileSync(resolvedPath, result.code)
         config = (
           // eslint-disable-next-line no-eval
-          await eval(`import('${resolvedPath}')`)
+          await eval(`import('${fixWindowsAbsoluteFileUrl(resolvedPath)}')`)
         ).default
         fs.unlinkSync(resolvedPath)
       }
