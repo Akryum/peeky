@@ -1,3 +1,20 @@
+## [0.8.5](https://github.com/Akryum/peeky/compare/v0.8.4...v0.8.5) (2021-12-16)
+
+
+### Bug Fixes
+
+* **client:** border align and color ([2c1caa9](https://github.com/Akryum/peeky/commit/2c1caa99df6cd2b74a0b656d3d869125e09109bb))
+* **client:** keep failed filter state ([20f8dbf](https://github.com/Akryum/peeky/commit/20f8dbfa9f63265103706828a0f7edfc7daa85e6))
+* don't log in italic on Windows ([ca29c7c](https://github.com/Akryum/peeky/commit/ca29c7c2b2ded6aa8b084cdc86c2785d6d946206))
+* windows errors, closes [#2](https://github.com/Akryum/peeky/issues/2) ([34826cb](https://github.com/Akryum/peeky/commit/34826cbd1a2c3beba65b13de44cbda6532c6512a))
+
+
+### Features
+
+* **cli:** 'peeky server' command ([d1885e9](https://github.com/Akryum/peeky/commit/d1885e99cd4fb84733f5f4d7bff27d2cc0d1c10f))
+
+
+
 ## [0.8.4](https://github.com/Akryum/peeky/compare/v0.8.3...v0.8.4) (2021-12-16)
 
 
