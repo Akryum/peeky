@@ -16,6 +16,14 @@ describe('myFunc()', () => {
 })
 ```
 
+You can however put tests outside of a `describe` function: they will be added to an anonymous test suite automatically:
+
+```js
+test('some test without describe', () => {
+  // ...
+})
+```
+
 ### Suite hooks
 
 You can execute some code at some specific point in your test suite with the following hooks:
