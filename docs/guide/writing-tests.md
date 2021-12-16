@@ -72,6 +72,38 @@ test('check assertions with expect', () => {
 
 For the complete list of available assertions, see [expect docs](https://jestjs.io/docs/expect).
 
+## Flags
+
+Using test flags, you can control how your tests are run.
+
+### Only
+
+Tests with this flag will be the only ones run in the current test suite.
+
+```js
+test.only('should work', () => {
+  expect(1).toBe(1)
+})
+```
+
+### Skip
+
+The tests with this flag will not be run.
+
+```js
+test.skip('should work', () => {
+  expect(1).toBe(1)
+})
+```
+
+### Todo
+
+The tests with this flag will not be run. The handler function is optional - useful to add tests that you want to write later.
+
+```js
+test.todo('test my function')
+```
+
 ## Mocking
 
 If you need mocks/stubs/spies in your tests, Peeky includes Sinon out-of-the-box.
