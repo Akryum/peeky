@@ -4,6 +4,7 @@ import BaseInput from '../BaseInput.vue'
 import SuiteItem from './SuiteItem.vue'
 import { SearchIcon } from '@zhuowenli/vue-feather-icons'
 import { computed, defineProps, ref } from 'vue'
+import { compareStatus } from '../../util/status'
 
 const props = defineProps<{
   suites: any[]
@@ -21,6 +22,8 @@ const failedTestCount = computed(() => {
     }, 0)
   }, 0)
 })
+
+const sortedSuites = computed(() => props.suites.slice().sort((a, b) => compareStatus(a.status, b.status)))
 </script>
 
 <template>
@@ -61,7 +64,7 @@ const failedTestCount = computed(() => {
 
         <div class="flex-1 overflow-y-auto">
           <SuiteItem
-            v-for="suite of suites"
+            v-for="suite of sortedSuites"
             :key="suite.id"
             :suite="suite"
             :run="run"

@@ -3,6 +3,7 @@ import TestItem from '../test/TestItem.vue'
 import StatusIcon from '../StatusIcon.vue'
 import Duration from '../Duration.vue'
 import { computed, defineProps } from 'vue'
+import { compareStatus } from '../../util/status'
 
 const props = defineProps({
   suite: {
@@ -41,6 +42,8 @@ const filteredTests = computed(() => {
 
   return tests
 })
+
+const sortedTests = computed(() => filteredTests.value.slice().sort((a, b) => compareStatus(a.status, b.status)))
 </script>
 
 <template>
@@ -85,7 +88,7 @@ const filteredTests = computed(() => {
 
     <div>
       <TestItem
-        v-for="test of filteredTests"
+        v-for="test of sortedTests"
         :key="test.id"
         :test="test"
         :suite="suite"

@@ -23,6 +23,7 @@ import { SearchIcon } from '@zhuowenli/vue-feather-icons'
 import { computed, Ref, ref } from 'vue'
 import { useQuery, useResult } from '@vue/apollo-composable'
 import { useRoute } from 'vue-router'
+import { compareStatus } from '../../util/status'
 
 const route = useRoute()
 
@@ -76,7 +77,11 @@ const filteredFiles = computed(createFilter(testFiles))
 const filteredPreviousFiles = computed(createFilter(previousErrorFiles))
 
 // Sorting
-const compare = (a, b) => a.testFile.relativePath.localeCompare(b.testFile.relativePath)
+const compare = (a, b) => {
+  const statusComparison = compareStatus(a.status, b.status)
+  if (statusComparison !== 0) return statusComparison
+  return a.testFile.relativePath.localeCompare(b.testFile.relativePath)
+}
 const sortedFiles = computed(() => filteredFiles.value.slice().sort(compare))
 const sortedPreviousFiles = computed(() => filteredPreviousFiles.value.slice().sort(compare))
 

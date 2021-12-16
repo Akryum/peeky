@@ -88,6 +88,7 @@ importers:
   packages/peeky-client:
     specifiers:
       '@apollo/client': ^3.4.7
+      '@peeky/server': ^0.8.3
       '@peeky/utils': ^0.8.3
       '@vitejs/plugin-vue': ^1.10.2
       '@vue/apollo-composable': ^4.0.0-alpha.12
@@ -110,6 +111,7 @@ importers:
       vue-router: ^4.0.3
     dependencies:
       '@apollo/client': 3.5.5_graphql@15.7.2
+      '@peeky/server': link:../peeky-server
       '@peeky/utils': link:../peeky-utils
       '@vue/apollo-composable': 4.0.0-alpha.16_9ca0baf5f272220e4488caae8c8e4209
       '@vue/apollo-util': 4.0.0-alpha.16

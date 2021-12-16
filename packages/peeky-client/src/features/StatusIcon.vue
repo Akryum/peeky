@@ -10,8 +10,9 @@ import {
   EditIcon,
 } from '@zhuowenli/vue-feather-icons'
 import { defineProps } from 'vue'
+import type { TestStatus } from '../util/status'
 
-const icons = {
+const icons: Record<TestStatus, any> = {
   idle: CircleIcon,
   in_progress: ClockIcon,
   success: CheckCircleIcon,
@@ -20,7 +21,7 @@ const icons = {
   todo: EditIcon,
 }
 
-const classes = {
+const classes: Record<TestStatus, string> = {
   idle: 'text-gray-300 dark:text-gray-700',
   in_progress: 'text-primary-500',
   success: 'text-green-500',
@@ -29,7 +30,7 @@ const classes = {
   todo: 'text-yellow-500',
 }
 
-const bgClasses = {
+const bgClasses: Record<TestStatus, string> = {
   idle: 'bg-gray-300 dark:bg-gray-700',
   in_progress: 'bg-primary-500',
   success: 'bg-green-500',
@@ -38,7 +39,7 @@ const bgClasses = {
   todo: 'bg-yellow-500',
 }
 
-const smallIcons = {
+const smallIcons: Omit<Record<TestStatus, any>, 'idle'> = {
   in_progress: ClockIcon,
   success: CheckIcon,
   error: XIcon,
@@ -46,7 +47,7 @@ const smallIcons = {
   todo: EditIcon,
 }
 
-const smallClasses = {
+const smallClasses: Omit<Record<TestStatus, string>, 'idle'> = {
   in_progress: 'bg-primary-500 text-white',
   success: 'bg-green-500 text-white',
   error: 'bg-red-500 text-white',
@@ -54,7 +55,8 @@ const smallClasses = {
   todo: 'bg-yellow-500 text-white',
 }
 
-const tooltips = {
+const tooltips: Record<TestStatus, string> = {
+  idle: 'Idle',
   in_progress: 'In progress',
   success: 'Success',
   error: 'Error',

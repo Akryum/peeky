@@ -37,3 +37,15 @@ describe('todo', () => {
 
   test.todo('c')
 })
+
+describe('mix and match', () => {
+  test('a', () => {
+    expect(1).toEqual(1)
+  })
+
+  test.todo('b', () => {
+    expect(1).toEqual(1)
+  })
+
+  test.skip('c')
+})
