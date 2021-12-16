@@ -16,8 +16,5 @@
   },
   "scripts": {
     "prepublishOnly": "cd ../peeky-client && pnpm run build-client"
-  },
-  "devDependencies": {
-    "@peeky/client": "^0.8.4"
   }
 }
