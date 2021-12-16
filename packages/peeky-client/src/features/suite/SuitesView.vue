@@ -1,9 +1,14 @@
+<script lang="ts">
+import { computed, defineProps, ref } from 'vue'
+
+const filterFailed = ref(false)
+</script>
+
 <script lang="ts" setup>
 import BaseSplitPane from '../BaseSplitPane.vue'
 import BaseInput from '../BaseInput.vue'
 import SuiteItem from './SuiteItem.vue'
 import { SearchIcon } from '@zhuowenli/vue-feather-icons'
-import { computed, defineProps, ref } from 'vue'
 import { compareStatus } from '../../util/status'
 
 const props = defineProps<{
@@ -13,7 +18,6 @@ const props = defineProps<{
 
 const searchText = ref('')
 const searchReg = computed(() => searchText.value ? new RegExp(searchText.value, 'gi') : null)
-const filterFailed = ref(false)
 
 const failedTestCount = computed(() => {
   return props.suites.reduce((sum, suite) => {
