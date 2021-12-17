@@ -1,9 +1,15 @@
+<script lang="ts">
+import { computed, defineProps, ref } from 'vue'
+
+const filterFailed = ref(false)
+</script>
+
 <script lang="ts" setup>
 import BaseSplitPane from '../BaseSplitPane.vue'
 import BaseInput from '../BaseInput.vue'
 import SuiteItem from './SuiteItem.vue'
 import { SearchIcon } from '@zhuowenli/vue-feather-icons'
-import { computed, defineProps, ref } from 'vue'
+import { compareStatus } from '../../util/status'
 
 const props = defineProps<{
   suites: any[]
@@ -12,7 +18,6 @@ const props = defineProps<{
 
 const searchText = ref('')
 const searchReg = computed(() => searchText.value ? new RegExp(searchText.value, 'gi') : null)
-const filterFailed = ref(false)
 
 const failedTestCount = computed(() => {
   return props.suites.reduce((sum, suite) => {
@@ -21,6 +26,8 @@ const failedTestCount = computed(() => {
     }, 0)
   }, 0)
 })
+
+const sortedSuites = computed(() => props.suites.slice().sort((a, b) => compareStatus(a.status, b.status)))
 </script>
 
 <template>
@@ -61,7 +68,7 @@ const failedTestCount = computed(() => {
 
         <div class="flex-1 overflow-y-auto">
           <SuiteItem
-            v-for="suite of suites"
+            v-for="suite of sortedSuites"
             :key="suite.id"
             :suite="suite"
             :run="run"

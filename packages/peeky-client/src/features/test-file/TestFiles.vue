@@ -23,6 +23,7 @@ import { SearchIcon } from '@zhuowenli/vue-feather-icons'
 import { computed, Ref, ref } from 'vue'
 import { useQuery, useResult } from '@vue/apollo-composable'
 import { useRoute } from 'vue-router'
+import { compareStatus } from '../../util/status'
 
 const route = useRoute()
 
@@ -76,7 +77,11 @@ const filteredFiles = computed(createFilter(testFiles))
 const filteredPreviousFiles = computed(createFilter(previousErrorFiles))
 
 // Sorting
-const compare = (a, b) => a.testFile.relativePath.localeCompare(b.testFile.relativePath)
+const compare = (a, b) => {
+  const statusComparison = compareStatus(a.status, b.status)
+  if (statusComparison !== 0) return statusComparison
+  return a.testFile.relativePath.localeCompare(b.testFile.relativePath)
+}
 const sortedFiles = computed(() => filteredFiles.value.slice().sort(compare))
 const sortedPreviousFiles = computed(() => filteredPreviousFiles.value.slice().sort(compare))
 
@@ -96,42 +101,40 @@ subscribeToMore({
 </script>
 
 <template>
-  <div class="flex flex-col divide-y divide-gray-100 dark:divide-gray-800">
-    <div class="flex-none">
-      <BaseInput
-        v-model="searchText"
-        size="md"
-        placeholder="Filter test files..."
-        class="h-10"
-      >
-        <template #after>
-          <SearchIcon class="mx-3 text-gray-500" />
-        </template>
-      </BaseInput>
-    </div>
-    <div class="flex-1 overflow-y-auto">
+  <div class="flex-none h-10">
+    <BaseInput
+      v-model="searchText"
+      size="md"
+      placeholder="Filter test files..."
+      class="h-full"
+    >
+      <template #after>
+        <SearchIcon class="mx-3 text-gray-500" />
+      </template>
+    </BaseInput>
+  </div>
+  <div class="flex-1 overflow-y-auto">
+    <TestFileItem
+      v-for="file of sortedFiles"
+      :key="file.id"
+      :file="file"
+    />
+
+    <template v-if="sortedPreviousFiles.length">
+      <div class="flex items-center space-x-2 mt-3 mb-1">
+        <div class="h-[1px] bg-gray-100 dark:bg-gray-900 flex-1" />
+        <div class="flex-none text-gray-300 dark:text-gray-700">
+          Previous errors
+        </div>
+        <div class="h-[1px] bg-gray-100 dark:bg-gray-900 flex-1" />
+      </div>
       <TestFileItem
-        v-for="file of sortedFiles"
+        v-for="file of sortedPreviousFiles"
         :key="file.id"
         :file="file"
+        previous
+        class="opacity-70"
       />
-
-      <template v-if="sortedPreviousFiles.length">
-        <div class="flex items-center space-x-2 mt-3 mb-1">
-          <div class="h-[1px] bg-gray-100 dark:bg-gray-900 flex-1" />
-          <div class="flex-none text-gray-300 dark:text-gray-700">
-            Previous errors
-          </div>
-          <div class="h-[1px] bg-gray-100 dark:bg-gray-900 flex-1" />
-        </div>
-        <TestFileItem
-          v-for="file of sortedPreviousFiles"
-          :key="file.id"
-          :file="file"
-          previous
-          class="opacity-70"
-        />
-      </template>
-    </div>
+    </template>
   </div>
 </template>

@@ -1,3 +1,40 @@
+## [0.8.5](https://github.com/Akryum/peeky/compare/v0.8.4...v0.8.5) (2021-12-16)
+
+
+### Bug Fixes
+
+* **client:** border align and color ([2c1caa9](https://github.com/Akryum/peeky/commit/2c1caa99df6cd2b74a0b656d3d869125e09109bb))
+* **client:** keep failed filter state ([20f8dbf](https://github.com/Akryum/peeky/commit/20f8dbfa9f63265103706828a0f7edfc7daa85e6))
+* don't log in italic on Windows ([ca29c7c](https://github.com/Akryum/peeky/commit/ca29c7c2b2ded6aa8b084cdc86c2785d6d946206))
+* windows errors, closes [#2](https://github.com/Akryum/peeky/issues/2) ([34826cb](https://github.com/Akryum/peeky/commit/34826cbd1a2c3beba65b13de44cbda6532c6512a))
+
+
+### Features
+
+* **cli:** 'peeky server' command ([d1885e9](https://github.com/Akryum/peeky/commit/d1885e99cd4fb84733f5f4d7bff27d2cc0d1c10f))
+
+
+
+## [0.8.4](https://github.com/Akryum/peeky/compare/v0.8.3...v0.8.4) (2021-12-16)
+
+
+### Bug Fixes
+
+* add exports to CJS globals ([b5a3949](https://github.com/Akryum/peeky/commit/b5a39492977fb9f7ddb5c1e32ecaeb4e1f20c865))
+* coverage ignore ([8c5004e](https://github.com/Akryum/peeky/commit/8c5004ee1f1644bd97f5cede0b67c2875b3c665e))
+* runner deps ([cf210ec](https://github.com/Akryum/peeky/commit/cf210ec5bb2b6cb2b3e42513bed29457d804448d))
+
+
+### Features
+
+* **client:** open test file button ([7f4db35](https://github.com/Akryum/peeky/commit/7f4db35275c7987a6f069453de7e7b33099a4d83))
+* **client:** sort with status ([dd0db5f](https://github.com/Akryum/peeky/commit/dd0db5f777f0c80a293279a9532a7ab0012b87e3))
+* **client:** todo open in editor CTA ([aa3ae34](https://github.com/Akryum/peeky/commit/aa3ae3428849d85ea92b4203896dd09db0bd0b75))
+* importable api, closes Importable API [#48](https://github.com/Akryum/peeky/issues/48) ([3c3bbbf](https://github.com/Akryum/peeky/commit/3c3bbbf376d3387c2b7cf24bdf50622815506fbc))
+* only/skip/todo, closes [#38](https://github.com/Akryum/peeky/issues/38) ([375510e](https://github.com/Akryum/peeky/commit/375510e6fe51fe4019ac125be9c5ece849b6b831))
+
+
+
 ## [0.8.3](https://github.com/Akryum/peeky/compare/v0.8.2...v0.8.3) (2021-12-12)
 
 

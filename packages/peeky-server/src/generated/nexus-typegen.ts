@@ -30,7 +30,8 @@ export interface NexusGenInputs {
 }
 
 export interface NexusGenEnums {
-  Status: "error" | "idle" | "in_progress" | "skipped" | "success"
+  Status: "error" | "idle" | "in_progress" | "skipped" | "success" | "todo"
+  TestFlag: "only" | "skip" | "todo"
 }
 
 export interface NexusGenScalars {
@@ -58,6 +59,7 @@ export interface NexusGenObjects {
   Test: { // root type
     duration?: number | null; // Float
     error?: NexusGenRootTypes['TestError'] | null; // TestError
+    flag?: NexusGenEnums['TestFlag'] | null; // TestFlag
     id: string; // ID!
     slug: string; // String!
     status: NexusGenEnums['Status']; // Status!
@@ -154,6 +156,7 @@ export interface NexusGenFieldTypes {
   Test: { // field return type
     duration: number | null; // Float
     error: NexusGenRootTypes['TestError'] | null; // TestError
+    flag: NexusGenEnums['TestFlag'] | null; // TestFlag
     id: string; // ID!
     slug: string; // String!
     status: NexusGenEnums['Status']; // Status!
@@ -251,6 +254,7 @@ export interface NexusGenFieldTypeNames {
   Test: { // field return type name
     duration: 'Float'
     error: 'TestError'
+    flag: 'TestFlag'
     id: 'ID'
     slug: 'String'
     status: 'Status'

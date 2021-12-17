@@ -7,14 +7,14 @@
 import { resolve, dirname, relative } from 'path'
 import { builtinModules, createRequire } from 'module'
 import vm from 'vm'
-import { pathToFileURL } from 'url'
+import { fileURLToPath, pathToFileURL } from 'url'
 import { ViteDevServer, InlineConfig, createServer, mergeConfig } from 'vite'
 import chalk from 'chalk'
 import shortid from 'shortid'
 import isEqual from 'lodash/isEqual.js'
 import { isValidNodeImport } from 'mlly'
 import type { ModuleFilterOption, ModuleFilter } from '@peeky/config'
-import { slash } from '@peeky/utils'
+import { slash, isWindows, fixWindowsAbsoluteFileUrl } from '@peeky/utils'
 import { moduleCache, sourceMaps } from './module-cache.js'
 import { mockedModules } from './mocked-files.js'
 import { createPeekyGlobal } from './peeky-global/index.js'
@@ -162,12 +162,12 @@ async function cachedRequest (rawId: string, ctx: ExecutionContext): Promise<any
   }
 
   if (ctx.externalsCache.has(realPath)) {
-    return import(realPath)
+    return import(fixWindowsAbsoluteFileUrl(realPath))
   }
 
   try {
     if (await shouldExternalize(realPath)) {
-      const exports = await import(realPath)
+      const exports = await import(fixWindowsAbsoluteFileUrl(realPath))
       ctx.externalsCache.add(realPath)
       return exports
     }
@@ -239,7 +239,7 @@ async function rawRequest (id: string, realPath: string, ctx: ExecutionContext):
       sourceMaps.set(realPath, result.map)
     }
 
-    const url = pathToFileURL(realPath)
+    const url = pathToFileURL(realPath).href
 
     const exports = {}
 
@@ -301,7 +301,10 @@ function toFilePath (id: string, root: string): string {
 
   if (absolute.startsWith('//')) { absolute = absolute.slice(1) }
 
-  return absolute
+  // disambiguate the `<UNIT>:/` on windows: see nodejs/node#31710
+  return isWindows && absolute.startsWith('/')
+    ? fileURLToPath(pathToFileURL(absolute.slice(1)).href)
+    : absolute
 }
 
 function exportAll (exports: any, sourceModule: any) {

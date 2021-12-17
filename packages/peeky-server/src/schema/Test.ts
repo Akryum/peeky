@@ -1,7 +1,8 @@
 import { withFilter } from 'apollo-server-express'
-import { extendType, idArg, nonNull, objectType, stringArg } from 'nexus'
+import { enumType, extendType, idArg, nonNull, objectType, stringArg } from 'nexus'
 import slugify from 'slugify'
 import AnsiUpPackage from 'ansi_up'
+import { TestFlag } from '@peeky/runner'
 import type { Context } from '../context'
 import { getRunId } from './Run.js'
 import { Status, StatusEnum } from './Status.js'
@@ -26,6 +27,16 @@ export const Test = objectType({
     t.float('duration')
     t.field('error', {
       type: TestError,
+    })
+    t.field('flag', {
+      type: enumType({
+        name: 'TestFlag',
+        members: [
+          'skip',
+          'only',
+          'todo',
+        ],
+      }),
     })
   },
 })
@@ -132,6 +143,7 @@ export interface TestData {
   status: StatusEnum
   duration: number
   error: TestErrorData
+  flag: TestFlag
 }
 
 export interface TestErrorData {
@@ -149,6 +161,8 @@ export interface CreateTestOptions {
   runId: string
   testSuite: TestSuiteData
   title: string
+  flag: TestFlag
+  status: StatusEnum
 }
 
 export async function createTest (ctx: Context, options: CreateTestOptions) {
@@ -158,7 +172,8 @@ export async function createTest (ctx: Context, options: CreateTestOptions) {
     runId: options.runId,
     testSuite: options.testSuite,
     title: options.title,
-    status: 'idle',
+    status: options.status,
+    flag: options.flag,
     duration: null,
     error: null,
   }

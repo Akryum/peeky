@@ -24,7 +24,7 @@ Add scripts to use the CLI in your `package.json` file:
     "test": "peeky run"
   },
   "devDependencies": {
-    "@peeky/test": "^0.8.3"
+    "@peeky/test": "^0.8.5"
   }
 }
 ```

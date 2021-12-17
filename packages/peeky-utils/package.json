@@ -1,6 +1,6 @@
 {
   "name": "@peeky/utils",
-  "version": "0.8.3",
+  "version": "0.8.5",
   "description": "Common utilities for Peeky, the testing framework for curious minds",
   "license": "MIT",
   "author": {

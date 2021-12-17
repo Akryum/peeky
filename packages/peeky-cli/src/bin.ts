@@ -27,4 +27,12 @@ program.command('open')
     return open(options)
   })
 
+program.command('server')
+  .describe('run the GraphQL API server without opening the UI')
+  .option('-p, --port <port>', 'Listening port of the server')
+  .action(async (options) => {
+    const { server } = await import('./commands/server.js')
+    return server(options)
+  })
+
 program.parse(process.argv)

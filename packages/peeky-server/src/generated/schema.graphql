@@ -68,6 +68,7 @@ enum Status {
   in_progress
   skipped
   success
+  todo
 }
 
 type Subscription {
@@ -88,6 +89,7 @@ type Subscription {
 type Test {
   duration: Float
   error: TestError
+  flag: TestFlag
   id: ID!
   slug: String!
   status: Status!
@@ -110,6 +112,12 @@ type TestFile {
   id: ID!
   relativePath: String!
   status: Status!
+}
+
+enum TestFlag {
+  only
+  skip
+  todo
 }
 
 type TestSuite {

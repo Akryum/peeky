@@ -11,7 +11,7 @@ export function getStats (results: RunTestFileResult[]) {
       if (suite.testErrors || suite.otherErrors.length) {
         errorSuiteCount++
       }
-      testCount += suite.tests.length
+      testCount += suite.runTestCount
       errorTestCount += suite.testErrors
     }
   }

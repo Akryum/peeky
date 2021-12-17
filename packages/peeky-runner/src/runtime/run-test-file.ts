@@ -103,7 +103,7 @@ export async function runTestFile (options: RunTestFileOptions) {
     const executionResult = await executeWithVite(options.entry, await getGlobals(ctx, register), options.config.targetDirectory)
 
     // Register suites and tests
-    await register.run()
+    await register.collect()
 
     const instrumenter = new CoverageInstrumenter()
     await instrumenter.startInstrumenting()
@@ -135,7 +135,9 @@ export async function runTestFile (options: RunTestFileOptions) {
         id: t.id,
         title: t.title,
         error: t.error,
+        flag: t.flag,
       })),
+      runTestCount: s.ranTests.length,
     }))
 
     return {

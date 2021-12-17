@@ -6,7 +6,8 @@ describe('getStats()', () => {
       {
         duration: 0,
         filePath: '',
-        modules: [],
+        deps: [],
+        coverage: [],
         suites: [
           {
             id: '',
@@ -18,9 +19,11 @@ describe('getStats()', () => {
               {
                 id: '',
                 title: '',
+                flag: null,
                 error: null,
               },
             ],
+            runTestCount: 1,
           },
           {
             id: '',
@@ -32,21 +35,25 @@ describe('getStats()', () => {
               {
                 id: '',
                 title: '',
+                flag: null,
                 error: null,
               },
               {
                 id: '',
                 title: '',
+                flag: null,
                 error: null,
               },
             ],
+            runTestCount: 2,
           },
         ],
       },
       {
         duration: 0,
         filePath: '',
-        modules: [],
+        deps: [],
+        coverage: [],
         suites: [
           {
             id: '',
@@ -58,9 +65,11 @@ describe('getStats()', () => {
               {
                 id: '',
                 title: '',
+                flag: null,
                 error: null,
               },
             ],
+            runTestCount: 1,
           },
           {
             id: '',
@@ -72,14 +81,17 @@ describe('getStats()', () => {
               {
                 id: '',
                 title: '',
+                flag: null,
                 error: null,
               },
               {
                 id: '',
                 title: '',
+                flag: null,
                 error: null,
               },
             ],
+            runTestCount: 2,
           },
         ],
       },
@@ -95,7 +107,8 @@ describe('getStats()', () => {
       {
         duration: 0,
         filePath: '',
-        modules: [],
+        deps: [],
+        coverage: [],
         suites: [
           {
             id: '',
@@ -107,9 +120,11 @@ describe('getStats()', () => {
               {
                 id: '',
                 title: '',
+                flag: null,
                 error: null,
               },
             ],
+            runTestCount: 1,
           },
           {
             id: '',
@@ -121,14 +136,17 @@ describe('getStats()', () => {
               {
                 id: '',
                 title: '',
+                flag: null,
                 error: new Error(),
               },
               {
                 id: '',
                 title: '',
+                flag: null,
                 error: null,
               },
             ],
+            runTestCount: 2,
           },
         ],
       },

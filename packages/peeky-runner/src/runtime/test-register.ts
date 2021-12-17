@@ -1,6 +1,7 @@
 import { basename, extname } from 'path'
 import shortid from 'shortid'
 import slugify from 'slugify'
+import { TestFlag } from '..'
 import type {
   AfterAllFn,
   AfterEachFn,
@@ -21,14 +22,14 @@ export function setupRegister (ctx: Context): {
     beforeEach: BeforeEachFn
     afterEach: AfterEachFn
   }
-  run: () => Promise<void>
+  collect: () => Promise<void>
 } {
   const suiteHandlers: (() => Promise<unknown>)[] = []
   let currentSuite: TestSuite
   let anonymouseSuite: TestSuite
 
   const createSuite = (title: string) => {
-    const suite = {
+    const suite: TestSuite = {
       id: shortid(),
       title,
       filePath: ctx.options.entry,
@@ -37,6 +38,7 @@ export function setupRegister (ctx: Context): {
       beforeEachHandlers: [],
       afterAllHandlers: [],
       afterEachHandlers: [],
+      ranTests: [],
       testErrors: 0,
       otherErrors: [],
     }
@@ -54,6 +56,20 @@ export function setupRegister (ctx: Context): {
     return anonymouseSuite
   }
 
+  const addTest = (title: string, handler: () => unknown, flag: TestFlag = null) => {
+    let target = currentSuite
+    if (!currentSuite) {
+      target = ensureAnonymousSuite()
+    }
+    target.tests.push({
+      id: shortid(),
+      title,
+      handler,
+      error: null,
+      flag,
+    })
+  }
+
   function describe (title: string, handler: () => unknown) {
     suiteHandlers.push(async () => {
       if (currentSuite) {
@@ -65,19 +81,19 @@ export function setupRegister (ctx: Context): {
     })
   }
 
-  function test (title: string, handler: () => unknown) {
-    let target = currentSuite
-    if (!currentSuite) {
-      target = ensureAnonymousSuite()
-    }
-    target.tests.push({
-      id: shortid(),
-      title,
-      handler,
-      error: null,
-      flag: null,
-    })
-  }
+  const test = Object.assign(function test (title: string, handler: () => unknown) {
+    addTest(title, handler)
+  }, {
+    skip: (title: string, handler: () => unknown) => {
+      addTest(title, handler, 'skip')
+    },
+    only: (title: string, handler: () => unknown) => {
+      addTest(title, handler, 'only')
+    },
+    todo: (title: string, handler?: () => unknown) => {
+      addTest(title, handler, 'todo')
+    },
+  })
 
   function beforeAll (handler: () => unknown) {
     let target = currentSuite
@@ -115,7 +131,7 @@ export function setupRegister (ctx: Context): {
    * Run the suite handlers to register suites and tests.
    * Shouldn't be exposed to the test files.
    */
-  async function run () {
+  async function collect () {
     for (const handler of suiteHandlers) {
       await handler()
     }
@@ -130,7 +146,7 @@ export function setupRegister (ctx: Context): {
       beforeEach,
       afterEach,
     },
-    run,
+    collect,
   }
 }
 
