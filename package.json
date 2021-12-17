@@ -8,9 +8,9 @@
   },
   "scripts": {
     "lint": "eslint . --ext js,vue,ts",
-    "build": "pnpm run -r build",
-    "watch": "pnpm run build && pnpm run -r --parallel watch",
-    "test": "pnpm run -r --parallel test",
+    "build": "pnpm run -r build --filter ./packages",
+    "watch": "pnpm run build && pnpm run -r watch --parallel --filter ./packages",
+    "test": "pnpm run -r test --parallel --filter ./packages",
     "release": "pnpm run lint && pnpm run build && pnpm run test && echo \"TODO publish\"",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",

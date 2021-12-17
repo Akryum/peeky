@@ -38,6 +38,20 @@ importers:
       tailwindcss: 2.2.19_postcss@8.4.4
       vitepress: 0.20.4
 
+  examples/vue3:
+    specifiers:
+      '@peeky/test': ^0.8.3
+      '@vitejs/plugin-vue': ^1
+      '@vue/test-utils': ^2.0.0-rc.17
+      vite: ^2.7
+      vue: ^3
+    devDependencies:
+      '@peeky/test': link:../../packages/peeky-test
+      '@vitejs/plugin-vue': 1.10.2_vite@2.7.1
+      '@vue/test-utils': 2.0.0-rc.17_vue@3.2.24
+      vite: 2.7.1
+      vue: 3.2.24
+
   packages/demo:
     specifiers:
       '@peeky/eslint-plugin': ^0.8.5
@@ -1434,6 +1448,14 @@ packages:
 
   /@vue/shared/3.2.24:
     resolution: {integrity: sha512-BUgRiZCkCrqDps5aQ9av05xcge3rn092ztKIh17tHkeEFgP4zfXMQWBA2zfdoCdCEdBL26xtOv+FZYiOp9RUDA==}
+
+  /@vue/test-utils/2.0.0-rc.17_vue@3.2.24:
+    resolution: {integrity: sha512-7LHZKsFRV/HqDoMVY+cJamFzgHgsrmQFalROHC5FMWrzPzd+utG5e11krj1tVsnxYufGA2ABShX4nlcHXED+zQ==}
+    peerDependencies:
+      vue: ^3.0.1
+    dependencies:
+      vue: 3.2.24
+    dev: true
 
   /@vuedx/analyze/0.7.4:
     resolution: {integrity: sha512-t56z6RkneqV9A0bBvq7geU2KYajI/t1xr2JAcpQSuWESVIDnNv3bvzCTK0ST+yUhDhruZ+bUINQWOp0EvAsRyQ==}
