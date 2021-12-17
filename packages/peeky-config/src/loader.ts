@@ -18,7 +18,7 @@ export interface PeekyConfigLoaderOptions {
 export async function setupConfigLoader (options: PeekyConfigLoaderOptions = {}) {
   const contentLoader = await setupConfigContentLoader(options.baseDir, options.glob)
 
-  async function loadConfig (): Promise<PeekyConfig> {
+  async function loadConfig (loadFromVite = true): Promise<PeekyConfig> {
     const file = contentLoader.getConfigPath()
     const resolvedPath = join(options.baseDir || process.cwd(), file + shortid() + '.temp.mjs')
     try {
@@ -36,14 +36,16 @@ export async function setupConfigLoader (options: PeekyConfigLoaderOptions = {})
       }
 
       // Integrate in vite config
-      try {
-        const { resolveConfig: resolveViteConfig } = await import('vite')
-        const viteConfig = await resolveViteConfig({}, 'serve')
-        if (viteConfig?.test) {
-          config = mergeConfig(config, viteConfig.test)
+      if (loadFromVite) {
+        try {
+          const { resolveConfig: resolveViteConfig } = await import('vite')
+          const viteConfig = await resolveViteConfig({}, 'serve')
+          if (viteConfig?.test) {
+            config = mergeConfig(config, viteConfig.test)
+          }
+        } catch (e) {
+          consola.error(`Failed to resolve vite config: ${e.stack ?? e.message}`)
         }
-      } catch (e) {
-        consola.error(`Failed to resolve vite config: ${e.stack ?? e.message}`)
       }
 
       config = mergeConfig(defaultPeekyConfig(), config)

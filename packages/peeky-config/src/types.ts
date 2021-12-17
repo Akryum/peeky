@@ -57,6 +57,6 @@ declare module 'vite' {
     /**
      * Peeky configuration
      */
-    test?: PeekyConfig
+    test?: SerializablePeekyConfig
   }
 }

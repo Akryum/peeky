@@ -8,7 +8,7 @@ export async function setupWorker () {
 
   // Base config
   const configLoader = await setupConfigLoader()
-  const config = await configLoader.loadConfig()
+  const config = await configLoader.loadConfig(false)
   await configLoader.destroy()
   baseConfig = config
 
