@@ -241,7 +241,16 @@ async function rawRequest (id: string, realPath: string, ctx: ExecutionContext):
 
     const url = pathToFileURL(realPath).href
 
-    const exports = {}
+    const exports: any = {}
+    const moduleProxy = {
+      set exports (value) {
+        exportAll(exports, value)
+        exports.default = value
+      },
+      get exports () {
+        return exports.default
+      },
+    }
 
     const context = {
       // Vite SSR transforms
@@ -253,6 +262,7 @@ async function rawRequest (id: string, realPath: string, ctx: ExecutionContext):
       // CJS compatibility
       require: createRequire(url),
       exports,
+      module: moduleProxy,
       __filename: realPath,
       __dirname: dirname(realPath),
       // Peeky globals
