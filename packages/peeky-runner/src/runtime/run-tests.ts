@@ -55,7 +55,7 @@ export async function runTests (ctx: Context) {
           }
           toMainThread().onTestError(suite.id, test.id, performance.now() - time, {
             message: e.message,
-            stack: stackIndex !== -1 ? e.stack.substr(0, stackIndex) : e.stack,
+            stack: stackIndex !== -1 ? e.stack.substring(0, stackIndex) : e.stack,
             data: JSON.stringify(e),
             matcherResult: JSON.stringify(e.matcherResult),
           })

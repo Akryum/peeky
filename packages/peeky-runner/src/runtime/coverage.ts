@@ -83,7 +83,7 @@ export async function getCoverage (
   }
 
   for (const c of filteredCoverage) {
-    const file = c.url.substr(7)
+    const file = c.url.substring(7)
     const rawContent = fs.existsSync(file) ? fs.readFileSync(file, 'utf8') : ''
 
     // Source map
