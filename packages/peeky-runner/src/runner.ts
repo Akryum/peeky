@@ -3,7 +3,7 @@ import consola from 'consola'
 import chalk from 'chalk'
 import { ReactiveFileSystem } from 'reactive-fs'
 import Tinypool from 'tinypool'
-import { Awaited, formatDurationToString, italic } from '@peeky/utils'
+import { Awaited, formatDurationToString } from '@peeky/utils'
 import { ProgramPeekyConfig, toSerializableConfig } from '@peeky/config'
 import type { runTestFile as rawRunTestFile } from './runtime/run-test-file.js'
 import type { RunTestFileOptions, TestSuiteInfo } from './types'
@@ -58,7 +58,7 @@ export async function setupRunner (options: RunnerOptions) {
 
       onSuiteComplete: ({ id, testErrors, otherErrors }, duration) => {
         const suite = suiteMap[id]
-        consola.log(italic(chalk[testErrors + otherErrors.length ? 'red' : 'green'](`  ${chalk.bold(suite.title)} ${suite.runTestCount - testErrors} / ${suite.runTestCount} tests passed ${chalk.grey(`(${formatDurationToString(duration)})`)} (${suite.filePath})`)))
+        consola.log(chalk[testErrors + otherErrors.length ? 'red' : 'green'](`  ${chalk.bold(suite.title)} ${suite.runTestCount - testErrors} / ${suite.runTestCount} tests passed ${chalk.grey(`(${formatDurationToString(duration)})`)} (${suite.filePath})`))
       },
 
       onTestError: (suiteId, testId, duration, error) => {
