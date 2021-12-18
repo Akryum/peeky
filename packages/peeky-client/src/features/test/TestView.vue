@@ -107,7 +107,7 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
       />
     </div>
 
-    <div class="flex items-center space-x-2 h-10 px-3 flex-none">
+    <div class="flex items-center space-x-2 h-10 px-4 flex-none">
       <StatusIcon
         :status="test.status"
         class="flex-none"
