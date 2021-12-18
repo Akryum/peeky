@@ -2,13 +2,13 @@ import { performance } from 'perf_hooks'
 import consola from 'consola'
 import chalk from 'chalk'
 import { createReactiveFileSystem } from 'reactive-fs'
-import { SerializablePeekyConfig } from '@peeky/config'
+import { ProgramPeekyConfig } from '@peeky/config'
 import { formatDurationToString } from '@peeky/utils'
 import { setupRunner } from './runner.js'
 import { getStats } from './stats.js'
 import { computeCoveredLines, getEmptyCoverageFromFiles, mergeCoverage } from './runtime/coverage.js'
 
-export async function runAllTests (config: SerializablePeekyConfig) {
+export async function runAllTests (config: ProgramPeekyConfig) {
   const fsTime = performance.now()
   const testFiles = await createReactiveFileSystem({
     baseDir: config.targetDirectory,
@@ -91,7 +91,7 @@ export async function runAllTests (config: SerializablePeekyConfig) {
 
   // Summary
 
-  consola.info(`Ran ${fileList.length} tests files (${formatDurationToString(endTime - time)}, using ${runner.pool.stats().totalWorkers} parallel workers)`)
+  consola.info(`Ran ${fileList.length} tests files (${formatDurationToString(endTime - time)}, using ${runner.pool.threads.length} parallel workers)`)
   consola.log(chalk[errorSuiteCount ? 'red' : 'green'].bold(`Suites : ${suiteCount - errorSuiteCount} / ${suiteCount}\nTests  : ${testCount - errorTestCount} / ${testCount}`))
   consola.log(chalk[errorSuiteCount ? 'red' : 'green'].bold(`Errors : ${errorTestCount}`))
 

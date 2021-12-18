@@ -1,6 +1,9 @@
-import { worker } from '@akryum/workerpool'
+import { initWorkerMessaging } from './message.js'
 import { runTestFile } from './run-test-file.js'
 
-worker({
-  runTestFile,
-})
+export default (payload) => {
+  initWorkerMessaging(payload.port)
+  delete payload.port
+
+  return runTestFile(payload)
+}

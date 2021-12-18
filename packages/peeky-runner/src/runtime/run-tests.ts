@@ -1,9 +1,7 @@
 import { basename } from 'path'
 import { performance } from 'perf_hooks'
-import { workerEmit } from '@akryum/workerpool'
-import type { Context, TestSuiteInfo } from '../types'
-import { EventType } from '../types.js'
-import { Test } from '..'
+import type { Context, Test } from '../types'
+import { toMainThread } from './message.js'
 
 export async function runTests (ctx: Context) {
   const { default: sinon } = await import('sinon')
@@ -17,18 +15,16 @@ export async function runTests (ctx: Context) {
       testsToRun = suite.tests.filter(t => t.flag !== 'skip' && t.flag !== 'todo')
     }
 
-    workerEmit(EventType.SUITE_START, {
-      suite: {
-        id: suite.id,
-        title: suite.title,
-        filePath: suite.filePath,
-        tests: suite.tests.map(t => ({
-          id: t.id,
-          title: t.title,
-          flag: t.flag,
-        })),
-        runTestCount: testsToRun.length,
-      } as TestSuiteInfo,
+    toMainThread().onSuiteStart({
+      id: suite.id,
+      title: suite.title,
+      filePath: suite.filePath,
+      tests: suite.tests.map(t => ({
+        id: t.id,
+        title: t.title,
+        flag: t.flag,
+      })),
+      runTestCount: testsToRun.length,
     })
 
     const suiteTime = performance.now()
@@ -46,25 +42,10 @@ export async function runTests (ctx: Context) {
         }
 
         const time = performance.now()
-        workerEmit(EventType.TEST_START, {
-          suite: {
-            id: suite.id,
-          },
-          test: {
-            id: test.id,
-          },
-        })
+        toMainThread().onTestStart(suite.id, test.id)
         try {
           await test.handler()
-          workerEmit(EventType.TEST_SUCCESS, {
-            suite: {
-              id: suite.id,
-            },
-            test: {
-              id: test.id,
-            },
-            duration: performance.now() - time,
-          })
+          toMainThread().onTestSuccess(suite.id, test.id, performance.now() - time)
         } catch (e) {
           test.error = e
           let stackIndex = e.stack ? e.stack.lastIndexOf(basename(ctx.options.entry)) : -1
@@ -72,16 +53,10 @@ export async function runTests (ctx: Context) {
             // Continue to the end of the line
             stackIndex = e.stack.indexOf('\n', stackIndex)
           }
-          workerEmit(EventType.TEST_ERROR, {
-            suite: {
-              id: suite.id,
-            },
-            test: {
-              id: test.id,
-            },
-            duration: performance.now() - time,
-            error: { message: e.message, data: JSON.stringify(e) },
+          toMainThread().onTestError(suite.id, test.id, performance.now() - time, {
+            message: e.message,
             stack: stackIndex !== -1 ? e.stack.substr(0, stackIndex) : e.stack,
+            data: JSON.stringify(e),
             matcherResult: JSON.stringify(e.matcherResult),
           })
           suite.testErrors++
@@ -103,13 +78,10 @@ export async function runTests (ctx: Context) {
       suite.otherErrors.push(new Error(`Empty test suite: ${suite.title}`))
     }
 
-    workerEmit(EventType.SUITE_COMPLETED, {
-      suite: {
-        id: suite.id,
-        testErrors: suite.testErrors,
-        otherErrors: suite.otherErrors,
-      },
-      duration: performance.now() - suiteTime,
-    })
+    toMainThread().onSuiteComplete({
+      id: suite.id,
+      testErrors: suite.testErrors,
+      otherErrors: suite.otherErrors,
+    }, performance.now() - suiteTime)
   }
 }

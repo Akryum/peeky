@@ -1,14 +1,12 @@
 import { performance } from 'perf_hooks'
 import { install as installSourceMap } from 'source-map-support'
 import consola from 'consola'
-import { workerEmit } from '@akryum/workerpool'
 import { CoverageInstrumenter } from 'collect-v8-coverage'
 import fs from 'fs-extra'
 import pragma from 'pragma'
 import { InstantiableTestEnvironmentClass, mergeConfig } from '@peeky/config'
 import type { Context, RunTestFileOptions, TestSuiteResult } from '../types'
-import { EventType } from '../types.js'
-import { executeWithVite, initViteServer } from './vite.js'
+import { useVite } from './vite.js'
 import { getGlobals } from './globals.js'
 import { runTests } from './run-tests.js'
 import { setupRegister } from './test-register.js'
@@ -18,13 +16,14 @@ import { getTestEnvironment, NodeEnvironment } from './environment.js'
 import { createMockedFileSystem } from './fs.js'
 import { moduleCache, sourceMaps } from './module-cache.js'
 import { baseConfig, setupWorker } from './setup.js'
+import { toMainThread } from './message.js'
 
 export async function runTestFile (options: RunTestFileOptions) {
   try {
     const time = performance.now()
     await setupWorker()
 
-    options.config = mergeConfig(baseConfig, options.config)
+    const config = mergeConfig(baseConfig, options.config)
 
     options.clearDeps.forEach(file => moduleCache.delete(file))
 
@@ -54,14 +53,11 @@ export async function runTestFile (options: RunTestFileOptions) {
     mockedModules.clear()
 
     // Build
-    await initViteServer({
-      configFile: options.config.viteConfigFile,
-      defaultConfig: {},
-      rootDir: options.config.targetDirectory,
-      userInlineConfig: options.config.vite,
-      exclude: options.config.buildExclude,
-      include: options.config.buildInclude,
-    })
+    const { executeWithVite } = useVite({
+      rootDir: config.targetDirectory,
+      exclude: config.buildExclude,
+      include: config.buildInclude,
+    }, (id) => toMainThread().transform(id))
 
     // Globals
     const register = setupRegister(ctx)
@@ -79,28 +75,28 @@ export async function runTestFile (options: RunTestFileOptions) {
     })
 
     // Runtime env
-    const runtimeEnvOption = ctx.pragma.runtimeEnv ?? options.config.runtimeEnv
+    const runtimeEnvOption = ctx.pragma.runtimeEnv ?? config.runtimeEnv
     let RuntimeEnv: InstantiableTestEnvironmentClass
     if (typeof runtimeEnvOption === 'string') {
-      RuntimeEnv = getTestEnvironment(runtimeEnvOption, options.config)
+      RuntimeEnv = getTestEnvironment(runtimeEnvOption, config)
     } else if (runtimeEnvOption) {
       RuntimeEnv = runtimeEnvOption
     } else {
       RuntimeEnv = NodeEnvironment
     }
-    const runtimeEnv = new RuntimeEnv(options.config, {
+    const runtimeEnv = new RuntimeEnv(config, {
       testPath: options.entry,
       pragma: ctx.pragma,
     })
     await runtimeEnv.create()
 
     let ufs
-    if ((options.config.mockFs && ctx.pragma.mockFs !== false) || ctx.pragma.mockFs) {
+    if ((config.mockFs && ctx.pragma.mockFs !== false) || ctx.pragma.mockFs) {
       ufs = createMockedFileSystem()
     }
 
     // Execute test file
-    const executionResult = await executeWithVite(options.entry, await getGlobals(ctx, register), options.config.targetDirectory)
+    const executionResult = await executeWithVite(options.entry, await getGlobals(ctx, register), config.targetDirectory)
 
     // Register suites and tests
     await register.collect()
@@ -118,11 +114,6 @@ export async function runTestFile (options: RunTestFileOptions) {
     await runtimeEnv.destroy()
 
     const duration = performance.now() - time
-
-    workerEmit(EventType.TEST_FILE_COMPLETED, {
-      filePath: ctx.options.entry,
-      duration,
-    })
 
     // Result data
     const suites: TestSuiteResult[] = ctx.suites.map(s => ({

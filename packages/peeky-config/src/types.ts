@@ -3,6 +3,7 @@ import { Awaitable } from '@peeky/utils'
 
 export type ModuleFilter = string | RegExp | ((absolutePath: string) => boolean)
 export type ModuleFilterOption<T = ModuleFilter> = T[] | T
+export type SerializableModuleFilter = string | RegExp
 
 export type SerializableRuntimeEnv = 'node' | 'dom'
 export interface PeekyConfig {
@@ -27,6 +28,12 @@ export interface PeekyConfig {
 
 export type SerializablePeekyConfig = Omit<PeekyConfig, 'runtimeEnv' | 'runtimeAvailableEnvs' | 'buildExclude' | 'buildInclude' | 'vite'> & {
   runtimeEnv?: SerializableRuntimeEnv
+  buildExclude?: ModuleFilterOption<SerializableModuleFilter>
+  buildInclude?: ModuleFilterOption<SerializableModuleFilter>
+}
+
+export type ProgramPeekyConfig = SerializablePeekyConfig & {
+  vite?: PeekyConfig['vite']
 }
 
 export interface TestEnvironmentContext {

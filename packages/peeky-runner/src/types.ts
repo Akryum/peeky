@@ -1,9 +1,9 @@
-import type { PeekyConfig } from '@peeky/config'
+import type { SerializablePeekyConfig } from '@peeky/config'
 import type { Awaitable } from '@peeky/utils'
 
 export interface RunTestFileOptions {
   entry: string
-  config: PeekyConfig
+  config: SerializablePeekyConfig
   coverage: CoverageOptions
   clearDeps?: string[]
 }
@@ -68,15 +68,6 @@ export interface Test {
   handler: () => unknown
   error: Error
   flag: TestFlag
-}
-
-export enum EventType {
-  SUITE_START = 'suite:start',
-  SUITE_COMPLETED = 'suite:completed',
-  TEST_START = 'test:start',
-  TEST_ERROR = 'test:error',
-  TEST_SUCCESS = 'test:success',
-  TEST_FILE_COMPLETED = 'test-file:completed',
 }
 
 export type DescribeFn = (title: string, handler: () => Awaitable<void>) => void

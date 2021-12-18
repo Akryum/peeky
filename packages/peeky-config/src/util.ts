@@ -1,5 +1,5 @@
 import { isObject } from '@peeky/utils'
-import { PeekyConfig, SerializablePeekyConfig } from './types.js'
+import { PeekyConfig, ProgramPeekyConfig, SerializablePeekyConfig } from './types.js'
 
 const mergedArrays: string[] = [
   'buildInclude',
@@ -30,6 +30,12 @@ export function mergeConfig<T extends (Record<string, any>) = Record<string, any
 }
 
 export function toSerializableConfig (config: PeekyConfig): SerializablePeekyConfig {
+  const result = toProgramConfig(config)
+  delete result.vite
+  return result as SerializablePeekyConfig
+}
+
+export function toProgramConfig (config: PeekyConfig): ProgramPeekyConfig {
   const result = { ...config }
   if (typeof result.runtimeEnv !== 'string') {
     delete result.runtimeEnv
@@ -37,6 +43,5 @@ export function toSerializableConfig (config: PeekyConfig): SerializablePeekyCon
   delete result.runtimeAvailableEnvs
   delete result.buildInclude
   delete result.buildExclude
-  delete result.vite
-  return result as SerializablePeekyConfig
+  return result as ProgramPeekyConfig
 }

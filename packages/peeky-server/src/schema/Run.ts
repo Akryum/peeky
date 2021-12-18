@@ -3,7 +3,7 @@ import { fileURLToPath } from 'url'
 import { performance } from 'perf_hooks'
 import { arg, extendType, idArg, inputObjectType, nonNull, objectType } from 'nexus'
 import shortid from 'shortid'
-import { setupRunner, getStats, EventType, Runner } from '@peeky/runner'
+import { setupRunner, getStats, Runner } from '@peeky/runner'
 import nameGenerator from 'project-name-generator'
 import randomEmoji from 'random-emoji'
 import objectInspect from 'object-inspect'
@@ -16,7 +16,7 @@ import { RunTestFileData, updateRunTestFile } from './RunTestFile.js'
 import { getErrorPosition, getSrcFile, formatRunTestFileErrorMessage } from '../util.js'
 import { settings } from './Settings.js'
 import { mightRunOnChangedFiles } from '../watch.js'
-import { toSerializableConfig } from '@peeky/config'
+import { toProgramConfig } from '@peeky/config'
 
 const __filename = fileURLToPath(import.meta.url)
 
@@ -247,15 +247,16 @@ export async function startRun (ctx: Context, id: string) {
   const time = performance.now()
   if (!runner) {
     runner = await setupRunner({
-      config: toSerializableConfig(ctx.config),
+      config: toProgramConfig(ctx.config),
       testFiles: ctx.reactiveFs,
     })
   } else {
-    runner.clearEventListeners()
+    runner.clearOnMessage()
   }
-  runner.onEvent(async (eventType, payload) => {
-    if (eventType === EventType.SUITE_START) {
-      const { suite } = payload
+  runner.onMessage(async (message) => {
+    console.log(message.method)
+    if (message.method === 'onSuiteStart') {
+      const [suite] = message.args
       const testFileId = relative(ctx.config.targetDirectory, suite.filePath)
       createTestSuite(ctx, {
         id: suite.id,
@@ -264,40 +265,40 @@ export async function startRun (ctx: Context, id: string) {
         title: suite.title,
         tests: suite.tests,
       })
-    } else if (eventType === EventType.SUITE_COMPLETED) {
-      const { suite, duration } = payload
-      const suiteData = testSuites.find(s => s.id === suite.id)
-      updateTestSuite(ctx, suite.id, {
-        status: !suiteData.tests.length ? 'skipped' : suite.testErrors + suite.otherErrors.length ? 'error' : 'success',
+    } else if (message.method === 'onSuiteComplete') {
+      const [suiteData, duration] = message.args
+      const suite = testSuites.find(s => s.id === suiteData.id)
+      updateTestSuite(ctx, suiteData.id, {
+        status: !suite.tests.length ? 'skipped' : suiteData.testErrors + suiteData.otherErrors.length ? 'error' : 'success',
         duration,
       })
-    } else if (eventType === EventType.TEST_START) {
-      const { suite, test } = payload
-      updateTest(ctx, suite.id, test.id, {
+    } else if (message.method === 'onTestStart') {
+      const [suiteId, testId] = message.args
+      updateTest(ctx, suiteId, testId, {
         status: 'in_progress',
       })
-    } else if (eventType === EventType.TEST_SUCCESS) {
-      const { suite, test, duration } = payload
-      updateTest(ctx, suite.id, test.id, {
+    } else if (message.method === 'onTestSuccess') {
+      const [suiteId, testId, duration] = message.args
+      updateTest(ctx, suiteId, testId, {
         status: 'success',
         duration,
       })
-    } else if (eventType === EventType.TEST_ERROR) {
-      const { suite, test, duration, error, stack, matcherResult } = payload
-      const testFile = testSuites.find(s => s.id === suite.id).runTestFile.testFile
-      const { line, col } = getErrorPosition(testFile.relativePath, stack)
+    } else if (message.method === 'onTestError') {
+      const [suiteId, testId, duration, error] = message.args
+      const testFile = testSuites.find(s => s.id === suiteId).runTestFile.testFile
+      const { line, col } = getErrorPosition(testFile.relativePath, error.stack)
       const lineSource = (await ctx.reactiveFs.files[testFile.relativePath].waitForContent).split('\n')[line - 1]
-      updateTest(ctx, suite.id, test.id, {
+      updateTest(ctx, suiteId, testId, {
         status: 'error',
         duration,
         error: {
           message: error.message,
-          stack: stack,
+          stack: error.stack,
           snippet: lineSource.trim(),
           line,
           col,
-          expected: matcherResult?.expected ? stringifyJS(matcherResult.expected) : null,
-          actual: matcherResult?.actual ? stringifyJS(matcherResult.actual) : null,
+          expected: error.matcherResult?.expected ? stringifyJS(error.matcherResult.expected) : null,
+          actual: error.matcherResult?.actual ? stringifyJS(error.matcherResult.actual) : null,
         },
       })
     }

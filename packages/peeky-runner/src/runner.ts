@@ -1,19 +1,17 @@
-import { dirname, join, relative } from 'path'
-import { fileURLToPath } from 'url'
+import { relative } from 'path'
 import consola from 'consola'
 import chalk from 'chalk'
-import workerpool from '@akryum/workerpool'
 import { ReactiveFileSystem } from 'reactive-fs'
+import Tinypool from 'tinypool'
 import { Awaited, formatDurationToString, italic } from '@peeky/utils'
-import { SerializablePeekyConfig } from '@peeky/config'
+import { ProgramPeekyConfig, toSerializableConfig } from '@peeky/config'
 import type { runTestFile as rawRunTestFile } from './runtime/run-test-file.js'
 import type { RunTestFileOptions, TestSuiteInfo } from './types'
-import { EventType } from './types.js'
-
-const __dirname = dirname(fileURLToPath(import.meta.url))
+import { initViteServer, stopViteServer, transform } from './build/vite.js'
+import { createWorkerChannel, useWorkerMessages } from './message.js'
 
 export interface RunnerOptions {
-  config: SerializablePeekyConfig
+  config: ProgramPeekyConfig
   testFiles: ReactiveFileSystem
 }
 
@@ -21,63 +19,74 @@ interface Context {
   options: RunnerOptions
 }
 
-type EventHandler = (eventType: string, payload: any) => unknown
-
 export async function setupRunner (options: RunnerOptions) {
   const ctx: Context = {
     options,
   }
 
+  const serializableConfig = toSerializableConfig(options.config)
+  const {
+    onMessage,
+    clearOnMessage,
+    handleMessage,
+  } = useWorkerMessages()
+
   process.chdir(options.config.targetDirectory)
 
-  const pool = workerpool.pool(join(__dirname, 'runtime/worker.js'), {
-    ...options.config.maxWorkers ? { maxWorkers: options.config.maxWorkers } : {},
+  await initViteServer({
+    configFile: options.config.viteConfigFile,
+    defaultConfig: {},
+    rootDir: options.config.targetDirectory,
+    userInlineConfig: options.config.vite,
+  })
+
+  const pool = new Tinypool({
+    filename: new URL('./runtime/worker.js', import.meta.url).href,
+    maxThreads: options.config.maxWorkers || undefined,
   })
   const { testFiles } = options
 
-  const eventHandlers: EventHandler[] = []
-
   async function runTestFileWorker (options: RunTestFileOptions): ReturnType<typeof rawRunTestFile> {
     const suiteMap: { [id: string]: TestSuiteInfo } = {}
-    return pool.exec('runTestFile', [options], {
-      on: (eventType, payload) => {
-        if (eventType === EventType.SUITE_START) {
-          const suite: TestSuiteInfo = payload.suite
-          // consola.log(chalk.blue(`START ${suite.title}`))
-          suiteMap[suite.id] = suite
-        } else if (eventType === EventType.SUITE_COMPLETED) {
-          const { duration, suite: { testErrors, otherErrors } } = payload
-          const suite = suiteMap[payload.suite.id]
-          consola.log(italic(chalk[testErrors + otherErrors.length ? 'red' : 'green'](`  ${chalk.bold(suite.title)} ${suite.runTestCount - testErrors} / ${suite.runTestCount} tests passed ${chalk.grey(`(${formatDurationToString(duration)})`)} (${suite.filePath})`)))
-        } else if (eventType === EventType.TEST_ERROR) {
-          const { duration, error, stack } = payload
-          const suite = suiteMap[payload.suite.id]
-          const test = suite.tests.find(t => t.id === payload.test.id)
-          consola.log(chalk.red(`${chalk.bgRedBright.black.bold(' FAIL ')} ${suite.title} › ${chalk.bold(test.title)} ${chalk.grey(`(${formatDurationToString(duration)})`)}`))
-          consola.log(`\n${stack ?? error.message}\n`)
-          if (typeof payload.matcherResult === 'string') {
-            payload.matcherResult = JSON.parse(payload.matcherResult)
-          }
-        } else if (eventType === EventType.TEST_SUCCESS) {
-          const { duration } = payload
-          const suite = suiteMap[payload.suite.id]
-          const test = suite.tests.find(t => t.id === payload.test.id)
-          consola.log(chalk.green(`${chalk.bgGreenBright.black.bold(' PASS ')} ${suite.title} › ${chalk.bold(test.title)} ${chalk.grey(`(${formatDurationToString(duration)})`)}`))
-        }
 
-        for (const handler of eventHandlers) {
-          handler(eventType, payload)
+    const { mainPort, workerPort } = createWorkerChannel({
+      transform: async (id) => transform(id),
+
+      onSuiteStart: (suite: TestSuiteInfo) => {
+        suiteMap[suite.id] = suite
+      },
+
+      onSuiteComplete: ({ id, testErrors, otherErrors }, duration) => {
+        const suite = suiteMap[id]
+        consola.log(italic(chalk[testErrors + otherErrors.length ? 'red' : 'green'](`  ${chalk.bold(suite.title)} ${suite.runTestCount - testErrors} / ${suite.runTestCount} tests passed ${chalk.grey(`(${formatDurationToString(duration)})`)} (${suite.filePath})`)))
+      },
+
+      onTestError: (suiteId, testId, duration, error) => {
+        const suite = suiteMap[suiteId]
+        const test = suite.tests.find(t => t.id === testId)
+        consola.log(chalk.red(`${chalk.bgRedBright.black.bold(' FAIL ')} ${suite.title} › ${chalk.bold(test.title)} ${chalk.grey(`(${formatDurationToString(duration)})`)}`))
+        consola.log(`\n${error.stack ?? error.message}\n`)
+        if (typeof error.matcherResult === 'string') {
+          error.matcherResult = JSON.parse(error.matcherResult)
         }
       },
+
+      onTestSuccess: (suiteId, testId, duration) => {
+        const suite = suiteMap[suiteId]
+        const test = suite.tests.find(t => t.id === testId)
+        consola.log(chalk.green(`${chalk.bgGreenBright.black.bold(' PASS ')} ${suite.title} › ${chalk.bold(test.title)} ${chalk.grey(`(${formatDurationToString(duration)})`)}`))
+      },
+    }, handleMessage)
+
+    const result = await pool.run({
+      ...options,
+      port: workerPort,
+    }, {
+      transferList: [workerPort],
     })
-  }
-
-  function onEvent (handler: EventHandler) {
-    eventHandlers.push(handler)
-  }
-
-  function clearEventListeners () {
-    eventHandlers.length = 0
+    mainPort.close()
+    workerPort.close()
+    return result
   }
 
   async function runTestFile (relativePath: string, clearDeps: string[] = []) {
@@ -85,7 +94,7 @@ export async function setupRunner (options: RunnerOptions) {
     if (file) {
       const result = await runTestFileWorker({
         entry: file.absolutePath,
-        config: ctx.options.config,
+        config: serializableConfig,
         coverage: {
           root: ctx.options.config.targetDirectory,
           ignored: [...ctx.options.config.match ?? [], ...ctx.options.config.ignored ?? []],
@@ -104,16 +113,17 @@ export async function setupRunner (options: RunnerOptions) {
 
   async function close () {
     await testFiles.destroy()
-    await pool.terminate()
-    clearEventListeners()
+    await pool.destroy()
+    await stopViteServer()
+    clearOnMessage()
   }
 
   return {
     testFiles,
     runTestFile,
     close,
-    onEvent,
-    clearEventListeners,
+    onMessage,
+    clearOnMessage,
     pool,
   }
 }
