@@ -1,6 +1,6 @@
 {
   "name": "@peeky/client",
-  "version": "0.8.6",
+  "version": "0.9.0",
   "description": "Frontend for Peeky, the testing framework for curious minds",
   "license": "MIT",
   "author": {
@@ -21,8 +21,8 @@
   },
   "dependencies": {
     "@apollo/client": "^3.4.7",
-    "@peeky/server": "^0.8.6",
-    "@peeky/utils": "^0.8.6",
+    "@peeky/server": "^0.9.0",
+    "@peeky/utils": "^0.9.0",
     "@vue/apollo-composable": "^4.0.0-alpha.12",
     "@vue/apollo-util": "^4.0.0-alpha.14",
     "@zhuowenli/vue-feather-icons": "^5",

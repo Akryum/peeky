@@ -1,3 +1,18 @@
+# [0.9.0](https://github.com/Akryum/peeky/compare/v0.8.6...v0.9.0) (2021-12-18)
+
+
+### Bug Fixes
+
+* **coverage:** don't crash if source file is virtual ([d8a7948](https://github.com/Akryum/peeky/commit/d8a7948df52694e272460ade864c4096cadb3839))
+* remove italic in console log ([8a14483](https://github.com/Akryum/peeky/commit/8a1448340a017e25f40ad4afde8921f1559e8988))
+
+
+### Features
+
+* new worker system with one vite server ([3758ee7](https://github.com/Akryum/peeky/commit/3758ee735b15145507a792915e20ae1fb5befc54))
+
+
+
 ## [0.8.6](https://github.com/Akryum/peeky/compare/v0.8.5...v0.8.6) (2021-12-18)
 
 
