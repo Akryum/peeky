@@ -1,6 +1,6 @@
 {
   "name": "peeky-demo",
-  "version": "0.8.5",
+  "version": "0.8.6",
   "private": true,
   "scripts": {
     "dev-server": "nodemon ../peeky-server/dist/standalone.js --watch .. --delay 200ms -e js --ignore tests/ --ignore demo/ --nexus-artifacts",
@@ -9,8 +9,8 @@
     "lint": "eslint . --ext js,ts"
   },
   "devDependencies": {
-    "@peeky/eslint-plugin": "^0.8.5",
-    "@peeky/test": "^0.8.5",
+    "@peeky/eslint-plugin": "^0.8.6",
+    "@peeky/test": "^0.8.6",
     "lodash-es": "^4.17.21",
     "nodemon": "^2.0.7",
     "ts-node": "^9.1.1",

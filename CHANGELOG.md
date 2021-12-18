@@ -1,3 +1,17 @@
+## [0.8.6](https://github.com/Akryum/peeky/compare/v0.8.5...v0.8.6) (2021-12-18)
+
+
+### Bug Fixes
+
+* **cli:** open command not working, closes [#55](https://github.com/Akryum/peeky/issues/55) ([bcee3a0](https://github.com/Akryum/peeky/commit/bcee3a072675646868c2f40ddafa4b59de5f3e4a))
+* handle question mark in module id ([88aaf3e](https://github.com/Akryum/peeky/commit/88aaf3e63d1c9c32aadd15010ef0763ac07c6978))
+* improved build shouldExternalize ([c321784](https://github.com/Akryum/peeky/commit/c3217845892ff9f871b8f4e75fccd0abef9f0f39))
+* mark config in vite as serializable config type ([e03d32e](https://github.com/Akryum/peeky/commit/e03d32e8ab5c158b8a000da9c4eab08a83183cdc))
+* stub `module.exports` ([f3b7ee9](https://github.com/Akryum/peeky/commit/f3b7ee9c5f3a124d8a8ee4b422aea11cd3fc4fdf))
+* update mlly ([7167efc](https://github.com/Akryum/peeky/commit/7167efcff091c15faf5788a1d585fc7f8e95c9c9))
+
+
+
 ## [0.8.5](https://github.com/Akryum/peeky/compare/v0.8.4...v0.8.5) (2021-12-16)
 
 
