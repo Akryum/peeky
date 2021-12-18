@@ -84,7 +84,7 @@ export async function getCoverage (
 
   for (const c of filteredCoverage) {
     const file = c.url.substr(7)
-    const rawContent = fs.readFileSync(file, 'utf8')
+    const rawContent = fs.existsSync(file) ? fs.readFileSync(file, 'utf8') : ''
 
     // Source map
     let sourceMapConsumer: SourceMapConsumer
