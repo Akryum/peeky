@@ -254,7 +254,6 @@ export async function startRun (ctx: Context, id: string) {
     runner.clearOnMessage()
   }
   runner.onMessage(async (message) => {
-    console.log(message.method)
     if (message.method === 'onSuiteStart') {
       const [suite] = message.args
       const testFileId = relative(ctx.config.targetDirectory, suite.filePath)
