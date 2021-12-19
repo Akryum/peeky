@@ -1,18 +1,18 @@
 /// <reference types="@peeky/test" />
 
-import path from "path"
-import { defineConfig } from "vite"
-import { createVuePlugin } from "vite-plugin-vue2"
-import WindiCSS from "vite-plugin-windicss"
+import path from 'path'
+import { defineConfig } from 'vite'
+import { createVuePlugin } from 'vite-plugin-vue2'
+import WindiCSS from 'vite-plugin-windicss'
 
 // console.log('loaded vite config', new Error().stack)
 
 const config = defineConfig({
   resolve: {
     alias: {
-      "@": `${path.resolve(__dirname, "src")}`,
+      '@': `${path.resolve(__dirname, 'src')}`,
     },
-    dedupe: ["vue-demi"],
+    dedupe: ['vue-demi'],
   },
 
   plugins: [
@@ -21,8 +21,8 @@ const config = defineConfig({
   ],
 
   test: {
-    runtimeEnv: "dom",
-    buildExclude: ["vue-template-compiler"],
+    runtimeEnv: 'dom',
+    buildExclude: ['vue-template-compiler'],
   },
 })
 
