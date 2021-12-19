@@ -7,6 +7,7 @@ import { formatDurationToString } from '@peeky/utils'
 import { setupRunner } from './runner.js'
 import { getStats } from './stats.js'
 import { computeCoveredLines, getEmptyCoverageFromFiles, mergeCoverage } from './runtime/coverage.js'
+import { createConsoleFancyReporter } from './reporters/console-fancy.js'
 
 export interface RunAllOptions {
   quickTestFilter?: string
@@ -23,6 +24,9 @@ export async function runAllTests (config: ProgramPeekyConfig, options: RunAllOp
   const runner = await setupRunner({
     config,
     testFiles,
+    reporters: [
+      createConsoleFancyReporter(),
+    ],
   })
 
   let fileList = runner.testFiles.list()

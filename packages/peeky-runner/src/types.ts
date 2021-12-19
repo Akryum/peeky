@@ -19,18 +19,6 @@ export interface Context {
   pragma: Record<string, any>
 }
 
-export interface TestSuiteInfo {
-  id: string
-  title: string
-  filePath: string
-  tests: {
-    id: string
-    title: string
-    flag: TestFlag
-  }[]
-  runTestCount: number
-}
-
 export interface TestSuiteResult {
   id: string
   title: string
@@ -80,3 +68,35 @@ export type BeforeAllFn = (handler: () => Awaitable<void>) => void
 export type AfterAllFn = (handler: () => Awaitable<void>) => void
 export type BeforeEachFn = (handler: () => Awaitable<void>) => void
 export type AfterEachFn = (handler: () => Awaitable<void>) => void
+
+export interface ReporterTestSuite {
+  id: string
+  title: string
+  filePath: string
+  tests: ReporterTest[]
+  runTestCount: number
+  duration?: number
+  testErrors?: number
+  otherErrors?: Error[]
+}
+
+export interface ReporterTest {
+  id: string
+  title: string
+  flag: TestFlag
+  duration?: number
+  error?: Error
+}
+
+type TestSuiteInfoPayload = { suite: ReporterTestSuite }
+type TestInfoPayload = TestSuiteInfoPayload & { test: ReporterTest }
+type OptionalTestInfoPayload = { suite: ReporterTestSuite | null, test: ReporterTest | null }
+
+export interface Reporter {
+  log?: (payload: OptionalTestInfoPayload & { type: 'stdout' | 'stderr', text: string }) => unknown
+  suiteStart?: (payload: TestSuiteInfoPayload) => unknown
+  suiteComplete?: (payload: TestSuiteInfoPayload) => unknown
+  testStart?: (payload: TestInfoPayload) => unknown
+  testSuccess?: (payload: TestInfoPayload) => unknown
+  testFail?: (payload: TestInfoPayload) => unknown
+}
