@@ -4,7 +4,7 @@ import pick from 'lodash/pick.js'
 import consola from 'consola'
 import { performance } from 'perf_hooks'
 
-export async function run (options) {
+export async function run (quickFilter: string, options) {
   try {
     const time = performance.now()
     const configLoader = await setupConfigLoader()
@@ -16,7 +16,9 @@ export async function run (options) {
     ]) as PeekyConfig))
     consola.info('Setup done in', (performance.now() - time).toFixed(2), 'ms')
 
-    const { stats: { errorSuiteCount } } = await runAllTests(toProgramConfig(finalConfig))
+    const { stats: { errorSuiteCount } } = await runAllTests(toProgramConfig(finalConfig), {
+      quickTestFilter: quickFilter,
+    })
 
     if (errorSuiteCount) {
       const e = new Error('Some tests failed')

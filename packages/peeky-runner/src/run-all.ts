@@ -8,7 +8,11 @@ import { setupRunner } from './runner.js'
 import { getStats } from './stats.js'
 import { computeCoveredLines, getEmptyCoverageFromFiles, mergeCoverage } from './runtime/coverage.js'
 
-export async function runAllTests (config: ProgramPeekyConfig) {
+export interface RunAllOptions {
+  quickTestFilter?: string
+}
+
+export async function runAllTests (config: ProgramPeekyConfig, options: RunAllOptions = {}) {
   const fsTime = performance.now()
   const testFiles = await createReactiveFileSystem({
     baseDir: config.targetDirectory,
@@ -21,7 +25,12 @@ export async function runAllTests (config: ProgramPeekyConfig) {
     testFiles,
   })
 
-  const fileList = runner.testFiles.list()
+  let fileList = runner.testFiles.list()
+
+  if (options.quickTestFilter) {
+    const reg = new RegExp(options.quickTestFilter, 'i')
+    fileList = fileList.filter(f => reg.test(f))
+  }
 
   consola.info(`Found ${fileList.length} test files in ${formatDurationToString(performance.now() - fsTime)}.`)
 
