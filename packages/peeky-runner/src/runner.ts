@@ -56,11 +56,6 @@ export async function setupRunner (options: RunnerOptions) {
         suiteMap[suite.id] = suite
       },
 
-      onSuiteComplete: ({ id, testErrors, otherErrors }, duration) => {
-        const suite = suiteMap[id]
-        consola.log(chalk[testErrors + otherErrors.length ? 'red' : 'green'](`  ${chalk.bold(suite.title)} ${suite.runTestCount - testErrors} / ${suite.runTestCount} tests passed ${chalk.grey(`(${formatDurationToString(duration)})`)} (${suite.filePath})`))
-      },
-
       onTestError: (suiteId, testId, duration, error) => {
         const suite = suiteMap[suiteId]
         const test = suite.tests.find(t => t.id === testId)
