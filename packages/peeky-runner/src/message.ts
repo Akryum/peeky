@@ -9,6 +9,7 @@ export interface WorkerRemoteMethods {
   onTestError: (suiteId: string, testId: string, duration: number, error: TestErrorData) => void
   onTestSuccess: (suiteId: string, testId: string, duration: number) => void
   transform: (id: string) => Promise<TransformResult>
+  onLog: (suiteId: string, testId: string, type: 'stdout' | 'stderr', text: string) => void
 }
 
 export interface TestErrorData {

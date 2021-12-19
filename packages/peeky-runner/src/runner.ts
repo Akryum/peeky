@@ -76,6 +76,14 @@ export async function setupRunner (options: RunnerOptions) {
         const test = suite.tests.find(t => t.id === testId)
         consola.log(chalk.green(`${chalk.bgGreenBright.black.bold(' PASS ')} ${suite.title} › ${chalk.bold(test.title)} ${chalk.grey(`(${formatDurationToString(duration)})`)}`))
       },
+
+      onLog: (suiteId, testId, type, text) => {
+        const suite = suiteMap[suiteId]
+        const test = suite?.tests.find(t => t.id === testId)
+        consola.log(chalk.dim(`\n[${type}] ${test ? `${suite.title} › ${chalk.bold(test.title)}` : 'unknown test'}\n`))
+        process[type].write(text)
+        process[type].write('\n')
+      },
     }, handleMessage)
 
     const result = await pool.run({

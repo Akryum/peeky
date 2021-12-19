@@ -1,12 +1,15 @@
 import { basename } from 'path'
 import { performance } from 'perf_hooks'
 import type { Context, Test } from '../types'
+import { setCurrentSuite, setCurrentTest } from './global-context.js'
 import { toMainThread } from './message.js'
 
 export async function runTests (ctx: Context) {
   const { default: sinon } = await import('sinon')
 
   for (const suite of ctx.suites) {
+    setCurrentSuite(suite)
+
     let testsToRun: Test[]
     const onlyTests = suite.tests.filter(t => t.flag === 'only')
     if (onlyTests.length) {
@@ -35,6 +38,7 @@ export async function runTests (ctx: Context) {
       }
 
       for (const test of testsToRun) {
+        setCurrentTest(test)
         sinon.restore()
 
         for (const handler of suite.beforeEachHandlers) {
@@ -65,6 +69,8 @@ export async function runTests (ctx: Context) {
         for (const handler of suite.afterEachHandlers) {
           await handler()
         }
+
+        setCurrentTest(null)
       }
 
       for (const handler of suite.afterAllHandlers) {
@@ -83,5 +89,7 @@ export async function runTests (ctx: Context) {
       testErrors: suite.testErrors,
       otherErrors: suite.otherErrors,
     }, performance.now() - suiteTime)
+
+    setCurrentSuite(null)
   }
 }
