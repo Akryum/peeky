@@ -3,9 +3,9 @@
   "version": "0.9.0",
   "private": true,
   "scripts": {
-    "dev-server": "nodemon ../peeky-server/dist/standalone.js --watch .. --delay 200ms -e js --ignore tests/ --ignore demo/ --nexus-artifacts",
-    "dev-open": "peeky open",
-    "dev-run": "peeky run",
+    "server": "nodemon ../../packages/peeky-server/dist/standalone.js --watch ../../packages --delay 200ms -e js --ignore tests/ --nexus-artifacts",
+    "open": "peeky open",
+    "run": "peeky run",
     "lint": "eslint . --ext js,ts"
   },
   "devDependencies": {

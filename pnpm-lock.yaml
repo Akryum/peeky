@@ -38,6 +38,22 @@ importers:
       tailwindcss: 2.2.19_postcss@8.4.4
       vitepress: 0.20.4
 
+  examples/demo:
+    specifiers:
+      '@peeky/eslint-plugin': ^0.9.0
+      '@peeky/test': ^0.9.0
+      lodash-es: ^4.17.21
+      nodemon: ^2.0.7
+      ts-node: ^9.1.1
+      vue: ^3.2
+    devDependencies:
+      '@peeky/eslint-plugin': link:../../packages/peeky-eslint-plugin
+      '@peeky/test': link:../../packages/peeky-test
+      lodash-es: 4.17.21
+      nodemon: 2.0.15
+      ts-node: 9.1.1
+      vue: 3.2.24
+
   examples/vue2:
     specifiers:
       '@peeky/test': ../../packages/peeky-test
@@ -75,22 +91,6 @@ importers:
       '@vitejs/plugin-vue': 1.10.2_vite@2.7.1
       '@vue/test-utils': 2.0.0-rc.17_vue@3.2.24
       vite: 2.7.1
-      vue: 3.2.24
-
-  packages/demo:
-    specifiers:
-      '@peeky/eslint-plugin': ^0.9.0
-      '@peeky/test': ^0.9.0
-      lodash-es: ^4.17.21
-      nodemon: ^2.0.7
-      ts-node: ^9.1.1
-      vue: ^3.2
-    devDependencies:
-      '@peeky/eslint-plugin': link:../peeky-eslint-plugin
-      '@peeky/test': link:../peeky-test
-      lodash-es: 4.17.21
-      nodemon: 2.0.15
-      ts-node: 9.1.1
       vue: 3.2.24
 
   packages/peeky-cli:
