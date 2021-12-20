@@ -18,9 +18,7 @@ export async function run (quickFilter: string, options) {
     })
 
     if (errorSuiteCount) {
-      const e = new Error('Some tests failed')
-      e.stack = e.message
-      throw e
+      process.exit(1)
     }
   } catch (e) {
     consola.error(e)
