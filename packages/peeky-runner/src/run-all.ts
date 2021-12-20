@@ -5,6 +5,7 @@ import { setupRunner } from './runner.js'
 import { getStats } from './stats.js'
 import { computeCoveredLines, getEmptyCoverageFromFiles, mergeCoverage } from './runtime/coverage.js'
 import { createConsoleFancyReporter } from './reporters/console-fancy.js'
+import { createRawReporter } from './reporters/raw.js'
 
 export interface RunAllOptions {
   quickTestFilter?: string
@@ -14,6 +15,10 @@ export async function runAllTests (config: ProgramPeekyConfig, options: RunAllOp
   const reporters = config.reporters ? config.reporters.map(id => {
     if (id === 'console-fancy') {
       return createConsoleFancyReporter()
+    } else if (id === 'console-json') {
+      return createRawReporter(data => {
+        console.log(JSON.stringify(data))
+      })
     }
   }) : [
     createConsoleFancyReporter(),

@@ -6,7 +6,7 @@ export type ModuleFilterOption<T = ModuleFilter> = T[] | T
 export type SerializableModuleFilter = string | RegExp
 
 export type SerializableRuntimeEnv = 'node' | 'dom'
-export type BuiltinReporter = 'console-fancy'
+export type BuiltinReporter = 'console-fancy' | 'console-json'
 
 export interface PeekyConfig {
   targetDirectory?: string
