@@ -42,6 +42,7 @@ export function createConsoleFancyReporter (): Reporter {
       coveredLines,
       totalLines,
     }) => {
+      if (!mergedCoverage.length) return
       const header = [
         'Coverage',
         `${coveredFilesCount}/${mergedCoverage.length} files (${
