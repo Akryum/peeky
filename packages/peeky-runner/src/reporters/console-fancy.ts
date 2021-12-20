@@ -45,10 +45,10 @@ export function createConsoleFancyReporter (): Reporter {
       const header = [
         'Coverage',
         `${coveredFilesCount}/${mergedCoverage.length} files (${
-          Math.round(coveredFilesCount / mergedCoverage.length * 10000) / 100
+          Math.round(coveredFilesCount / Math.max(1, mergedCoverage.length) * 10000) / 100
         }%)`,
         `${coveredLines}/${totalLines} lines (${
-          Math.round(coveredLines / totalLines * 10000) / 100
+          Math.round(coveredLines / Math.max(1, totalLines) * 10000) / 100
         }%)`,
       ]
       const noCoverage = coveredFilesCount === 0 && mergedCoverage.length > 0
