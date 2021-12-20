@@ -84,7 +84,7 @@ export function createConsoleFancyReporter (): Reporter {
       testCount,
       errorTestCount,
     }) => {
-      consola.log(`${drawBox(`Ran ${fileCount} tests files (${formatDurationToString(duration)})`)}\n`)
+      consola.log(`\n${drawBox(`Ran ${fileCount} tests files (${formatDurationToString(duration)})`)}\n`)
       consola.log(chalk[errorSuiteCount ? 'red' : 'green'](`  ${chalk.dim('Suites')} ${chalk.bold(`${suiteCount - errorSuiteCount} / ${suiteCount}`)}\n   ${chalk.dim('Tests')} ${chalk.bold(`${testCount - errorTestCount} / ${testCount}`)}\n  ${chalk.dim('Errors')} ${chalk.bold(errorTestCount)}\n`))
     },
   }
