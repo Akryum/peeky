@@ -41,7 +41,7 @@ module.exports = {
     indent: 'off',
     '@typescript-eslint/indent': ['error', 2],
     'no-use-before-define': 'off',
-    quotes: 'off',
+    quotes: ['error', 'single', { allowTemplateLiterals: true }],
   },
   overrides: [
     {
