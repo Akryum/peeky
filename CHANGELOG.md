@@ -1,3 +1,16 @@
+## [0.9.2](https://github.com/Akryum/peeky/compare/v0.9.1...v0.9.2) (2021-12-20)
+
+
+### Bug Fixes
+
+* add new line before general summary ([874c40a](https://github.com/Akryum/peeky/commit/874c40a3f16663410dae16ec003c44cf1fdd155c))
+* coverage NaN% ([edc6b68](https://github.com/Akryum/peeky/commit/edc6b68c8ce94796e0e3923aebfc4d32b2e448b3))
+* don't display coverage summary if no files ([e5551df](https://github.com/Akryum/peeky/commit/e5551df484ae0c4f643314113cd35a87fde59070))
+* memfs error when loading node_modules package ([079daa2](https://github.com/Akryum/peeky/commit/079daa2123935a155417f241cf0c5716696b4acd))
+* use bg color for log type ([bf4e71c](https://github.com/Akryum/peeky/commit/bf4e71c8786b973dd05ac9db19ed3258437ad9c5))
+
+
+
 ## [0.9.1](https://github.com/Akryum/peeky/compare/v0.9.0...v0.9.1) (2021-12-20)
 
 
