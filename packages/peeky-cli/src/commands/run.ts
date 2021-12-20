@@ -8,9 +8,15 @@ export async function run (quickFilter: string, options) {
     const configLoader = await setupConfigLoader()
     const config = await configLoader.loadConfig()
     await configLoader.destroy()
+
+    if (typeof options.reporters === 'string') {
+      options.reporters = options.reporters.split(',')
+    }
+
     const finalConfig = mergeConfig(config, (pick<any>(options, [
       'match',
       'ignore',
+      'reporters',
     ]) as PeekyConfig))
 
     const { stats: { errorSuiteCount } } = await runAllTests(toProgramConfig(finalConfig), {

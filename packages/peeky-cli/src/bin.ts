@@ -14,6 +14,7 @@ program.command('run [quickFilter]')
   .describe('run all tests, useful for continuous integration environments')
   .option('-m, --match <globs...>', 'Globs to match test files. Example: `peeky run -m "**/*.spec.ts" "**/__tests__/*.ts"`')
   .option('-i, --ignore <globs...>', 'Globs ignore when looking for test files. Example: `peeky run -i "node_modules" "dist/**/*.ts"`')
+  .option('-r, --reporters <reporter...>', 'Reporters to use. Available: console-fancy, console-json')
   .action(async (quickFilter, options) => {
     const { run } = await import('./commands/run.js')
     return run(quickFilter, options)
