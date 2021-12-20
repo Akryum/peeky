@@ -1,5 +1,6 @@
 import type { SerializablePeekyConfig } from '@peeky/config'
 import type { Awaitable } from '@peeky/utils'
+import { FileCoverage } from './runtime/coverage.js'
 
 export interface RunTestFileOptions {
   entry: string
@@ -19,21 +20,6 @@ export interface Context {
   pragma: Record<string, any>
 }
 
-export interface TestSuiteResult {
-  id: string
-  title: string
-  filePath: string
-  testErrors: number
-  otherErrors: Error[]
-  tests: {
-    id: string
-    title: string
-    error: Error
-    flag: TestFlag
-  }[]
-  runTestCount: number
-}
-
 export interface TestSuite {
   id: string
   title: string
@@ -46,6 +32,7 @@ export interface TestSuite {
   ranTests: Test[]
   testErrors: number
   otherErrors: Error[]
+  duration?: number
 }
 
 export type TestFlag = 'only' | 'skip' | 'todo' | null
@@ -56,6 +43,7 @@ export interface Test {
   handler: () => unknown
   error: Error
   flag: TestFlag
+  duration?: number
 }
 
 export type DescribeFn = (title: string, handler: () => Awaitable<void>) => void
@@ -92,6 +80,30 @@ type TestSuiteInfoPayload = { suite: ReporterTestSuite }
 type TestInfoPayload = TestSuiteInfoPayload & { test: ReporterTest }
 type OptionalTestInfoPayload = { suite: ReporterTestSuite | null, test: ReporterTest | null }
 
+interface ErrorSummaryPayload {
+  suites: ReporterTestSuite[]
+  errorTestCount: number
+  testCount: number
+}
+
+interface CoverageSummaryPayload {
+  uncoveredFiles: FileCoverage[]
+  partiallyCoveredFiles: FileCoverage[]
+  mergedCoverage: FileCoverage[]
+  coveredLines: number
+  totalLines: number
+  coveredFilesCount: number
+}
+
+interface SummaryPayload {
+  fileCount: number
+  duration: number
+  suiteCount: number
+  errorSuiteCount: number
+  testCount: number
+  errorTestCount: number
+}
+
 export interface Reporter {
   log?: (payload: OptionalTestInfoPayload & { type: 'stdout' | 'stderr', text: string }) => unknown
   suiteStart?: (payload: TestSuiteInfoPayload) => unknown
@@ -99,4 +111,8 @@ export interface Reporter {
   testStart?: (payload: TestInfoPayload) => unknown
   testSuccess?: (payload: TestInfoPayload) => unknown
   testFail?: (payload: TestInfoPayload) => unknown
+  errorSummary?: (payload: ErrorSummaryPayload) => unknown
+  coverageSummary?: (payload: CoverageSummaryPayload) => unknown
+  summary?: (payload: SummaryPayload) => unknown
+
 }

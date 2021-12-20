@@ -2,11 +2,9 @@ import { setupConfigLoader, mergeConfig, PeekyConfig, toProgramConfig } from '@p
 import { runAllTests } from '@peeky/runner'
 import pick from 'lodash/pick.js'
 import consola from 'consola'
-import { performance } from 'perf_hooks'
 
 export async function run (quickFilter: string, options) {
   try {
-    const time = performance.now()
     const configLoader = await setupConfigLoader()
     const config = await configLoader.loadConfig()
     await configLoader.destroy()
@@ -14,7 +12,6 @@ export async function run (quickFilter: string, options) {
       'match',
       'ignore',
     ]) as PeekyConfig))
-    consola.info('Setup done in', (performance.now() - time).toFixed(2), 'ms')
 
     const { stats: { errorSuiteCount } } = await runAllTests(toProgramConfig(finalConfig), {
       quickTestFilter: quickFilter,

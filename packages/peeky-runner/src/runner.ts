@@ -54,7 +54,7 @@ export async function setupRunner (options: RunnerOptions) {
 
       onSuiteStart: (suite) => {
         suiteMap[suite.id] = suite
-        reporters.forEach(r => r?.suiteStart({ suite }))
+        reporters.forEach(r => r.suiteStart?.({ suite }))
       },
 
       onSuiteComplete: ({ id, testErrors, otherErrors }, duration) => {
@@ -64,7 +64,7 @@ export async function setupRunner (options: RunnerOptions) {
           testErrors,
           otherErrors,
         })
-        reporters.forEach(r => r?.suiteComplete({ suite }))
+        reporters.forEach(r => r.suiteComplete?.({ suite }))
       },
 
       onTestError: (suiteId, testId, duration, error) => {
@@ -79,7 +79,7 @@ export async function setupRunner (options: RunnerOptions) {
           duration,
           error,
         })
-        reporters.forEach(r => r?.testFail({ suite, test }))
+        reporters.forEach(r => r.testFail?.({ suite, test }))
       },
 
       onTestSuccess: (suiteId, testId, duration) => {
@@ -88,13 +88,13 @@ export async function setupRunner (options: RunnerOptions) {
         Object.assign(test, {
           duration,
         })
-        reporters.forEach(r => r?.testSuccess({ suite, test }))
+        reporters.forEach(r => r.testSuccess?.({ suite, test }))
       },
 
       onLog: (suiteId, testId, type, text) => {
         const suite = suiteMap[suiteId]
         const test = suite?.tests.find(t => t.id === testId)
-        reporters.forEach(r => r?.log({ suite, test, type, text }))
+        reporters.forEach(r => r.log?.({ suite, test, type, text }))
       },
     }, handleMessage)
 
