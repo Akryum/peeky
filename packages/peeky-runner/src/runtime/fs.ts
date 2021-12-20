@@ -492,6 +492,7 @@ const specialMethods = [
 
 const fsSyncMethodsRead = [
   'accessSync',
+  'closeSync',
   'createReadStream',
   'existsSync',
   'fstatSync',
@@ -510,7 +511,6 @@ const fsSyncMethodsWrite = [
   'appendFileSync',
   'chmodSync',
   'chownSync',
-  'closeSync',
   'copyFileSync',
   'createWriteStream',
   'fchmodSync',
@@ -535,6 +535,7 @@ const fsSyncMethodsWrite = [
 
 const fsAsyncMethodsRead = [
   'access',
+  'close',
   'exists',
   'fstat',
   'lstat',
@@ -554,7 +555,6 @@ const fsAsyncMethodsWrite = [
   'appendFile',
   'chmod',
   'chown',
-  'close',
   'copyFile',
   'fchmod',
   'fchown',
