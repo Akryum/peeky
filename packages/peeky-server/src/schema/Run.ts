@@ -301,6 +301,18 @@ export async function startRun (ctx: Context, id: string) {
           actual: error.matcherResult?.actual ? stringifyJS(error.matcherResult.actual) : null,
         },
       })
+    } else if (message.method === 'onLog') {
+      const [suiteId, testId, type, text] = message.args
+      updateTest(ctx, suiteId, testId, (test) => {
+        const logs = test.logs
+        logs.push({
+          type,
+          text,
+        })
+        return {
+          logs,
+        }
+      })
     }
   })
 

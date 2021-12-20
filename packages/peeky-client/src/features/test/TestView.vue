@@ -4,6 +4,7 @@ import gql from 'graphql-tag'
 import { useRoute } from 'vue-router'
 import { EditIcon } from '@zhuowenli/vue-feather-icons'
 import BaseButton from '../BaseButton.vue'
+import BaseTab from '../BaseTab.vue'
 import StatusIcon from '../StatusIcon.vue'
 import Duration from '../Duration.vue'
 import TestFileItem from '../test-file/TestFileItem.vue'
@@ -135,6 +136,20 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
         </BaseButton>
       </div>
     </div>
+
+    <!-- Tabs -->
+    <nav>
+      <BaseTab
+        :to="{ name: 'test' }"
+      >
+        Result
+      </BaseTab>
+      <BaseTab
+        :to="{ name: 'test-output' }"
+      >
+        Output
+      </BaseTab>
+    </nav>
 
     <router-view
       v-if="test"

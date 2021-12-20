@@ -55,3 +55,16 @@
     height: 0;
   }
 }
+
+.scale-x {
+  &-enter-active,
+  &-leave-active {
+    transition: transform .15s, opacity .15s;
+  }
+
+  &-enter-from,
+  &-leave-to {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+}

@@ -38,6 +38,9 @@ export const Test = objectType({
         ],
       }),
     })
+    t.nonNull.list.field('logs', {
+      type: nonNull(TestLog),
+    })
   },
 })
 
@@ -58,11 +61,35 @@ export const TestError = objectType({
   },
 })
 
+export const TestLog = objectType({
+  name: 'TestLog',
+  definition (t) {
+    t.nonNull.field('type', {
+      type: enumType({
+        name: 'TestLogType',
+        members: [
+          'stdout',
+          'stderr',
+        ],
+      }),
+    })
+    t.nonNull.string('text')
+  },
+})
+
 export const TestExtendTestSuite = extendType({
   type: 'TestSuite',
   definition (t) {
     t.nonNull.list.field('tests', {
       type: Test,
+    })
+
+    t.field('testById', {
+      type: Test,
+      args: {
+        id: nonNull(idArg()),
+      },
+      resolve: (suite, { id }) => suite.tests.find(t => t.id === id),
     })
 
     t.field('testBySlug', {
@@ -144,6 +171,12 @@ export interface TestData {
   duration: number
   error: TestErrorData
   flag: TestFlag
+  logs: TestLogData[]
+}
+
+export interface TestLogData {
+  type: 'stdout' | 'stderr'
+  text: string
 }
 
 export interface TestErrorData {
@@ -176,6 +209,7 @@ export async function createTest (ctx: Context, options: CreateTestOptions) {
     flag: options.flag,
     duration: null,
     error: null,
+    logs: [],
   }
   ctx.pubsub.publish(TestAdded, {
     test,
@@ -196,9 +230,13 @@ export function getTest (ctx: Context, testSuiteId: string, id: string) {
   return test
 }
 
-export async function updateTest (ctx: Context, testSuiteId: string, id: string, data: Partial<Omit<TestData, 'id' | 'runId' | 'testSuiteId'>>) {
+type UpdateTestPayload = Partial<Omit<TestData, 'id' | 'runId' | 'testSuiteId'>>
+
+export async function updateTest (ctx: Context, testSuiteId: string, id: string, data: UpdateTestPayload | ((currentData: TestData) => UpdateTestPayload)) {
   const test = getTest(ctx, testSuiteId, id)
-  Object.assign(test, data)
+  if (!test) return
+  const newData = typeof data === 'function' ? data(test) : data
+  Object.assign(test, newData)
   ctx.pubsub.publish(TestUpdated, {
     test,
   } as TestUpdatedPayload)

@@ -15,6 +15,7 @@ describe('vue', () => {
       },
       template: '<div>hello</div>',
     })
+    console.log(app)
     expect(typeof app.version).toBe('string')
     const el = document.createElement('div')
     document.body.appendChild(el)

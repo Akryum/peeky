@@ -33,6 +33,7 @@ type Run {
   runTestFile(slug: String!): RunTestFile
   runTestFiles: [RunTestFile!]!
   status: Status!
+  testSuiteById(id: ID!): TestSuite
   testSuiteBySlug(slug: String!): TestSuite
   testSuites: [TestSuite!]!
   title: String!
@@ -91,6 +92,7 @@ type Test {
   error: TestError
   flag: TestFlag
   id: ID!
+  logs: [TestLog!]!
   slug: String!
   status: Status!
   title: String!
@@ -120,12 +122,23 @@ enum TestFlag {
   todo
 }
 
+type TestLog {
+  text: String!
+  type: TestLogType!
+}
+
+enum TestLogType {
+  stderr
+  stdout
+}
+
 type TestSuite {
   duration: Float
   id: ID!
   runTestFile: RunTestFile!
   slug: String!
   status: Status!
+  testById(id: ID!): Test
   testBySlug(slug: String!): Test
   tests: [Test]!
   title: String!

@@ -42,6 +42,14 @@ export const TestSuiteExtendRun = extendType({
       resolve: (parent) => testSuites.filter(s => s.runId === parent.id),
     })
 
+    t.field('testSuiteById', {
+      type: TestSuite,
+      args: {
+        id: nonNull(idArg()),
+      },
+      resolve: (run, { id }) => testSuites.find(s => s.runId === run.id && s.id === id),
+    })
+
     t.field('testSuiteBySlug', {
       type: TestSuite,
       args: {

@@ -51,7 +51,7 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
 <template>
   <router-link
     :to="{
-      name: 'test',
+      name: $route.name.startsWith('test') ? $route.name : 'test',
       params: {
         suiteSlug: suite.slug,
         testSlug: test.slug,

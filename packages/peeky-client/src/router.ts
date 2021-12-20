@@ -3,7 +3,6 @@ import Dashboard from './features/Dashboard.vue'
 import RunView from './features/run/RunView.vue'
 import TestView from './features/test/TestView.vue'
 import TestViewPlaceholder from './features/test/TestViewPlaceholder.vue'
-import TestResult from './features/test/TestResult.vue'
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -33,7 +32,12 @@ export const router = createRouter({
                 {
                   path: '',
                   name: 'test',
-                  component: TestResult,
+                  component: () => import('./features/test/TestResult.vue'),
+                },
+                {
+                  path: 'output',
+                  name: 'test-output',
+                  component: () => import('./features/test/TestOutput.vue'),
                 },
               ],
             },

@@ -149,7 +149,13 @@ importers:
       v-tooltip: ^4.0.0-alpha.1
       vite: ^2.7.1
       vue: ^3.2.20
+      vue-resize: ^2.0.0-alpha.1
       vue-router: ^4.0.3
+      xterm: ^4.15.0
+      xterm-addon-fit: ^0.5.0
+      xterm-addon-search: ^0.8.1
+      xterm-addon-web-links: ^0.4.0
+      xterm-addon-webgl: ^0.11.3
     dependencies:
       '@apollo/client': 3.5.5_graphql@15.7.2
       '@peeky/server': link:../peeky-server
@@ -163,7 +169,13 @@ importers:
       monaco-editor: 0.26.1
       v-tooltip: 4.0.0-beta.2_vue@3.2.24
       vue: 3.2.24
+      vue-resize: 2.0.0-alpha.1_vue@3.2.24
       vue-router: 4.0.12_vue@3.2.24
+      xterm: 4.15.0
+      xterm-addon-fit: 0.5.0_xterm@4.15.0
+      xterm-addon-search: 0.8.1_xterm@4.15.0
+      xterm-addon-web-links: 0.4.0_xterm@4.15.0
+      xterm-addon-webgl: 0.11.3_xterm@4.15.0
     devDependencies:
       '@vitejs/plugin-vue': 1.10.2_vite@2.7.1
       '@vuedx/typecheck': 0.7.4
@@ -8188,6 +8200,42 @@ packages:
     resolution: {integrity: sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==}
     engines: {node: '>=0.4'}
     dev: true
+
+  /xterm-addon-fit/0.5.0_xterm@4.15.0:
+    resolution: {integrity: sha512-DsS9fqhXHacEmsPxBJZvfj2la30Iz9xk+UKjhQgnYNkrUIN5CYLbw7WEfz117c7+S86S/tpHPfvNxJsF5/G8wQ==}
+    peerDependencies:
+      xterm: ^4.0.0
+    dependencies:
+      xterm: 4.15.0
+    dev: false
+
+  /xterm-addon-search/0.8.1_xterm@4.15.0:
+    resolution: {integrity: sha512-OtOaC9gxD2Q4ZnjZrCSRZmKLwwUjXX3gP7mIzq8Rs50317DGRDqgTLuHTYv/Nx/LvI5ceVFRYCxK36Ixs1nXNw==}
+    peerDependencies:
+      xterm: ^4.0.0
+    dependencies:
+      xterm: 4.15.0
+    dev: false
+
+  /xterm-addon-web-links/0.4.0_xterm@4.15.0:
+    resolution: {integrity: sha512-xv8GeiINmx0zENO9hf5k+5bnkaE8mRzF+OBAr9WeFq2eLaQSudioQSiT34M1ofKbzcdjSsKiZm19Rw3i4eXamg==}
+    peerDependencies:
+      xterm: ^4.0.0
+    dependencies:
+      xterm: 4.15.0
+    dev: false
+
+  /xterm-addon-webgl/0.11.3_xterm@4.15.0:
+    resolution: {integrity: sha512-Lr6VjLYOrgxLNaUNLDdCBehkr1Vaja/laDMTtvghfRusUMRXTlRKlCb7E3yqx4VgCg5KcV96cArmh88KcwSpUg==}
+    peerDependencies:
+      xterm: ^4.0.0
+    dependencies:
+      xterm: 4.15.0
+    dev: false
+
+  /xterm/4.15.0:
+    resolution: {integrity: sha512-Ik1GoSq1yqKZQ2LF37RPS01kX9t4TP8gpamUYblD09yvWX5mEYuMK4CcqH6+plgiNEZduhTz/UrcaWs97gOlOw==}
+    dev: false
 
   /y18n/5.0.8:
     resolution: {integrity: sha512-0pfFzegeDWJHJIAmTLRP2DwHjdF5s7jo9tuztdQxAhINCdvS+3nGINqPd00AphqJR/0LhANUS6/+7SCb98YOfA==}

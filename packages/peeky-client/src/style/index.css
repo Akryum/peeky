@@ -1,6 +1,13 @@
 @tailwind base;
 @tailwind components;
 
+@font-face {
+  font-family: 'Fira Code';
+  src: url('/fonts/FiraCode-Regular.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
 html {
   @apply text-sm;
 
