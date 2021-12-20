@@ -114,5 +114,4 @@ export interface Reporter {
   errorSummary?: (payload: ErrorSummaryPayload) => unknown
   coverageSummary?: (payload: CoverageSummaryPayload) => unknown
   summary?: (payload: SummaryPayload) => unknown
-
 }

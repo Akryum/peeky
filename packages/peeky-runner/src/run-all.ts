@@ -11,7 +11,11 @@ export interface RunAllOptions {
 }
 
 export async function runAllTests (config: ProgramPeekyConfig, options: RunAllOptions = {}) {
-  const reporters = [
+  const reporters = config.reporters ? config.reporters.map(id => {
+    if (id === 'console-fancy') {
+      return createConsoleFancyReporter()
+    }
+  }) : [
     createConsoleFancyReporter(),
   ]
 

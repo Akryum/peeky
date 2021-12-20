@@ -6,6 +6,8 @@ export type ModuleFilterOption<T = ModuleFilter> = T[] | T
 export type SerializableModuleFilter = string | RegExp
 
 export type SerializableRuntimeEnv = 'node' | 'dom'
+export type BuiltinReporter = 'console-fancy'
+
 export interface PeekyConfig {
   targetDirectory?: string
   match?: string | string[]
@@ -24,6 +26,7 @@ export interface PeekyConfig {
   buildInclude?: ModuleFilterOption
   vite?: ViteConfig
   viteConfigFile?: string
+  reporters?: BuiltinReporter[]
 }
 
 export type SerializablePeekyConfig = Omit<PeekyConfig, 'runtimeEnv' | 'runtimeAvailableEnvs' | 'buildExclude' | 'buildInclude' | 'vite'> & {
