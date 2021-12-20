@@ -1,12 +1,13 @@
 import { RunTestFileResult } from './runner.js'
+import { ReporterTestSuite } from './types.js'
 
 export function getStats (results: RunTestFileResult[]) {
-  let suiteCount = 0
   let errorSuiteCount = 0
   let testCount = 0
   let errorTestCount = 0
+  const suites: ReporterTestSuite[] = []
   for (const file of results) {
-    suiteCount += file.suites.length
+    suites.push(...file.suites)
     for (const suite of file.suites) {
       if (suite.testErrors || suite.otherErrors.length) {
         errorSuiteCount++
@@ -17,9 +18,10 @@ export function getStats (results: RunTestFileResult[]) {
   }
 
   return {
-    suiteCount,
+    suiteCount: suites.length,
     errorSuiteCount,
     testCount,
     errorTestCount,
+    suites,
   }
 }

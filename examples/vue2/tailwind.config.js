@@ -1,5 +1,5 @@
 module.exports = {
-  darkMode: "class", // or 'media'
+  darkMode: 'class', // or 'media'
   theme: {},
   variants: {},
   plugins: [],

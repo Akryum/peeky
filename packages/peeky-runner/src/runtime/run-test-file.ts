@@ -5,7 +5,7 @@ import { CoverageInstrumenter } from 'collect-v8-coverage'
 import fs from 'fs-extra'
 import pragma from 'pragma'
 import { InstantiableTestEnvironmentClass, mergeConfig } from '@peeky/config'
-import type { Context, RunTestFileOptions, TestSuiteResult } from '../types'
+import type { Context, ReporterTestSuite, RunTestFileOptions } from '../types'
 import { useVite } from './vite.js'
 import { getGlobals } from './globals.js'
 import { runTests } from './run-tests.js'
@@ -116,7 +116,7 @@ export async function runTestFile (options: RunTestFileOptions) {
     const duration = performance.now() - time
 
     // Result data
-    const suites: TestSuiteResult[] = ctx.suites.map(s => ({
+    const suites = ctx.suites.map(s => ({
       id: s.id,
       title: s.title,
       filePath: s.filePath,
@@ -127,9 +127,11 @@ export async function runTestFile (options: RunTestFileOptions) {
         title: t.title,
         error: t.error,
         flag: t.flag,
+        duration: t.duration,
       })),
       runTestCount: s.ranTests.length,
-    }))
+      duration: s.duration,
+    } as ReporterTestSuite))
 
     return {
       filePath: options.entry,

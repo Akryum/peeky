@@ -1,12 +1,15 @@
 import { basename } from 'path'
 import { performance } from 'perf_hooks'
 import type { Context, Test } from '../types'
+import { setCurrentSuite, setCurrentTest } from './global-context.js'
 import { toMainThread } from './message.js'
 
 export async function runTests (ctx: Context) {
   const { default: sinon } = await import('sinon')
 
   for (const suite of ctx.suites) {
+    setCurrentSuite(suite)
+
     let testsToRun: Test[]
     const onlyTests = suite.tests.filter(t => t.flag === 'only')
     if (onlyTests.length) {
@@ -35,25 +38,28 @@ export async function runTests (ctx: Context) {
       }
 
       for (const test of testsToRun) {
+        setCurrentTest(test)
         sinon.restore()
 
         for (const handler of suite.beforeEachHandlers) {
           await handler()
         }
 
-        const time = performance.now()
         toMainThread().onTestStart(suite.id, test.id)
+        const time = performance.now()
         try {
           await test.handler()
-          toMainThread().onTestSuccess(suite.id, test.id, performance.now() - time)
+          test.duration = performance.now() - time
+          toMainThread().onTestSuccess(suite.id, test.id, test.duration)
         } catch (e) {
+          test.duration = performance.now() - time
           test.error = e
           let stackIndex = e.stack ? e.stack.lastIndexOf(basename(ctx.options.entry)) : -1
           if (stackIndex !== -1) {
             // Continue to the end of the line
             stackIndex = e.stack.indexOf('\n', stackIndex)
           }
-          toMainThread().onTestError(suite.id, test.id, performance.now() - time, {
+          toMainThread().onTestError(suite.id, test.id, test.duration, {
             message: e.message,
             stack: stackIndex !== -1 ? e.stack.substring(0, stackIndex) : e.stack,
             data: JSON.stringify(e),
@@ -65,6 +71,8 @@ export async function runTests (ctx: Context) {
         for (const handler of suite.afterEachHandlers) {
           await handler()
         }
+
+        setCurrentTest(null)
       }
 
       for (const handler of suite.afterAllHandlers) {
@@ -73,6 +81,7 @@ export async function runTests (ctx: Context) {
     }
 
     suite.ranTests = testsToRun
+    suite.duration = performance.now() - suiteTime
 
     if (ctx.options.config.emptySuiteError && !testsToRun.length) {
       suite.otherErrors.push(new Error(`Empty test suite: ${suite.title}`))
@@ -82,6 +91,8 @@ export async function runTests (ctx: Context) {
       id: suite.id,
       testErrors: suite.testErrors,
       otherErrors: suite.otherErrors,
-    }, performance.now() - suiteTime)
+    }, suite.duration)
+
+    setCurrentSuite(null)
   }
 }

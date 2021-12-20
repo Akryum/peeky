@@ -4,6 +4,8 @@ import Hello from './Hello.vue'
 
 describe('vue + peeky demo', () => {
   test('mount component', async () => {
+    console.log(Hello)
+
     const wrapper = mount(Hello, {
       props: {
         count: 4,

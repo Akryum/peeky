@@ -381,3 +381,19 @@ export default defineConfig({
   },
 })
 ```
+
+## reporters
+
+Array of reporters. Available values:
+- `'console-fancy'`
+- `'console-json'`
+
+Example:
+
+```js
+export default defineConfig({
+  reporters: [
+    'console-json',
+  ],
+})
+```

@@ -15,4 +15,5 @@ export default defineConfig({
   // external: [],
   // runtimeEnv: MyEnv,
   // mockFs: false,
+  // reporters: ['console-json'],
 })

@@ -249,6 +249,7 @@ export async function startRun (ctx: Context, id: string) {
     runner = await setupRunner({
       config: toProgramConfig(ctx.config),
       testFiles: ctx.reactiveFs,
+      reporters: [],
     })
   } else {
     runner.clearOnMessage()

@@ -1,18 +1,17 @@
 import { relative } from 'path'
-import consola from 'consola'
-import chalk from 'chalk'
 import { ReactiveFileSystem } from 'reactive-fs'
 import Tinypool from 'tinypool'
-import { Awaited, formatDurationToString } from '@peeky/utils'
+import { Awaited } from '@peeky/utils'
 import { ProgramPeekyConfig, toSerializableConfig } from '@peeky/config'
 import type { runTestFile as rawRunTestFile } from './runtime/run-test-file.js'
-import type { RunTestFileOptions, TestSuiteInfo } from './types'
+import type { RunTestFileOptions, ReporterTestSuite, Reporter } from './types'
 import { initViteServer, stopViteServer, transform } from './build/vite.js'
 import { createWorkerChannel, useWorkerMessages } from './message.js'
 
 export interface RunnerOptions {
   config: ProgramPeekyConfig
   testFiles: ReactiveFileSystem
+  reporters: Reporter[]
 }
 
 interface Context {
@@ -23,6 +22,7 @@ export async function setupRunner (options: RunnerOptions) {
   const ctx: Context = {
     options,
   }
+  const { reporters } = options
 
   const serializableConfig = toSerializableConfig(options.config)
   const {
@@ -47,34 +47,54 @@ export async function setupRunner (options: RunnerOptions) {
   const { testFiles } = options
 
   async function runTestFileWorker (options: RunTestFileOptions): ReturnType<typeof rawRunTestFile> {
-    const suiteMap: { [id: string]: TestSuiteInfo } = {}
+    const suiteMap: { [id: string]: ReporterTestSuite } = {}
 
     const { mainPort, workerPort } = createWorkerChannel({
       transform: async (id) => transform(id),
 
-      onSuiteStart: (suite: TestSuiteInfo) => {
+      onSuiteStart: (suite) => {
         suiteMap[suite.id] = suite
+        reporters.forEach(r => r.suiteStart?.({ suite }))
       },
 
       onSuiteComplete: ({ id, testErrors, otherErrors }, duration) => {
         const suite = suiteMap[id]
-        consola.log(chalk[testErrors + otherErrors.length ? 'red' : 'green'](`  ${chalk.bold(suite.title)} ${suite.runTestCount - testErrors} / ${suite.runTestCount} tests passed ${chalk.grey(`(${formatDurationToString(duration)})`)} (${suite.filePath})`))
+        Object.assign(suite, {
+          duration,
+          testErrors,
+          otherErrors,
+        })
+        reporters.forEach(r => r.suiteComplete?.({ suite }))
       },
 
       onTestError: (suiteId, testId, duration, error) => {
-        const suite = suiteMap[suiteId]
-        const test = suite.tests.find(t => t.id === testId)
-        consola.log(chalk.red(`${chalk.bgRedBright.black.bold(' FAIL ')} ${suite.title} › ${chalk.bold(test.title)} ${chalk.grey(`(${formatDurationToString(duration)})`)}`))
-        consola.log(`\n${error.stack ?? error.message}\n`)
+        // Parse error matcherResult
         if (typeof error.matcherResult === 'string') {
           error.matcherResult = JSON.parse(error.matcherResult)
         }
+
+        const suite = suiteMap[suiteId]
+        const test = suite.tests.find(t => t.id === testId)
+        Object.assign(test, {
+          duration,
+          error,
+        })
+        reporters.forEach(r => r.testFail?.({ suite, test }))
       },
 
       onTestSuccess: (suiteId, testId, duration) => {
         const suite = suiteMap[suiteId]
         const test = suite.tests.find(t => t.id === testId)
-        consola.log(chalk.green(`${chalk.bgGreenBright.black.bold(' PASS ')} ${suite.title} › ${chalk.bold(test.title)} ${chalk.grey(`(${formatDurationToString(duration)})`)}`))
+        Object.assign(test, {
+          duration,
+        })
+        reporters.forEach(r => r.testSuccess?.({ suite, test }))
+      },
+
+      onLog: (suiteId, testId, type, text) => {
+        const suite = suiteMap[suiteId]
+        const test = suite?.tests.find(t => t.id === testId)
+        reporters.forEach(r => r.log?.({ suite, test, type, text }))
       },
     }, handleMessage)
 

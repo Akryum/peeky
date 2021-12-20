@@ -1,14 +1,15 @@
 import { MessageChannel } from 'worker_threads'
 import type { TransformResult } from 'vite'
-import type { TestSuiteInfo } from './types.js'
+import { TestFlag } from './types.js'
 
 export interface WorkerRemoteMethods {
-  onSuiteStart: (suite: TestSuiteInfo) => void
+  onSuiteStart: (suite: SuiteStartData) => void
   onSuiteComplete: (suite: SuiteCompleteData, duration: number) => void
   onTestStart: (suiteId: string, testId: string) => void
   onTestError: (suiteId: string, testId: string, duration: number, error: TestErrorData) => void
   onTestSuccess: (suiteId: string, testId: string, duration: number) => void
   transform: (id: string) => Promise<TransformResult>
+  onLog: (suiteId: string, testId: string, type: 'stdout' | 'stderr', text: string) => void
 }
 
 export interface TestErrorData {
@@ -16,6 +17,18 @@ export interface TestErrorData {
   stack: string
   data: any
   matcherResult: any
+}
+
+export interface SuiteStartData {
+  id: string
+  title: string
+  filePath: string
+  tests: {
+    id: string
+    title: string
+    flag: TestFlag
+  }[]
+  runTestCount: number
 }
 
 export interface SuiteCompleteData {
