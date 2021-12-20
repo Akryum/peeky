@@ -1,3 +1,26 @@
+## [0.9.1](https://github.com/Akryum/peeky/compare/v0.9.0...v0.9.1) (2021-12-20)
+
+
+### Bug Fixes
+
+* **client:** gray button colors ([b7ee791](https://github.com/Akryum/peeky/commit/b7ee79155522dbd4e00791477e88eb23709c2031))
+* **client:** test view toolbar align ([8fe4c35](https://github.com/Akryum/peeky/commit/8fe4c358f676bb610df72a38d7578ef159f9eeb7))
+* remove unnecessary console log ([8b392e4](https://github.com/Akryum/peeky/commit/8b392e419db9a0eef100b49bbc05d802ff0bbe72))
+
+
+### Features
+
+* **cli:** reporters option ([4d3e92e](https://github.com/Akryum/peeky/commit/4d3e92e72796bdf40fe7c0fa65676d847c3eb950))
+* **cli:** run quickFilter, related to [#34](https://github.com/Akryum/peeky/issues/34) ([c6e72fd](https://github.com/Akryum/peeky/commit/c6e72fd5f228fe6b7c524ba35bec0e6f9fefbd90))
+* completed reporter ([c058821](https://github.com/Akryum/peeky/commit/c058821bbecb2cafbdb901a40d56a4318317d263))
+* **config:** reporters ([7f0ea39](https://github.com/Akryum/peeky/commit/7f0ea39b0d0bd95ee79d9cc69ca715331630f8a8))
+* console-json reporter ([531ea31](https://github.com/Akryum/peeky/commit/531ea3126f4a22aaa08f6c07db2628f6dfcbe44a))
+* initial reporter interface ([76df42a](https://github.com/Akryum/peeky/commit/76df42a15132887a884967aa4fbe8d38558d4f90))
+* redirect console ([36dd362](https://github.com/Akryum/peeky/commit/36dd362d456c084cd7c88921715f1fb2c2236473))
+* remove suite complete log ([2c54c32](https://github.com/Akryum/peeky/commit/2c54c328bad14266f10704e53d10aa835c797b21))
+
+
+
 # [0.9.0](https://github.com/Akryum/peeky/compare/v0.8.6...v0.9.0) (2021-12-18)
 
 
