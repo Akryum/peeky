@@ -1,3 +1,25 @@
+## [0.9.3](https://github.com/Akryum/peeky/compare/v0.9.2...v0.9.3) (2021-12-21)
+
+
+### Bug Fixes
+
+* **client:** unnecessary class on fragment ([0992d33](https://github.com/Akryum/peeky/commit/0992d33f13e6e039c095b0290356c3124a42e870))
+* message handler error catching ([1452c8f](https://github.com/Akryum/peeky/commit/1452c8f52745362339eee920ec0bcdfab0b99a1b))
+* **server:** don't update test on log without testId ([22779b7](https://github.com/Akryum/peeky/commit/22779b7a4ed33711fb2c33c11138893545836793))
+
+
+### Features
+
+* **log:** display current test file as fallback ([7b97509](https://github.com/Akryum/peeky/commit/7b97509616eb6c133a02000e1391241922b2c6c9))
+* refetch output on test status change ([e025ee4](https://github.com/Akryum/peeky/commit/e025ee49ee625f7b7ac534b0cc0eddf342ace984))
+* **server:** PEEKY_LEGACY_WS env var ([0608cb7](https://github.com/Akryum/peeky/commit/0608cb7d9929b7fc01e43434e0d059358ad30eda))
+* setupFiles ([e32ec6d](https://github.com/Akryum/peeky/commit/e32ec6df0baeaddd5e09ab342230d6e961685328))
+* **terminal:** copy text shortcut ([b1ee17b](https://github.com/Akryum/peeky/commit/b1ee17bd6c2a8842a2b3a2528838abefe4752d6d))
+* **ui:** test output dot ([27b7c0f](https://github.com/Akryum/peeky/commit/27b7c0f16cfab3faf3c6bb7033a9942d17520909))
+* **ui:** test output tab, closes [#51](https://github.com/Akryum/peeky/issues/51) ([d787ef5](https://github.com/Akryum/peeky/commit/d787ef51c0aa3240506e211085299fa4efe679e8))
+
+
+
 ## [0.9.2](https://github.com/Akryum/peeky/compare/v0.9.1...v0.9.2) (2021-12-20)
 
 

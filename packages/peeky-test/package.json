@@ -1,6 +1,6 @@
 {
   "name": "@peeky/test",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "description": "A fast and fun test runner for Vite & Node 🐈️",
   "license": "MIT",
   "author": {
@@ -33,10 +33,10 @@
     "watch": "tsc -d -w --sourceMap"
   },
   "dependencies": {
-    "@peeky/cli": "^0.9.2",
-    "@peeky/config": "^0.9.2",
-    "@peeky/eslint-plugin": "^0.9.2",
-    "@peeky/runner": "^0.9.2"
+    "@peeky/cli": "^0.9.3",
+    "@peeky/config": "^0.9.3",
+    "@peeky/eslint-plugin": "^0.9.3",
+    "@peeky/runner": "^0.9.3"
   },
   "devDependencies": {
     "@types/node": "^14.14.21",
