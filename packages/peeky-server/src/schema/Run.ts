@@ -303,16 +303,18 @@ export async function startRun (ctx: Context, id: string) {
       })
     } else if (message.method === 'onLog') {
       const [suiteId, testId, type, text] = message.args
-      updateTest(ctx, suiteId, testId, (test) => {
-        const logs = test.logs
-        logs.push({
-          type,
-          text,
+      if (testId) {
+        updateTest(ctx, suiteId, testId, (test) => {
+          const logs = test.logs
+          logs.push({
+            type,
+            text,
+          })
+          return {
+            logs,
+          }
         })
-        return {
-          logs,
-        }
-      })
+      }
     }
   })
 
