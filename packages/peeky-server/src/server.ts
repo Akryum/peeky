@@ -20,6 +20,8 @@ import { run } from './run.js'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
 export async function createServer () {
+  const useLegacyWebsockets = !!process.env.PEEKY_LEGACY_WS
+
   const schema = makeSchema({
     types,
     outputs: {
@@ -64,6 +66,9 @@ export async function createServer () {
       consola.log(JSON.stringify(error, null, 2))
       return error
     },
+    subscriptions: useLegacyWebsockets ? {
+      path: '/api',
+    } : false,
   })
 
   const app = express()
@@ -74,14 +79,22 @@ export async function createServer () {
     path: '/api',
   })
 
-  const wsServer = new WebSocketServer({
-    server: http,
-    path: '/api',
-  })
-  useServer({
-    schema,
-    context: createContext,
-  }, wsServer)
+  if (useLegacyWebsockets) {
+    apollo.installSubscriptionHandlers(http)
+  }
+
+  let wsServer: WebSocketServer
+
+  if (!useLegacyWebsockets) {
+    wsServer = new WebSocketServer({
+      server: http,
+      path: '/api',
+    })
+    useServer({
+      schema,
+      context: createContext,
+    }, wsServer)
+  }
 
   const require = createRequire(import.meta.url)
   const staticRoot = join(dirname(require.resolve('@peeky/client-dist/package.json')), 'dist')
