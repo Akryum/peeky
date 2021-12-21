@@ -105,7 +105,7 @@ interface SummaryPayload {
 }
 
 export interface Reporter {
-  log?: (payload: OptionalTestInfoPayload & { type: 'stdout' | 'stderr', text: string }) => unknown
+  log?: (payload: OptionalTestInfoPayload & { type: 'stdout' | 'stderr', text: string, file?: string }) => unknown
   suiteStart?: (payload: TestSuiteInfoPayload) => unknown
   suiteComplete?: (payload: TestSuiteInfoPayload) => unknown
   testStart?: (payload: TestInfoPayload) => unknown

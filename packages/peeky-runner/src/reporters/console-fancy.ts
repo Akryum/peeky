@@ -5,8 +5,8 @@ import { Reporter } from '../types.js'
 
 export function createConsoleFancyReporter (): Reporter {
   return {
-    log: ({ type, text, suite, test }) => {
-      consola.log(chalk.dim(`\n${chalk.bgGray.white(` ${type} `)} ${test ? `${suite.title} › ${chalk.bold(test.title)}` : 'unknown test'}\n`))
+    log: ({ type, text, suite, test, file }) => {
+      consola.log(chalk.dim(`\n${chalk.bgGray.white(` ${type} `)} ${test ? `${suite.title} › ${chalk.bold(test.title)}` : file ?? 'unknown test'}\n`))
       process[type].write(text)
       process[type].write('\n')
     },

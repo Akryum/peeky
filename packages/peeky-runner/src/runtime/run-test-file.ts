@@ -1,5 +1,5 @@
 import { performance } from 'perf_hooks'
-import { resolve } from 'path'
+import { resolve, relative } from 'path'
 import { install as installSourceMap } from 'source-map-support'
 import consola from 'consola'
 import { CoverageInstrumenter } from 'collect-v8-coverage'
@@ -18,9 +18,11 @@ import { createMockedFileSystem } from './fs.js'
 import { moduleCache, sourceMaps } from './module-cache.js'
 import { baseConfig, setupWorker } from './setup.js'
 import { toMainThread } from './message.js'
+import { setCurrentTestFile } from './global-context.js'
 
 export async function runTestFile (options: RunTestFileOptions) {
   try {
+    setCurrentTestFile(relative(options.config.targetDirectory, options.entry))
     const time = performance.now()
     await setupWorker()
 
@@ -152,5 +154,7 @@ export async function runTestFile (options: RunTestFileOptions) {
   } catch (e) {
     consola.error(`Running tests failed: ${e.stack}`)
     throw e
+  } finally {
+    setCurrentTestFile(null)
   }
 }

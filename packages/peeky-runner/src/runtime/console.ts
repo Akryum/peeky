@@ -1,13 +1,13 @@
 import { Console } from 'console'
 import { Writable } from 'stream'
-import { currentSuite, currentTest } from './global-context.js'
+import { currentSuite, currentTest, currentTestFile } from './global-context.js'
 import { toMainThread } from './message.js'
 
 export function setupConsole () {
   function createWritable (type: 'stdout' | 'stderr') {
     return new Writable({
       write: (chunk, enconding, callback) => {
-        toMainThread().onLog(currentSuite?.id, currentTest?.id, type, String(chunk))
+        toMainThread().onLog(currentSuite?.id, currentTest?.id, type, String(chunk), currentTestFile)
         callback()
       },
     })

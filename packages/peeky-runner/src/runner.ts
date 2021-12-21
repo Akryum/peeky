@@ -91,10 +91,10 @@ export async function setupRunner (options: RunnerOptions) {
         reporters.forEach(r => r.testSuccess?.({ suite, test }))
       },
 
-      onLog: (suiteId, testId, type, text) => {
+      onLog: (suiteId, testId, type, text, file) => {
         const suite = suiteMap[suiteId]
         const test = suite?.tests.find(t => t.id === testId)
-        reporters.forEach(r => r.log?.({ suite, test, type, text }))
+        reporters.forEach(r => r.log?.({ suite, test, type, text, file }))
       },
     }, handleMessage)
 
