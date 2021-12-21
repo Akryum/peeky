@@ -3,7 +3,7 @@
 import { useQuery, useResult } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 import { useRoute } from 'vue-router'
-import { defineProps, onMounted, ref } from 'vue'
+import { defineProps, onMounted, ref, watch } from 'vue'
 import Terminal from '../terminal/Terminal.vue'
 
 const route = useRoute()
@@ -20,7 +20,7 @@ const props = defineProps({
   },
 })
 
-const { result } = useQuery(() => gql`
+const { result, refetch } = useQuery(() => gql`
   query testLogs ($runId: ID!, $suiteId: ID!, $testId: ID!) {
     run (id: $runId) {
       id
@@ -45,6 +45,12 @@ const { result } = useQuery(() => gql`
 })
 
 const logs = useResult(result, [], data => data.run.testSuite.test.logs)
+
+watch(() => props.test.status, () => {
+  refetch()
+})
+
+// Fonts
 
 const fontsLoaded = ref(false)
 onMounted(async () => {
