@@ -129,6 +129,15 @@ export default defineComponent({
         // listeners.push(term.onScroll(position => {
         //   cached.scroll = position
         // }))
+
+        term.attachCustomKeyEventHandler((key: KeyboardEvent) => {
+          // Copy
+          if (key.code === 'KeyC' && (key.ctrlKey || key.metaKey)) {
+            navigator.clipboard.writeText(term.getSelection())
+            return false
+          }
+          return true
+        })
       }
 
       // Init
