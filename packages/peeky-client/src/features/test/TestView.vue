@@ -21,6 +21,7 @@ fragment testView on Test {
   error {
     ...testResultError
   }
+  hasLogs
 }
 ${errorFragment}
 `
@@ -147,7 +148,13 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
       <BaseTab
         :to="{ name: 'test-output' }"
       >
-        Output
+        <div class="flex items-center space-x-2">
+          <span>Output</span>
+          <div
+            v-if="test.hasLogs"
+            class="w-2 h-2 bg-primary-500 dark:bg-primary-400 rounded-full"
+          />
+        </div>
       </BaseTab>
     </nav>
 

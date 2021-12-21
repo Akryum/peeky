@@ -91,6 +91,7 @@ type Test {
   duration: Float
   error: TestError
   flag: TestFlag
+  hasLogs: Boolean!
   id: ID!
   logs: [TestLog!]!
   slug: String!

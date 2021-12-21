@@ -164,6 +164,7 @@ export interface NexusGenFieldTypes {
     duration: number | null; // Float
     error: NexusGenRootTypes['TestError'] | null; // TestError
     flag: NexusGenEnums['TestFlag'] | null; // TestFlag
+    hasLogs: boolean; // Boolean!
     id: string; // ID!
     logs: NexusGenRootTypes['TestLog'][]; // [TestLog!]!
     slug: string; // String!
@@ -269,6 +270,7 @@ export interface NexusGenFieldTypeNames {
     duration: 'Float'
     error: 'TestError'
     flag: 'TestFlag'
+    hasLogs: 'Boolean'
     id: 'ID'
     logs: 'TestLog'
     slug: 'String'

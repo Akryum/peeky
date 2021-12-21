@@ -41,6 +41,9 @@ export const Test = objectType({
     t.nonNull.list.field('logs', {
       type: nonNull(TestLog),
     })
+    t.nonNull.boolean('hasLogs', {
+      resolve: test => !!test.logs.length,
+    })
   },
 })
 
