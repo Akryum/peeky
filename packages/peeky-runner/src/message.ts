@@ -69,9 +69,14 @@ export function useWorkerMessages () {
     eventHandlers.length = 0
   }
 
-  function handleMessage (message: WorkerMessage) {
+  async function handleMessage (message: WorkerMessage) {
     for (const handler of eventHandlers) {
-      handler(message)
+      try {
+        await handler(message)
+      } catch (e) {
+        console.error(`An error occured while handling message`, message)
+        console.error(e)
+      }
     }
   }
 

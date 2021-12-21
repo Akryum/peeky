@@ -258,7 +258,7 @@ export async function startRun (ctx: Context, id: string) {
     if (message.method === 'onSuiteStart') {
       const [suite] = message.args
       const testFileId = relative(ctx.config.targetDirectory, suite.filePath)
-      createTestSuite(ctx, {
+      await createTestSuite(ctx, {
         id: suite.id,
         runId: run.id,
         runTestFile: run.runTestFiles.find(rf => rf.testFile.id === testFileId),
@@ -268,18 +268,18 @@ export async function startRun (ctx: Context, id: string) {
     } else if (message.method === 'onSuiteComplete') {
       const [suiteData, duration] = message.args
       const suite = testSuites.find(s => s.id === suiteData.id)
-      updateTestSuite(ctx, suiteData.id, {
+      await updateTestSuite(ctx, suiteData.id, {
         status: !suite.tests.length ? 'skipped' : suiteData.testErrors + suiteData.otherErrors.length ? 'error' : 'success',
         duration,
       })
     } else if (message.method === 'onTestStart') {
       const [suiteId, testId] = message.args
-      updateTest(ctx, suiteId, testId, {
+      await updateTest(ctx, suiteId, testId, {
         status: 'in_progress',
       })
     } else if (message.method === 'onTestSuccess') {
       const [suiteId, testId, duration] = message.args
-      updateTest(ctx, suiteId, testId, {
+      await updateTest(ctx, suiteId, testId, {
         status: 'success',
         duration,
       })
@@ -288,7 +288,7 @@ export async function startRun (ctx: Context, id: string) {
       const testFile = testSuites.find(s => s.id === suiteId).runTestFile.testFile
       const { line, col } = getErrorPosition(testFile.relativePath, error.stack)
       const lineSource = (await ctx.reactiveFs.files[testFile.relativePath].waitForContent).split('\n')[line - 1]
-      updateTest(ctx, suiteId, testId, {
+      await updateTest(ctx, suiteId, testId, {
         status: 'error',
         duration,
         error: {
@@ -304,7 +304,7 @@ export async function startRun (ctx: Context, id: string) {
     } else if (message.method === 'onLog') {
       const [suiteId, testId, type, text] = message.args
       if (testId) {
-        updateTest(ctx, suiteId, testId, (test) => {
+        await updateTest(ctx, suiteId, testId, (test) => {
           const logs = test.logs
           logs.push({
             type,
