@@ -1,4 +1,5 @@
 import { performance } from 'perf_hooks'
+import { resolve } from 'path'
 import { install as installSourceMap } from 'source-map-support'
 import consola from 'consola'
 import { CoverageInstrumenter } from 'collect-v8-coverage'
@@ -93,6 +94,14 @@ export async function runTestFile (options: RunTestFileOptions) {
     let ufs
     if ((config.mockFs && ctx.pragma.mockFs !== false) || ctx.pragma.mockFs) {
       ufs = createMockedFileSystem()
+    }
+
+    // Setup files
+    if (config.setupFiles?.length) {
+      for (const file of config.setupFiles) {
+        const fullPath = resolve(config.targetDirectory, file)
+        await executeWithVite(fullPath, await getGlobals(ctx, register), config.targetDirectory)
+      }
     }
 
     // Execute test file

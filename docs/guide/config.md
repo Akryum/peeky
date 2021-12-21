@@ -397,3 +397,17 @@ export default defineConfig({
   ],
 })
 ```
+
+## setupFiles
+
+Array of paths to files that will be executed before running each test file.
+
+Example:
+
+```js
+export default defineConfig({
+  setupFiles: [
+    './test/setup.ts',
+  ],
+})
+```

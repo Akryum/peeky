@@ -16,4 +16,7 @@ export default defineConfig({
   // runtimeEnv: MyEnv,
   // mockFs: false,
   // reporters: ['console-json'],
+  setupFiles: [
+    'setup-test.ts',
+  ],
 })
