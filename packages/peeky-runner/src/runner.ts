@@ -43,6 +43,7 @@ export async function setupRunner (options: RunnerOptions) {
   const pool = new Tinypool({
     filename: new URL('./runtime/worker.js', import.meta.url).href,
     maxThreads: options.config.maxWorkers || undefined,
+    isolateWorkers: true,
   })
   const { testFiles } = options
 
