@@ -1,4 +1,4 @@
-import { relative } from 'path'
+import { relative } from 'pathe'
 import { fileURLToPath } from 'url'
 import { performance } from 'perf_hooks'
 import { arg, extendType, idArg, inputObjectType, nonNull, objectType } from 'nexus'

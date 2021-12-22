@@ -1,4 +1,4 @@
-import { resolve, dirname } from 'path'
+import { resolve, dirname } from 'pathe'
 import { mockedModules } from '../mocked-files.js'
 import { PeekyGlobalContext } from './index.js'
 

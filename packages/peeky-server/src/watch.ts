@@ -1,5 +1,5 @@
 import chokidar from 'chokidar'
-import { join } from 'path'
+import { join } from 'pathe'
 import type { Context } from './context'
 import { run } from './run.js'
 import { isRunning, settings, testFiles } from './schema/index.js'

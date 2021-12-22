@@ -1,5 +1,5 @@
 import fs from 'fs'
-import { join } from 'path'
+import { join } from 'pathe'
 import consola from 'consola'
 import shortid from 'shortid'
 import { fixWindowsAbsoluteFileUrl } from '@peeky/utils'

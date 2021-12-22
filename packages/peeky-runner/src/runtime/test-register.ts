@@ -1,4 +1,4 @@
-import { basename, extname } from 'path'
+import { basename, extname } from 'pathe'
 import shortid from 'shortid'
 import slugify from 'slugify'
 import { TestFlag } from '..'

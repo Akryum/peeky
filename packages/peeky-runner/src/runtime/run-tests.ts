@@ -1,4 +1,4 @@
-import { basename } from 'path'
+import { basename } from 'pathe'
 import { performance } from 'perf_hooks'
 import type { Context, Test } from '../types'
 import { setCurrentSuite, setCurrentTest } from './global-context.js'

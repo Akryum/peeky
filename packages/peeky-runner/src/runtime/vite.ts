@@ -4,7 +4,7 @@
 
 /* eslint-disable @typescript-eslint/no-empty-function */
 
-import { resolve, dirname, relative } from 'path'
+import { resolve, dirname, relative } from 'pathe'
 import { builtinModules, createRequire } from 'module'
 import vm from 'vm'
 import { fileURLToPath, pathToFileURL } from 'url'

@@ -1,4 +1,4 @@
-import { basename } from 'path'
+import { basename } from 'pathe'
 import consola from 'consola'
 import { RunTestFileData } from './schema/index.js'
 

@@ -1,4 +1,4 @@
-import { relative } from 'path'
+import { relative } from 'pathe'
 import { ReactiveFileSystem } from 'reactive-fs'
 import Tinypool from 'tinypool'
 import { Awaited } from '@peeky/utils'

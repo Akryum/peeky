@@ -1,4 +1,4 @@
-import { dirname, join } from 'path'
+import { dirname, join } from 'pathe'
 import HTTP from 'http'
 import { fileURLToPath } from 'url'
 import { createRequire } from 'module'

@@ -107,6 +107,7 @@ importers:
       consola: ^2.15.0
       lodash: ^4.17.21
       open: ^7.3.1
+      pathe: ^0.2.0
       portfinder: ^1.0.28
       sade: ^1.7.4
       typescript: ^4.1.3
@@ -118,6 +119,7 @@ importers:
       consola: 2.15.3
       lodash: 4.17.21
       open: 7.4.2
+      pathe: 0.2.0
       portfinder: 1.0.28
       sade: 1.7.4
     devDependencies:
@@ -195,6 +197,7 @@ importers:
       '@peeky/utils': ^0.9.3
       '@types/node': ^14.14.21
       consola: ^2.15.0
+      pathe: ^0.2.0
       reactive-fs: ^0.4.1
       shortid: ^2.2.16
       typescript: ^4.1.3
@@ -202,6 +205,7 @@ importers:
     dependencies:
       '@peeky/utils': link:../peeky-utils
       consola: 2.15.3
+      pathe: 0.2.0
       reactive-fs: 0.4.1
       shortid: 2.2.16
       vite: 2.7.1
@@ -241,6 +245,7 @@ importers:
       lodash: ^4.17.21
       memfs: ^3.2.0
       mlly: ^0.3.16
+      pathe: ^0.2.0
       pragma: ^1.0.0
       reactive-fs: ^0.4.1
       shortid: ^2.2.16
@@ -269,6 +274,7 @@ importers:
       lodash: 4.17.21
       memfs: 3.4.0
       mlly: 0.3.16
+      pathe: 0.2.0
       pragma: 1.0.0
       reactive-fs: 0.4.1
       shortid: 2.2.16
@@ -304,6 +310,7 @@ importers:
       launch-editor: ^2.2.1
       nexus: ^1.0.0
       object-inspect: ^1.11.0
+      pathe: ^0.2.0
       project-name-generator: ^2.1.9
       random-emoji: ^1.0.2
       reactive-fs: ^0.4.1
@@ -327,6 +334,7 @@ importers:
       launch-editor: 2.2.1
       nexus: 1.1.0_graphql@15.7.2
       object-inspect: 1.11.1
+      pathe: 0.2.0
       project-name-generator: 2.1.9
       random-emoji: 1.0.2
       reactive-fs: 0.4.1
@@ -363,12 +371,14 @@ importers:
       consola: ^2.15.0
       esbuild: ^0.13.12
       merge-source-map: ^1.1.0
+      pathe: ^0.2.0
       typescript: ^4.1.3
     dependencies:
       chalk: 5.0.0
       consola: 2.15.3
       esbuild: 0.13.15
       merge-source-map: 1.1.0
+      pathe: 0.2.0
     devDependencies:
       '@types/node': 14.18.0
       typescript: 4.5.2
@@ -6401,6 +6411,10 @@ packages:
     resolution: {integrity: sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==}
     engines: {node: '>=8'}
     dev: true
+
+  /pathe/0.2.0:
+    resolution: {integrity: sha512-sTitTPYnn23esFR3RlqYBWn4c45WGeLcsKzQiUpXJAyfcWkolvlYpV8FLo7JishK946oQwMFUCHXQ9AjGPKExw==}
+    dev: false
 
   /pbkdf2/3.1.2:
     resolution: {integrity: sha512-iuh7L6jA7JEGu2WxDwtQP1ddOpaJNC4KlDEFfdQajSGgGPNi4OyDc2R7QnbY2bR9QjBVGwgvTdNJZoE7RaxUMA==}

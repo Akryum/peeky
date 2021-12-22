@@ -1,5 +1,5 @@
 import fs from 'fs'
-import path from 'path'
+import path from 'pathe'
 import match from 'anymatch'
 import { V8Coverage } from 'collect-v8-coverage'
 import { SourceMapConsumer } from 'source-map'

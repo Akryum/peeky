@@ -1,5 +1,5 @@
 import { performance } from 'perf_hooks'
-import { resolve, relative } from 'path'
+import { resolve, relative } from 'pathe'
 import { install as installSourceMap } from 'source-map-support'
 import consola from 'consola'
 import { CoverageInstrumenter } from 'collect-v8-coverage'

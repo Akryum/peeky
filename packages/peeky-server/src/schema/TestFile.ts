@@ -1,4 +1,4 @@
-import { join } from 'path'
+import { join } from 'pathe'
 import { extendType, idArg, intArg, nonNull, objectType, stringArg } from 'nexus'
 import launchEditor from 'launch-editor'
 import type { Context } from '../context'

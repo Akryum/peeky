@@ -45,6 +45,7 @@
     "launch-editor": "^2.2.1",
     "nexus": "^1.0.0",
     "object-inspect": "^1.11.0",
+    "pathe": "^0.2.0",
     "project-name-generator": "^2.1.9",
     "random-emoji": "^1.0.2",
     "reactive-fs": "^0.4.1",

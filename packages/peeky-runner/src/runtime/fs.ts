@@ -3,7 +3,7 @@
 
 import fs from 'fs'
 import { Volume } from 'memfs'
-import { dirname } from 'path'
+import { dirname } from 'pathe'
 import { patchFs as patch } from 'fs-monkey'
 
 export const realFs = { ...fs, promises: { ...fs.promises } }
