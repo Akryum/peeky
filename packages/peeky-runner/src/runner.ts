@@ -97,6 +97,8 @@ export async function setupRunner (options: RunnerOptions) {
         const test = suite?.tests.find(t => t.id === testId)
         reporters.forEach(r => r.log?.({ suite, test, type, text, file }))
       },
+
+      testFileCompleteHandshake: () => Promise.resolve(),
     }, handleMessage)
 
     const result = await pool.run({

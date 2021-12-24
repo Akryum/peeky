@@ -10,6 +10,7 @@ export interface WorkerRemoteMethods {
   onTestSuccess: (suiteId: string, testId: string, duration: number) => void
   transform: (id: string) => Promise<TransformResult>
   onLog: (suiteId: string, testId: string, type: 'stdout' | 'stderr', text: string, file?: string) => void
+  testFileCompleteHandshake: () => Promise<void>
 }
 
 export interface TestErrorData {

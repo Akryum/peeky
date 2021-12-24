@@ -144,6 +144,8 @@ export async function runTestFile (options: RunTestFileOptions) {
       duration: s.duration,
     } as ReporterTestSuite))
 
+    await toMainThread().testFileCompleteHandshake()
+
     return {
       filePath: options.entry,
       suites,
