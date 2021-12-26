@@ -1,4 +1,4 @@
-import { isAbsolute } from 'path'
+import { isAbsolute } from 'pathe'
 import { pathToFileURL } from 'url'
 
 // FIXME: We should probably use either `path.posix.normalize` or vite's `normalize`
