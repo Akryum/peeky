@@ -48,6 +48,9 @@ describe('getStats()', () => {
             runTestCount: 2,
           },
         ],
+        failedSnapshots: [],
+        newSnapshots: [],
+        passedSnapshots: [],
       },
       {
         duration: 0,
@@ -94,6 +97,9 @@ describe('getStats()', () => {
             runTestCount: 2,
           },
         ],
+        failedSnapshots: [],
+        newSnapshots: [],
+        passedSnapshots: [],
       },
     ])
     expect(stats.suiteCount).toBe(4)
@@ -149,6 +155,9 @@ describe('getStats()', () => {
             runTestCount: 2,
           },
         ],
+        failedSnapshots: [],
+        newSnapshots: [],
+        passedSnapshots: [],
       },
     ])
     expect(stats.suiteCount).toBe(2)
