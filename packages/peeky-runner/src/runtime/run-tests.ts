@@ -4,7 +4,7 @@ import type { Context, Test } from '../types'
 import { setCurrentSuite, setCurrentTest } from './global-context.js'
 import { toMainThread } from './message.js'
 
-export async function runTests (ctx: Context) {
+export async function runTests (ctx: Context, failOnSnapshots: boolean) {
   const { default: sinon } = await import('sinon')
 
   for (const suite of ctx.suites) {
@@ -49,6 +49,15 @@ export async function runTests (ctx: Context) {
         const time = performance.now()
         try {
           await test.handler()
+
+          if (failOnSnapshots && test.failedSnapshots > 0) {
+            const e = new Error(`Mismatched ${test.failedSnapshots} snapshot${test.failedSnapshots > 1 ? 's' : ''}`)
+            const stack = test.snapshots.find(s => s.error).error.stack.split('\n')
+            stack[0] = e.message
+            e.stack = stack.join('\n')
+            throw e
+          }
+
           test.duration = performance.now() - time
           toMainThread().onTestSuccess(suite.id, test.id, test.duration)
         } catch (e) {
@@ -70,6 +79,10 @@ export async function runTests (ctx: Context) {
 
         for (const handler of suite.afterEachHandlers) {
           await handler()
+        }
+
+        if (test.snapshots.length) {
+          toMainThread().onTestSnapshotsProcessed(suite.id, test.id, test.snapshots)
         }
 
         setCurrentTest(null)

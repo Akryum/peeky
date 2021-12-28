@@ -17,6 +17,8 @@ import { getErrorPosition, getSrcFile, formatRunTestFileErrorMessage } from '../
 import { settings } from './Settings.js'
 import { mightRunOnChangedFiles } from '../watch.js'
 import { toProgramConfig } from '@peeky/config'
+import { Snapshot } from '@peeky/runner/dist/snapshot/types'
+import { addSnapshots, clearSnapshots, SnapshotData } from './Snapshot.js'
 
 const __filename = fileURLToPath(import.meta.url)
 
@@ -162,6 +164,9 @@ export interface RunData {
   duration: number
   runTestFiles: RunTestFileData[]
   previousErrorRunTestFiles: RunTestFileData[]
+  failedSnapshots: Snapshot[]
+  passedSnapshots: Snapshot[]
+  newSnapshots: Snapshot[]
 }
 
 export let runs: RunData[] = []
@@ -202,6 +207,9 @@ export async function createRun (ctx: Context, options: CreateRunOptions) {
     duration: null,
     runTestFiles: runTestFiles,
     previousErrorRunTestFiles,
+    failedSnapshots: [],
+    passedSnapshots: [],
+    newSnapshots: [],
   }
   runs.push(run)
 
@@ -243,6 +251,8 @@ export async function startRun (ctx: Context, id: string) {
     updateTestFile(ctx, f.testFile.id, { status: 'in_progress' })
     updateRunTestFile(ctx, run.id, f.id, { status: 'in_progress' })
   }))
+
+  clearSnapshots()
 
   const time = performance.now()
   if (!runner) {
@@ -315,6 +325,31 @@ export async function startRun (ctx: Context, id: string) {
           }
         })
       }
+    } else if (message.method === 'onTestSnapshotsProcessed') {
+      const [suiteId, testId, snapshots] = message.args
+      const testFile = testSuites.find(s => s.id === suiteId).runTestFile.testFile
+      await updateTest(ctx, suiteId, testId, (test) => {
+        const list:SnapshotData[] = snapshots.map(s => {
+          const result: SnapshotData = {
+            ...s,
+            test,
+          }
+          if (s.error) {
+            const { line, col } = getErrorPosition(testFile.relativePath, s.error.stack)
+            Object.assign(result, {
+              line,
+              col,
+            })
+          }
+          return result
+        })
+        test.snapshots.push(...list)
+        addSnapshots(list)
+        return {
+          snapshots: test.snapshots,
+          failedSnapshotCount: test.failedSnapshotCount + snapshots.filter(s => !!s.newContent).length,
+        }
+      })
     }
   })
 
@@ -359,6 +394,9 @@ export async function startRun (ctx: Context, id: string) {
     await updateRun(ctx, id, {
       status: stats.errorTestCount > 0 ? 'error' : 'success',
       duration: performance.now() - time,
+      failedSnapshots: stats.failedSnapshots,
+      passedSnapshots: stats.passedSnapshots,
+      newSnapshots: stats.newSnapshots,
     })
 
     if (settings.watch) {

@@ -5,6 +5,7 @@ import consola from 'consola'
 import { CoverageInstrumenter } from 'collect-v8-coverage'
 import fs from 'fs-extra'
 import pragma from 'pragma'
+import expect from 'expect'
 import { InstantiableTestEnvironmentClass, mergeConfig } from '@peeky/config'
 import type { Context, ReporterTestSuite, RunTestFileOptions } from '../types'
 import { useVite } from './vite.js'
@@ -19,6 +20,12 @@ import { moduleCache, sourceMaps } from './module-cache.js'
 import { baseConfig, setupWorker } from './setup.js'
 import { toMainThread } from './message.js'
 import { setCurrentTestFile } from './global-context.js'
+import { SnapshotMatcher } from '../snapshot/matcher.js'
+
+const snapshotMatcher = new SnapshotMatcher()
+expect.extend({
+  toMatchSnapshot: snapshotMatcher.toMatchSnapshot.bind(snapshotMatcher),
+})
 
 export async function runTestFile (options: RunTestFileOptions) {
   try {
@@ -50,6 +57,7 @@ export async function runTestFile (options: RunTestFileOptions) {
       options,
       suites: [],
       pragma: pragmaObject ?? {},
+      snapshots: [],
     }
 
     // Restore mocked module
@@ -112,15 +120,24 @@ export async function runTestFile (options: RunTestFileOptions) {
     // Register suites and tests
     await register.collect()
 
+    // Snapshots
+    await snapshotMatcher.start(ctx)
+
     const instrumenter = new CoverageInstrumenter()
     await instrumenter.startInstrumenting()
 
     // Run all tests in the test file
     if (ufs) ufs._enabled = true
-    await runTests(ctx)
+    await runTests(ctx, !options.updateSnapshots)
     if (ufs) ufs._enabled = false
 
     const coverage = await getCoverage(await instrumenter.stopInstrumenting(), ctx)
+
+    const {
+      failedSnapshots,
+      newSnapshots,
+      passedSnapshots,
+    } = await snapshotMatcher.end(options.updateSnapshots)
 
     await runtimeEnv.destroy()
 
@@ -152,6 +169,9 @@ export async function runTestFile (options: RunTestFileOptions) {
       duration,
       coverage,
       deps: executionResult.deps.concat(options.entry),
+      failedSnapshots,
+      newSnapshots,
+      passedSnapshots,
     }
   } catch (e) {
     consola.error(`Running tests failed: ${e.stack}`)

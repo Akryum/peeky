@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import * as monaco from 'monaco-editor'
-import { onMounted, ref, watch } from 'vue-demi'
+import { onMounted, ref, watch } from 'vue'
 import { onResize } from '../../util/resize'
 import '../../util/monaco'
 import { useSettings } from '../settings'
@@ -40,8 +40,8 @@ watch(() => [props.expected, props.actual], () => {
 function updateEditorModel () {
   if (editor) {
     editor.setModel({
-      original: monaco.editor.createModel(props.expected, 'javascript'),
-      modified: monaco.editor.createModel(props.actual, 'javascript'),
+      original: monaco.editor.createModel(props.expected, props.expected.trim().startsWith('<') ? 'html' : 'javascript'),
+      modified: monaco.editor.createModel(props.actual, props.actual.trim().startsWith('<') ? 'html' : 'javascript'),
     })
   }
 }
@@ -73,7 +73,7 @@ onResize(el, () => {
 
 <template>
   <div class="flex flex-col">
-    <div class="flex-none flex justify-between px-1 mb-1">
+    <div class="flex-none flex justify-between px-4 pt-2 mb-1 text-sm">
       <div class="text-green-600 dark:text-green-500">
         Expected
       </div>

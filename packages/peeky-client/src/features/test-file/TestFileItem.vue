@@ -13,6 +13,7 @@ const props = defineProps({
   <router-link
     :to="{
       query: {
+        ...$route.query,
         fileSlug: file.slug,
       },
     }"

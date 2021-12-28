@@ -22,6 +22,8 @@ fragment testView on Test {
     ...testResultError
   }
   hasLogs
+  snapshotCount
+  failedSnapshotCount
 }
 ${errorFragment}
 `
@@ -139,19 +141,45 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
     </div>
 
     <!-- Tabs -->
-    <nav>
+    <nav class="h-10">
       <BaseTab
-        :to="{ name: 'test' }"
+        :to="{
+          name: 'test',
+          query: { ...$route.query },
+        }"
       >
         Result
       </BaseTab>
       <BaseTab
-        :to="{ name: 'test-output' }"
+        :to="{
+          name: 'test-output',
+          query: { ...$route.query },
+        }"
       >
         <div class="flex items-center space-x-2">
           <span>Output</span>
           <div
             v-if="test.hasLogs"
+            class="w-2 h-2 bg-primary-500 dark:bg-primary-400 rounded-full"
+          />
+        </div>
+      </BaseTab>
+      <BaseTab
+        :to="{
+          name: 'test-snapshots',
+          query: { ...$route.query },
+        }"
+      >
+        <div class="flex items-center space-x-2">
+          <span>Snapshots</span>
+          <div
+            v-if="test.failedSnapshotCount"
+            class="text-xs px-1.5 rounded leading-tight text-red-200 bg-red-600 mt-0.5"
+          >
+            {{ test.failedSnapshotCount }}
+          </div>
+          <div
+            v-else-if="test.snapshotCount"
             class="w-2 h-2 bg-primary-500 dark:bg-primary-400 rounded-full"
           />
         </div>

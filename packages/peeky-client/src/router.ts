@@ -39,6 +39,11 @@ export const router = createRouter({
                   name: 'test-output',
                   component: () => import('./features/test/TestOutput.vue'),
                 },
+                {
+                  path: 'snapshots',
+                  name: 'test-snapshots',
+                  component: () => import('./features/test/TestSnapshots.vue'),
+                },
               ],
             },
           ],

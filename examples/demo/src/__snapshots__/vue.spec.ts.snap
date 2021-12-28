@@ -1,0 +1,17 @@
+// Peeky snapshots v1.0
+
+exports[`vue create vue app 1`] = `
+<div data-v-app>
+  <div>
+    hello
+  </div>
+</div>
+`;
+
+exports[`vue create vue app demo 1`] = `
+"Hello"
+`;
+
+exports[`vue create vue app demo 2`] = `
+"Meow"
+`;

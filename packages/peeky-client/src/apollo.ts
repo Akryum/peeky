@@ -123,4 +123,5 @@ const cache = new InMemoryCache({
 export const apolloClient = new ApolloClient({
   link,
   cache,
+  connectToDevTools: true,
 })

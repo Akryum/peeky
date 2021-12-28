@@ -19,7 +19,7 @@ import { computed, defineProps, ref } from 'vue'
 import { ChevronRightIcon } from '@zhuowenli/vue-feather-icons'
 import BaseButton from '../BaseButton.vue'
 import StatusIcon from '../StatusIcon.vue'
-import TestAssertionDiff from './TestAssertionDiff.vue'
+import DiffEditor from '../editor/DiffEditor.vue'
 
 const props = defineProps({
   test: {
@@ -132,7 +132,7 @@ const diffShown = computed(() => props.test?.error?.actual && props.test?.error?
         </div>
       </div>
 
-      <TestAssertionDiff
+      <DiffEditor
         v-if="diffShown"
         :actual="test.error.actual"
         :expected="test.error.expected"

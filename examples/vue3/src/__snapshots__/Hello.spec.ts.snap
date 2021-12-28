@@ -1,0 +1,10 @@
+// Peeky snapshots v1.0
+
+exports[`vue + peeky demo mount component 1`] = `
+<pre>
+  4 x 2 = 9
+</pre>
+<button>
+  More
+</button>
+`;

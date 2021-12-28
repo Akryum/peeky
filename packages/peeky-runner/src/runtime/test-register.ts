@@ -67,6 +67,8 @@ export function setupRegister (ctx: Context): {
       handler,
       error: null,
       flag,
+      failedSnapshots: 0,
+      snapshots: [],
     })
   }
 

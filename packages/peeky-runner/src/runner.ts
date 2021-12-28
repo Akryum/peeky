@@ -112,7 +112,7 @@ export async function setupRunner (options: RunnerOptions) {
     return result
   }
 
-  async function runTestFile (relativePath: string, clearDeps: string[] = []) {
+  async function runTestFile (relativePath: string, clearDeps: string[] = [], updateSnapshots = false) {
     const file = testFiles.files[relativePath]
     if (file) {
       const result = await runTestFileWorker({
@@ -123,6 +123,7 @@ export async function setupRunner (options: RunnerOptions) {
           ignored: [...ctx.options.config.match ?? [], ...ctx.options.config.ignored ?? []],
         },
         clearDeps,
+        updateSnapshots,
       })
 
       // Patch filePath

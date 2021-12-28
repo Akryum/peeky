@@ -9,6 +9,7 @@ import { createRawReporter } from './reporters/raw.js'
 
 export interface RunAllOptions {
   quickTestFilter?: string
+  updateSnapshots?: boolean
 }
 
 export async function runAllTests (config: ProgramPeekyConfig, options: RunAllOptions = {}) {
@@ -44,7 +45,7 @@ export async function runAllTests (config: ProgramPeekyConfig, options: RunAllOp
   }
 
   const time = performance.now()
-  const result = await Promise.all(fileList.map(f => runner.runTestFile(f)))
+  const result = await Promise.all(fileList.map(f => runner.runTestFile(f, [], options.updateSnapshots)))
   const endTime = performance.now()
 
   const stats = getStats(result)
@@ -54,11 +55,17 @@ export async function runAllTests (config: ProgramPeekyConfig, options: RunAllOp
     errorSuiteCount,
     testCount,
     errorTestCount,
+    snapshotCount,
+    failedSnapshots,
+    newSnapshots,
   } = stats
 
   // Error summary
   if (errorTestCount) {
     reporters.forEach(r => r.errorSummary?.({ suites, errorTestCount, testCount }))
+  }
+  if (failedSnapshots.length) {
+    reporters.forEach(r => r.snapshotSummary?.({ snapshotCount, failedSnapshots }))
   }
 
   // Coverage
@@ -92,6 +99,10 @@ export async function runAllTests (config: ProgramPeekyConfig, options: RunAllOp
     errorSuiteCount,
     testCount,
     errorTestCount,
+    snapshotCount,
+    failedSnapshotCount: options.updateSnapshots ? 0 : failedSnapshots.length,
+    updatedSnapshotCount: options.updateSnapshots ? failedSnapshots.length : 0,
+    newSnapshotCount: newSnapshots.length,
   }))
 
   await runner.close()

@@ -1,12 +1,14 @@
 import type { SerializablePeekyConfig } from '@peeky/config'
 import type { Awaitable } from '@peeky/utils'
 import { FileCoverage } from './runtime/coverage.js'
+import { Snapshot } from './snapshot/types.js'
 
 export interface RunTestFileOptions {
   entry: string
   config: SerializablePeekyConfig
   coverage: CoverageOptions
   clearDeps?: string[]
+  updateSnapshots?: boolean
 }
 
 export interface CoverageOptions {
@@ -18,6 +20,7 @@ export interface Context {
   options: RunTestFileOptions
   suites: TestSuite[]
   pragma: Record<string, any>
+  snapshots: Snapshot[]
 }
 
 export interface TestSuite {
@@ -43,6 +46,8 @@ export interface Test {
   handler: () => unknown
   error: Error
   flag: TestFlag
+  failedSnapshots: number
+  snapshots: Snapshot[]
   duration?: number
 }
 
@@ -86,6 +91,11 @@ interface ErrorSummaryPayload {
   testCount: number
 }
 
+interface SnapshotSummaryPayload {
+  snapshotCount: number
+  failedSnapshots: Snapshot[]
+}
+
 interface CoverageSummaryPayload {
   uncoveredFiles: FileCoverage[]
   partiallyCoveredFiles: FileCoverage[]
@@ -102,6 +112,10 @@ interface SummaryPayload {
   errorSuiteCount: number
   testCount: number
   errorTestCount: number
+  snapshotCount: number
+  failedSnapshotCount: number
+  updatedSnapshotCount: number
+  newSnapshotCount: number
 }
 
 export interface Reporter {
@@ -112,6 +126,7 @@ export interface Reporter {
   testSuccess?: (payload: TestInfoPayload) => unknown
   testFail?: (payload: TestInfoPayload) => unknown
   errorSummary?: (payload: ErrorSummaryPayload) => unknown
+  snapshotSummary?: (payload: SnapshotSummaryPayload) => unknown
   coverageSummary?: (payload: CoverageSummaryPayload) => unknown
   summary?: (payload: SummaryPayload) => unknown
 }

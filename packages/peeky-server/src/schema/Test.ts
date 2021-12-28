@@ -7,6 +7,7 @@ import type { Context } from '../context'
 import { getRunId } from './Run.js'
 import { Status, StatusEnum } from './Status.js'
 import { getTestSuite, TestSuiteData } from './TestSuite.js'
+import { SnapshotData } from './Snapshot.js'
 
 // @ts-expect-error ansi_up doesn't support Node esm correctly
 const AnsiUp = AnsiUpPackage.default as typeof AnsiUpPackage
@@ -175,6 +176,8 @@ export interface TestData {
   error: TestErrorData
   flag: TestFlag
   logs: TestLogData[]
+  snapshots: SnapshotData[]
+  failedSnapshotCount: number
 }
 
 export interface TestLogData {
@@ -213,6 +216,8 @@ export async function createTest (ctx: Context, options: CreateTestOptions) {
     duration: null,
     error: null,
     logs: [],
+    snapshots: [],
+    failedSnapshotCount: 0,
   }
   ctx.pubsub.publish(TestAdded, {
     test,

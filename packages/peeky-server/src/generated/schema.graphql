@@ -13,6 +13,7 @@ type Mutation {
   openTestFileInEditor(col: Int!, id: ID!, line: Int!): Boolean
   startRun(input: StartRunInput!): Run!
   updateSettings(input: UpdateSettingsInput!): Settings!
+  updateSnapshot(input: UpdateSnapshotInput!): Snapshot
 }
 
 type Query {
@@ -27,7 +28,10 @@ type Query {
 type Run {
   duration: Float
   emoji: String!
+  failedSnapshots: [Snapshot!]!
   id: ID!
+  newSnapshots: [Snapshot!]!
+  passedSnapshots: [Snapshot!]!
   previousErrorRunTestFiles: [RunTestFile!]!
   progress: Float!
   runTestFile(slug: String!): RunTestFile
@@ -57,6 +61,16 @@ type Settings {
   darkMode: Boolean!
   id: ID!
   watch: Boolean!
+}
+
+type Snapshot {
+  col: Int
+  content: String!
+  id: ID!
+  line: Int
+  newContent: String
+  title: String!
+  updated: Boolean
 }
 
 input StartRunInput {
@@ -90,11 +104,14 @@ type Subscription {
 type Test {
   duration: Float
   error: TestError
+  failedSnapshotCount: Int!
   flag: TestFlag
   hasLogs: Boolean!
   id: ID!
   logs: [TestLog!]!
   slug: String!
+  snapshotCount: Int!
+  snapshots: [Snapshot!]!
   status: Status!
   title: String!
 }
@@ -148,4 +165,8 @@ type TestSuite {
 input UpdateSettingsInput {
   darkMode: Boolean!
   watch: Boolean!
+}
+
+input UpdateSnapshotInput {
+  id: ID!
 }

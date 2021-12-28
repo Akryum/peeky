@@ -21,6 +21,9 @@ export async function run (quickFilter: string, options) {
 
     const { stats: { errorSuiteCount } } = await runAllTests(toProgramConfig(finalConfig), {
       quickTestFilter: quickFilter,
+      ...pick<any>(options, [
+        'updateSnapshots',
+      ]),
     })
 
     if (errorSuiteCount) {

@@ -1,6 +1,7 @@
 import { MessageChannel } from 'worker_threads'
 import type { TransformResult } from 'vite'
 import { TestFlag } from './types.js'
+import { Snapshot } from './snapshot/types.js'
 
 export interface WorkerRemoteMethods {
   onSuiteStart: (suite: SuiteStartData) => void
@@ -8,8 +9,9 @@ export interface WorkerRemoteMethods {
   onTestStart: (suiteId: string, testId: string) => void
   onTestError: (suiteId: string, testId: string, duration: number, error: TestErrorData) => void
   onTestSuccess: (suiteId: string, testId: string, duration: number) => void
-  transform: (id: string) => Promise<TransformResult>
+  onTestSnapshotsProcessed: (suiteId: string, testId: string, snapshots: Snapshot[]) => void
   onLog: (suiteId: string, testId: string, type: 'stdout' | 'stderr', text: string, file?: string) => void
+  transform: (id: string) => Promise<TransformResult>
   testFileCompleteHandshake: () => Promise<void>
 }
 

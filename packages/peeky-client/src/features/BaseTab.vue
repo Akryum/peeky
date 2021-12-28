@@ -15,7 +15,7 @@ export default defineComponent({
     <a
       v-bind="$attrs"
       :href="href"
-      class="px-4 h-10 inline-flex items-center hover:bg-primary-50 dark:hover:bg-primary-900 relative"
+      class="px-4 h-full inline-flex items-center hover:bg-primary-50 dark:hover:bg-primary-900 relative"
       :class="{
         'text-primary-500 dark:text-primary-400': isExactActive,
       }"

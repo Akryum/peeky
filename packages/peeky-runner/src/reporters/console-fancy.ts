@@ -1,5 +1,6 @@
 import consola from 'consola'
 import chalk from 'chalk'
+import { diffStringsUnified } from 'jest-diff'
 import { formatDurationToString } from '@peeky/utils'
 import { Reporter } from '../types.js'
 
@@ -31,6 +32,15 @@ export function createConsoleFancyReporter (): Reporter {
             }
           }
         }
+      }
+    },
+
+    snapshotSummary: ({ snapshotCount, failedSnapshots }) => {
+      consola.log(`\n\n${chalk.red(drawBox(`${failedSnapshots.length} / ${snapshotCount} failed snapshots`, chalk.bold))}\n`)
+
+      for (const snapshot of failedSnapshots) {
+        consola.log(chalk.red(`${chalk.bgRedBright.black.bold(' FAIL ')} ${chalk.bold(snapshot.title)}`))
+        consola.log(`\n${diffStringsUnified(snapshot.newContent, snapshot.content)}\n${snapshot.error.stack}\n`)
       }
     },
 
@@ -83,9 +93,36 @@ export function createConsoleFancyReporter (): Reporter {
       errorSuiteCount,
       testCount,
       errorTestCount,
+      snapshotCount,
+      failedSnapshotCount,
+      updatedSnapshotCount,
+      newSnapshotCount,
     }) => {
       consola.log(`\n${drawBox(`Ran ${fileCount} tests files (${formatDurationToString(duration)})`)}\n`)
-      consola.log(chalk[errorSuiteCount ? 'red' : 'green'](`  ${chalk.dim('Suites')} ${chalk.bold(`${suiteCount - errorSuiteCount} / ${suiteCount}`)}\n   ${chalk.dim('Tests')} ${chalk.bold(`${testCount - errorTestCount} / ${testCount}`)}\n  ${chalk.dim('Errors')} ${chalk.bold(errorTestCount)}\n`))
+
+      let snapshotSummary = `${snapshotCount - failedSnapshotCount} / ${snapshotCount}`
+      const snapshotDetails: string[] = []
+      if (failedSnapshotCount) {
+        snapshotDetails.push(`failed: ${failedSnapshotCount}`)
+      }
+      if (updatedSnapshotCount) {
+        snapshotDetails.push(`updated: ${updatedSnapshotCount}`)
+      }
+      if (newSnapshotCount) {
+        snapshotDetails.push(`new: ${newSnapshotCount}`)
+      }
+      if (snapshotDetails.length) {
+        snapshotSummary += ` (${snapshotDetails.join(', ')})`
+      }
+
+      const stats = [
+        ['Suites', `${suiteCount - errorSuiteCount} / ${suiteCount}`],
+        ['Tests', `${testCount - errorTestCount} / ${testCount}`],
+        ['Snapshots', snapshotSummary],
+        ['Errors', `${errorTestCount}`],
+      ]
+      const colSize = Math.max(...stats.map(([label]) => label.length)) + 2
+      consola.log(chalk[errorSuiteCount ? 'red' : 'green'](stats.map(t => `${chalk.dim(t[0].padStart(colSize, ' '))} ${chalk.bold(t[1])}\n`).join('')))
     },
   }
 }

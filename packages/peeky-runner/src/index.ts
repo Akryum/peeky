@@ -1,5 +1,6 @@
 export * from './run-all.js'
 export * from './runner.js'
+export * from './snapshot/index.js'
 export * from './stats.js'
 export * from './types.js'
 export * from './runtime/environment.js'

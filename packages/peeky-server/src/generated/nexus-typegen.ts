@@ -27,6 +27,9 @@ export interface NexusGenInputs {
     darkMode: boolean; // Boolean!
     watch: boolean; // Boolean!
   }
+  UpdateSnapshotInput: { // input type
+    id: string; // ID!
+  }
 }
 
 export interface NexusGenEnums {
@@ -56,14 +59,25 @@ export interface NexusGenObjects {
     id: string; // ID!
     watch: boolean; // Boolean!
   }
+  Snapshot: { // root type
+    col?: number | null; // Int
+    content: string; // String!
+    id: string; // ID!
+    line?: number | null; // Int
+    newContent?: string | null; // String
+    title: string; // String!
+    updated?: boolean | null; // Boolean
+  }
   Subscription: {};
   Test: { // root type
     duration?: number | null; // Float
     error?: NexusGenRootTypes['TestError'] | null; // TestError
+    failedSnapshotCount: number; // Int!
     flag?: NexusGenEnums['TestFlag'] | null; // TestFlag
     id: string; // ID!
     logs: NexusGenRootTypes['TestLog'][]; // [TestLog!]!
     slug: string; // String!
+    snapshots: NexusGenRootTypes['Snapshot'][]; // [Snapshot!]!
     status: NexusGenEnums['Status']; // Status!
     title: string; // String!
   }
@@ -106,6 +120,7 @@ export interface NexusGenFieldTypes {
     openTestFileInEditor: boolean | null; // Boolean
     startRun: NexusGenRootTypes['Run']; // Run!
     updateSettings: NexusGenRootTypes['Settings']; // Settings!
+    updateSnapshot: NexusGenRootTypes['Snapshot'] | null; // Snapshot
   }
   Query: { // field return type
     lastRun: NexusGenRootTypes['Run'] | null; // Run
@@ -118,7 +133,10 @@ export interface NexusGenFieldTypes {
   Run: { // field return type
     duration: number | null; // Float
     emoji: string; // String!
+    failedSnapshots: NexusGenRootTypes['Snapshot'][]; // [Snapshot!]!
     id: string; // ID!
+    newSnapshots: NexusGenRootTypes['Snapshot'][]; // [Snapshot!]!
+    passedSnapshots: NexusGenRootTypes['Snapshot'][]; // [Snapshot!]!
     previousErrorRunTestFiles: NexusGenRootTypes['RunTestFile'][]; // [RunTestFile!]!
     progress: number; // Float!
     runTestFile: NexusGenRootTypes['RunTestFile'] | null; // RunTestFile
@@ -146,6 +164,15 @@ export interface NexusGenFieldTypes {
     id: string; // ID!
     watch: boolean; // Boolean!
   }
+  Snapshot: { // field return type
+    col: number | null; // Int
+    content: string; // String!
+    id: string; // ID!
+    line: number | null; // Int
+    newContent: string | null; // String
+    title: string; // String!
+    updated: boolean | null; // Boolean
+  }
   Subscription: { // field return type
     runAdded: NexusGenRootTypes['Run']; // Run!
     runRemoved: NexusGenRootTypes['Run']; // Run!
@@ -163,11 +190,14 @@ export interface NexusGenFieldTypes {
   Test: { // field return type
     duration: number | null; // Float
     error: NexusGenRootTypes['TestError'] | null; // TestError
+    failedSnapshotCount: number; // Int!
     flag: NexusGenEnums['TestFlag'] | null; // TestFlag
     hasLogs: boolean; // Boolean!
     id: string; // ID!
     logs: NexusGenRootTypes['TestLog'][]; // [TestLog!]!
     slug: string; // String!
+    snapshotCount: number; // Int!
+    snapshots: NexusGenRootTypes['Snapshot'][]; // [Snapshot!]!
     status: NexusGenEnums['Status']; // Status!
     title: string; // String!
   }
@@ -212,6 +242,7 @@ export interface NexusGenFieldTypeNames {
     openTestFileInEditor: 'Boolean'
     startRun: 'Run'
     updateSettings: 'Settings'
+    updateSnapshot: 'Snapshot'
   }
   Query: { // field return type name
     lastRun: 'Run'
@@ -224,7 +255,10 @@ export interface NexusGenFieldTypeNames {
   Run: { // field return type name
     duration: 'Float'
     emoji: 'String'
+    failedSnapshots: 'Snapshot'
     id: 'ID'
+    newSnapshots: 'Snapshot'
+    passedSnapshots: 'Snapshot'
     previousErrorRunTestFiles: 'RunTestFile'
     progress: 'Float'
     runTestFile: 'RunTestFile'
@@ -252,6 +286,15 @@ export interface NexusGenFieldTypeNames {
     id: 'ID'
     watch: 'Boolean'
   }
+  Snapshot: { // field return type name
+    col: 'Int'
+    content: 'String'
+    id: 'ID'
+    line: 'Int'
+    newContent: 'String'
+    title: 'String'
+    updated: 'Boolean'
+  }
   Subscription: { // field return type name
     runAdded: 'Run'
     runRemoved: 'Run'
@@ -269,11 +312,14 @@ export interface NexusGenFieldTypeNames {
   Test: { // field return type name
     duration: 'Float'
     error: 'TestError'
+    failedSnapshotCount: 'Int'
     flag: 'TestFlag'
     hasLogs: 'Boolean'
     id: 'ID'
     logs: 'TestLog'
     slug: 'String'
+    snapshotCount: 'Int'
+    snapshots: 'Snapshot'
     status: 'Status'
     title: 'String'
   }
@@ -330,6 +376,9 @@ export interface NexusGenArgTypes {
     }
     updateSettings: { // args
       input: NexusGenInputs['UpdateSettingsInput']; // UpdateSettingsInput!
+    }
+    updateSnapshot: { // args
+      input: NexusGenInputs['UpdateSnapshotInput']; // UpdateSnapshotInput!
     }
   }
   Query: {

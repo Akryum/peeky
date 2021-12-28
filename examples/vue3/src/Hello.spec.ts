@@ -13,8 +13,8 @@ describe('vue + peeky demo', () => {
     })
 
     expect(wrapper.text()).toContain('4 x 2 = 8')
-    // Available soon
-    // expect(wrapper.html()).toMatchSnapshot()
+
+    expect(wrapper.html()).toMatchSnapshot()
 
     await wrapper.get('button').trigger('click')
 
