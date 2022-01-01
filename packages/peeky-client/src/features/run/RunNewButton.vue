@@ -19,7 +19,7 @@ const { mutate, loading: mutating } = useMutation(gql`
   mutation startRun {
     startRun(input: {}) {
       id
-      title
+      date
       emoji
       status
       progress
@@ -31,7 +31,7 @@ const { mutate, loading: mutating } = useMutation(gql`
       query: gql`query lastRunCacheUpdate {
         lastRun {
           id
-          title
+          date
           emoji
           status
           progress
