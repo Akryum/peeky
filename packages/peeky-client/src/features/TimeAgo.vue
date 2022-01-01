@@ -18,7 +18,7 @@ const rtf = new Intl.RelativeTimeFormat(undefined, {
   numeric: 'auto',
 })
 
-const units: ([number, Intl.RelativeTimeFormatUnit])[] = [[60, 'minute'], [60, 'hour']]
+const units: ([number, Intl.RelativeTimeFormatUnit])[] = [[60, 'minute'], [60, 'hour'], [24, 'day']]
 
 function update () {
   let diff = (parsedDate.value.getTime() - Date.now()) / 1000
