@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@vue/apollo-composable'
-import type { NexusGenInputs, NexusGenFieldTypes } from '@peeky/server'
+import type { NexusGenInputs, NexusGenFieldTypes } from '@peeky/server/types'
 import gql from 'graphql-tag'
 import { computed } from 'vue'
 

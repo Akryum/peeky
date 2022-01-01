@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { defineProps, PropType } from 'vue'
-import type { NexusGenFieldTypes } from '@peeky/server'
+import type { NexusGenFieldTypes } from '@peeky/server/types'
 import StatusIcon from '../StatusIcon.vue'
 import Duration from '../Duration.vue'
 import TimeAgo from '../TimeAgo.vue'

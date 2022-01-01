@@ -5,7 +5,7 @@ import { useQuery } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 import { computed, defineEmits, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { NexusGenFieldTypes } from '@peeky/server/src/generated/nexus-typegen'
+import { NexusGenFieldTypes } from '@peeky/server/types'
 
 const emit = defineEmits(['close'])
 

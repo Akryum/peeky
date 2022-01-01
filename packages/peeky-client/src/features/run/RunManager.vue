@@ -15,7 +15,7 @@ import gql from 'graphql-tag'
 import { useRoute } from 'vue-router'
 import { computed } from 'vue'
 import { useSettings } from '../settings'
-import { NexusGenFieldTypes } from '@peeky/server/src/generated/nexus-typegen'
+import { NexusGenFieldTypes } from '@peeky/server/types'
 
 // Current run
 
