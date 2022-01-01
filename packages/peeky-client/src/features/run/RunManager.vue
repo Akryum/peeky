@@ -5,17 +5,15 @@ import RunSelector from './RunSelector.vue'
 import RunNewButton from './RunNewButton.vue'
 import RunItem from './RunItem.vue'
 import {
-  LayersIcon,
   ActivityIcon,
-  ChevronDownIcon,
-  ChevronUpIcon,
+  MoreVerticalIcon,
   SunIcon,
   MoonIcon,
 } from '@zhuowenli/vue-feather-icons'
 import { useQuery } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 import { useRoute } from 'vue-router'
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
 import { useSettings } from '../settings'
 import { NexusGenFieldTypes } from '@peeky/server/src/generated/nexus-typegen'
 
@@ -55,9 +53,6 @@ const { result, subscribeToMore } = useQuery<{
   id: route.params.runId,
 } : {})
 const currentRun = computed(() => result.value?.run)
-
-const isSelectorOpen = ref(false)
-const isSubMenuOpen = ref(false)
 
 // Subs
 
@@ -157,61 +152,47 @@ const darkMode = computed<boolean>({
 
       <RunNewButton class="flex-none" />
 
-      <BaseButton
-        color="gray"
-        flat
-        class="flex-none p-2"
-        @click="isSubMenuOpen = !isSubMenuOpen"
+      <VDropdown
+        placement="bottom-start"
+        :offset="[0, 10]"
       >
-        <component
-          :is="isSubMenuOpen ? ChevronUpIcon : ChevronDownIcon"
-          class="w-4 h-4"
-        />
-      </BaseButton>
+        <BaseButton
+          color="gray"
+          flat
+          class="flex-none p-2"
+        >
+          <MoreVerticalIcon class="w-4 h-4" />
+        </BaseButton>
+
+        <template #popper="{ hide }">
+          <div class="py-2 min-w-[300px]">
+            <BaseSwitch
+              v-model="watchEnabled"
+              class="ml-2 p-2"
+            >
+              Watch
+            </BaseSwitch>
+            <BaseSwitch
+              v-model="darkMode"
+              class="ml-2 p-2"
+            >
+              <span class="flex items-center space-x-2">
+                <span>Dark mode</span>
+                <component
+                  :is="darkMode ? MoonIcon : SunIcon"
+                  class="w-4 h-4 relative top-[1px]"
+                />
+              </span>
+            </BaseSwitch>
+
+            <hr class="border-gray-100 dark:border-gray-800 my-1">
+
+            <RunSelector
+              @close="hide()"
+            />
+          </div>
+        </template>
+      </VDropdown>
     </div>
   </div>
-
-  <transition name="toolbar">
-    <div
-      v-if="isSubMenuOpen"
-      v-bind="$attrs"
-      class="h-10 flex items-center space-x-1 px-1"
-    >
-      <BaseSwitch
-        v-model="watchEnabled"
-        class="ml-2"
-      >
-        Watch
-      </BaseSwitch>
-
-      <div class="w-0 flex-1" />
-
-      <BaseButton
-        flat
-        class="flex-none p-2"
-        @click="darkMode = !darkMode"
-      >
-        <component
-          :is="darkMode ? MoonIcon : SunIcon"
-          class="w-4 h-4"
-        />
-      </BaseButton>
-
-      <BaseButton
-        flat
-        class="flex-none p-2"
-        @click="isSelectorOpen = true"
-      >
-        <LayersIcon class="w-4 h-4" />
-      </BaseButton>
-    </div>
-  </transition>
-
-  <transition name="slide-from-left">
-    <RunSelector
-      v-if="isSelectorOpen"
-      class="absolute inset-0 bg-white dark:bg-black z-10"
-      @close="isSelectorOpen = false"
-    />
-  </transition>
 </template>

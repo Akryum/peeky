@@ -28,6 +28,30 @@ html {
   }
 }
 
+/* Poppers */
+
+html .v-popper--theme-dropdown {
+  .v-popper__inner {
+    @apply p-0;
+  }
+}
+
+html.dark {
+  .v-popper--theme-dropdown {
+    .v-popper__inner {
+      @apply text-white bg-dark border-gray-800;
+    }
+
+    .v-popper__arrow {
+      @apply border-dark;
+    }
+
+    .v-popper__arrow-border {
+      @apply border-gray-800;
+    }
+  }
+}
+
 
 /* Disable touch blue rectangle */
 [type="button"],
