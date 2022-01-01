@@ -12,18 +12,19 @@ import {
   SunIcon,
   MoonIcon,
 } from '@zhuowenli/vue-feather-icons'
-import { useQuery, useResult } from '@vue/apollo-composable'
+import { useQuery } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 import { useRoute } from 'vue-router'
 import { ref, computed } from 'vue'
 import { useSettings } from '../settings'
+import { NexusGenFieldTypes } from '@peeky/server/src/generated/nexus-typegen'
 
 // Current run
 
 const runDetailsFragment = gql`
 fragment runDetails on Run {
   id
-  title
+  date
   emoji
   status
   progress
@@ -31,8 +32,12 @@ fragment runDetails on Run {
 }
 `
 
+type Run = Pick<NexusGenFieldTypes['Run'], 'id' | 'date' | 'emoji' | 'status' | 'progress' | 'duration'>
+
 const route = useRoute()
-const { result, subscribeToMore } = useQuery(() => route.params.runId !== 'last-run' ? gql`
+const { result, subscribeToMore } = useQuery<{
+  run: Run
+}>(() => route.params.runId !== 'last-run' ? gql`
   query run ($id: ID!) {
     run (id: $id) {
       ...runDetails
@@ -41,7 +46,7 @@ const { result, subscribeToMore } = useQuery(() => route.params.runId !== 'last-
   ${runDetailsFragment}
 ` : gql`
   query lastRun {
-    lastRun {
+    run: lastRun {
       ...runDetails
     }
   }
@@ -49,7 +54,7 @@ const { result, subscribeToMore } = useQuery(() => route.params.runId !== 'last-
 `, () => route.params.runId !== 'last-run' ? {
   id: route.params.runId,
 } : {})
-const currentRun = useResult(result)
+const currentRun = computed(() => result.value?.run)
 
 const isSelectorOpen = ref(false)
 const isSubMenuOpen = ref(false)
@@ -71,7 +76,9 @@ subscribeToMore({
 })
 
 // Added
-subscribeToMore({
+subscribeToMore<undefined, {
+  runAdded: Run
+}>({
   document: gql`
   subscription runAdded {
     runAdded {
@@ -85,7 +92,7 @@ subscribeToMore({
       return previousResult
     } else {
       return {
-        lastRun: data.runAdded,
+        run: data.runAdded,
       }
     }
   },

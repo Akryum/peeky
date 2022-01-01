@@ -4,7 +4,6 @@ import { performance } from 'perf_hooks'
 import { arg, extendType, idArg, inputObjectType, nonNull, objectType } from 'nexus'
 import shortid from 'shortid'
 import { setupRunner, getStats, Runner } from '@peeky/runner'
-import nameGenerator from 'project-name-generator'
 import randomEmoji from 'random-emoji'
 import objectInspect from 'object-inspect'
 import type { Context } from '../context'
@@ -32,7 +31,7 @@ export const Run = objectType({
   },
   definition (t) {
     t.nonNull.id('id')
-    t.nonNull.string('title')
+    t.nonNull.string('date')
     t.nonNull.string('emoji')
     t.nonNull.float('progress')
     t.nonNull.field('status', {
@@ -159,7 +158,7 @@ export const RunSubscription = extendType({
 
 export interface RunData {
   id: string
-  title: string
+  date: string
   emoji: string
   progress: number
   status: StatusEnum
@@ -202,7 +201,7 @@ export async function createRun (ctx: Context, options: CreateRunOptions) {
 
   const run: RunData = {
     id: runId,
-    title: nameGenerator().dashed,
+    date: new Date().toISOString(),
     emoji: randomEmoji.random({ count: 1 })[0].character,
     progress: 0,
     status: 'in_progress',

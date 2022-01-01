@@ -131,6 +131,7 @@ export interface NexusGenFieldTypes {
     testFiles: NexusGenRootTypes['TestFile'][]; // [TestFile!]!
   }
   Run: { // field return type
+    date: string; // String!
     duration: number | null; // Float
     emoji: string; // String!
     failedSnapshots: NexusGenRootTypes['Snapshot'][]; // [Snapshot!]!
@@ -145,7 +146,6 @@ export interface NexusGenFieldTypes {
     testSuiteById: NexusGenRootTypes['TestSuite'] | null; // TestSuite
     testSuiteBySlug: NexusGenRootTypes['TestSuite'] | null; // TestSuite
     testSuites: NexusGenRootTypes['TestSuite'][]; // [TestSuite!]!
-    title: string; // String!
   }
   RunTestFile: { // field return type
     duration: number | null; // Float
@@ -253,6 +253,7 @@ export interface NexusGenFieldTypeNames {
     testFiles: 'TestFile'
   }
   Run: { // field return type name
+    date: 'String'
     duration: 'Float'
     emoji: 'String'
     failedSnapshots: 'Snapshot'
@@ -267,7 +268,6 @@ export interface NexusGenFieldTypeNames {
     testSuiteById: 'TestSuite'
     testSuiteBySlug: 'TestSuite'
     testSuites: 'TestSuite'
-    title: 'String'
   }
   RunTestFile: { // field return type name
     duration: 'Float'

@@ -26,6 +26,7 @@ type Query {
 }
 
 type Run {
+  date: String!
   duration: Float
   emoji: String!
   failedSnapshots: [Snapshot!]!
@@ -40,7 +41,6 @@ type Run {
   testSuiteById(id: ID!): TestSuite
   testSuiteBySlug(slug: String!): TestSuite
   testSuites: [TestSuite!]!
-  title: String!
 }
 
 type RunTestFile {

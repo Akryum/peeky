@@ -319,7 +319,6 @@ importers:
       nexus: ^1.0.0
       object-inspect: ^1.11.0
       pathe: ^0.2.0
-      project-name-generator: ^2.1.9
       random-emoji: ^1.0.2
       reactive-fs: ^0.4.1
       shortid: ^2.2.16
@@ -343,7 +342,6 @@ importers:
       nexus: 1.1.0_graphql@15.7.2
       object-inspect: 1.11.1
       pathe: 0.2.0
-      project-name-generator: 2.1.9
       random-emoji: 1.0.2
       reactive-fs: 0.4.1
       shortid: 2.2.16
@@ -3341,6 +3339,7 @@ packages:
   /commander/6.2.1:
     resolution: {integrity: sha512-U7VdrJFnJgo4xjrHpTzu0yrHPGImdsmD95ZlgYSEajAn2JKzDhDTPG9kBTefmObL2w/ngeZnilk+OV9CG3d7UA==}
     engines: {node: '>= 6'}
+    dev: true
 
   /commander/8.3.0:
     resolution: {integrity: sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww==}
@@ -6666,14 +6665,6 @@ packages:
     resolution: {integrity: sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==}
     engines: {node: '>=0.4.0'}
     dev: true
-
-  /project-name-generator/2.1.9:
-    resolution: {integrity: sha512-QmLHqz2C4VHmAyDEAFlVfnuWAHr4vwZhK2bbm4IrwuHNzNKOdG9b4U+NmQbsm1uOoV4kGWv7+FVLsu7Bb/ieYQ==}
-    hasBin: true
-    dependencies:
-      commander: 6.2.1
-      lodash: 4.17.21
-    dev: false
 
   /promise/8.1.0:
     resolution: {integrity: sha512-W04AqnILOL/sPRXziNicCjSNRruLAuIHEOVBazepu0545DDNGYHz7ar9ZgZ1fMU8/MA4mVxp5rkBWRi6OXIy3Q==}

@@ -1,11 +1,13 @@
 <script lang="ts" setup>
+import { defineProps, PropType } from 'vue'
+import type { NexusGenFieldTypes } from '@peeky/server'
 import StatusIcon from '../StatusIcon.vue'
 import Duration from '../Duration.vue'
-import { defineProps } from 'vue'
+import TimeAgo from '../TimeAgo.vue'
 
 const props = defineProps({
   run: {
-    type: Object,
+    type: Object as PropType<Pick<NexusGenFieldTypes['Run'], 'status' | 'date' | 'emoji' | 'duration'>>,
     required: true,
   },
 })
@@ -18,7 +20,9 @@ const props = defineProps({
       class="w-4 h-4 mr-1"
     />
     <span class="flex-1 truncate py-1 space-x-1">
-      <span>{{ run.title }}</span>
+      <span>
+        <TimeAgo :date="run.date" />
+      </span>
       <span>{{ run.emoji }}</span>
     </span>
     <Duration

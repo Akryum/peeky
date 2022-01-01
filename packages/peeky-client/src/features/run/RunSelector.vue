@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import RunItem from './RunItem.vue'
 import { RotateCcwIcon } from '@zhuowenli/vue-feather-icons'
-import { useQuery, useResult } from '@vue/apollo-composable'
+import { useQuery } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
-import { defineEmits, watch } from 'vue'
+import { computed, defineEmits, watch } from 'vue'
 import { useRoute } from 'vue-router'
+import { NexusGenFieldTypes } from '@peeky/server/src/generated/nexus-typegen'
 
 const emit = defineEmits(['close'])
 
@@ -13,14 +14,18 @@ const MAX_RUNS = 10
 const runListFragment = gql`
 fragment runList on Run {
   id
-  title
+  date
   emoji
   status
   duration
 }
 `
 
-const { result, subscribeToMore } = useQuery(gql`
+type Run = Pick<NexusGenFieldTypes['Run'], 'id' | 'date' | 'emoji' | 'status' | 'duration'>
+
+const { result, subscribeToMore } = useQuery<{
+  runs: Run[]
+}>(gql`
   query runs {
     runs {
       ...runList
@@ -31,7 +36,7 @@ const { result, subscribeToMore } = useQuery(gql`
   fetchPolicy: 'cache-and-network',
 })
 
-const runs = useResult(result, [], data => data.runs.slice().reverse())
+const runs = computed(() => result.value?.runs.slice().reverse() ?? [])
 
 // Subs
 
@@ -49,7 +54,9 @@ subscribeToMore({
 })
 
 // Added
-subscribeToMore({
+subscribeToMore<undefined, {
+  runAdded: Run
+}>({
   document: gql`
   subscription runAddedForRunSelector {
     runAdded {
@@ -76,7 +83,11 @@ subscribeToMore({
 })
 
 // Removed
-subscribeToMore({
+subscribeToMore<undefined, {
+  runRemoved: {
+    id: string
+  }
+}>({
   document: gql`
   subscription runRemoved {
     runRemoved {

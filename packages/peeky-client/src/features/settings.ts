@@ -1,7 +1,7 @@
-import { useMutation, useQuery, useResult } from '@vue/apollo-composable'
-import type { NexusGenInputs, NexusGenObjects } from '@peeky/server/src/generated/nexus-typegen'
+import { useMutation, useQuery } from '@vue/apollo-composable'
+import type { NexusGenInputs, NexusGenFieldTypes } from '@peeky/server'
 import gql from 'graphql-tag'
-import { ComputedRef } from 'vue'
+import { computed } from 'vue'
 
 export const settingsFragment = gql`
 fragment settings on Settings {
@@ -11,8 +11,12 @@ fragment settings on Settings {
 }
 `
 
+type Settings = Pick<NexusGenFieldTypes['Settings'], 'id' | 'watch' | 'darkMode'>
+
 export function useSettings () {
-  const { result, loading } = useQuery(gql`
+  const { result, loading } = useQuery<{
+    settings: Settings
+  }>(gql`
     query settings {
       settings {
         ...settings
@@ -20,7 +24,7 @@ export function useSettings () {
     }
     ${settingsFragment}
   `)
-  const settings = useResult(result) as ComputedRef<NexusGenObjects['Settings']>
+  const settings = computed(() => result.value?.settings)
 
   const { mutate } = useMutation(gql`
     mutation updateSettings ($input: UpdateSettingsInput!) {
@@ -31,7 +35,7 @@ export function useSettings () {
     ${settingsFragment}
   `)
 
-  async function updateSettings (input: NexusGenInputs['UpdateSettingsInput']) {
+  async function updateSettings (input: Partial<NexusGenInputs['UpdateSettingsInput']>) {
     return mutate({
       input: {
         ...settings.value,
