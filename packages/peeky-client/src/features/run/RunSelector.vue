@@ -57,7 +57,7 @@ subscribeToMore({
   ${runListFragment}
   `,
   updateQuery: (previousResult, { subscriptionData: { data } }) => {
-    if (previousResult.run.find(f => f.id === data.runAdded.id)) return previousResult
+    if (previousResult.runs.find(f => f.id === data.runAdded.id)) return previousResult
     return {
       runs: [
         ...previousResult.runs,
