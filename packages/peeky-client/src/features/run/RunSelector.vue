@@ -8,6 +8,8 @@ import { useRoute } from 'vue-router'
 
 const emit = defineEmits(['close'])
 
+const MAX_RUNS = 10
+
 const runListFragment = gql`
 fragment runList on Run {
   id
@@ -58,9 +60,15 @@ subscribeToMore({
   `,
   updateQuery: (previousResult, { subscriptionData: { data } }) => {
     if (previousResult.runs.find(f => f.id === data.runAdded.id)) return previousResult
+
+    let runs = previousResult.runs
+    if (runs.length > MAX_RUNS) {
+      runs = runs.slice(1)
+    }
+
     return {
       runs: [
-        ...previousResult.runs,
+        ...runs,
         data.runAdded,
       ],
     }

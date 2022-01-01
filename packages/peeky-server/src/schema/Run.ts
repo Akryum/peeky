@@ -22,6 +22,8 @@ import { addSnapshots, clearSnapshots, SnapshotData } from './Snapshot.js'
 
 const __filename = fileURLToPath(import.meta.url)
 
+const MAX_RUNS = 10
+
 export const Run = objectType({
   name: 'Run',
   sourceType: {
@@ -212,6 +214,10 @@ export async function createRun (ctx: Context, options: CreateRunOptions) {
     newSnapshots: [],
   }
   runs.push(run)
+
+  if (runs.length > MAX_RUNS) {
+    runs.shift()
+  }
 
   ctx.pubsub.publish(RunAdded, {
     run,
