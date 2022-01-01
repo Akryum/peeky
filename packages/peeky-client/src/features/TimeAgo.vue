@@ -24,7 +24,7 @@ function update () {
   let diff = (parsedDate.value.getTime() - Date.now()) / 1000
   let unit: Intl.RelativeTimeFormatUnit = 'second'
   let newInterval = 1000
-  for (let index = 0; index < units.length - 1; index++) {
+  for (let index = 0; index < units.length; index++) {
     const newDiff = diff / units[index][0]
     if (Math.abs(newDiff) < 1) {
       index--
