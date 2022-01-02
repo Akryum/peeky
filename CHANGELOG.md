@@ -1,3 +1,12 @@
+## [0.10.1](https://github.com/Akryum/peeky/compare/v0.10.0...v0.10.1) (2022-01-02)
+
+
+### Bug Fixes
+
+* **ui:** crash on switch from test details view to snapshot summary ([757e478](https://github.com/Akryum/peeky/commit/757e478e8c0cc80a6098d3deeabb5e2072a825dd))
+
+
+
 # [0.10.0](https://github.com/Akryum/peeky/compare/v0.9.3...v0.10.0) (2022-01-02)
 
 
