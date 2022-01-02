@@ -1,6 +1,6 @@
 import { fileURLToPath } from 'url'
 import { arg, extendType, idArg, inputObjectType, nonNull, objectType } from 'nexus'
-import { readSnapshots, Snapshot, writeSnapshots } from '@peeky/runner'
+import { readSnapshots, Snapshot as RunnerSnapshot, writeSnapshots } from '@peeky/runner'
 import type { Context } from '../context.js'
 import { TestData } from './Test.js'
 import { getErrorPosition, getSrcFile } from '../util.js'
@@ -177,7 +177,7 @@ export async function updateSnapshot (ctx: Context, snapshot: SnapshotData) {
   await writeSnapshots(snapshot.testFile, snapshots, true)
 }
 
-export function toSnapshotData (s: Snapshot, test: TestData, testFile: TestFileData): SnapshotData {
+export function toSnapshotData (s: RunnerSnapshot, test: TestData, testFile: TestFileData): SnapshotData {
   const result: SnapshotData = {
     ...s,
     test,
