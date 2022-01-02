@@ -3,12 +3,19 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   inheritAttrs: false,
+
+  props: {
+    exact: {
+      type: Boolean,
+      default: false,
+    },
+  },
 })
 </script>
 
 <template>
   <router-link
-    v-slot="{ isExactActive, href, navigate }"
+    v-slot="{ isActive, isExactActive, href, navigate }"
     v-bind="$attrs"
     custom
   >
@@ -17,7 +24,7 @@ export default defineComponent({
       :href="href"
       class="px-4 h-full inline-flex items-center hover:bg-primary-50 dark:hover:bg-primary-900 relative"
       :class="{
-        'text-primary-500 dark:text-primary-400': isExactActive,
+        'text-primary-500 dark:text-primary-400': (exact && isExactActive) || (!exact && isActive),
       }"
       @click="navigate"
     >

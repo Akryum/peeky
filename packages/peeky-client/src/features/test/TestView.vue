@@ -147,6 +147,7 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
           name: 'test',
           query: { ...$route.query },
         }"
+        exact
       >
         Result
       </BaseTab>
@@ -174,7 +175,7 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
           <span>Snapshots</span>
           <div
             v-if="test.failedSnapshotCount"
-            class="text-xs px-1.5 rounded leading-tight text-red-200 bg-red-600 mt-0.5"
+            class="text-xs px-1.5 rounded-full leading-tight text-red-200 bg-red-600 mt-0.5"
           >
             {{ test.failedSnapshotCount }}
           </div>

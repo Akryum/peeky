@@ -7,6 +7,8 @@
 import type { Context } from "./../context"
 import type { RunData } from "./../schema/Run"
 import type { RunTestFileData } from "./../schema/RunTestFile"
+import type { SnapshotData } from "./../schema/Snapshot"
+import type { TestData } from "./../schema/Test"
 import type { TestSuiteData } from "./../schema/TestSuite"
 
 
@@ -59,28 +61,9 @@ export interface NexusGenObjects {
     id: string; // ID!
     watch: boolean; // Boolean!
   }
-  Snapshot: { // root type
-    col?: number | null; // Int
-    content: string; // String!
-    id: string; // ID!
-    line?: number | null; // Int
-    newContent?: string | null; // String
-    title: string; // String!
-    updated?: boolean | null; // Boolean
-  }
+  Snapshot: SnapshotData;
   Subscription: {};
-  Test: { // root type
-    duration?: number | null; // Float
-    error?: NexusGenRootTypes['TestError'] | null; // TestError
-    failedSnapshotCount: number; // Int!
-    flag?: NexusGenEnums['TestFlag'] | null; // TestFlag
-    id: string; // ID!
-    logs: NexusGenRootTypes['TestLog'][]; // [TestLog!]!
-    slug: string; // String!
-    snapshots: NexusGenRootTypes['Snapshot'][]; // [Snapshot!]!
-    status: NexusGenEnums['Status']; // Status!
-    title: string; // String!
-  }
+  Test: TestData;
   TestError: { // root type
     actual?: string | null; // String
     col?: number | null; // Int
@@ -134,14 +117,19 @@ export interface NexusGenFieldTypes {
     date: string; // String!
     duration: number | null; // Float
     emoji: string; // String!
+    failedSnapshotCount: number; // Int!
     failedSnapshots: NexusGenRootTypes['Snapshot'][]; // [Snapshot!]!
     id: string; // ID!
     newSnapshots: NexusGenRootTypes['Snapshot'][]; // [Snapshot!]!
+    nextSnapshot: NexusGenRootTypes['Snapshot'] | null; // Snapshot
     passedSnapshots: NexusGenRootTypes['Snapshot'][]; // [Snapshot!]!
     previousErrorRunTestFiles: NexusGenRootTypes['RunTestFile'][]; // [RunTestFile!]!
+    previousSnapshot: NexusGenRootTypes['Snapshot'] | null; // Snapshot
     progress: number; // Float!
     runTestFile: NexusGenRootTypes['RunTestFile'] | null; // RunTestFile
     runTestFiles: NexusGenRootTypes['RunTestFile'][]; // [RunTestFile!]!
+    snapshotById: NexusGenRootTypes['Snapshot'] | null; // Snapshot
+    snapshotCount: number; // Int!
     status: NexusGenEnums['Status']; // Status!
     testSuiteById: NexusGenRootTypes['TestSuite'] | null; // TestSuite
     testSuiteBySlug: NexusGenRootTypes['TestSuite'] | null; // TestSuite
@@ -167,9 +155,11 @@ export interface NexusGenFieldTypes {
   Snapshot: { // field return type
     col: number | null; // Int
     content: string; // String!
+    failed: boolean; // Boolean!
     id: string; // ID!
     line: number | null; // Int
     newContent: string | null; // String
+    test: NexusGenRootTypes['Test']; // Test!
     title: string; // String!
     updated: boolean | null; // Boolean
   }
@@ -199,6 +189,7 @@ export interface NexusGenFieldTypes {
     snapshotCount: number; // Int!
     snapshots: NexusGenRootTypes['Snapshot'][]; // [Snapshot!]!
     status: NexusGenEnums['Status']; // Status!
+    suite: NexusGenRootTypes['TestSuite']; // TestSuite!
     title: string; // String!
   }
   TestError: { // field return type
@@ -256,14 +247,19 @@ export interface NexusGenFieldTypeNames {
     date: 'String'
     duration: 'Float'
     emoji: 'String'
+    failedSnapshotCount: 'Int'
     failedSnapshots: 'Snapshot'
     id: 'ID'
     newSnapshots: 'Snapshot'
+    nextSnapshot: 'Snapshot'
     passedSnapshots: 'Snapshot'
     previousErrorRunTestFiles: 'RunTestFile'
+    previousSnapshot: 'Snapshot'
     progress: 'Float'
     runTestFile: 'RunTestFile'
     runTestFiles: 'RunTestFile'
+    snapshotById: 'Snapshot'
+    snapshotCount: 'Int'
     status: 'Status'
     testSuiteById: 'TestSuite'
     testSuiteBySlug: 'TestSuite'
@@ -289,9 +285,11 @@ export interface NexusGenFieldTypeNames {
   Snapshot: { // field return type name
     col: 'Int'
     content: 'String'
+    failed: 'Boolean'
     id: 'ID'
     line: 'Int'
     newContent: 'String'
+    test: 'Test'
     title: 'String'
     updated: 'Boolean'
   }
@@ -321,6 +319,7 @@ export interface NexusGenFieldTypeNames {
     snapshotCount: 'Int'
     snapshots: 'Snapshot'
     status: 'Status'
+    suite: 'TestSuite'
     title: 'String'
   }
   TestError: { // field return type name
@@ -390,8 +389,17 @@ export interface NexusGenArgTypes {
     }
   }
   Run: {
+    nextSnapshot: { // args
+      id: string; // ID!
+    }
+    previousSnapshot: { // args
+      id: string; // ID!
+    }
     runTestFile: { // args
       slug: string; // String!
+    }
+    snapshotById: { // args
+      id: string; // ID!
     }
     testSuiteById: { // args
       id: string; // ID!

@@ -1,3 +1,4 @@
+import { fileURLToPath } from 'url'
 import { withFilter } from 'apollo-server-express'
 import { enumType, extendType, idArg, nonNull, objectType, stringArg } from 'nexus'
 import slugify from 'slugify'
@@ -8,6 +9,9 @@ import { getRunId } from './Run.js'
 import { Status, StatusEnum } from './Status.js'
 import { getTestSuite, TestSuiteData } from './TestSuite.js'
 import { SnapshotData } from './Snapshot.js'
+import { getSrcFile } from '../util.js'
+
+const __filename = fileURLToPath(import.meta.url)
 
 // @ts-expect-error ansi_up doesn't support Node esm correctly
 const AnsiUp = AnsiUpPackage.default as typeof AnsiUpPackage
@@ -18,6 +22,10 @@ ansiUp.use_classes = true
 
 export const Test = objectType({
   name: 'Test',
+  sourceType: {
+    module: getSrcFile(__filename),
+    export: 'TestData',
+  },
   definition (t) {
     t.nonNull.id('id')
     t.nonNull.string('slug')
@@ -44,6 +52,10 @@ export const Test = objectType({
     })
     t.nonNull.boolean('hasLogs', {
       resolve: test => !!test.logs.length,
+    })
+    t.nonNull.field('suite', {
+      type: 'TestSuite',
+      resolve: test => test.testSuite,
     })
   },
 })

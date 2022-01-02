@@ -1,9 +1,4 @@
 <script lang="ts" setup>
-import BaseButton from '../BaseButton.vue'
-import BaseSwitch from '../BaseSwitch.vue'
-import RunSelector from './RunSelector.vue'
-import RunNewButton from './RunNewButton.vue'
-import RunItem from './RunItem.vue'
 import {
   ActivityIcon,
   MoreVerticalIcon,
@@ -14,8 +9,14 @@ import { useQuery } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 import { useRoute } from 'vue-router'
 import { computed } from 'vue'
-import { useSettings } from '../settings'
 import { NexusGenFieldTypes } from '@peeky/server/types'
+import { useSettings } from '../settings'
+import BaseButton from '../BaseButton.vue'
+import BaseSwitch from '../BaseSwitch.vue'
+import RunSelector from './RunSelector.vue'
+import RunNewButton from './RunNewButton.vue'
+import RunItem from './RunItem.vue'
+import RunTabs from './RunTabs.vue'
 
 // Current run
 
@@ -27,10 +28,12 @@ fragment runDetails on Run {
   status
   progress
   duration
+  snapshotCount
+  failedSnapshotCount
 }
 `
 
-type Run = Pick<NexusGenFieldTypes['Run'], 'id' | 'date' | 'emoji' | 'status' | 'progress' | 'duration'>
+type Run = Pick<NexusGenFieldTypes['Run'], 'id' | 'date' | 'emoji' | 'status' | 'progress' | 'duration' | 'snapshotCount' | 'failedSnapshotCount'>
 
 const route = useRoute()
 const { result, subscribeToMore } = useQuery<{
@@ -65,6 +68,8 @@ subscribeToMore({
       status
       progress
       duration
+      snapshotCount
+      failedSnapshotCount
     }
   }
   `,
@@ -195,4 +200,9 @@ const darkMode = computed<boolean>({
       </VDropdown>
     </div>
   </div>
+
+  <RunTabs
+    v-if="currentRun"
+    :run="currentRun"
+  />
 </template>

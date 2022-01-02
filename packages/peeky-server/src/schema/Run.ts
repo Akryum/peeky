@@ -17,7 +17,7 @@ import { settings } from './Settings.js'
 import { mightRunOnChangedFiles } from '../watch.js'
 import { toProgramConfig } from '@peeky/config'
 import { Snapshot } from '@peeky/runner/dist/snapshot/types'
-import { addSnapshots, clearSnapshots, SnapshotData } from './Snapshot.js'
+import { addSnapshots, clearSnapshots, getSnapshot, SnapshotData, toSnapshotData } from './Snapshot.js'
 
 const __filename = fileURLToPath(import.meta.url)
 
@@ -165,9 +165,9 @@ export interface RunData {
   duration: number
   runTestFiles: RunTestFileData[]
   previousErrorRunTestFiles: RunTestFileData[]
-  failedSnapshots: Snapshot[]
-  passedSnapshots: Snapshot[]
-  newSnapshots: Snapshot[]
+  failedSnapshots: SnapshotData[]
+  passedSnapshots: SnapshotData[]
+  newSnapshots: SnapshotData[]
 }
 
 export let runs: RunData[] = []
@@ -334,20 +334,7 @@ export async function startRun (ctx: Context, id: string) {
       const [suiteId, testId, snapshots] = message.args
       const testFile = testSuites.find(s => s.id === suiteId).runTestFile.testFile
       await updateTest(ctx, suiteId, testId, (test) => {
-        const list:SnapshotData[] = snapshots.map(s => {
-          const result: SnapshotData = {
-            ...s,
-            test,
-          }
-          if (s.error) {
-            const { line, col } = getErrorPosition(testFile.relativePath, s.error.stack)
-            Object.assign(result, {
-              line,
-              col,
-            })
-          }
-          return result
-        })
+        const list:SnapshotData[] = snapshots.map(s => toSnapshotData(s, test, testFile))
         test.snapshots.push(...list)
         addSnapshots(list)
         return {
@@ -399,9 +386,9 @@ export async function startRun (ctx: Context, id: string) {
     await updateRun(ctx, id, {
       status: stats.errorTestCount > 0 ? 'error' : 'success',
       duration: performance.now() - time,
-      failedSnapshots: stats.failedSnapshots,
-      passedSnapshots: stats.passedSnapshots,
-      newSnapshots: stats.newSnapshots,
+      failedSnapshots: stats.failedSnapshots.map(s => getSnapshot(s.id)),
+      passedSnapshots: stats.passedSnapshots.map(s => getSnapshot(s.id)),
+      newSnapshots: stats.newSnapshots.map(s => getSnapshot(s.id)),
     })
 
     if (settings.watch) {

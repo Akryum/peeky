@@ -23,6 +23,7 @@ describe('vue', () => {
     expect(document.body.innerHTML).toMatchSnapshot()
     expect('Hello').toMatchSnapshot('demo')
     expect('Meow').toMatchSnapshot('demo')
+    expect('Meow3').toMatchSnapshot('demo')
     // expect(el.innerHTML).toBe('<div>hello</div>')
   })
 })

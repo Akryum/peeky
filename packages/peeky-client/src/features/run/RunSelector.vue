@@ -121,8 +121,8 @@ watch(() => route.params.runId, () => {
   >
     <router-link
       :to="{
-        name: 'run',
         params: {
+          ...$route.params,
           runId: 'last-run',
         },
       }"
@@ -136,8 +136,8 @@ watch(() => route.params.runId, () => {
       v-for="run of runs"
       :key="run.id"
       :to="{
-        name: 'run',
         params: {
+          ...$route.params,
           runId: run.id,
         },
       }"

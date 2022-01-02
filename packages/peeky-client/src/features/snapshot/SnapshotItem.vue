@@ -23,7 +23,7 @@ const props = defineProps({
     }"
   >
     <StatusIcon
-      :status="snapshot.newContent && !snapshot.updated ? 'error' : 'success'"
+      :status="snapshot.failed ? 'error' : 'success'"
       class="w-5 h-5"
     />
     <span class="flex-1 truncate py-1">

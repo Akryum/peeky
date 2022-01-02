@@ -15,3 +15,7 @@ exports[`vue create vue app demo 1`] = `
 exports[`vue create vue app demo 2`] = `
 "Meow"
 `;
+
+exports[`vue create vue app demo 3`] = `
+"Meow3"
+`;

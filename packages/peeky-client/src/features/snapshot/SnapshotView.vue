@@ -21,7 +21,14 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+
+  runId: {
+    type: String,
+    required: true,
+  },
 })
+
+defineEmits(['previous', 'next'])
 
 const { mutate: openInEditor } = useMutation(gql`
 mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
@@ -33,26 +40,87 @@ const { mutate: updateSnapshot } = useMutation(gql`
 mutation updateSnapshot ($id: ID!) {
   updateSnapshot (input: { id: $id }) {
     id
+    failed
     updated
   }
 }
 `, {
   update: (cache, { data: { updateSnapshot: snapshot } }) => {
-    const select = {
-      fragment: gql`fragment updateSnapshotCacheTest on Test {
-        id
-        failedSnapshotCount
-      }`,
-      id: `Test:${props.test.id}`,
+    // Update test
+    {
+      const select = {
+        fragment: gql`fragment updateSnapshotCacheTest on Test {
+          id
+          failedSnapshotCount
+        }`,
+        id: `Test:${props.test.id}`,
+      }
+      const data: any = cache.readFragment(select)
+      if (data) {
+        cache.writeFragment({
+          ...select,
+          data: {
+            ...data,
+            failedSnapshotCount: data.failedSnapshotCount - 1,
+          },
+        })
+      }
     }
-    const data: any = cache.readFragment(select)
-    cache.writeFragment({
-      ...select,
-      data: {
-        ...data,
-        failedSnapshotCount: data.failedSnapshotCount - 1,
-      },
-    })
+
+    // Update run count
+    {
+      const select = {
+        fragment: gql`fragment updateSnapshotCacheRun on Run {
+          id
+          failedSnapshotCount
+        }`,
+        id: `Run:${props.runId}`,
+      }
+      const data: any = cache.readFragment(select)
+      if (data) {
+        cache.writeFragment({
+          ...select,
+          data: {
+            ...data,
+            failedSnapshotCount: data.failedSnapshotCount - 1,
+          },
+        })
+      }
+    }
+
+    // Update lists
+    {
+      const select = {
+        fragment: gql`fragment updateSnapshotCacheRunLists on Run {
+          id
+          failedSnapshots {
+            id
+            title
+            failed
+          }
+          passedSnapshots {
+            id
+            title
+            failed
+          }
+        }`,
+        id: `Run:${props.runId}`,
+      }
+      const data: any = cache.readFragment(select)
+      if (data) {
+        cache.writeFragment({
+          ...select,
+          data: {
+            ...data,
+            failedSnapshots: data.failedSnapshots.filter((s: any) => s.id !== props.snapshot.id),
+            passedSnapshots: [
+              ...data.passedSnapshots,
+              data.failedSnapshots.find((s: any) => s.id === props.snapshot.id),
+            ],
+          },
+        })
+      }
+    }
   },
 })
 </script>
@@ -61,7 +129,7 @@ mutation updateSnapshot ($id: ID!) {
   <div class="flex flex-col divide-y divide-gray-100 dark:divide-gray-800 overflow-hidden">
     <div class="flex items-center space-x-2 px-4 h-10">
       <button
-        v-if="snapshot.newContent && !snapshot.updated"
+        v-if="snapshot.failed"
         class="text-red-500 hover:text-red-400 hover:bg-red-500/10 rounded cursor-pointer px-2 py-1"
         @click="openInEditor({
           id: suite.runTestFile.testFile.id,
@@ -75,7 +143,7 @@ mutation updateSnapshot ($id: ID!) {
       <div class="flex-1" />
 
       <BaseButton
-        v-if="snapshot.newContent && !snapshot.updated && $route.params.runId === 'last-run'"
+        v-if="snapshot.failed && $route.params.runId === 'last-run'"
         class="px-2 h-8"
         @click="updateSnapshot({ id: snapshot.id })"
       >
@@ -103,7 +171,7 @@ mutation updateSnapshot ($id: ID!) {
     </div>
 
     <DiffEditor
-      v-if="snapshot.newContent && !snapshot.updated"
+      v-if="snapshot.failed"
       :actual="snapshot.newContent"
       :expected="snapshot.content"
       class="flex-1"

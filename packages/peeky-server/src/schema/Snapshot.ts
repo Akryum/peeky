@@ -1,10 +1,20 @@
-import { arg, extendType, inputObjectType, nonNull, objectType } from 'nexus'
-import { readSnapshots, writeSnapshots } from '@peeky/runner'
+import { fileURLToPath } from 'url'
+import { arg, extendType, idArg, inputObjectType, nonNull, objectType } from 'nexus'
+import { readSnapshots, Snapshot, writeSnapshots } from '@peeky/runner'
 import type { Context } from '../context.js'
 import { TestData } from './Test.js'
+import { getErrorPosition, getSrcFile } from '../util.js'
+import { TestFileData } from './TestFile.js'
+import { runs } from './Run.js'
+
+const __filename = fileURLToPath(import.meta.url)
 
 export const Snapshot = objectType({
   name: 'Snapshot',
+  sourceType: {
+    module: getSrcFile(__filename),
+    export: 'SnapshotData',
+  },
   definition (t) {
     t.nonNull.id('id')
     t.nonNull.string('title')
@@ -13,6 +23,13 @@ export const Snapshot = objectType({
     t.int('line')
     t.int('col')
     t.boolean('updated')
+    t.nonNull.boolean('failed', {
+      resolve: snapshot => !!snapshot.newContent && !snapshot.updated,
+    })
+    t.nonNull.field('test', {
+      type: 'Test',
+      resolve: snapshot => snapshot.test,
+    })
   },
 })
 
@@ -41,6 +58,49 @@ export const SnapshotExtendRun = extendType({
     t.nonNull.list.nonNull.field('newSnapshots', {
       type: Snapshot,
     })
+    t.nonNull.int('snapshotCount', {
+      resolve: run => run.passedSnapshots.length + run.newSnapshots.length + run.failedSnapshots.length,
+    })
+    t.nonNull.int('failedSnapshotCount', {
+      resolve: run => run.failedSnapshots.length,
+    })
+    t.field('snapshotById', {
+      type: Snapshot,
+      args: {
+        id: nonNull(idArg()),
+      },
+      resolve: (run, { id }) => run.passedSnapshots.find(s => s.id === id) ??
+        run.failedSnapshots.find(s => s.id === id) ??
+        run.newSnapshots.find(s => s.id === id),
+    })
+    t.field('nextSnapshot', {
+      type: Snapshot,
+      args: {
+        id: nonNull(idArg()),
+      },
+      resolve: (run, { id }) => {
+        const snapshots = run.passedSnapshots.concat(run.failedSnapshots, run.newSnapshots)
+        let index = snapshots.findIndex(s => s.id === id) + 1
+        if (index >= snapshots.length) {
+          index = 0
+        }
+        return snapshots[index]
+      },
+    })
+    t.field('previousSnapshot', {
+      type: Snapshot,
+      args: {
+        id: nonNull(idArg()),
+      },
+      resolve: (run, { id }) => {
+        const snapshots = run.passedSnapshots.concat(run.failedSnapshots, run.newSnapshots)
+        let index = snapshots.findIndex(s => s.id === id) - 1
+        if (index < 0) {
+          index = snapshots.length - 1
+        }
+        return snapshots[index]
+      },
+    })
   },
 })
 
@@ -55,10 +115,20 @@ export const SnapshotMutation = extendType({
         }),
       },
       resolve: async (_, { input }, ctx) => {
-        const snapshot = await getSnapshot(input.id)
+        const snapshot = getSnapshot(input.id)
         await updateSnapshot(ctx, snapshot)
         snapshot.updated = true
         snapshot.test.failedSnapshotCount--
+
+        const run = runs[runs.length - 1]
+        const index = run.failedSnapshots.indexOf(snapshot)
+        if (index !== -1) {
+          run.failedSnapshots.splice(index, 1)
+        }
+        if (!run.passedSnapshots.includes(snapshot)) {
+          run.passedSnapshots.push(snapshot)
+        }
+
         return snapshot
       },
     })
@@ -86,7 +156,7 @@ export interface SnapshotData {
 
 let snapshots: SnapshotData[] = []
 
-export async function getSnapshot (id: string): Promise<SnapshotData> {
+export function getSnapshot (id: string): SnapshotData {
   return snapshots.find(s => s.id === id)
 }
 
@@ -105,4 +175,19 @@ export async function updateSnapshot (ctx: Context, snapshot: SnapshotData) {
     newContent: snapshot.newContent,
   })
   await writeSnapshots(snapshot.testFile, snapshots, true)
+}
+
+export function toSnapshotData (s: Snapshot, test: TestData, testFile: TestFileData): SnapshotData {
+  const result: SnapshotData = {
+    ...s,
+    test,
+  }
+  if (s.error) {
+    const { line, col } = getErrorPosition(testFile.relativePath, s.error.stack)
+    Object.assign(result, {
+      line,
+      col,
+    })
+  }
+  return result
 }

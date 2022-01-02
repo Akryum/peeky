@@ -29,14 +29,19 @@ type Run {
   date: String!
   duration: Float
   emoji: String!
+  failedSnapshotCount: Int!
   failedSnapshots: [Snapshot!]!
   id: ID!
   newSnapshots: [Snapshot!]!
+  nextSnapshot(id: ID!): Snapshot
   passedSnapshots: [Snapshot!]!
   previousErrorRunTestFiles: [RunTestFile!]!
+  previousSnapshot(id: ID!): Snapshot
   progress: Float!
   runTestFile(slug: String!): RunTestFile
   runTestFiles: [RunTestFile!]!
+  snapshotById(id: ID!): Snapshot
+  snapshotCount: Int!
   status: Status!
   testSuiteById(id: ID!): TestSuite
   testSuiteBySlug(slug: String!): TestSuite
@@ -66,9 +71,11 @@ type Settings {
 type Snapshot {
   col: Int
   content: String!
+  failed: Boolean!
   id: ID!
   line: Int
   newContent: String
+  test: Test!
   title: String!
   updated: Boolean
 }
@@ -113,6 +120,7 @@ type Test {
   snapshotCount: Int!
   snapshots: [Snapshot!]!
   status: Status!
+  suite: TestSuite!
   title: String!
 }
 

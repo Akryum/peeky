@@ -39,6 +39,7 @@ const { result, refetch } = useQuery(() => gql`
             newContent
             line
             col
+            failed
             updated
           }
         }
@@ -114,6 +115,7 @@ function selectNext () {
         :snapshot="selectedSnapshot"
         :test="test"
         :suite="suite"
+        :run-id="$route.params.runId"
         class="h-full"
         @previous="selectPrevious()"
         @next="selectNext()"
