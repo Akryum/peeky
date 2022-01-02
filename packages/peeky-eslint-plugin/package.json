@@ -1,6 +1,6 @@
 {
   "name": "@peeky/eslint-plugin",
-  "version": "0.9.3",
+  "version": "0.10.0",
   "description": "Eslint plugin for Peeky, the testing framework for curious minds",
   "license": "MIT",
   "main": "index.js",

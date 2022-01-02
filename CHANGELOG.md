@@ -1,3 +1,29 @@
+# [0.10.0](https://github.com/Akryum/peeky/compare/v0.9.3...v0.10.0) (2022-01-02)
+
+
+### Bug Fixes
+
+* handshake to wait for pending messages ([a65d463](https://github.com/Akryum/peeky/commit/a65d463feef252cf6251000281ae52cf0af433a5))
+* **server:** wrong type name ([e5fcd6e](https://github.com/Akryum/peeky/commit/e5fcd6e51598a9c528feeb7996b10fb7318a6db5))
+* switch to pathe to normalize paths ([3fa174a](https://github.com/Akryum/peeky/commit/3fa174a8fb817493be4e44d5623bbb61428f3e26))
+* **ui:** run button selecting old field ([4c40a6a](https://github.com/Akryum/peeky/commit/4c40a6a8aae414a1f3a182a1a8414b5461311440))
+* **ui:** run selector not updated in real time ([e9736e1](https://github.com/Akryum/peeky/commit/e9736e1303a580198647c49a982874b0553d63c3))
+* **ui:** time ago not trying last unit ([ae60faf](https://github.com/Akryum/peeky/commit/ae60fafa437f408c98b51835eaf970661436afce))
+
+
+### Features
+
+* add day to TimeAgo ([9c8ca92](https://github.com/Akryum/peeky/commit/9c8ca92073dd3a01aa86f234c7cf6fbaf3cf9e4a))
+* isolate workers ([c8f4565](https://github.com/Akryum/peeky/commit/c8f456573437f941edc789010566c1af27a3290e))
+* limit number of runs, closes [#64](https://github.com/Akryum/peeky/issues/64) ([788f444](https://github.com/Akryum/peeky/commit/788f444ee268d59171bfd5353986470ac398fdc2))
+* more dropdown ([f474fc2](https://github.com/Akryum/peeky/commit/f474fc22c7103b904d252b40ad76aa7c6b14fc7a))
+* text snapshots, closes [#9](https://github.com/Akryum/peeky/issues/9) ([1ddf3b3](https://github.com/Akryum/peeky/commit/1ddf3b3abfafc058a19deb24227feec1409e1310))
+* **ui:** display run date instead of random title ([2e1b639](https://github.com/Akryum/peeky/commit/2e1b639505901693e762fc97798380b3e370ba40))
+* **ui:** snapshot matched notice ([8bfd4eb](https://github.com/Akryum/peeky/commit/8bfd4ebf55954af3cb47eadaa7b68e08eae34667))
+* **ui:** snapshots summary, closes [#61](https://github.com/Akryum/peeky/issues/61) ([524221e](https://github.com/Akryum/peeky/commit/524221e456f1deca618379026e5ce01b6c1a419c))
+
+
+
 ## [0.9.3](https://github.com/Akryum/peeky/compare/v0.9.2...v0.9.3) (2021-12-21)
 
 
