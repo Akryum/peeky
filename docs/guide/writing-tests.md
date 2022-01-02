@@ -190,6 +190,50 @@ describe('mock module', () => {
 Please include the file extension when mocking a module so it can be resolved correctly.
 :::
 
+## Text Snapshots
+
+The `toMatchSnapshot` assertion allows you to store text that will be compared in future runs of the test. It is very useful to detect regressions.
+
+Example:
+
+```js
+/* @peeky {
+  runtimeEnv: 'dom'
+} */
+
+// Include template compiler
+import { createApp } from 'vue/dist/vue.esm-bundler'
+
+describe('vue', () => {
+  test('create vue app', () => {
+    const app = createApp({
+      data () {
+        return {
+          msg: 'hello',
+        }
+      },
+      template: '<div>{{ msg }}</div>',
+    })
+    expect(document.body.innerHTML).toMatchSnapshot()
+  })
+})
+```
+
+The first time, it will create a `__snapshots__` folder with a `vue.spec.js.snap` file that stores the expected value. Next time the test is run, Peeky will load and compare the stored snapshot with the new value.
+
+::: tip
+You should commit the content of the `__snapshots__` folder so snapshots are correctly stored for future runs.
+:::
+
+By default Peeky will use the suite and test titles to generate the snapshot name. You can specify a hint to help distinguish the snapshot names in case you have multiple ones in a single test:
+
+```js
+test('many snapshots', () => {
+  expect('Meow!').toMatchSnapshot('cat')
+  expect('Waf!').toMatchSnapshot('dog')
+})
+```
+
 ## Retry
 
 ::: warning

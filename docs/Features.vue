@@ -148,7 +148,7 @@ import Feature from './Feature.vue'
     <Feature
       title="Text Snaphots"
       icon="type"
-      status="soon"
+      status="wip"
     >
       Compare text snapshots such as rendered HTML or file content
     </Feature>
