@@ -140,6 +140,13 @@ mutation updateSnapshot ($id: ID!) {
         Mismatch at <span class="font-mono text-sm">{{ suite?.runTestFile.testFile.relativePath }}:{{ snapshot.line }}:{{ snapshot.col }}</span>
       </button>
 
+      <div
+        v-else
+        class="text-green-500"
+      >
+        Snapshot matched
+      </div>
+
       <div class="flex-1" />
 
       <BaseButton
