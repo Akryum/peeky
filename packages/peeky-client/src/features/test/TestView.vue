@@ -56,9 +56,10 @@ const { result, subscribeToMore, onResult } = useQuery(() => gql`
   runId: route.params.runId,
   suiteSlug: route.params.suiteSlug,
   testSlug: route.params.testSlug,
-}), {
+}), () => ({
+  enabled: !!route.params.runId && !!route.params.suiteSlug && !!route.params.testSlug,
   fetchPolicy: 'cache-and-network',
-})
+}))
 
 const suite = useResult(result, null, data => data.run.testSuite)
 const test = useResult(result, null, data => data.run.testSuite.test)
@@ -146,6 +147,7 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
         :to="{
           name: 'test',
           query: { ...$route.query },
+          params: { ...$route.params },
         }"
         exact
       >
@@ -155,6 +157,7 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
         :to="{
           name: 'test-output',
           query: { ...$route.query },
+          params: { ...$route.params },
         }"
       >
         <div class="flex items-center space-x-2">
@@ -169,6 +172,7 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
         :to="{
           name: 'test-snapshots',
           query: { ...$route.query },
+          params: { ...$route.params },
         }"
       >
         <div class="flex items-center space-x-2">
