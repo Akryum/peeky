@@ -12,7 +12,7 @@
     "@peeky/test": "../../packages/peeky-test",
     "@vue/test-utils": "^1.3.0",
     "typescript": "^4.4.4",
-    "vite": "^2.7.1",
+    "vite": "^2.7.10",
     "vite-plugin-vue2": "^1.9.0",
     "vite-plugin-windicss": "^1.4.11",
     "vue-template-compiler": "^2.6.14"

@@ -59,7 +59,7 @@
     "source-map": "^0.7.3",
     "source-map-support": "^0.5.19",
     "tinypool": "^0.0.5",
-    "vite": "^2.7.1"
+    "vite": "^2.7.10"
   },
   "devDependencies": {
     "@types/fs-extra": "^9.0.13",

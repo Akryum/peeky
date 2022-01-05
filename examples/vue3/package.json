@@ -9,7 +9,7 @@
     "@peeky/test": "workspace:*",
     "@vitejs/plugin-vue": "^1",
     "@vue/test-utils": "^2.0.0-rc.17",
-    "vite": "^2.7",
+    "vite": "^2.7.10",
     "vue": "^3"
   }
 }
