@@ -1,6 +1,8 @@
-import { ViteDevServer, InlineConfig, createServer, mergeConfig } from 'vite'
+import { ViteDevServer, InlineConfig, createServer, mergeConfig, TransformResult } from 'vite'
 import shortid from 'shortid'
 import isEqual from 'lodash/isEqual.js'
+import fs from 'fs-extra'
+import { resolve } from 'pathe'
 
 let viteServer: ViteDevServer
 let initPromise: Promise<void>
@@ -66,8 +68,18 @@ export async function stopViteServer () {
  * @param id Module id
  * @returns Transformed code result object
  */
-export async function transform (id: string) {
-  if (id.match(/\.(?:[cm]?[jt]sx?|json)$/)) {
+export async function transform (id: string): Promise<TransformResult> {
+  if (id.match(/\.json$/)) {
+    if (id.startsWith('/')) {
+      id = id.substring(1)
+    }
+    id = resolve(lastOptions.rootDir, id)
+    const code = `const data = ${await fs.readFile(id, { encoding: 'utf8' })};Object.assign(exports, data);exports.default = data;`
+    return {
+      code,
+      map: null,
+    }
+  } else if (id.match(/\.(?:[cm]?[jt]sx?)$/)) {
     return await viteServer.transformRequest(id, { ssr: true })
   } else {
     // for components like Vue, we want to use the client side plugins

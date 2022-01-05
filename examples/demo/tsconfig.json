@@ -4,6 +4,7 @@
     "module": "CommonJS",
     "moduleResolution": "node",
     "esModuleInterop": true,
+    "resolveJsonModule": true,
     "types": [
       "node",
       "@peeky/test"
