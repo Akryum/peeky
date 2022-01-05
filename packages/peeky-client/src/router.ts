@@ -18,6 +18,7 @@ export const router = createRouter({
           path: 'run/:runId',
           component: Dashboard,
           children: [
+            { path: '', redirect: { name: 'run-test' }},
             {
               path: 'tests',
               components: {
