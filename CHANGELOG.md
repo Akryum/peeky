@@ -1,3 +1,18 @@
+## [0.10.2](https://github.com/Akryum/peeky/compare/v0.10.1...v0.10.2) (2022-01-05)
+
+
+### Bug Fixes
+
+* better default for collect coverage match ([1f4aa59](https://github.com/Akryum/peeky/commit/1f4aa59525fc6f57163bcf27dba35a7d87d6e963))
+* better defaults for watch file patterns ([000fbae](https://github.com/Akryum/peeky/commit/000fbae7b2d42b58cd052ed3de68a59ad75c8d5f))
+
+
+### Features
+
+* **ui:** redirect to tests view by default ([#65](https://github.com/Akryum/peeky/issues/65)) ([5080513](https://github.com/Akryum/peeky/commit/5080513eb0401e0142c963528b248ac1ee5f1db6))
+
+
+
 ## [0.10.1](https://github.com/Akryum/peeky/compare/v0.10.0...v0.10.1) (2022-01-02)
 
 

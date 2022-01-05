@@ -1,6 +1,6 @@
 {
   "name": "peeky-demo",
-  "version": "0.10.1",
+  "version": "0.10.2",
   "private": true,
   "scripts": {
     "server": "nodemon ../../packages/peeky-server/dist/standalone.js --watch ../../packages --delay 200ms -e js --ignore tests/ --nexus-artifacts",
