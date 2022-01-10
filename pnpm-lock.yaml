@@ -148,7 +148,7 @@ importers:
       postcss-nested: ^5.0.3
       tailwindcss: ^2.2.7
       typescript: ^4.1.3
-      v-tooltip: ^4.0.0-beta.5
+      v-tooltip: ^4.0.0-beta.15
       vite: ^2.7.10
       vue: ^3.2.20
       vue-resize: ^2.0.0-alpha.1
@@ -169,7 +169,7 @@ importers:
       graphql-tag: 2.12.6_graphql@15.7.2
       graphql-ws: 5.5.5_graphql@15.7.2
       monaco-editor: 0.26.1
-      v-tooltip: 4.0.0-beta.5_vue@3.2.24
+      v-tooltip: 4.0.0-beta.15_vue@3.2.24
       vue: 3.2.24
       vue-resize: 2.0.0-alpha.1_vue@3.2.24
       vue-router: 4.0.12_vue@3.2.24
@@ -7944,8 +7944,8 @@ packages:
     hasBin: true
     dev: false
 
-  /v-tooltip/4.0.0-beta.5_vue@3.2.24:
-    resolution: {integrity: sha512-HQFh4sOcYbyEBVmpvhV8CJ6O1pEZ8RAqKKgTmU0sHzhxQn1srH/jtWqW+3H+3lsEgqu0FuKn3Viwd6N45yebmw==}
+  /v-tooltip/4.0.0-beta.15_vue@3.2.24:
+    resolution: {integrity: sha512-lGytVt2DmJtD8/Ml0TTdXCBrXZ6/RN+4zouB9JInAZpCs5xqb9i40cj21iknr5BfoEjz14QrFdypSnYa0XgiEA==}
     peerDependencies:
       vue: ^3.0.11
     dependencies:

@@ -18,5 +18,11 @@ const app = createApp({
   },
 })
 app.use(router)
-app.use(VTooltip)
+app.use(VTooltip, {
+  themes: {
+    dropdown: {
+      computeTransformOrigin: true,
+    },
+  },
+})
 app.mount('#app')

@@ -42,14 +42,23 @@ html.dark {
       @apply text-white bg-dark border-gray-800;
     }
 
-    .v-popper__arrow {
+    .v-popper__arrow-inner {
       @apply border-dark;
     }
 
-    .v-popper__arrow-border {
+    .v-popper__arrow-outer {
       @apply border-gray-800;
     }
   }
+}
+
+.v-popper--theme-dropdown.v-popper__popper--show-from .v-popper__wrapper {
+  transform: scale(.9);
+}
+
+.v-popper--theme-dropdown.v-popper__popper--show-to .v-popper__wrapper {
+  transform: none;
+  transition: transform .15s;
 }
 
 
