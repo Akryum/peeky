@@ -10,6 +10,7 @@ import {
 
 export * from '@peeky/config'
 export * from '@peeky/runner'
+export * from '@peeky/server'
 
 // Register hooks
 export declare const describe: DescribeFn

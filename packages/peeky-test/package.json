@@ -36,7 +36,8 @@
     "@peeky/cli": "^0.10.2",
     "@peeky/config": "^0.10.2",
     "@peeky/eslint-plugin": "^0.10.2",
-    "@peeky/runner": "^0.10.2"
+    "@peeky/runner": "^0.10.2",
+    "@peeky/server": "^0.10.2"
   },
   "devDependencies": {
     "@types/node": "^14.14.21",
