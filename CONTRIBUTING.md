@@ -12,7 +12,7 @@ Before contributing code, you need to setup Peeky locally on your computer.
 
 It's recommended to use Node 16+.
 
-There is playground folder to test your changes in the [./packages/demo](./packages/demo) folder.
+There is playground folder to test your changes in the [./examples/demo](./examples/demo) folder.
 
 ### Watch mode
 
