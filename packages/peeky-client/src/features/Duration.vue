@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { computed, PropType } from 'vue'
 import { formatDuration } from '@peeky/utils/dist/format'
 
 const props = defineProps({
   duration: {
-    type: Number,
+    type: Number as PropType<number | null>,
     default: null,
   },
 
@@ -24,13 +24,13 @@ const props = defineProps({
   },
 })
 
-const formatted = computed(() => formatDuration(props.duration))
+const formatted = computed(() => formatDuration(props.duration ?? 0))
 </script>
 
 <template>
   <span
     v-if="duration != null"
-    class="text-black dark:text-white opacity-40"
+    class="text-black dark:text-white opacity-40 text-xs mt-1"
     :class="{
       '!text-yellow-500': !noColors && duration > big && duration <= huge,
       '!text-orange-500': !noColors && duration > huge,
