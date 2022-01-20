@@ -1,23 +1,54 @@
+<script lang="ts">
+import gql from 'graphql-tag'
+import type { NexusGenFieldTypes } from '@peeky/server/types'
+
+export const testSuiteItemFragment = gql`fragment testSuiteItem on TestSuite {
+  id
+  slug
+  title
+  status
+  duration
+  runTestFile {
+    id
+    testFile {
+      id
+      relativePath
+    }
+  }
+}`
+
+export type TestSuiteItem = Pick<NexusGenFieldTypes['TestSuite'],
+'id' |
+'slug' |
+'title' |
+'status' |
+'duration' |
+'runTestFile' |
+'children'>
+</script>
+
 <script lang="ts" setup>
 import TestItem from '../test/TestItem.vue'
 import StatusIcon from '../StatusIcon.vue'
 import Duration from '../Duration.vue'
-import { computed, defineProps } from 'vue'
-import { compareStatus } from '../../util/status'
+import { defineProps, PropType } from 'vue'
 
 const props = defineProps({
   suite: {
-    type: Object,
+    type: Object as PropType<TestSuiteItem>,
     required: true,
   },
 
   run: {
-    type: Object,
+    type: Object as PropType<NexusGenFieldTypes['Run']>,
     required: true,
   },
 
   search: {
-    type: Object,
+    type: Object as PropType<{
+      searchReg: RegExp | null
+      filterFailed: boolean
+    }>,
     default: null,
   },
 
@@ -26,74 +57,55 @@ const props = defineProps({
     required: true,
   },
 })
-
-const hasSearch = computed(() => !!(props.search?.searchReg || props.search?.filterFailed))
-
-const filteredTests = computed(() => {
-  let tests = props.suite.tests
-
-  if (props.search?.filterFailed) {
-    tests = tests.filter(t => t.status === 'error')
-  }
-
-  if (props.search?.searchReg) {
-    tests = tests.filter(t => t.title.search(props.search.searchReg) !== -1)
-  }
-
-  return tests
-})
-
-const sortedTests = computed(() => filteredTests.value.slice().sort((a, b) => compareStatus(a.status, b.status)))
 </script>
 
 <template>
-  <div
-    v-if="!hasSearch || filteredTests.length"
-    class="mb-2"
-  >
-    <div
-      class="flex items-center space-x-2 h-8 px-3"
-      :style="{
-        paddingLeft: `${depth * 16 + 6}px`,
-      }"
-    >
-      <StatusIcon
-        :status="suite.status"
-        class="w-4 h-4 flex-none"
-      />
-      <span
-        class="flex-1 truncate py-1"
-        :class="{
-          'opacity-60': suite.status === 'skipped',
+  <div>
+    <template v-if="depth >= 0">
+      <div
+        class="flex items-center space-x-2 h-8 px-3"
+        :style="{
+          paddingLeft: `${depth * 12 + 6}px`,
         }"
       >
-        {{ suite.title }}
-      </span>
-      <Duration
-        :duration="suite.duration"
-        class="flex-none"
-      />
-    </div>
-
-    <div
-      v-if="!suite.tests.length"
-      class="bg-gray-50  dark:bg-gray-900 text-gray-600 dark:text-gray-400 m-1 rounded relative text-sm"
-    >
-      <div class="absolute left-10 -top-1 w-3 h-3 transform rotate-45 bg-gray-100 dark:bg-gray-900" />
-
-      <div class="relative px-2 py-1">
-        😿️ No tests found in this suite
+        <StatusIcon
+          :status="suite.status"
+          class="w-4 h-4 flex-none"
+        />
+        <span
+          class="flex-1 truncate py-1"
+          :class="{
+            'opacity-60': suite.status === 'skipped',
+          }"
+        >
+          {{ suite.title }}
+        </span>
+        <Duration
+          :duration="suite.duration"
+          class="flex-none"
+        />
       </div>
-    </div>
+    </template>
 
     <div>
-      <TestItem
-        v-for="test of sortedTests"
-        :key="test.id"
-        :test="test"
-        :suite="suite"
-        :depth="depth + 1"
-      />
+      <template
+        v-for="child of suite.children"
+        :key="child.id"
+      >
+        <SuiteItem
+          v-if="child.__typename === 'TestSuite'"
+          :suite="child"
+          :run="run"
+          :search="search"
+          :depth="depth + 1"
+        />
+        <TestItem
+          v-else
+          :test="child"
+          :suite="suite"
+          :depth="depth + 1"
+        />
+      </template>
     </div>
   </div>
 </template>

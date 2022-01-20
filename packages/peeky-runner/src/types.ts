@@ -23,22 +23,26 @@ export interface Context {
   snapshots: Snapshot[]
 }
 
+export type TestFlag = 'only' | 'skip' | 'todo' | null
+
 export interface TestSuite {
   id: string
   title: string
+  allTitles: string[]
   filePath: string
   beforeAllHandlers: (() => unknown)[]
   beforeEachHandlers: (() => unknown)[]
   afterAllHandlers: (() => unknown)[]
   afterEachHandlers: (() => unknown)[]
-  tests: Test[]
+  children: TestSuiteChild[]
+  childrenToRun: TestSuiteChild[]
+  parent: TestSuite | null
+  flag: TestFlag
   ranTests: Test[]
   testErrors: number
   otherErrors: Error[]
   duration?: number
 }
-
-export type TestFlag = 'only' | 'skip' | 'todo' | null
 
 export interface Test {
   id: string
@@ -51,7 +55,13 @@ export interface Test {
   duration?: number
 }
 
-export type DescribeFn = (title: string, handler: () => Awaitable<void>) => void
+export type TestSuiteChild = ['suite', TestSuite] | ['test', Test]
+
+export type DescribeFn = ((title: string, handler: () => Awaitable<void>) => void) & {
+  skip: (title: string, handler: () => Awaitable<void>) => void
+  only: (title: string, handler: () => Awaitable<void>) => void
+  todo: (title: string, handler?: () => Awaitable<void>) => void
+}
 export type TestFn = ((title: string, handler: () => Awaitable<void>) => void) & {
   skip: (title: string, handler: () => Awaitable<void>) => void
   only: (title: string, handler: () => Awaitable<void>) => void
@@ -62,11 +72,14 @@ export type AfterAllFn = (handler: () => Awaitable<void>) => void
 export type BeforeEachFn = (handler: () => Awaitable<void>) => void
 export type AfterEachFn = (handler: () => Awaitable<void>) => void
 
+export type ReporterSuiteChild = ['suite', ReporterTestSuite] | ['test', ReporterTest]
+
 export interface ReporterTestSuite {
   id: string
   title: string
+  allTitles: string[]
   filePath: string
-  tests: ReporterTest[]
+  children: ReporterSuiteChild[]
   runTestCount: number
   duration?: number
   testErrors?: number

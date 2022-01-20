@@ -1,7 +1,7 @@
 import type { Context } from '../types'
-import type { Register } from './test-register.js'
+import type { TestCollector } from './collect-tests.js'
 
-export async function getGlobals (ctx: Context, register: Register) {
+export async function getGlobals (ctx: Context, collector: TestCollector) {
   const { default: sinon } = await import('sinon')
   const { default: expect } = await import('expect')
 
@@ -11,12 +11,12 @@ export async function getGlobals (ctx: Context, register: Register) {
   target.sinon = sinon
 
   // Register
-  target.describe = register.exposed.describe
-  target.it = target.test = register.exposed.test
-  target.beforeAll = register.exposed.beforeAll
-  target.afterAll = register.exposed.afterAll
-  target.beforeEach = register.exposed.beforeEach
-  target.afterEach = register.exposed.afterEach
+  target.describe = collector.exposed.describe
+  target.it = target.test = collector.exposed.test
+  target.beforeAll = collector.exposed.beforeAll
+  target.afterAll = collector.exposed.afterAll
+  target.beforeEach = collector.exposed.beforeEach
+  target.afterEach = collector.exposed.afterEach
 
   return target
 }

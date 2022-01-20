@@ -4,6 +4,7 @@ import { TestFlag } from './types.js'
 import { Snapshot } from './snapshot/types.js'
 
 export interface WorkerRemoteMethods {
+  onCollected: (suites: SuiteCollectData[]) => void
   onSuiteStart: (suite: SuiteStartData) => void
   onSuiteComplete: (suite: SuiteCompleteData, duration: number) => void
   onTestStart: (suiteId: string, testId: string) => void
@@ -22,16 +23,26 @@ export interface TestErrorData {
   matcherResult: any
 }
 
-export interface SuiteStartData {
+export interface SuiteCollectData {
   id: string
   title: string
+  allTitles: string[]
+  flag: TestFlag
   filePath: string
-  tests: {
-    id: string
-    title: string
-    flag: TestFlag
-  }[]
+  children: SuiteChildCollectData[]
   runTestCount: number
+}
+
+export interface TestCollectData {
+  id: string
+  title: string
+  flag: TestFlag
+}
+
+export type SuiteChildCollectData = ['suite', SuiteCollectData] | ['test', TestCollectData]
+
+export interface SuiteStartData {
+  id: string
 }
 
 export interface SuiteCompleteData {

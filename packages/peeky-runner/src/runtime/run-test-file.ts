@@ -7,11 +7,11 @@ import fs from 'fs-extra'
 import pragma from 'pragma'
 import expect from 'expect'
 import { InstantiableTestEnvironmentClass, mergeConfig } from '@peeky/config'
-import type { Context, ReporterTestSuite, RunTestFileOptions } from '../types'
+import type { Context, ReporterTest, ReporterTestSuite, RunTestFileOptions, Test, TestSuite } from '../types'
 import { useVite } from './vite.js'
 import { getGlobals } from './globals.js'
 import { runTests } from './run-tests.js'
-import { setupRegister } from './test-register.js'
+import { setupTestCollector } from './collect-tests.js'
 import { getCoverage } from './coverage.js'
 import { mockedModules } from './mocked-files.js'
 import { getTestEnvironment, NodeEnvironment } from './environment.js'
@@ -71,7 +71,7 @@ export async function runTestFile (options: RunTestFileOptions) {
     }, (id) => toMainThread().transform(id))
 
     // Globals
-    const register = setupRegister(ctx)
+    const collector = setupTestCollector(ctx)
 
     // Source map support
     installSourceMap({
@@ -110,15 +110,15 @@ export async function runTestFile (options: RunTestFileOptions) {
     if (config.setupFiles?.length) {
       for (const file of config.setupFiles) {
         const fullPath = resolve(config.targetDirectory, file)
-        await executeWithVite(fullPath, await getGlobals(ctx, register), config.targetDirectory)
+        await executeWithVite(fullPath, await getGlobals(ctx, collector), config.targetDirectory)
       }
     }
 
     // Execute test file
-    const executionResult = await executeWithVite(options.entry, await getGlobals(ctx, register), config.targetDirectory)
+    const executionResult = await executeWithVite(options.entry, await getGlobals(ctx, collector), config.targetDirectory)
 
     // Register suites and tests
-    await register.collect()
+    await collector.collect()
 
     // Snapshots
     await snapshotMatcher.start(ctx)
@@ -144,22 +144,7 @@ export async function runTestFile (options: RunTestFileOptions) {
     const duration = performance.now() - time
 
     // Result data
-    const suites = ctx.suites.map(s => ({
-      id: s.id,
-      title: s.title,
-      filePath: s.filePath,
-      testErrors: s.testErrors,
-      otherErrors: s.otherErrors,
-      tests: s.tests.map(t => ({
-        id: t.id,
-        title: t.title,
-        error: t.error,
-        flag: t.flag,
-        duration: t.duration,
-      })),
-      runTestCount: s.ranTests.length,
-      duration: s.duration,
-    } as ReporterTestSuite))
+    const suites = ctx.suites.map(s => mapSuiteResult(s))
 
     await toMainThread().testFileCompleteHandshake()
 
@@ -178,5 +163,35 @@ export async function runTestFile (options: RunTestFileOptions) {
     throw e
   } finally {
     setCurrentTestFile(null)
+  }
+}
+
+function mapTestResult (t: Test): ReporterTest {
+  return {
+    id: t.id,
+    title: t.title,
+    error: t.error,
+    flag: t.flag,
+    duration: t.duration,
+  }
+}
+
+function mapSuiteResult (s: TestSuite): ReporterTestSuite {
+  return {
+    id: s.id,
+    title: s.title,
+    allTitles: s.allTitles,
+    filePath: s.filePath,
+    testErrors: s.testErrors,
+    otherErrors: s.otherErrors,
+    children: s.children.map(child => {
+      if (child[0] === 'suite') {
+        return ['suite', mapSuiteResult(child[1])]
+      } else if (child[0] === 'test') {
+        return ['test', mapTestResult(child[1])]
+      }
+    }),
+    runTestCount: s.ranTests.length,
+    duration: s.duration,
   }
 }

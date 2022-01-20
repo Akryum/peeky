@@ -23,9 +23,11 @@ type Query {
   settings: Settings!
   testFile(id: ID!): TestFile
   testFiles: [TestFile!]!
+  testSuiteById(id: ID!): TestSuite
 }
 
 type Run {
+  allTestSuites: [TestSuite!]!
   date: String!
   duration: Float
   emoji: String!
@@ -38,6 +40,7 @@ type Run {
   previousErrorRunTestFiles: [RunTestFile!]!
   previousSnapshot(id: ID!): Snapshot
   progress: Float!
+  rootTestSuites: [TestSuite!]!
   runTestFile(slug: String!): RunTestFile
   runTestFiles: [RunTestFile!]!
   snapshotById(id: ID!): Snapshot
@@ -45,16 +48,16 @@ type Run {
   status: Status!
   testSuiteById(id: ID!): TestSuite
   testSuiteBySlug(slug: String!): TestSuite
-  testSuites: [TestSuite!]!
 }
 
 type RunTestFile {
+  allTestSuites: [TestSuite!]!
   duration: Float
   error: RunTestFileError
   id: ID!
+  rootTestSuites: [TestSuite!]!
   slug: String!
   status: Status!
-  suites: [TestSuite!]!
   testFile: TestFile!
 }
 
@@ -159,16 +162,20 @@ enum TestLogType {
 }
 
 type TestSuite {
+  children: [TestSuiteChild!]!
   duration: Float
   id: ID!
+  parentSuite: TestSuite
+  root: Boolean!
   runTestFile: RunTestFile!
   slug: String!
   status: Status!
   testById(id: ID!): Test
   testBySlug(slug: String!): Test
-  tests: [Test]!
   title: String!
 }
+
+union TestSuiteChild = Test | TestSuite
 
 input UpdateSettingsInput {
   darkMode: Boolean!

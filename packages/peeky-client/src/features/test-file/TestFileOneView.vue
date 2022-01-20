@@ -2,6 +2,7 @@
 import SuitesView from '../suite/SuitesView.vue'
 import TestFileToolbar from './TestFileToolbar.vue'
 import { testItemFragment } from '../test/TestItem.vue'
+import { testSuiteItemFragment } from '../suite/SuiteItem.vue'
 import { useQuery, useResult } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 import { useRoute } from 'vue-router'
@@ -10,22 +11,18 @@ const route = useRoute()
 
 const runTestFileViewSuiteFragment = gql`
 fragment runTestFileViewSuite on TestSuite {
-  id
-  slug
-  title
-  status
-  duration
-  runTestFile {
-    id
-    testFile {
+  ...testSuiteItem
+  root
+  children {
+    ...on TestSuite {
       id
-      relativePath
+    }
+    ...on Test {
+      ...testItem
     }
   }
-  tests {
-    ...testItem
-  }
 }
+${testSuiteItemFragment}
 ${testItemFragment}
 `
 
@@ -41,7 +38,7 @@ fragment runTestFileView on RunTestFile {
     id
     relativePath
   }
-  suites {
+  suites: allTestSuites {
     ...runTestFileViewSuite
   }
 }

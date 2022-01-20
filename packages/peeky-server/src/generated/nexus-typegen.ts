@@ -89,9 +89,10 @@ export interface NexusGenInterfaces {
 }
 
 export interface NexusGenUnions {
+  TestSuiteChild: NexusGenRootTypes['Test'] | NexusGenRootTypes['TestSuite'];
 }
 
-export type NexusGenRootTypes = NexusGenObjects
+export type NexusGenRootTypes = NexusGenObjects & NexusGenUnions
 
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
@@ -112,8 +113,10 @@ export interface NexusGenFieldTypes {
     settings: NexusGenRootTypes['Settings']; // Settings!
     testFile: NexusGenRootTypes['TestFile'] | null; // TestFile
     testFiles: NexusGenRootTypes['TestFile'][]; // [TestFile!]!
+    testSuiteById: NexusGenRootTypes['TestSuite'] | null; // TestSuite
   }
   Run: { // field return type
+    allTestSuites: NexusGenRootTypes['TestSuite'][]; // [TestSuite!]!
     date: string; // String!
     duration: number | null; // Float
     emoji: string; // String!
@@ -126,6 +129,7 @@ export interface NexusGenFieldTypes {
     previousErrorRunTestFiles: NexusGenRootTypes['RunTestFile'][]; // [RunTestFile!]!
     previousSnapshot: NexusGenRootTypes['Snapshot'] | null; // Snapshot
     progress: number; // Float!
+    rootTestSuites: NexusGenRootTypes['TestSuite'][]; // [TestSuite!]!
     runTestFile: NexusGenRootTypes['RunTestFile'] | null; // RunTestFile
     runTestFiles: NexusGenRootTypes['RunTestFile'][]; // [RunTestFile!]!
     snapshotById: NexusGenRootTypes['Snapshot'] | null; // Snapshot
@@ -133,15 +137,15 @@ export interface NexusGenFieldTypes {
     status: NexusGenEnums['Status']; // Status!
     testSuiteById: NexusGenRootTypes['TestSuite'] | null; // TestSuite
     testSuiteBySlug: NexusGenRootTypes['TestSuite'] | null; // TestSuite
-    testSuites: NexusGenRootTypes['TestSuite'][]; // [TestSuite!]!
   }
   RunTestFile: { // field return type
+    allTestSuites: NexusGenRootTypes['TestSuite'][]; // [TestSuite!]!
     duration: number | null; // Float
     error: NexusGenRootTypes['RunTestFileError'] | null; // RunTestFileError
     id: string; // ID!
+    rootTestSuites: NexusGenRootTypes['TestSuite'][]; // [TestSuite!]!
     slug: string; // String!
     status: NexusGenEnums['Status']; // Status!
-    suites: NexusGenRootTypes['TestSuite'][]; // [TestSuite!]!
     testFile: NexusGenRootTypes['TestFile']; // TestFile!
   }
   RunTestFileError: { // field return type
@@ -213,14 +217,16 @@ export interface NexusGenFieldTypes {
     type: NexusGenEnums['TestLogType']; // TestLogType!
   }
   TestSuite: { // field return type
+    children: NexusGenRootTypes['TestSuiteChild'][]; // [TestSuiteChild!]!
     duration: number | null; // Float
     id: string; // ID!
+    parentSuite: NexusGenRootTypes['TestSuite'] | null; // TestSuite
+    root: boolean; // Boolean!
     runTestFile: NexusGenRootTypes['RunTestFile']; // RunTestFile!
     slug: string; // String!
     status: NexusGenEnums['Status']; // Status!
     testById: NexusGenRootTypes['Test'] | null; // Test
     testBySlug: NexusGenRootTypes['Test'] | null; // Test
-    tests: Array<NexusGenRootTypes['Test'] | null>; // [Test]!
     title: string; // String!
   }
 }
@@ -242,8 +248,10 @@ export interface NexusGenFieldTypeNames {
     settings: 'Settings'
     testFile: 'TestFile'
     testFiles: 'TestFile'
+    testSuiteById: 'TestSuite'
   }
   Run: { // field return type name
+    allTestSuites: 'TestSuite'
     date: 'String'
     duration: 'Float'
     emoji: 'String'
@@ -256,6 +264,7 @@ export interface NexusGenFieldTypeNames {
     previousErrorRunTestFiles: 'RunTestFile'
     previousSnapshot: 'Snapshot'
     progress: 'Float'
+    rootTestSuites: 'TestSuite'
     runTestFile: 'RunTestFile'
     runTestFiles: 'RunTestFile'
     snapshotById: 'Snapshot'
@@ -263,15 +272,15 @@ export interface NexusGenFieldTypeNames {
     status: 'Status'
     testSuiteById: 'TestSuite'
     testSuiteBySlug: 'TestSuite'
-    testSuites: 'TestSuite'
   }
   RunTestFile: { // field return type name
+    allTestSuites: 'TestSuite'
     duration: 'Float'
     error: 'RunTestFileError'
     id: 'ID'
+    rootTestSuites: 'TestSuite'
     slug: 'String'
     status: 'Status'
-    suites: 'TestSuite'
     testFile: 'TestFile'
   }
   RunTestFileError: { // field return type name
@@ -343,14 +352,16 @@ export interface NexusGenFieldTypeNames {
     type: 'TestLogType'
   }
   TestSuite: { // field return type name
+    children: 'TestSuiteChild'
     duration: 'Float'
     id: 'ID'
+    parentSuite: 'TestSuite'
+    root: 'Boolean'
     runTestFile: 'RunTestFile'
     slug: 'String'
     status: 'Status'
     testById: 'Test'
     testBySlug: 'Test'
-    tests: 'Test'
     title: 'String'
   }
 }
@@ -385,6 +396,9 @@ export interface NexusGenArgTypes {
       id: string; // ID!
     }
     testFile: { // args
+      id: string; // ID!
+    }
+    testSuiteById: { // args
       id: string; // ID!
     }
   }
@@ -441,6 +455,7 @@ export interface NexusGenArgTypes {
 }
 
 export interface NexusGenAbstractTypeMembers {
+  TestSuiteChild: "Test" | "TestSuite"
 }
 
 export interface NexusGenTypeInterfaces {
@@ -456,11 +471,11 @@ export type NexusGenInterfaceNames = never;
 
 export type NexusGenScalarNames = keyof NexusGenScalars;
 
-export type NexusGenUnionNames = never;
+export type NexusGenUnionNames = keyof NexusGenUnions;
 
 export type NexusGenObjectsUsingAbstractStrategyIsTypeOf = never;
 
-export type NexusGenAbstractsUsingStrategyResolveType = never;
+export type NexusGenAbstractsUsingStrategyResolveType = "TestSuiteChild";
 
 export type NexusGenFeaturesConfig = {
   abstractTypeStrategies: {

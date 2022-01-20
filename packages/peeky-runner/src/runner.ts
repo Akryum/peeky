@@ -4,9 +4,9 @@ import Tinypool from 'tinypool'
 import { Awaited } from '@peeky/utils'
 import { ProgramPeekyConfig, toSerializableConfig } from '@peeky/config'
 import type { runTestFile as rawRunTestFile } from './runtime/run-test-file.js'
-import type { RunTestFileOptions, ReporterTestSuite, Reporter } from './types'
+import type { RunTestFileOptions, ReporterTestSuite, Reporter, ReporterTest } from './types'
 import { initViteServer, stopViteServer, transform } from './build/vite.js'
-import { createWorkerChannel, useWorkerMessages } from './message.js'
+import { createWorkerChannel, SuiteCollectData, useWorkerMessages } from './message.js'
 
 export interface RunnerOptions {
   config: ProgramPeekyConfig
@@ -53,8 +53,22 @@ export async function setupRunner (options: RunnerOptions) {
     const { mainPort, workerPort } = createWorkerChannel({
       transform: async (id) => transform(id),
 
-      onSuiteStart: (suite) => {
-        suiteMap[suite.id] = suite
+      onCollected: (suites) => {
+        const addSuite = (suite: SuiteCollectData) => {
+          suiteMap[suite.id] = suite
+          for (const child of suite.children) {
+            if (child[0] === 'suite') {
+              addSuite(child[1])
+            }
+          }
+        }
+        for (const suite of suites) {
+          addSuite(suite)
+        }
+      },
+
+      onSuiteStart: ({ id }) => {
+        const suite = suiteMap[id]
         reporters.forEach(r => r.suiteStart?.({ suite }))
       },
 
@@ -75,7 +89,7 @@ export async function setupRunner (options: RunnerOptions) {
         }
 
         const suite = suiteMap[suiteId]
-        const test = suite.tests.find(t => t.id === testId)
+        const [, test] = suite.children.find(([, t]) => t.id === testId) as ['test', ReporterTest]
         Object.assign(test, {
           duration,
           error,
@@ -85,7 +99,7 @@ export async function setupRunner (options: RunnerOptions) {
 
       onTestSuccess: (suiteId, testId, duration) => {
         const suite = suiteMap[suiteId]
-        const test = suite.tests.find(t => t.id === testId)
+        const [, test] = suite.children.find(([, t]) => t.id === testId) as ['test', ReporterTest]
         Object.assign(test, {
           duration,
         })
@@ -94,7 +108,7 @@ export async function setupRunner (options: RunnerOptions) {
 
       onLog: (suiteId, testId, type, text, file) => {
         const suite = suiteMap[suiteId]
-        const test = suite?.tests.find(t => t.id === testId)
+        const [, test] = suite?.children.find(([, t]) => t.id === testId) as ['test', ReporterTest] ?? []
         reporters.forEach(r => r.log?.({ suite, test, type, text, file }))
       },
 

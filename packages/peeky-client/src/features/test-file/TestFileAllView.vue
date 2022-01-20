@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import SuitesView from '../suite/SuitesView.vue'
 import { testItemFragment } from '../test/TestItem.vue'
+import { testSuiteItemFragment } from '../suite/SuiteItem.vue'
 import { useQuery, useResult } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 import { useRoute } from 'vue-router'
@@ -9,22 +10,18 @@ const route = useRoute()
 
 const runTestFileAllSuiteFragment = gql`
 fragment runTestFileAllSuite on TestSuite {
-  id
-  slug
-  title
-  status
-  duration
-  runTestFile {
-    id
-    testFile {
+  ...testSuiteItem
+  root
+  children {
+    ...on TestSuite {
       id
-      relativePath
+    }
+    ...on Test {
+      ...testItem
     }
   }
-  tests {
-    ...testItem
-  }
 }
+${testSuiteItemFragment}
 ${testItemFragment}
 `
 
@@ -32,7 +29,7 @@ const { result, subscribeToMore, onResult } = useQuery(() => route.params.runId 
   query testFileAllView ($runId: ID!) {
     run (id: $runId) {
       id
-      testSuites {
+      testSuites: allTestSuites {
         ...runTestFileAllSuite
       }
     }
@@ -42,7 +39,7 @@ const { result, subscribeToMore, onResult } = useQuery(() => route.params.runId 
   query testFileAllViewLastRun {
     run: lastRun {
       id
-      testSuites {
+      testSuites: allTestSuites {
         ...runTestFileAllSuite
       }
     }

@@ -10,24 +10,69 @@ import BaseInput from '../BaseInput.vue'
 import SuiteItem from './SuiteItem.vue'
 import { SearchIcon } from '@zhuowenli/vue-feather-icons'
 import { compareStatus } from '../../util/status'
+import { NexusGenFieldTypes } from '@peeky/server/types'
+
+type TestSuite = Omit<NexusGenFieldTypes['TestSuite'], 'children'> & {
+  __typename: 'TestSuite'
+  children: (TestSuite | Test)[]
+}
+
+type Test = NexusGenFieldTypes['Test'] & {
+  __typename: 'Test'
+}
 
 const props = defineProps<{
-  suites: any[]
+  suites: TestSuite[]
   run: any
 }>()
+
+// Filtering
 
 const searchText = ref('')
 const searchReg = computed(() => searchText.value ? new RegExp(searchText.value, 'gi') : null)
 
 const failedTestCount = computed(() => {
   return props.suites.reduce((sum, suite) => {
-    return sum + suite.tests.reduce((sum, test) => {
-      return sum + (test.status === 'error' ? 1 : 0)
+    return sum + suite.children.reduce((sum, child) => {
+      return sum + (child.__typename === 'Test' && child.status === 'error' ? 1 : 0)
     }, 0)
   }, 0)
 })
 
-const sortedSuites = computed(() => props.suites.slice().sort((a, b) => compareStatus(a.status, b.status)))
+function isChildMatching (item: TestSuite | Test) {
+  // If one of the nested is in 'error', the suite is also in 'error'
+  if (filterFailed.value && item.status !== 'error') return false
+  // Title search
+  if (searchReg.value && item.title.search(searchReg.value) === -1) return false
+  return true
+}
+
+function isNestedMatching (item: TestSuite | Test) {
+  if (isChildMatching(item)) return true
+  if (item.__typename === 'TestSuite' && item.children.some(child => isNestedMatching(child))) return true
+  return false
+}
+
+// Tree
+
+const tree = computed(() => {
+  if (!props.suites.length) return []
+
+  function processSuite (item: TestSuite): TestSuite {
+    return {
+      ...item,
+      children: item.children.map(child => {
+        if (child.__typename === 'TestSuite') {
+          return processSuite(props.suites.find(suite => suite.id === child.id) as TestSuite)
+        }
+        return child
+      }).filter(child => isNestedMatching(child))
+    }
+  }
+
+  const rootSuites = props.suites.filter(s => s.root)
+  return rootSuites.map(suite => processSuite(suite))
+})
 </script>
 
 <template>
@@ -68,7 +113,7 @@ const sortedSuites = computed(() => props.suites.slice().sort((a, b) => compareS
 
         <div class="flex-1 overflow-y-auto">
           <SuiteItem
-            v-for="suite of sortedSuites"
+            v-for="suite of tree"
             :key="suite.id"
             :suite="suite"
             :run="run"
@@ -76,7 +121,7 @@ const sortedSuites = computed(() => props.suites.slice().sort((a, b) => compareS
               searchReg,
               filterFailed,
             }"
-            :depth="0"
+            :depth="-1"
           />
 
           <div

@@ -270,21 +270,29 @@ export async function startRun (ctx: Context, id: string) {
     runner.clearOnMessage()
   }
   runner.onMessage(async (message) => {
-    if (message.method === 'onSuiteStart') {
-      const [suite] = message.args
-      const testFileId = relative(ctx.config.targetDirectory, suite.filePath)
-      await createTestSuite(ctx, {
-        id: suite.id,
-        runId: run.id,
-        runTestFile: run.runTestFiles.find(rf => rf.testFile.id === testFileId),
-        title: suite.title,
-        tests: suite.tests,
-      })
+    if (message.method === 'onCollected') {
+      const [suites] = message.args
+      for (const suite of suites) {
+        const testFileId = relative(ctx.config.targetDirectory, suite.filePath)
+        await createTestSuite(ctx, {
+          id: suite.id,
+          title: suite.title,
+          allTitles: suite.allTitles,
+          flag: suite.flag,
+          children: suite.children,
+        }, {
+          // Additional data
+          runId: run.id,
+          runTestFile: run.runTestFiles.find(rf => rf.testFile.id === testFileId),
+          status: 'in_progress',
+          parent: null,
+        })
+      }
     } else if (message.method === 'onSuiteComplete') {
       const [suiteData, duration] = message.args
       const suite = testSuites.find(s => s.id === suiteData.id)
       await updateTestSuite(ctx, suiteData.id, {
-        status: !suite.tests.length ? 'skipped' : suiteData.testErrors + suiteData.otherErrors.length ? 'error' : 'success',
+        status: !suite.children.length ? 'skipped' : suiteData.testErrors + suiteData.otherErrors.length ? 'error' : 'success',
         duration,
       })
     } else if (message.method === 'onTestStart') {

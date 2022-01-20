@@ -65,7 +65,7 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
       'active-colors': test.slug === $route.params.testSlug && $route.params.suiteSlug === suite.slug,
     }"
     :style="{
-      paddingLeft: `${depth * 16}px`,
+      paddingLeft: `${depth * 12 + 6}px`,
     }"
   >
     <StatusIcon

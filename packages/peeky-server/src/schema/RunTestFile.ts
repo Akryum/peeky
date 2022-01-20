@@ -25,7 +25,11 @@ export const RunTestFile = objectType({
       type: Status,
     })
     t.float('duration')
-    t.nonNull.list.field('suites', {
+    t.nonNull.list.field('rootTestSuites', {
+      type: nonNull(TestSuite),
+      resolve: (parent) => testSuites.filter(s => s.runTestFile === parent && !s.parent),
+    })
+    t.nonNull.list.field('allTestSuites', {
       type: nonNull(TestSuite),
       resolve: (parent) => testSuites.filter(s => s.runTestFile === parent),
     })

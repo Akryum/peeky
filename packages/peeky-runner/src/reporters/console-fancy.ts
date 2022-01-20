@@ -2,7 +2,7 @@ import consola from 'consola'
 import chalk from 'chalk'
 import { diffStringsUnified } from 'jest-diff'
 import { formatDurationToString } from '@peeky/utils'
-import { Reporter } from '../types.js'
+import type { Reporter, ReporterTestSuite } from '../types.js'
 
 export function createConsoleFancyReporter (): Reporter {
   return {
@@ -23,15 +23,25 @@ export function createConsoleFancyReporter (): Reporter {
 
     errorSummary: ({ suites, errorTestCount, testCount }) => {
       consola.log(`\n\n${chalk.red(drawBox(`Summary of ${errorTestCount} / ${testCount} failed tests`, chalk.bold))}\n`)
-      for (const suite of suites) {
+
+      const eachSuite = (suite: ReporterTestSuite) => {
         if (suite.testErrors) {
-          for (const test of suite.tests) {
-            if (test.error) {
-              consola.log(chalk.red(`${chalk.bgRedBright.black.bold(' FAIL ')} ${suite.title} › ${chalk.bold(test.title)}`))
-              consola.log(`\n${test.error.stack ?? test.error.message}\n`)
+          for (const child of suite.children) {
+            if (child[0] === 'suite') {
+              eachSuite(child[1])
+            } else if (child[0] === 'test') {
+              const test = child[1]
+              if (test.error) {
+                consola.log(chalk.red(`${chalk.bgRedBright.black.bold(' FAIL ')} ${suite.title} › ${chalk.bold(test.title)}`))
+                consola.log(`\n${test.error.stack ?? test.error.message}\n`)
+              }
             }
           }
         }
+      }
+
+      for (const suite of suites) {
+        eachSuite(suite)
       }
     },
 

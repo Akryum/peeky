@@ -25,7 +25,7 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "pnpm run gen && rimraf dist && tsc -d && cp src/context.d.ts dist/context.d.ts",
+    "builddd": "pnpm run gen && rimraf dist && tsc -d && cp src/context.d.ts dist/context.d.ts",
     "gen": "rimraf dist src/generated && tsc && cp src/context.d.ts dist/context.d.ts && node ./dist/standalone.js --nexus-artifacts --nexus-exit",
     "watch": "tsc -d -w --sourceMap"
   },

@@ -96,16 +96,12 @@ export const TestLog = objectType({
 export const TestExtendTestSuite = extendType({
   type: 'TestSuite',
   definition (t) {
-    t.nonNull.list.field('tests', {
-      type: Test,
-    })
-
     t.field('testById', {
       type: Test,
       args: {
         id: nonNull(idArg()),
       },
-      resolve: (suite, { id }) => suite.tests.find(t => t.id === id),
+      resolve: (suite, { id }) => suite.children.find(t => t.id === id) as TestData,
     })
 
     t.field('testBySlug', {
@@ -113,7 +109,7 @@ export const TestExtendTestSuite = extendType({
       args: {
         slug: nonNull(stringArg()),
       },
-      resolve: (suite, { slug }) => suite.tests.find(t => t.slug === slug),
+      resolve: (suite, { slug }) => suite.children.find(t => t.slug === slug) as TestData,
     })
   },
 })
@@ -237,13 +233,12 @@ export async function createTest (ctx: Context, options: CreateTestOptions) {
   ctx.pubsub.publish(TestUpdated, {
     test,
   } as TestUpdatedPayload)
-  test.testSuite.tests.push(test)
   return test
 }
 
-export function getTest (ctx: Context, testSuiteId: string, id: string) {
+export function getTest (ctx: Context, testSuiteId: string, id: string): TestData {
   const testSuite = getTestSuite(ctx, testSuiteId)
-  const test = testSuite.tests.find(t => t.id === id)
+  const test = testSuite.children.find(t => t.id === id) as TestData
   if (!test) {
     throw new Error(`Test ${id} not found`)
   }
