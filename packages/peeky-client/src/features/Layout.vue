@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { watch } from 'vue'
 import { useSettings } from './settings'
+import DisconnectedToast from './DisconnectedToast.vue'
+import { connected } from '../apollo'
 
 const { settings } = useSettings()
 
@@ -16,5 +18,13 @@ watch(settings, value => {
 </script>
 
 <template>
-  <router-view />
+  <div
+    :class="{
+      'grayscale': !connected
+    }"
+  >
+    <router-view />
+  </div>
+
+  <DisconnectedToast v-if="!connected" />
 </template>
