@@ -5,7 +5,7 @@ import {
   CheckIcon,
   XIcon,
   ChevronsRightIcon,
-  EditIcon,
+  Edit2Icon,
 } from '@zhuowenli/vue-feather-icons'
 import { defineProps } from 'vue'
 import type { TestStatus } from '../util/status'
@@ -16,7 +16,7 @@ const icons: Record<TestStatus, any> = {
   success: CheckIcon,
   error: XIcon,
   skipped: ChevronsRightIcon,
-  todo: EditIcon,
+  todo: Edit2Icon,
 }
 
 const classes: Record<TestStatus, string> = {
@@ -91,12 +91,12 @@ const props = defineProps({
 
       <div
         v-if="icon && icons[status]"
-        class="absolute bottom-0 left-0 w-full flex items-center justify-center"
+        class="absolute bottom-[2px] left-0 w-full flex items-center justify-center"
       >
         <component
           :is="icons[status]"
           :class="classes[status]"
-          class="w-[12px] h-[12px]"
+          class="w-[10px] h-[10px]"
         />
       </div>
     </div>
