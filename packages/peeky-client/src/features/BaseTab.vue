@@ -32,7 +32,7 @@ export default defineComponent({
 
       <transition name="scale-x">
         <div
-          v-if="isExactActive"
+          v-if="(exact && isExactActive) || (!exact && isActive)"
           class="absolute bottom-0 left-0 w-full h-[2px] bg-primary-500 dark:bg-primary-400"
         />
       </transition>
