@@ -46,6 +46,7 @@ type Run {
   snapshotById(id: ID!): Snapshot
   snapshotCount: Int!
   status: Status!
+  testCount(status: Status): Int!
   testSuiteById(id: ID!): TestSuite
   testSuiteBySlug(slug: String!): TestSuite
 }
@@ -99,6 +100,7 @@ enum Status {
 type Subscription {
   runAdded: Run!
   runRemoved: Run!
+  runStatsUpdated(runId: ID!): Run
   runTestFileUpdated: RunTestFile!
   runUpdated: Run!
   testAdded(runId: ID!, runTestFileId: ID): Test!

@@ -10,6 +10,7 @@ import { Status, StatusEnum } from './Status.js'
 import { getTestSuite, TestSuiteData } from './TestSuite.js'
 import { SnapshotData } from './Snapshot.js'
 import { getSrcFile } from '../util.js'
+import { publishRunStatsUpdated } from './Stats.js'
 
 const __filename = fileURLToPath(import.meta.url)
 
@@ -212,6 +213,8 @@ export interface CreateTestOptions {
   status: StatusEnum
 }
 
+export let tests: TestData[] = []
+
 export async function createTest (ctx: Context, options: CreateTestOptions) {
   const test: TestData = {
     id: options.id,
@@ -227,6 +230,7 @@ export async function createTest (ctx: Context, options: CreateTestOptions) {
     snapshots: [],
     failedSnapshotCount: 0,
   }
+  tests.push(test)
   ctx.pubsub.publish(TestAdded, {
     test,
   } as TestAddedPayload)
@@ -251,9 +255,16 @@ export async function updateTest (ctx: Context, testSuiteId: string, id: string,
   const test = getTest(ctx, testSuiteId, id)
   if (!test) return
   const newData = typeof data === 'function' ? data(test) : data
+  if (test.status !== newData.status) {
+    publishRunStatsUpdated(ctx, test.runId)
+  }
   Object.assign(test, newData)
   ctx.pubsub.publish(TestUpdated, {
     test,
   } as TestUpdatedPayload)
   return test
+}
+
+export function clearTests (ctx: Context, runId: string = null) {
+  tests = runId ? tests.filter(t => t.runId !== runId) : []
 }

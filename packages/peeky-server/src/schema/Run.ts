@@ -10,7 +10,7 @@ import type { Context } from '../context'
 import { Status, StatusEnum } from './Status.js'
 import { updateTestFile, testFiles } from './TestFile.js'
 import { clearTestSuites, createTestSuite, updateTestSuite, testSuites } from './TestSuite.js'
-import { updateTest } from './Test.js'
+import { clearTests, updateTest } from './Test.js'
 import { RunTestFileData, updateRunTestFile } from './RunTestFile.js'
 import { getErrorPosition, getSrcFile, formatRunTestFileErrorMessage } from '../util.js'
 import { settings } from './Settings.js'
@@ -421,6 +421,7 @@ export async function clearRun (ctx: Context, id: string) {
     runs.splice(index, 1)
   }
   clearTestSuites(ctx, id)
+  clearTests(ctx, id)
   ctx.pubsub.publish(RunRemoved, {
     run,
   } as RunRemovedPayload)
@@ -429,6 +430,8 @@ export async function clearRun (ctx: Context, id: string) {
 
 export function clearRuns (ctx: Context) {
   clearTestSuites(ctx)
+  clearTests(ctx)
+  clearSnapshots()
   runs = []
   return true
 }

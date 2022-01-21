@@ -135,6 +135,7 @@ export interface NexusGenFieldTypes {
     snapshotById: NexusGenRootTypes['Snapshot'] | null; // Snapshot
     snapshotCount: number; // Int!
     status: NexusGenEnums['Status']; // Status!
+    testCount: number; // Int!
     testSuiteById: NexusGenRootTypes['TestSuite'] | null; // TestSuite
     testSuiteBySlug: NexusGenRootTypes['TestSuite'] | null; // TestSuite
   }
@@ -170,6 +171,7 @@ export interface NexusGenFieldTypes {
   Subscription: { // field return type
     runAdded: NexusGenRootTypes['Run']; // Run!
     runRemoved: NexusGenRootTypes['Run']; // Run!
+    runStatsUpdated: NexusGenRootTypes['Run'] | null; // Run
     runTestFileUpdated: NexusGenRootTypes['RunTestFile']; // RunTestFile!
     runUpdated: NexusGenRootTypes['Run']; // Run!
     testAdded: NexusGenRootTypes['Test']; // Test!
@@ -270,6 +272,7 @@ export interface NexusGenFieldTypeNames {
     snapshotById: 'Snapshot'
     snapshotCount: 'Int'
     status: 'Status'
+    testCount: 'Int'
     testSuiteById: 'TestSuite'
     testSuiteBySlug: 'TestSuite'
   }
@@ -305,6 +308,7 @@ export interface NexusGenFieldTypeNames {
   Subscription: { // field return type name
     runAdded: 'Run'
     runRemoved: 'Run'
+    runStatsUpdated: 'Run'
     runTestFileUpdated: 'RunTestFile'
     runUpdated: 'Run'
     testAdded: 'Test'
@@ -415,6 +419,9 @@ export interface NexusGenArgTypes {
     snapshotById: { // args
       id: string; // ID!
     }
+    testCount: { // args
+      status?: NexusGenEnums['Status'] | null; // Status
+    }
     testSuiteById: { // args
       id: string; // ID!
     }
@@ -423,6 +430,9 @@ export interface NexusGenArgTypes {
     }
   }
   Subscription: {
+    runStatsUpdated: { // args
+      runId: string; // ID!
+    }
     testAdded: { // args
       runId: string; // ID!
       runTestFileId?: string | null; // ID
