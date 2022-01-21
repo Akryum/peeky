@@ -175,7 +175,7 @@ subscribeToMore({
         <div class="h-[1px] bg-primary-500/20 flex-1" />
         <div class="flex items-center space-x-1">
           <span>In progress</span>
-          <span class="text-sm px-1.5 rounded-full leading-tight border border- primary-500/40mt-0.5">{{ groupedFiles.in_progress.length }}</span>
+          <span class="text-sm px-1.5 rounded-full leading-tight border border-primary-500/40 mt-0.5">{{ groupedFiles.in_progress.length }}</span>
         </div>
         <div class="h-[1px] bg-primary-500/20 flex-1" />
       </div>
@@ -213,7 +213,7 @@ subscribeToMore({
         <div class="h-[1px] bg-yellow-500/20 flex-1" />
         <div class="flex items-center space-x-1">
           <span>Todo</span>
-          <span class="text-sm px-1.5 rounded-full leading-tight border border- yellow-500/40mt-0.5">{{ groupedFiles.todo.length }}</span>
+          <span class="text-sm px-1.5 rounded-full leading-tight border border-yellow-500/40 mt-0.5">{{ groupedFiles.todo.length }}</span>
         </div>
         <div class="h-[1px] bg-yellow-500/20 flex-1" />
       </div>
