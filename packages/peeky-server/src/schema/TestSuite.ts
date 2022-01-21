@@ -203,7 +203,7 @@ export async function createTestSuite (ctx: Context, data: CreateTestSuiteData, 
       const childSuite = await createTestSuite(ctx, childSuiteData, {
         runId: options.runId,
         runTestFile: options.runTestFile,
-        status: getInitialStatus(childSuiteData, hasOnlyFlags),
+        status: options.status === 'skipped' ? 'skipped' : getInitialStatus(childSuiteData, hasOnlyFlags),
         parent: testSuite,
       })
       testSuite.children.push(childSuite)
@@ -215,7 +215,7 @@ export async function createTestSuite (ctx: Context, data: CreateTestSuiteData, 
         testSuite,
         title: childTestData.title,
         flag: childTestData.flag,
-        status: getInitialStatus(childTestData, hasOnlyFlags),
+        status: options.status === 'skipped' ? 'skipped' : getInitialStatus(childTestData, hasOnlyFlags),
       })
       testSuite.children.push(childTest)
     }
