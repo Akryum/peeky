@@ -77,9 +77,13 @@ const passedSnapshots = computed(() => result.value?.run.passedSnapshots ?? [])
     v-if="failedSnapshots.length"
     class="py-2"
   >
-    <div class="text-red-500 flex items-center justify-center space-x-1 pb-1">
-      <span>Failed</span>
-      <span class="text-xs px-1.5 rounded-full leading-tight border border-current mt-0.5">{{ failedSnapshots.length }}</span>
+    <div class="text-red-500 flex items-center space-x-2 px-2 pb-1">
+      <div class="h-[1px] bg-red-500/20 flex-1" />
+      <div class="flex items-center space-x-1">
+        <span>Failed</span>
+        <span class="text-xs px-1.5 rounded-full leading-tight border border-red-500/40 mt-0.5">{{ failedSnapshots.length }}</span>
+      </div>
+      <div class="h-[1px] bg-red-500/20 flex-1" />
     </div>
     <SnapshotItem
       v-for="snapshot of failedSnapshots"
@@ -91,9 +95,13 @@ const passedSnapshots = computed(() => result.value?.run.passedSnapshots ?? [])
     v-if="newSnapshots.length"
     class="py-2"
   >
-    <div class="text-green-500 flex items-center justify-center space-x-1 pb-1">
-      <span>New</span>
-      <span class="text-xs px-1.5 rounded-full leading-tight border border-current mt-0.5">{{ newSnapshots.length }}</span>
+    <div class="text-green-500 flex items-center space-x-2 px-2 pb-1">
+      <div class="h-[1px] bg-green-500/20 flex-1" />
+      <div class="flex items-center space-x-1">
+        <span>New</span>
+        <span class="text-xs px-1.5 rounded-full leading-tight border border-green-500/40 mt-0.5">{{ newSnapshots.length }}</span>
+      </div>
+      <div class="h-[1px] bg-green-500/20 flex-1" />
     </div>
     <SnapshotItem
       v-for="snapshot of newSnapshots"
@@ -105,9 +113,13 @@ const passedSnapshots = computed(() => result.value?.run.passedSnapshots ?? [])
     v-if="passedSnapshots.length"
     class="py-2"
   >
-    <div class="text-green-500 flex items-center justify-center space-x-1 pb-1">
-      <span>Passed</span>
-      <span class="text-xs px-1.5 rounded-full leading-tight border border-current mt-0.5">{{ passedSnapshots.length }}</span>
+    <div class="text-green-500 flex items-center space-x-2 px-2 pb-1">
+      <div class="h-[1px] bg-green-500/20 flex-1" />
+      <div class="flex items-center space-x-1">
+        <span>Passed</span>
+        <span class="text-xs px-1.5 rounded-full leading-tight border border-green-500/40 mt-0.5">{{ passedSnapshots.length }}</span>
+      </div>
+      <div class="h-[1px] bg-green-500/20 flex-1" />
     </div>
     <SnapshotItem
       v-for="snapshot of passedSnapshots"

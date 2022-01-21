@@ -23,7 +23,6 @@ import { SearchIcon } from '@zhuowenli/vue-feather-icons'
 import { computed, Ref, ref } from 'vue'
 import { useQuery, useResult } from '@vue/apollo-composable'
 import { useRoute } from 'vue-router'
-import { compareStatus } from '../../util/status'
 
 const route = useRoute()
 
@@ -81,13 +80,23 @@ const filteredFiles = computed(createFilter(testFiles))
 const filteredPreviousFiles = computed(createFilter(previousErrorFiles))
 
 // Sorting
-const compare = (a, b) => {
-  const statusComparison = compareStatus(a.status, b.status)
-  if (statusComparison !== 0) return statusComparison
-  return a.testFile.relativePath.localeCompare(b.testFile.relativePath)
-}
+const compare = (a, b) => a.testFile.relativePath.localeCompare(b.testFile.relativePath)
 const sortedFiles = computed(() => filteredFiles.value.slice().sort(compare))
 const sortedPreviousFiles = computed(() => filteredPreviousFiles.value.slice().sort(compare))
+
+const groups = [
+  { status: 'error' },
+  { status: 'in_progress' },
+  { status: 'idle' },
+  { status: 'todo' },
+  { status: 'success' },
+  { status: 'skipped' },
+]
+
+const groupedFiles = computed(() => groups.reduce((acc, item) => {
+  acc[item.status] = sortedFiles.value.filter(f => f.status === item.status)
+  return acc
+}, {} as Record<(typeof groups)[number]['status'], any[]>))
 
 // Subscriptions
 
@@ -118,19 +127,36 @@ subscribeToMore({
     </BaseInput>
   </div>
   <div class="flex-1 overflow-y-auto">
-    <TestFileItem
-      v-for="file of sortedFiles"
-      :key="file.id"
-      :file="file"
-    />
-
-    <template v-if="sortedPreviousFiles.length">
-      <div class="flex items-center space-x-2 mt-3 mb-1">
-        <div class="h-[1px] bg-gray-100 dark:bg-gray-900 flex-1" />
-        <div class="flex-none text-gray-300 dark:text-gray-700">
-          Previous errors
+    <div
+      v-if="groupedFiles.error.length"
+      class="py-2"
+    >
+      <div class="text-red-500 flex items-center space-x-2 px-2 pb-1">
+        <div class="h-[1px] bg-red-500/20 flex-1" />
+        <div class="flex items-center space-x-1">
+          <span>Errors</span>
+          <span class="text-sm px-1.5 rounded-full leading-tight border border-red-500/40 mt-0.5">{{ groupedFiles.error.length }}</span>
         </div>
-        <div class="h-[1px] bg-gray-100 dark:bg-gray-900 flex-1" />
+        <div class="h-[1px] bg-red-500/20 flex-1" />
+      </div>
+      <TestFileItem
+        v-for="file of groupedFiles.error"
+        :key="file.id"
+        :file="file"
+      />
+    </div>
+
+    <div
+      v-if="sortedPreviousFiles.length"
+      class="py-2"
+    >
+      <div class="text-red-500 flex items-center space-x-2 px-2 pb-1">
+        <div class="h-[1px] bg-red-500/20 flex-1" />
+        <div class="flex items-center space-x-1">
+          <span>Previous errors</span>
+          <span class="text-sm px-1.5 rounded-full leading-tight border border-red-500/40 mt-0.5">{{ sortedPreviousFiles.length }}</span>
+        </div>
+        <div class="h-[1px] bg-red-500/20 flex-1" />
       </div>
       <TestFileItem
         v-for="file of sortedPreviousFiles"
@@ -139,6 +165,101 @@ subscribeToMore({
         previous
         class="opacity-70"
       />
-    </template>
+    </div>
+
+    <div
+      v-if="groupedFiles.in_progress.length"
+      class="py-2"
+    >
+      <div class="text-primary-500 flex items-center space-x-2 px-2 pb-1">
+        <div class="h-[1px] bg-primary-500/20 flex-1" />
+        <div class="flex items-center space-x-1">
+          <span>In progress</span>
+          <span class="text-sm px-1.5 rounded-full leading-tight border border- primary-500/40mt-0.5">{{ groupedFiles.in_progress.length }}</span>
+        </div>
+        <div class="h-[1px] bg-primary-500/20 flex-1" />
+      </div>
+      <TestFileItem
+        v-for="file of groupedFiles.in_progress"
+        :key="file.id"
+        :file="file"
+      />
+    </div>
+
+    <div
+      v-if="groupedFiles.idle.length"
+      class="py-2"
+    >
+      <div class="text-gray-500 flex items-center space-x-2 px-2 pb-1">
+        <div class="h-[1px] bg-gray-500/20 flex-1" />
+        <div class="flex items-center space-x-1">
+          <span>Idle</span>
+          <span class="text-sm px-1.5 rounded-full leading-tight border border-gray-500/40 mt-0.5">{{ groupedFiles.idle.length }}</span>
+        </div>
+        <div class="h-[1px] bg-gray-500/20 flex-1" />
+      </div>
+      <TestFileItem
+        v-for="file of groupedFiles.idle"
+        :key="file.id"
+        :file="file"
+      />
+    </div>
+
+    <div
+      v-if="groupedFiles.todo.length"
+      class="py-2"
+    >
+      <div class="text-yellow-500 flex items-center space-x-2 px-2 pb-1">
+        <div class="h-[1px] bg-yellow-500/20 flex-1" />
+        <div class="flex items-center space-x-1">
+          <span>Todo</span>
+          <span class="text-sm px-1.5 rounded-full leading-tight border border- yellow-500/40mt-0.5">{{ groupedFiles.todo.length }}</span>
+        </div>
+        <div class="h-[1px] bg-yellow-500/20 flex-1" />
+      </div>
+      <TestFileItem
+        v-for="file of groupedFiles.todo"
+        :key="file.id"
+        :file="file"
+      />
+    </div>
+
+    <div
+      v-if="groupedFiles.success.length"
+      class="py-2"
+    >
+      <div class="text-green-500 flex items-center space-x-2 px-2 pb-1">
+        <div class="h-[1px] bg-green-500/20 flex-1" />
+        <div class="flex items-center space-x-1">
+          <span>Success</span>
+          <span class="text-sm px-1.5 rounded-full leading-tight border border-green-500/40 mt-0.5">{{ groupedFiles.success.length }}</span>
+        </div>
+        <div class="h-[1px] bg-green-500/20 flex-1" />
+      </div>
+      <TestFileItem
+        v-for="file of groupedFiles.success"
+        :key="file.id"
+        :file="file"
+      />
+    </div>
+
+    <div
+      v-if="groupedFiles.skipped.length"
+      class="py-2"
+    >
+      <div class="text-gray-500 flex items-center space-x-2 px-2 pb-1">
+        <div class="h-[1px] bg-gray-500/20 flex-1" />
+        <div class="flex items-center space-x-1">
+          <span>Skipped</span>
+          <span class="text-sm px-1.5 rounded-full leading-tight border border-gray-500/40 mt-0.5">{{ groupedFiles.skipped.length }}</span>
+        </div>
+        <div class="h-[1px] bg-gray-500/20 flex-1" />
+      </div>
+      <TestFileItem
+        v-for="file of groupedFiles.skipped"
+        :key="file.id"
+        :file="file"
+      />
+    </div>
   </div>
 </template>
