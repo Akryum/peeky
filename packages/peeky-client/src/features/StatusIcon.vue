@@ -2,8 +2,6 @@
 import {
   CircleIcon,
   ClockIcon,
-  CheckCircleIcon,
-  XCircleIcon,
   CheckIcon,
   XIcon,
   ChevronsRightIcon,
@@ -15,8 +13,8 @@ import type { TestStatus } from '../util/status'
 const icons: Record<TestStatus, any> = {
   idle: CircleIcon,
   in_progress: ClockIcon,
-  success: CheckCircleIcon,
-  error: XCircleIcon,
+  success: CheckIcon,
+  error: XIcon,
   skipped: ChevronsRightIcon,
   todo: EditIcon,
 }
@@ -37,22 +35,6 @@ const bgClasses: Record<TestStatus, string> = {
   error: 'bg-red-500',
   skipped: 'bg-gray-300 dark:bg-gray-700',
   todo: 'bg-yellow-500',
-}
-
-const smallIcons: Omit<Record<TestStatus, any>, 'idle'> = {
-  in_progress: ClockIcon,
-  success: CheckIcon,
-  error: XIcon,
-  skipped: ChevronsRightIcon,
-  todo: EditIcon,
-}
-
-const smallClasses: Omit<Record<TestStatus, string>, 'idle'> = {
-  in_progress: 'bg-primary-500 text-white',
-  success: 'bg-green-500 text-white',
-  error: 'bg-red-500 text-white',
-  skipped: 'bg-gray-300 dark:bg-gray-700 text-white',
-  todo: 'bg-yellow-500 text-white',
 }
 
 const tooltips: Record<TestStatus, string> = {
@@ -108,13 +90,13 @@ const props = defineProps({
       />
 
       <div
-        v-if="icon && smallIcons[status]"
-        class="absolute bottom-0 right-0 -m-0.5 rounded-full w-3/5 h-3/5"
-        :class="smallClasses[status]"
+        v-if="icon && icons[status]"
+        class="absolute bottom-0 left-0 w-full flex items-center justify-center"
       >
         <component
-          :is="smallIcons[status]"
-          class="w-full h-full stroke-current"
+          :is="icons[status]"
+          :class="classes[status]"
+          class="w-[12px] h-[12px]"
         />
       </div>
     </div>
