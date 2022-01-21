@@ -13,15 +13,16 @@ describe('getStats()', () => {
             id: '',
             filePath: '',
             title: '',
+            allTitles: [],
             testErrors: 0,
             otherErrors: [],
-            tests: [
-              {
+            children: [
+              ['test', {
                 id: '',
                 title: '',
                 flag: null,
                 error: null,
-              },
+              }],
             ],
             runTestCount: 1,
           },
@@ -29,21 +30,22 @@ describe('getStats()', () => {
             id: '',
             filePath: '',
             title: '',
+            allTitles: [],
             testErrors: 0,
             otherErrors: [],
-            tests: [
-              {
+            children: [
+              ['test', {
                 id: '',
                 title: '',
                 flag: null,
                 error: null,
-              },
-              {
+              }],
+              ['test', {
                 id: '',
                 title: '',
                 flag: null,
                 error: null,
-              },
+              }],
             ],
             runTestCount: 2,
           },
@@ -62,15 +64,16 @@ describe('getStats()', () => {
             id: '',
             filePath: '',
             title: '',
+            allTitles: [],
             testErrors: 0,
             otherErrors: [],
-            tests: [
-              {
+            children: [
+              ['test', {
                 id: '',
                 title: '',
                 flag: null,
                 error: null,
-              },
+              }],
             ],
             runTestCount: 1,
           },
@@ -78,21 +81,22 @@ describe('getStats()', () => {
             id: '',
             filePath: '',
             title: '',
+            allTitles: [],
             testErrors: 0,
             otherErrors: [],
-            tests: [
-              {
+            children: [
+              ['test', {
                 id: '',
                 title: '',
                 flag: null,
                 error: null,
-              },
-              {
+              }],
+              ['test', {
                 id: '',
                 title: '',
                 flag: null,
                 error: null,
-              },
+              }],
             ],
             runTestCount: 2,
           },
@@ -120,15 +124,16 @@ describe('getStats()', () => {
             id: '',
             filePath: '',
             title: '',
+            allTitles: [],
             testErrors: 0,
             otherErrors: [],
-            tests: [
-              {
+            children: [
+              ['test', {
                 id: '',
                 title: '',
                 flag: null,
                 error: null,
-              },
+              }],
             ],
             runTestCount: 1,
           },
@@ -136,21 +141,22 @@ describe('getStats()', () => {
             id: '',
             filePath: '',
             title: '',
+            allTitles: [],
             testErrors: 1,
             otherErrors: [],
-            tests: [
-              {
+            children: [
+              ['test', {
                 id: '',
                 title: '',
                 flag: null,
                 error: new Error(),
-              },
-              {
+              }],
+              ['test', {
                 id: '',
                 title: '',
                 flag: null,
                 error: null,
-              },
+              }],
             ],
             runTestCount: 2,
           },
