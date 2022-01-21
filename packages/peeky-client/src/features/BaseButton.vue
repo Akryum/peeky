@@ -3,8 +3,8 @@ import { computed, defineComponent } from 'vue'
 
 const colors = {
   gray: [
-    'hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-700 dark:hover:text-gray-100',
-    'bg-gray-300 text-gray-900 dark:bg-gray-800 dark:text-gray-100',
+    'hover:bg-gray-300 hover:text-black dark:hover:bg-gray-700 dark:hover:text-gray-100',
+    'bg-gray-200 text-gray-900 dark:bg-gray-800 dark:text-gray-100',
   ],
   primary: [
     'hover:bg-primary-200 hover:text-primary-900 dark:hover:bg-primary-700 dark:hover:text-primary-100',

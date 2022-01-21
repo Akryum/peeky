@@ -62,6 +62,14 @@ function onStackClick (event: MouseEvent) {
 const showFullStack = ref(false)
 
 const diffShown = computed(() => props.test?.error?.actual && props.test?.error?.expected)
+
+const texts = {
+  success: ['Success', 'This test succesfully passed.'],
+  idle: ['Idle', ''],
+  in_progress: ['In progress', 'This test is being run.'],
+  skipped: ['Skipped', 'This test was skipped.'],
+  todo: ['Todo', 'This test is marked as todo.'],
+}
 </script>
 
 <template>
@@ -76,6 +84,10 @@ const diffShown = computed(() => props.test?.error?.actual && props.test?.error?
         icon-class="w-24 h-24 p-4"
         bg
       />
+      <div class="text-3xl opacity-50">
+        {{ texts[test.status][0] }}
+      </div>
+      <div>{{ texts[test.status][1] }}</div>
 
       <BaseButton
         v-if="test.status === 'todo'"

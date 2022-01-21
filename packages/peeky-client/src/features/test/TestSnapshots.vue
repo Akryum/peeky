@@ -4,6 +4,7 @@ import { useQuery } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 import { useRoute, useRouter } from 'vue-router'
 import { computed, defineProps, watch } from 'vue'
+import { CameraIcon } from '@zhuowenli/vue-feather-icons'
 
 import BaseSplitPane from '../BaseSplitPane.vue'
 import SnapshotItem from '../snapshot/SnapshotItem.vue'
@@ -92,7 +93,27 @@ function selectNext () {
 </script>
 
 <template>
+  <div
+    v-if="!snapshots.length"
+    class="h-full flex flex-col items-center justify-center space-y-4"
+  >
+    <div class="w-24 h-24 text-primary-500 bg-primary-100 dark:bg-primary-900 rounded-full p-4">
+      <CameraIcon class="w-full h-full" />
+    </div>
+    <div class="text-3xl opacity-50">
+      No snapshots yet
+    </div>
+    <div>
+      Text snapshots will appear here. <a
+        href="https://peeky.dev/guide/writing-tests.html#text-snapshots"
+        target="_blank"
+        class="text-primary-500"
+      >Learn more</a>
+    </div>
+  </div>
+
   <BaseSplitPane
+    v-else
     :default-split="30"
     :min="5"
     :max="70"

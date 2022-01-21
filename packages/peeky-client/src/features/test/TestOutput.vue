@@ -4,6 +4,7 @@ import { useQuery, useResult } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 import { useRoute } from 'vue-router'
 import { defineProps, onMounted, ref, watch } from 'vue'
+import { TerminalIcon } from '@zhuowenli/vue-feather-icons'
 import TerminalView from '../terminal/TerminalView.vue'
 
 const route = useRoute()
@@ -60,8 +61,19 @@ onMounted(async () => {
 </script>
 
 <template>
+  <div
+    v-if="!logs.length"
+    class="h-full flex flex-col items-center justify-center space-y-4"
+  >
+    <TerminalIcon class="w-24 h-24 text-primary-500 bg-primary-100 dark:bg-primary-900 rounded-full p-4" />
+    <div class="text-3xl opacity-50">
+      No logs yet
+    </div>
+    <div>Console output will appear here.</div>
+  </div>
+
   <TerminalView
-    v-if="fontsLoaded"
+    v-else-if="fontsLoaded"
     :logs="logs"
     class="w-full h-full"
   />
