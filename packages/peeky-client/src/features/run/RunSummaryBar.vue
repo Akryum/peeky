@@ -72,7 +72,7 @@ const kinds = [
 </script>
 
 <template>
-  <div class="flex-none flex items-center space-x-4 px-3 h-10 bg-gray-50 dark:bg-gray-950">
+  <div class="flex-none flex items-center space-x-4 px-3 h-10 bg-gray-50 dark:bg-gray-950 overflow-hidden">
     <div
       v-for="kind of kinds"
       :key="kind.field"
