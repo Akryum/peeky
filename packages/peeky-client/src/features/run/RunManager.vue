@@ -163,7 +163,7 @@ const darkMode = computed<boolean>({
 
       <VDropdown
         placement="bottom-start"
-        :offset="[0, 10]"
+        :distance="10"
       >
         <BaseButton
           color="gray"
