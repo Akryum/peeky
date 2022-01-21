@@ -16,7 +16,6 @@ import { getErrorPosition, getSrcFile, formatRunTestFileErrorMessage } from '../
 import { settings } from './Settings.js'
 import { mightRunOnChangedFiles } from '../watch.js'
 import { toProgramConfig } from '@peeky/config'
-import { Snapshot } from '@peeky/runner/dist/snapshot/types'
 import { addSnapshots, clearSnapshots, getSnapshot, SnapshotData, toSnapshotData } from './Snapshot.js'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -360,7 +359,10 @@ export async function startRun (ctx: Context, id: string) {
       try {
         const result = await runner.runTestFile(f.testFile.relativePath, f.testFile.deps)
         const stats = getStats([result])
-        const status: StatusEnum = !stats.testCount ? 'skipped' : stats.errorTestCount > 0 ? 'error' : 'success'
+        let status: StatusEnum = !stats.testCount ? 'skipped' : stats.errorTestCount > 0 ? 'error' : 'success'
+        if (!stats.testCount && result.suites.some(s => hasTodo(s))) {
+          status = 'todo'
+        }
         await updateTestFile(ctx, f.testFile.id, {
           status,
           duration: result.duration,
@@ -445,4 +447,10 @@ function stringifyJS (object: any) {
     depth: 32,
     indent: 2,
   })
+}
+
+function hasTodo (child: any) {
+  if (child.flag === 'todo') return true
+  if ('children' in child && child.children.some(c => hasTodo(c[1]))) return true
+  return false
 }

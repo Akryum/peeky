@@ -182,6 +182,7 @@ function mapSuiteResult (s: TestSuite): ReporterTestSuite {
     title: s.title,
     allTitles: s.allTitles,
     filePath: s.filePath,
+    flag: s.flag,
     testErrors: s.testErrors,
     otherErrors: s.otherErrors,
     children: s.children.map(child => {

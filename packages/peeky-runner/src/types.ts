@@ -79,6 +79,7 @@ export interface ReporterTestSuite {
   title: string
   allTitles: string[]
   filePath: string
+  flag: TestFlag
   children: ReporterSuiteChild[]
   runTestCount: number
   duration?: number
