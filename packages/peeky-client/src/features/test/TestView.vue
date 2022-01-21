@@ -105,11 +105,23 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
     v-if="test"
     class="divide-y divide-gray-100 dark:divide-gray-800 h-full flex flex-col"
   >
-    <div class="flex bg-gray-50 dark:bg-gray-950">
+    <div class="flex bg-gray-50 dark:bg-gray-950 pr-4">
       <TestFileItem
         :file="suite.runTestFile"
         class="!h-8 m-1 rounded shrink"
       />
+
+      <div class="flex-1 flex items-center space-x-2 justify-end">
+        <BaseButton
+          v-tooltip="'Open in your editor'"
+          color="gray"
+          flat
+          class="flex-none p-2"
+          @click="openInEditor({ id: suite.runTestFile.testFile.id, line: 1, col: 1 })"
+        >
+          <EditIcon class="w-4 h-4" />
+        </BaseButton>
+      </div>
     </div>
 
     <div class="flex items-center space-x-2 h-10 px-4 flex-none bg-gray-50 dark:bg-gray-950">
@@ -127,18 +139,6 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
         v-if="test.duration != null"
         :duration="test.duration"
       />
-
-      <div class="flex-1 flex items-center space-x-2 justify-end">
-        <BaseButton
-          v-tooltip="'Open in your editor'"
-          color="gray"
-          flat
-          class="flex-none p-2"
-          @click="openInEditor({ id: suite.runTestFile.testFile.id, line: 1, col: 1 })"
-        >
-          <EditIcon class="w-4 h-4" />
-        </BaseButton>
-      </div>
     </div>
 
     <!-- Tabs -->
