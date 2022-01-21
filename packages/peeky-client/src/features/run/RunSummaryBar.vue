@@ -79,7 +79,7 @@ const kinds = [
       class="flex items-center space-x-2"
     >
       <div
-        class="w-4 h-2 rounded-full"
+        class="w-4 h-1 rounded-full"
         :class="kind.css"
       />
       <div class="space-x-1">
@@ -94,7 +94,7 @@ const kinds = [
     class="flex-none flex items-center space-x-2 h-10 bg-gray-50 dark:bg-gray-950"
   >
     <div class="w-full h-full relative mx-3 flex items-center">
-      <div class="w-full h-2 rounded-full overflow-hidden flex bg-gray-100 dark:bg-gray-800">
+      <div class="w-full h-1 rounded-full overflow-hidden flex bg-gray-100 dark:bg-gray-800">
         <div
           v-for="kind of kinds"
           :key="kind.field"
@@ -121,7 +121,7 @@ const kinds = [
           <template #popper>
             <div class="flex items-center space-x-4">
               <div
-                class="w-4 h-2 rounded-full"
+                class="w-4 h-1 rounded-full"
                 :class="kind.css"
               />
               <div>
