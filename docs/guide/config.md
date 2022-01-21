@@ -411,3 +411,17 @@ export default defineConfig({
   ],
 })
 ```
+
+## isolate
+
+Isolate the environment in the threaded workers for each test. Can impact performance.
+
+Default is `false`.
+
+Example:
+
+```js
+export default defineConfig({
+  isolate: true,
+})
+```

@@ -1,6 +1,6 @@
 import { relative } from 'pathe'
 import { ReactiveFileSystem } from 'reactive-fs'
-import Tinypool from 'tinypool'
+import Tinypool, { Options as PoolOptions } from 'tinypool'
 import { Awaited } from '@peeky/utils'
 import { ProgramPeekyConfig, toSerializableConfig } from '@peeky/config'
 import type { runTestFile as rawRunTestFile } from './runtime/run-test-file.js'
@@ -40,11 +40,17 @@ export async function setupRunner (options: RunnerOptions) {
     userInlineConfig: options.config.vite,
   })
 
-  const pool = new Tinypool({
+  const poolOptions: PoolOptions = {
     filename: new URL('./runtime/worker.js', import.meta.url).href,
     maxThreads: options.config.maxWorkers || undefined,
-    isolateWorkers: true,
-  })
+  }
+
+  if (options.config.isolate) {
+    poolOptions.isolateWorkers = true
+    poolOptions.concurrentTasksPerWorker = 1
+  }
+
+  const pool = new Tinypool(poolOptions)
   const { testFiles } = options
 
   async function runTestFileWorker (options: RunTestFileOptions): ReturnType<typeof rawRunTestFile> {

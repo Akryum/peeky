@@ -28,6 +28,7 @@ export interface PeekyConfig {
   viteConfigFile?: string
   reporters?: BuiltinReporter[]
   setupFiles?: string[]
+  isolate?: boolean
 }
 
 export type SerializablePeekyConfig = Omit<PeekyConfig, 'runtimeEnv' | 'runtimeAvailableEnvs' | 'buildExclude' | 'buildInclude' | 'vite'> & {
