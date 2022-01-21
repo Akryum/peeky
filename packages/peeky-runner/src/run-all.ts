@@ -13,17 +13,20 @@ export interface RunAllOptions {
 }
 
 export async function runAllTests (config: ProgramPeekyConfig, options: RunAllOptions = {}) {
-  const reporters = config.reporters ? config.reporters.map(id => {
-    if (id === 'console-fancy') {
-      return createConsoleFancyReporter()
-    } else if (id === 'console-json') {
-      return createRawReporter(data => {
-        console.log(JSON.stringify(data))
-      })
-    }
-  }) : [
-    createConsoleFancyReporter(),
-  ]
+  const reporters = config.reporters
+    ? config.reporters.map(id => {
+      if (id === 'console-fancy') {
+        return createConsoleFancyReporter()
+      } else if (id === 'console-json') {
+        return createRawReporter(data => {
+          console.log(JSON.stringify(data))
+        })
+      }
+      return null
+    }).filter(Boolean)
+    : [
+      createConsoleFancyReporter(),
+    ]
 
   const testFiles = await createReactiveFileSystem({
     baseDir: config.targetDirectory,

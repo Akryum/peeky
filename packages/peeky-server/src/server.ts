@@ -66,9 +66,11 @@ export async function createServer () {
       consola.log(JSON.stringify(error, null, 2))
       return error
     },
-    subscriptions: useLegacyWebsockets ? {
-      path: '/api',
-    } : false,
+    subscriptions: useLegacyWebsockets
+      ? {
+        path: '/api',
+      }
+      : false,
   })
 
   const app = express()

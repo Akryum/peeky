@@ -25,7 +25,8 @@ ${testSuiteItemFragment}
 ${testItemFragment}
 `
 
-const { result, subscribeToMore, onResult } = useQuery(() => route.params.runId !== 'last-run' ? gql`
+const { result, subscribeToMore, onResult } = useQuery(() => route.params.runId !== 'last-run'
+  ? gql`
   query testFileAllView ($runId: ID!) {
     run (id: $runId) {
       id
@@ -35,7 +36,8 @@ const { result, subscribeToMore, onResult } = useQuery(() => route.params.runId 
     }
   }
   ${runTestFileAllSuiteFragment}
-` : gql`
+`
+  : gql`
   query testFileAllViewLastRun {
     run: lastRun {
       id
@@ -46,9 +48,11 @@ const { result, subscribeToMore, onResult } = useQuery(() => route.params.runId 
   }
   ${runTestFileAllSuiteFragment}
 `, () => ({
-  ...route.params.runId !== 'last-run' ? {
-    runId: route.params.runId,
-  } : {},
+  ...route.params.runId !== 'last-run'
+    ? {
+      runId: route.params.runId,
+    }
+    : {},
 }), {
   fetchPolicy: 'cache-and-network',
 })

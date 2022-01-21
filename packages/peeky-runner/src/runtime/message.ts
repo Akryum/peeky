@@ -39,9 +39,11 @@ export function toMainThread (): WorkerRemoteMethods {
       get: (target, method: string) => {
         return (...args) => {
           const id = shortid()
-          const promise = !method.startsWith('on') ? new Promise((resolve, reject) => {
-            toMainPromiseMap.set(id, { resolve, reject })
-          }) : undefined
+          const promise = !method.startsWith('on')
+            ? new Promise((resolve, reject) => {
+              toMainPromiseMap.set(id, { resolve, reject })
+            })
+            : undefined
           workerPort.postMessage({ id, method, args })
           return promise
         }

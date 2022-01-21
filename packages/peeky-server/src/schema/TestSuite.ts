@@ -51,7 +51,7 @@ export const TestSuite = objectType({
       resolve: suite => suite.parent,
     })
     t.nonNull.boolean('root', {
-      resolve: source => !source.parent
+      resolve: source => !source.parent,
     })
   },
 })

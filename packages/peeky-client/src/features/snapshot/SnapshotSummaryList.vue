@@ -30,14 +30,16 @@ const route = useRoute()
 
 const { result, subscribeToMore } = useQuery<{
   run: Run
-}>(() => route.params.runId !== 'last-run' ? gql`
+}>(() => route.params.runId !== 'last-run'
+  ? gql`
   query testFileAllView ($runId: ID!) {
     run (id: $runId) {
       ...runSnapshotSummary
     }
   }
   ${runFragment}
-` : gql`
+`
+  : gql`
   query testFileAllViewLastRun {
     run: lastRun {
       ...runSnapshotSummary
@@ -45,9 +47,11 @@ const { result, subscribeToMore } = useQuery<{
   }
   ${runFragment}
 `, () => ({
-  ...route.params.runId !== 'last-run' ? {
-    runId: route.params.runId,
-  } : {},
+  ...route.params.runId !== 'last-run'
+    ? {
+      runId: route.params.runId,
+    }
+    : {},
 }), {
   fetchPolicy: 'cache-and-network',
 })

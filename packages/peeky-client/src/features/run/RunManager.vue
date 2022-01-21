@@ -38,23 +38,27 @@ type Run = Pick<NexusGenFieldTypes['Run'], 'id' | 'date' | 'emoji' | 'status' | 
 const route = useRoute()
 const { result, subscribeToMore } = useQuery<{
   run: Run
-}>(() => route.params.runId !== 'last-run' ? gql`
+}>(() => route.params.runId !== 'last-run'
+  ? gql`
   query run ($id: ID!) {
     run (id: $id) {
       ...runDetails
     }
   }
   ${runDetailsFragment}
-` : gql`
+`
+  : gql`
   query lastRun {
     run: lastRun {
       ...runDetails
     }
   }
   ${runDetailsFragment}
-`, () => route.params.runId !== 'last-run' ? {
-  id: route.params.runId,
-} : {})
+`, () => route.params.runId !== 'last-run'
+  ? {
+    id: route.params.runId,
+  }
+  : {})
 const currentRun = computed(() => result.value?.run)
 
 // Subs

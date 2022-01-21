@@ -78,7 +78,7 @@ export default defineComponent({
     const { settings } = useSettings()
 
     const currentTheme = computed(() => {
-      if (settings.value.darkMode) {
+      if (settings.value?.darkMode) {
         return darkTheme
       }
       return defaultTheme

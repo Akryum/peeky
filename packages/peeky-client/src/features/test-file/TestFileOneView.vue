@@ -45,7 +45,8 @@ fragment runTestFileView on RunTestFile {
 ${runTestFileViewSuiteFragment}
 `
 
-const { result, subscribeToMore, onResult } = useQuery(() => route.params.runId !== 'last-run' ? gql`
+const { result, subscribeToMore, onResult } = useQuery(() => route.params.runId !== 'last-run'
+  ? gql`
   query testFileView ($runId: ID!, $fileSlug: String!) {
     run (id: $runId) {
       id
@@ -55,7 +56,8 @@ const { result, subscribeToMore, onResult } = useQuery(() => route.params.runId 
     }
   }
   ${runTestFileViewFragment}
-` : gql`
+`
+  : gql`
   query testFileViewLastRun ($fileSlug: String!) {
     run: lastRun {
       id
@@ -67,9 +69,11 @@ const { result, subscribeToMore, onResult } = useQuery(() => route.params.runId 
   ${runTestFileViewFragment}
 `, () => ({
   fileSlug: route.query.fileSlug,
-  ...route.params.runId !== 'last-run' ? {
-    runId: route.params.runId,
-  } : {},
+  ...route.params.runId !== 'last-run'
+    ? {
+      runId: route.params.runId,
+    }
+    : {},
 }), {
   fetchPolicy: 'cache-and-network',
 })

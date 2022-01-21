@@ -4,7 +4,7 @@ import { useQuery, useResult } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 import { useRoute } from 'vue-router'
 import { defineProps, onMounted, ref, watch } from 'vue'
-import Terminal from '../terminal/Terminal.vue'
+import TerminalView from '../terminal/TerminalView.vue'
 
 const route = useRoute()
 
@@ -60,7 +60,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <Terminal
+  <TerminalView
     v-if="fontsLoaded"
     :logs="logs"
     class="w-full h-full"

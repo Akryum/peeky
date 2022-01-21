@@ -27,7 +27,8 @@ import { compareStatus } from '../../util/status'
 
 const route = useRoute()
 
-const { result, subscribeToMore } = useQuery(() => route.params.runId !== 'last-run' ? gql`
+const { result, subscribeToMore } = useQuery(() => route.params.runId !== 'last-run'
+  ? gql`
   query runTestFilesSpecific ($id: ID!) {
     run (id: $id) {
       id
@@ -41,7 +42,8 @@ const { result, subscribeToMore } = useQuery(() => route.params.runId !== 'last-
     }
   }
   ${runTestFileListFragment}
-` : gql`
+`
+  : gql`
   query runTestFilesLastRun {
     run: lastRun {
       id
@@ -55,9 +57,11 @@ const { result, subscribeToMore } = useQuery(() => route.params.runId !== 'last-
     }
   }
   ${runTestFileListFragment}
-`, () => route.params.runId !== 'last-run' ? {
-  id: route.params.runId,
-} : {})
+`, () => route.params.runId !== 'last-run'
+  ? {
+    id: route.params.runId,
+  }
+  : {})
 const testFiles = useResult(result, [], data => data.run.runTestFiles)
 const previousErrorFiles = useResult(result, [], data => data.run.previousErrorRunTestFiles)
 

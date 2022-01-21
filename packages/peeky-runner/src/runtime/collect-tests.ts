@@ -193,6 +193,7 @@ function mapSuite (suite: TestSuite): SuiteCollectData {
       } else if (child[0] === 'test') {
         return ['test', mapTest(child[1])]
       }
+      return null
     }),
     filePath: suite.filePath,
     runTestCount: suite.childrenToRun.filter(c => c[0] === 'test').length,

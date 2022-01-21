@@ -64,7 +64,7 @@ const tree = computed(() => {
           return processSuite(props.suites.find(suite => suite.id === child.id) as TestSuite)
         }
         return child
-      }).filter(child => isNestedMatching(child))
+      }).filter(child => isNestedMatching(child)),
     }
   }
 

@@ -190,6 +190,7 @@ function mapSuiteResult (s: TestSuite): ReporterTestSuite {
       } else if (child[0] === 'test') {
         return ['test', mapTestResult(child[1])]
       }
+      return null
     }),
     runTestCount: s.ranTests.length,
     duration: s.duration,
