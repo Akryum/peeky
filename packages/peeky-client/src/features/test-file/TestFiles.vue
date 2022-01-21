@@ -105,7 +105,7 @@ subscribeToMore({
 </script>
 
 <template>
-  <div class="flex-none h-10">
+  <div class="flex-none h-10 bg-gray-50 dark:bg-gray-900">
     <BaseInput
       v-model="searchText"
       size="md"

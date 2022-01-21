@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import SuitesView from '../suite/SuitesView.vue'
-import RunSummaryBar from '../run/RunSummaryBar.vue'
 import { testItemFragment } from '../test/TestItem.vue'
 import { testSuiteItemFragment } from '../suite/SuiteItem.vue'
 import { useQuery, useResult } from '@vue/apollo-composable'
@@ -105,11 +104,5 @@ subscribeToMore(() => ({
     v-if="run"
     :suites="run.testSuites"
     :run="run"
-  >
-    <template #toolbar>
-      <RunSummaryBar
-        :run="run"
-      />
-    </template>
-  </SuitesView>
+  />
 </template>

@@ -14,7 +14,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="flex-none flex items-center space-x-2 pl-1 pr-3 h-10">
+  <div class="flex-none flex items-center space-x-2 pl-1 pr-3 h-10 bg-gray-50 dark:bg-gray-900">
     <BaseButton
       flat
       color="gray"

@@ -105,14 +105,14 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
     v-if="test"
     class="divide-y divide-gray-100 dark:divide-gray-800 h-full flex flex-col"
   >
-    <div class="flex">
+    <div class="flex bg-gray-50 dark:bg-gray-900">
       <TestFileItem
         :file="suite.runTestFile"
         class="!h-8 m-1 rounded flex-shrink"
       />
     </div>
 
-    <div class="flex items-center space-x-2 h-10 px-4 flex-none">
+    <div class="flex items-center space-x-2 h-10 px-4 flex-none bg-gray-50 dark:bg-gray-900">
       <StatusIcon
         :status="test.status"
         class="flex-none"
@@ -142,7 +142,7 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
     </div>
 
     <!-- Tabs -->
-    <nav class="h-10">
+    <nav class="h-10 bg-gray-50 dark:bg-gray-900">
       <BaseTab
         :to="{
           name: 'test',
