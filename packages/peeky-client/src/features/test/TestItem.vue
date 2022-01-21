@@ -82,7 +82,7 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
     v-if="test.status === 'error'"
     class="bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 m-1 rounded relative text-sm"
   >
-    <div class="absolute left-10 -top-1 w-3 h-3 transform rotate-45 bg-red-100 dark:bg-red-900" />
+    <div class="absolute left-10 -top-1 w-3 h-3 rotate-45 bg-red-100 dark:bg-red-900" />
 
     <div class="relative">
       <div class="flex items-baseline space-x-1 p-2">

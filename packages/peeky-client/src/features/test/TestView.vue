@@ -108,7 +108,7 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
     <div class="flex bg-gray-50 dark:bg-gray-900">
       <TestFileItem
         :file="suite.runTestFile"
-        class="!h-8 m-1 rounded flex-shrink"
+        class="!h-8 m-1 rounded shrink"
       />
     </div>
 
@@ -119,7 +119,7 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
         icon-class="w-5 h-5"
         pill
       />
-      <span class="flex-shrink truncate py-1">
+      <span class="shrink truncate py-1">
         {{ suite.title }} ›
         {{ test.title }}
       </span>

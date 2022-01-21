@@ -158,11 +158,7 @@ module.exports = {
       },
     },
   },
-  variants: {
-    extend: {},
-  },
-  mode: 'jit',
-  purge: [
+  content: [
     './index.html',
     './src/**/*.{vue,js,ts,jsx,tsx}',
   ],
