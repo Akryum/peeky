@@ -219,6 +219,7 @@ export interface NexusGenFieldTypes {
     type: NexusGenEnums['TestLogType']; // TestLogType!
   }
   TestSuite: { // field return type
+    allTitles: Array<string | null>; // [String]!
     children: NexusGenRootTypes['TestSuiteChild'][]; // [TestSuiteChild!]!
     duration: number | null; // Float
     id: string; // ID!
@@ -356,6 +357,7 @@ export interface NexusGenFieldTypeNames {
     type: 'TestLogType'
   }
   TestSuite: { // field return type name
+    allTitles: 'String'
     children: 'TestSuiteChild'
     duration: 'Float'
     id: 'ID'

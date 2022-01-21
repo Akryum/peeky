@@ -35,6 +35,7 @@ const { result, subscribeToMore, onResult } = useQuery(() => gql`
       testSuite: testSuiteBySlug (slug: $suiteSlug) {
         id
         title
+        allTitles
         runTestFile {
           id
           slug
@@ -132,7 +133,11 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
         pill
       />
       <span class="shrink truncate py-1">
-        {{ suite.title }} ›
+        <span
+          v-for="title of suite.allTitles.slice(1)"
+          :key="title"
+          class="opacity-70"
+        >{{ title }} › </span>
         {{ test.title }}
       </span>
       <Duration

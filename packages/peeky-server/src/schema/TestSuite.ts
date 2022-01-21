@@ -23,6 +23,7 @@ export const TestSuite = objectType({
     t.nonNull.id('id')
     t.nonNull.string('slug')
     t.nonNull.string('title')
+    t.nonNull.list.string('allTitles')
     t.nonNull.field('status', {
       type: Status,
     })
@@ -150,6 +151,7 @@ export interface TestSuiteData {
   runId: string
   runTestFile: RunTestFileData
   title: string
+  allTitles: string[]
   flag: TestFlag
   status: StatusEnum
   duration: number
@@ -187,6 +189,7 @@ export async function createTestSuite (ctx: Context, data: CreateTestSuiteData, 
     runId: options.runId,
     runTestFile: options.runTestFile,
     title: data.title,
+    allTitles: data.allTitles,
     flag: data.flag,
     status: options.status,
     duration: null,
