@@ -12,7 +12,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <nav class="h-10 flex-none bg-gray-50 dark:bg-gray-900">
+  <nav class="h-10 flex-none bg-gray-50 dark:bg-gray-950">
     <BaseTab :to="{ name: 'run-test' }">
       Tests
     </BaseTab>

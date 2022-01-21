@@ -72,7 +72,7 @@ const kinds = [
 </script>
 
 <template>
-  <div class="flex-none flex items-center space-x-4 px-3 h-10 bg-gray-50 dark:bg-gray-900">
+  <div class="flex-none flex items-center space-x-4 px-3 h-10 bg-gray-50 dark:bg-gray-950">
     <div
       v-for="kind of kinds"
       :key="kind.field"
@@ -91,7 +91,7 @@ const kinds = [
 
   <div
     v-if="!hideBar"
-    class="flex-none flex items-center space-x-2 h-10 bg-gray-50 dark:bg-gray-900"
+    class="flex-none flex items-center space-x-2 h-10 bg-gray-50 dark:bg-gray-950"
   >
     <div class="w-full h-full relative mx-3 flex items-center">
       <div class="w-full h-2 rounded-full overflow-hidden flex bg-gray-100 dark:bg-gray-800">

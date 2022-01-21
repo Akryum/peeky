@@ -76,7 +76,7 @@ const tree = computed(() => {
 <template>
   <slot name="toolbar" />
 
-  <div class="flex-none h-10 bg-gray-50 dark:bg-gray-900">
+  <div class="flex-none h-10 bg-gray-50 dark:bg-gray-950">
     <BaseInput
       v-model="searchText"
       size="md"

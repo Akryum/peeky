@@ -132,7 +132,7 @@ const darkMode = computed<boolean>({
 <template>
   <div
     v-bind="$attrs"
-    class="relative flex-none bg-gray-50 dark:bg-gray-900"
+    class="relative flex-none bg-gray-50 dark:bg-gray-950"
   >
     <transition name="progress-bar">
       <div
