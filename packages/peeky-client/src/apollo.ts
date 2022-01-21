@@ -27,7 +27,29 @@ class WebSocketLink extends ApolloLink {
 
   constructor (options: ClientOptions) {
     super()
-    this.client = createClient(options)
+    let activeSocket: any
+    let timedOut: any
+    this.client = createClient({
+      lazy: true,
+      retryAttempts: Infinity,
+      keepAlive: 10_000, // 10s
+      ...options,
+      on: {
+        opened: (socket) => (activeSocket = socket),
+        ping: (received) => {
+          if (!received /* sent */) {
+            timedOut = setTimeout(() => {
+              if (activeSocket.readyState === WebSocket.OPEN) { activeSocket.close(4408, 'Request Timeout') }
+            }, 5_000) // wait 5 seconds for the pong and then close the connection
+          }
+        },
+        pong: (received) => {
+          if (received) {
+            clearTimeout(timedOut) // pong is received, clear connection close timeout
+          }
+        },
+      },
+    })
   }
 
   public request (operation: Operation): Observable<FetchResult> {
