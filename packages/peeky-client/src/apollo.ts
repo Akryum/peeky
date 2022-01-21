@@ -10,6 +10,7 @@ import { onError } from '@apollo/client/link/error'
 import { logErrorMessages } from '@vue/apollo-util'
 import { createClient, ClientOptions, Client } from 'graphql-ws'
 import { print } from 'graphql'
+import { ref } from 'vue'
 
 const apiUrl = import.meta.env.VITE_GQL_URL as string
 
@@ -22,7 +23,7 @@ if (apiUrl.includes('http')) {
 }
 
 class WebSocketLink extends ApolloLink {
-  private client: Client;
+  client: Client;
 
   constructor (options: ClientOptions) {
     super()
@@ -125,3 +126,24 @@ export const apolloClient = new ApolloClient({
   cache,
   connectToDevTools: true,
 })
+
+export const connected = ref(false)
+let disconnected = false
+
+wsLink.client.on('connected', () => {
+  if (disconnected) {
+    resetApollo()
+  }
+  disconnected = false
+  connected.value = true
+})
+
+wsLink.client.on('closed', () => {
+  disconnected = true
+  connected.value = false
+})
+
+async function resetApollo () {
+  console.log('[Reset Apollo Client]')
+  await apolloClient.resetStore()
+}
