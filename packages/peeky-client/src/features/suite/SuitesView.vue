@@ -7,7 +7,7 @@ const filterFailed = ref(false)
 <script lang="ts" setup>
 import BaseInput from '../BaseInput.vue'
 import SuiteItem from './SuiteItem.vue'
-import { SearchIcon } from '@zhuowenli/vue-feather-icons'
+import { SearchIcon, XIcon } from '@zhuowenli/vue-feather-icons'
 import { NexusGenFieldTypes } from '@peeky/server/types'
 
 type TestSuite = Omit<NexusGenFieldTypes['TestSuite'], 'children'> & {
@@ -83,19 +83,26 @@ const tree = computed(() => {
       placeholder="Filter tests..."
       class="h-full"
     >
-      <template #after>
-        <button
-          v-tooltip="'Click to filter on failed tests'"
-          class="text-xs px-2 rounded cursor-pointer leading-tight"
-          :class="[
-            filterFailed ? 'text-red-200 bg-red-600 font-bold' : 'text-red-600 dark:text-red-400 bg-red-100 dark:bg-red-900',
-          ]"
-          @click="filterFailed = !filterFailed"
-        >
-          {{ failedTestCount }}
-        </button>
+      <template #before>
+        <div class="ml-2">
+          <SearchIcon class="text-gray-500 w-4 h-4" />
+        </div>
+      </template>
 
-        <SearchIcon class="mx-3 text-gray-500" />
+      <template #after>
+        <div class="mr-2">
+          <button
+            v-tooltip="'Click to filter on failed tests'"
+            class="text-xs px-1.5 rounded cursor-pointer leading-tight flex items-center space-x-0.5"
+            :class="[
+              filterFailed ? 'text-red-200 bg-red-600 font-bold' : 'text-red-600 dark:text-red-400 bg-red-100 dark:bg-red-900',
+            ]"
+            @click="filterFailed = !filterFailed"
+          >
+            <XIcon class="w-3 h-3" />
+            <span class="mt-[1px]">{{ failedTestCount }}</span>
+          </button>
+        </div>
       </template>
     </BaseInput>
   </div>

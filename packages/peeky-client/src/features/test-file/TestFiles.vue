@@ -121,8 +121,8 @@ subscribeToMore({
       placeholder="Filter test files..."
       class="h-full"
     >
-      <template #after>
-        <SearchIcon class="mx-3 text-gray-500" />
+      <template #before>
+        <SearchIcon class="ml-2 text-gray-500 w-4 h-4" />
       </template>
     </BaseInput>
   </div>

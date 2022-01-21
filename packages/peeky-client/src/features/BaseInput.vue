@@ -66,7 +66,7 @@ export default defineComponent({
       v-bind="filteredAttrs"
       class="flex-1 w-0 h-full outline-none bg-transparent"
       :class="{
-        'px-3 py-2': size === 'md',
+        'p-2': size === 'md',
       }"
       @input="$emit('update:modelValue', $event.target.value)"
       @focus="focused = true"
