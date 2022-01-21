@@ -1,6 +1,6 @@
 {
   "name": "@peeky/config",
-  "version": "0.10.2",
+  "version": "0.11.0",
   "description": "Configuration utils for Peeky, the testing framework for curious minds",
   "license": "MIT",
   "author": {
@@ -29,7 +29,7 @@
     "watch": "tsc -d -w --sourceMap"
   },
   "dependencies": {
-    "@peeky/utils": "^0.10.2",
+    "@peeky/utils": "^0.11.0",
     "consola": "^2.15.0",
     "pathe": "^0.2.0",
     "reactive-fs": "^0.4.1",

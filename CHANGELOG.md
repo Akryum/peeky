@@ -1,3 +1,43 @@
+# [0.11.0](https://github.com/Akryum/peeky/compare/v0.10.2...v0.11.0) (2022-01-21)
+
+
+### Bug Fixes
+
+* **ui:** display all test parent suites ([c930f7d](https://github.com/Akryum/peeky/commit/c930f7d4a8187ef00310161e8043cce9227f8c01))
+* **ui:** files group classes ([592805f](https://github.com/Akryum/peeky/commit/592805f9a254acde31c9e0788c2caad41cfc7613))
+* **ui:** missing tab indicator ([3aa6ade](https://github.com/Akryum/peeky/commit/3aa6adea0e696f26b532b0193e7668df9aad5a70))
+* **ui:** skip status for tests in skipped suites ([2c55e50](https://github.com/Akryum/peeky/commit/2c55e507e4c4f16b4052be1e5bbfb1bf9784e156))
+* **ui:** summary overflow ([8a43723](https://github.com/Akryum/peeky/commit/8a43723c430b0bd2121f5505179343f078f95571))
+
+
+### Features
+
+* **config:** isolate (default false) ([5e09b11](https://github.com/Akryum/peeky/commit/5e09b11b85e3c3bc0293ba7247af205441b6a096))
+* expose createServer ([9d7e39e](https://github.com/Akryum/peeky/commit/9d7e39e9d5a480aae1acf3c86a08f7f2b572ebb9))
+* improve json loading ([8d0d3ef](https://github.com/Akryum/peeky/commit/8d0d3ef5a881927282275afe18d2cbb73e19f701))
+* improved duration component ([b4042f0](https://github.com/Akryum/peeky/commit/b4042f03e49ddb5845d3c2cd8d20b8846c76388f))
+* nested suites ([8c548eb](https://github.com/Akryum/peeky/commit/8c548eb1b57f5a98444c7607daead117cc3d83fd))
+* todo files ([04c77be](https://github.com/Akryum/peeky/commit/04c77bee8ccbfe9c7161a1c10071a62fdfb10535))
+* **ui:** autoreconnect ([c36b777](https://github.com/Akryum/peeky/commit/c36b777e953827b080f11b03be0efe0833c3386d))
+* **ui:** disconnected toast ([5286900](https://github.com/Akryum/peeky/commit/528690007dca877adf3045c18f84830d396afab2))
+* **ui:** group files ([79502bd](https://github.com/Akryum/peeky/commit/79502bdccebcbec80c3d1be2435777cb5b3205de))
+* **ui:** improve graphql client config ([12fc87d](https://github.com/Akryum/peeky/commit/12fc87d1b4b23a8826fb70405c5d5b0d0e033a4f))
+* **ui:** improve structure to prevent flashing of test pane ([7aefaac](https://github.com/Akryum/peeky/commit/7aefaacd769ffddc677f833a2f5411089887e01b))
+* **ui:** improved placeholder panes ([186e345](https://github.com/Akryum/peeky/commit/186e345c9dbc13a46d31a788b5c0aecb2a4f8646))
+* **ui:** improved search inputs ([859319f](https://github.com/Akryum/peeky/commit/859319fa3d55c83276c4f85b4c3a8b25a51ae56f))
+* **ui:** migrate from v-tooltip to floating-vue ([588ff62](https://github.com/Akryum/peeky/commit/588ff628c6acf0a1f94ec1af3ce5921bc7062320))
+* **ui:** move open in editor btn to top bar ([8ea1545](https://github.com/Akryum/peeky/commit/8ea15454f936e7db10d21ebb830ecef7a7a44a32))
+* **ui:** new gray-950 ([2a03467](https://github.com/Akryum/peeky/commit/2a034673cfea098c55bb8afcd94061a409297fc0))
+* **ui:** new layout ([d4c5766](https://github.com/Akryum/peeky/commit/d4c5766c14b9126e1e6c02a769c39516b29cf37f))
+* **ui:** new status icons ([de822aa](https://github.com/Akryum/peeky/commit/de822aa6e1c2ff5b1b26467ceb90fce4bb0cdff7))
+* **ui:** new todo icon ([6c9a56a](https://github.com/Akryum/peeky/commit/6c9a56a6f495525cf948b7d5bdd611212d42afe9))
+* **ui:** run summary ([f2e4308](https://github.com/Akryum/peeky/commit/f2e43081cae1f796e39e115cc22b80025b404728))
+* **ui:** thinner summary bar ([4160207](https://github.com/Akryum/peeky/commit/41602075e203dc45b9f406b2d3a7c9cabe7728ef))
+* **ui:** visual feedback on resizable pane ([6dfae42](https://github.com/Akryum/peeky/commit/6dfae422e12f6f4f7d9a8fd2bdd1c9d15bdc5f80))
+* upgrade to vite 2.7.10 ([e48fd27](https://github.com/Akryum/peeky/commit/e48fd27da355fca82468e448430fd32351388282))
+
+
+
 ## [0.10.2](https://github.com/Akryum/peeky/compare/v0.10.1...v0.10.2) (2022-01-05)
 
 
