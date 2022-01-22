@@ -183,6 +183,26 @@ export default defineConfig({
 })
 ```
 
+## collectCoverage
+
+Collect coverage stats from tested files using V8's coverage engine.
+
+Default is `false`.
+
+Example:
+
+```js
+export default defineConfig({
+  collectCoverage: true,
+})
+```
+
+You can also use the `--coverage` command line flag to enable coverage when using the CLI:
+
+```bash
+peeky run --coverage
+```
+
 ## collectCoverageMatch
 
 An array of [anymatch](https://github.com/micromatch/anymatch) search patterns to find the files from which coverage will be collected.

@@ -12,7 +12,7 @@ import { useVite } from './vite.js'
 import { getGlobals } from './globals.js'
 import { runTests } from './run-tests.js'
 import { setupTestCollector } from './collect-tests.js'
-import { getCoverage } from './coverage.js'
+import { FileCoverage, getCoverage } from './coverage.js'
 import { mockedModules } from './mocked-files.js'
 import { getTestEnvironment, NodeEnvironment } from './environment.js'
 import { createMockedFileSystem } from './fs.js'
@@ -125,15 +125,23 @@ export async function runTestFile (options: RunTestFileOptions) {
     // Snapshots
     await snapshotMatcher.start(ctx)
 
-    const instrumenter = new CoverageInstrumenter()
-    await instrumenter.startInstrumenting()
+    let instrumenter: CoverageInstrumenter
+    if (config.collectCoverage) {
+      instrumenter = new CoverageInstrumenter()
+      await instrumenter.startInstrumenting()
+    }
 
     // Run all tests in the test file
     if (ufs) ufs._enabled = true
     await runTests(ctx, !options.updateSnapshots)
     if (ufs) ufs._enabled = false
 
-    const coverage = await getCoverage(await instrumenter.stopInstrumenting(), ctx)
+    let coverage: FileCoverage[]
+    if (config.collectCoverage) {
+      coverage = await getCoverage(await instrumenter.stopInstrumenting(), ctx)
+    } else {
+      coverage = []
+    }
 
     const {
       failedSnapshots,

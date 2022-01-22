@@ -18,6 +18,7 @@ export interface PeekyConfig {
   watchThrottle?: number
   maxWorkers?: number
   emptySuiteError?: boolean
+  collectCoverage?: boolean
   collectCoverageMatch?: string | string[]
   runtimeEnv?: SerializableRuntimeEnv | typeof TestEnvironmentBase
   runtimeAvailableEnvs?: Record<string, typeof TestEnvironmentBase>

@@ -16,6 +16,7 @@ program.command('run [quickFilter]')
   .option('-i, --ignore <globs...>', 'Globs ignore when looking for test files. Example: `peeky run -i "node_modules" "dist/**/*.ts"`')
   .option('-r, --reporters <reporter...>', 'Reporters to use. Available: console-fancy, console-json')
   .option('-u, --updateSnapshots', 'Update failing snapshots')
+  .option('-c, --coverage', 'Collect coverage')
   .action(async (quickFilter, options) => {
     const { run } = await import('./commands/run.js')
     return run(quickFilter, options)

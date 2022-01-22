@@ -19,6 +19,10 @@ export async function run (quickFilter: string, options) {
       'reporters',
     ]) as PeekyConfig))
 
+    if (options.coverage) {
+      finalConfig.collectCoverage = true
+    }
+
     const { stats: { errorSuiteCount } } = await runAllTests(toProgramConfig(finalConfig), {
       quickTestFilter: quickFilter,
       ...pick<any>(options, [

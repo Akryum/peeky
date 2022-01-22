@@ -72,26 +72,28 @@ export async function runAllTests (config: ProgramPeekyConfig, options: RunAllOp
   }
 
   // Coverage
-  const emptyCoverageIgnored = [
-    ...config.match ?? [],
-    ...config.ignored ?? [],
-  ]
-  const emptyCoverage = await getEmptyCoverageFromFiles(config.collectCoverageMatch, config.targetDirectory, emptyCoverageIgnored)
-  let mergedCoverage = mergeCoverage(result.map(r => r.coverage).reduce((a, b) => a.concat(b), []).concat(...emptyCoverage))
-  mergedCoverage = computeCoveredLines(mergedCoverage)
-  const uncoveredFiles = mergedCoverage.filter(c => c.linesCovered === 0)
-  const partiallyCoveredFiles = mergedCoverage.filter(c => c.linesCovered > 0 && c.linesCovered < c.linesTotal)
-  const coveredFilesCount = mergedCoverage.length - uncoveredFiles.length
-  const totalLines = mergedCoverage.reduce((a, c) => a + c.linesTotal, 0)
-  const coveredLines = mergedCoverage.reduce((a, c) => a + c.linesCovered, 0)
-  reporters.forEach(r => r.coverageSummary?.({
-    uncoveredFiles,
-    partiallyCoveredFiles,
-    mergedCoverage,
-    coveredFilesCount,
-    totalLines,
-    coveredLines,
-  }))
+  if (config.collectCoverage) {
+    const emptyCoverageIgnored = [
+      ...config.match ?? [],
+      ...config.ignored ?? [],
+    ]
+    const emptyCoverage = await getEmptyCoverageFromFiles(config.collectCoverageMatch, config.targetDirectory, emptyCoverageIgnored)
+    let mergedCoverage = mergeCoverage(result.map(r => r.coverage).reduce((a, b) => a.concat(b), []).concat(...emptyCoverage))
+    mergedCoverage = computeCoveredLines(mergedCoverage)
+    const uncoveredFiles = mergedCoverage.filter(c => c.linesCovered === 0)
+    const partiallyCoveredFiles = mergedCoverage.filter(c => c.linesCovered > 0 && c.linesCovered < c.linesTotal)
+    const coveredFilesCount = mergedCoverage.length - uncoveredFiles.length
+    const totalLines = mergedCoverage.reduce((a, c) => a + c.linesTotal, 0)
+    const coveredLines = mergedCoverage.reduce((a, c) => a + c.linesCovered, 0)
+    reporters.forEach(r => r.coverageSummary?.({
+      uncoveredFiles,
+      partiallyCoveredFiles,
+      mergedCoverage,
+      coveredFilesCount,
+      totalLines,
+      coveredLines,
+    }))
+  }
 
   // Summary
   const duration = endTime - time
