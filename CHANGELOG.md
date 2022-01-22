@@ -1,3 +1,17 @@
+## [0.11.2](https://github.com/Akryum/peeky/compare/v0.11.1...v0.11.2) (2022-01-22)
+
+
+### Bug Fixes
+
+* **runner:** clearDeps can be null ([469cac9](https://github.com/Akryum/peeky/commit/469cac94f727087bf65681a3cf0b0e73347f8c67))
+
+
+### Features
+
+* coverage option ([56cff0a](https://github.com/Akryum/peeky/commit/56cff0a35d73876dd7d481c2b69326e6a4947583))
+
+
+
 ## [0.11.1](https://github.com/Akryum/peeky/compare/v0.11.0...v0.11.1) (2022-01-22)
 
 
