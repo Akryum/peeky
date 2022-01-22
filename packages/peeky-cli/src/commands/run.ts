@@ -32,6 +32,8 @@ export async function run (quickFilter: string, options) {
 
     if (errorSuiteCount) {
       process.exit(1)
+    } else {
+      process.exit(0)
     }
   } catch (e) {
     consola.error(e)
