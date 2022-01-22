@@ -35,7 +35,9 @@ export async function runTestFile (options: RunTestFileOptions) {
 
     const config = mergeConfig(baseConfig, options.config)
 
-    options.clearDeps.forEach(file => moduleCache.delete(file))
+    if (options.clearDeps) {
+      options.clearDeps.forEach(file => moduleCache.delete(file))
+    }
 
     const source = await fs.readFile(options.entry, { encoding: 'utf8' })
 
