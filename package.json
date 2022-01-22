@@ -1,6 +1,6 @@
 {
   "name": "peeky-mono-repo",
-  "version": "0.11.0",
+  "version": "0.11.1",
   "private": true,
   "repository": {
     "url": "https://github.com/Akryum/peeky.git",

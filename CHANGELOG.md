@@ -1,3 +1,12 @@
+## [0.11.1](https://github.com/Akryum/peeky/compare/v0.11.0...v0.11.1) (2022-01-22)
+
+
+### Bug Fixes
+
+* disable thread pool atomics ([eacd395](https://github.com/Akryum/peeky/commit/eacd3957c55eea16c1e5191f6707d2c9c7bf1e0d))
+
+
+
 # [0.11.0](https://github.com/Akryum/peeky/compare/v0.10.2...v0.11.0) (2022-01-21)
 
 
