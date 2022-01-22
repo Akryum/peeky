@@ -43,6 +43,8 @@ export async function setupRunner (options: RunnerOptions) {
   const poolOptions: PoolOptions = {
     filename: new URL('./runtime/worker.js', import.meta.url).href,
     maxThreads: options.config.maxWorkers || undefined,
+    // WebContainer compatibility (Stackblitz)
+    useAtomics: false,
   }
 
   if (options.config.isolate) {
