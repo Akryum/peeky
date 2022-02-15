@@ -1,11 +1,13 @@
-import { relative } from 'pathe'
+import { relative, resolve } from 'pathe'
 import { ReactiveFileSystem } from 'reactive-fs'
+import fs from 'fs-extra'
 import Tinypool, { Options as PoolOptions } from 'tinypool'
+import { createServer, mergeConfig } from 'vite'
+import { ViteNodeServer } from 'vite-node/server'
 import { Awaited } from '@peeky/utils'
 import { ProgramPeekyConfig, toSerializableConfig } from '@peeky/config'
 import type { runTestFile as rawRunTestFile } from './runtime/run-test-file.js'
 import type { RunTestFileOptions, ReporterTestSuite, Reporter, ReporterTest } from './types'
-import { initViteServer, stopViteServer, transform } from './build/vite.js'
 import { createWorkerChannel, SuiteCollectData, useWorkerMessages } from './message.js'
 
 export interface RunnerOptions {
@@ -33,12 +35,15 @@ export async function setupRunner (options: RunnerOptions) {
 
   process.chdir(options.config.targetDirectory)
 
-  await initViteServer({
+  const viteServer = await createServer(mergeConfig(options.config.vite ?? {}, {
+    logLevel: 'error',
+    clearScreen: false,
     configFile: options.config.viteConfigFile,
-    defaultConfig: {},
-    rootDir: options.config.targetDirectory,
-    userInlineConfig: options.config.vite,
-  })
+    root: options.config.targetDirectory,
+    resolve: {},
+  }))
+  await viteServer.pluginContainer.buildStart({})
+  const viteNode = new ViteNodeServer(viteServer)
 
   const poolOptions: PoolOptions = {
     filename: new URL('./runtime/worker.js', import.meta.url).href,
@@ -55,11 +60,26 @@ export async function setupRunner (options: RunnerOptions) {
   const pool = new Tinypool(poolOptions)
   const { testFiles } = options
 
-  async function runTestFileWorker (options: RunTestFileOptions): ReturnType<typeof rawRunTestFile> {
+  async function runTestFileWorker (options: RunTestFileOptions): Promise<Awaited<ReturnType<typeof rawRunTestFile>> & { deps: string[] }> {
     const suiteMap: { [id: string]: ReporterTestSuite } = {}
 
     const { mainPort, workerPort } = createWorkerChannel({
-      transform: async (id) => transform(id),
+      fetchModule: async (id) => {
+        if (id.match(/\.json$/)) {
+          if (id.startsWith('/')) {
+            id = id.substring(1)
+          }
+          id = resolve(options.config.targetDirectory, id)
+          const code = `const data = ${await fs.readFile(id, { encoding: 'utf8' })};Object.assign(exports, data);exports.default = data;`
+          return {
+            code,
+            map: null,
+          }
+        }
+        return viteNode.fetchModule(id)
+      },
+
+      resolveId: async (id, importer) => viteNode.resolveId(id, importer),
 
       onCollected: (suites) => {
         const addSuite = (suite: SuiteCollectData) => {
@@ -129,8 +149,29 @@ export async function setupRunner (options: RunnerOptions) {
     }, {
       transferList: [workerPort],
     })
+
+    // Collect dependencies
+    const deps = new Set<string>()
+    const addImports = async (filepath: string) => {
+      const transformed = await viteNode.transformRequest(filepath)
+      if (!transformed) { return }
+      const dependencies = [...transformed.deps ?? [], ...transformed.dynamicDeps ?? []]
+      for (const dep of dependencies) {
+        const path = await viteServer.pluginContainer.resolveId(dep, filepath, { ssr: true })
+        const fsPath = path && !path.external && path.id.split('?')[0]
+        if (fsPath && !fsPath.includes('node_modules') && !fsPath.includes('packages/peeky') && !deps.has(fsPath) && fs.existsSync(fsPath)) {
+          deps.add(fsPath)
+          await addImports(fsPath)
+        }
+      }
+    }
+    await addImports(options.entry)
+    deps.add(options.entry)
+    result.deps = Array.from(deps)
+
     mainPort.close()
     workerPort.close()
+
     return result
   }
 
@@ -160,7 +201,7 @@ export async function setupRunner (options: RunnerOptions) {
   async function close () {
     await testFiles.destroy()
     await pool.destroy()
-    await stopViteServer()
+    await viteServer.close()
     clearOnMessage()
   }
 

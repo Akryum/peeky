@@ -8,7 +8,7 @@ import pragma from 'pragma'
 import expect from 'expect'
 import { InstantiableTestEnvironmentClass, mergeConfig } from '@peeky/config'
 import type { Context, ReporterTest, ReporterTestSuite, RunTestFileOptions, Test, TestSuite } from '../types'
-import { useVite } from './vite.js'
+import { execute } from './execute.js'
 import { getGlobals } from './globals.js'
 import { runTests } from './run-tests.js'
 import { setupTestCollector } from './collect-tests.js'
@@ -36,7 +36,10 @@ export async function runTestFile (options: RunTestFileOptions) {
     const config = mergeConfig(baseConfig, options.config)
 
     if (options.clearDeps) {
-      options.clearDeps.forEach(file => moduleCache.delete(file))
+      options.clearDeps.forEach(file => {
+        moduleCache.delete(file)
+        moduleCache.delete(`/@fs/${file}`)
+      })
     }
 
     const source = await fs.readFile(options.entry, { encoding: 'utf8' })
@@ -64,13 +67,6 @@ export async function runTestFile (options: RunTestFileOptions) {
 
     // Restore mocked module
     mockedModules.clear()
-
-    // Build
-    const { executeWithVite } = useVite({
-      rootDir: config.targetDirectory,
-      exclude: config.buildExclude,
-      include: config.buildInclude,
-    }, (id) => toMainThread().transform(id))
 
     // Globals
     const collector = setupTestCollector(ctx)
@@ -108,16 +104,27 @@ export async function runTestFile (options: RunTestFileOptions) {
       ufs = createMockedFileSystem()
     }
 
+    const files: string[] = []
+
     // Setup files
     if (config.setupFiles?.length) {
       for (const file of config.setupFiles) {
-        const fullPath = resolve(config.targetDirectory, file)
-        await executeWithVite(fullPath, await getGlobals(ctx, collector), config.targetDirectory)
+        files.push(resolve(config.targetDirectory, file))
       }
     }
 
-    // Execute test file
-    const executionResult = await executeWithVite(options.entry, await getGlobals(ctx, collector), config.targetDirectory)
+    // Test file
+    files.push(options.entry)
+
+    // Execute setup files + test file
+    await execute({
+      files,
+      globals: await getGlobals(ctx, collector),
+      root: config.targetDirectory,
+      moduleCache,
+      fetchModule: toMainThread().fetchModule,
+      resolveId: toMainThread().resolveId,
+    })
 
     // Register suites and tests
     await collector.collect()
@@ -163,7 +170,6 @@ export async function runTestFile (options: RunTestFileOptions) {
       suites,
       duration,
       coverage,
-      deps: executionResult.deps.concat(options.entry),
       failedSnapshots,
       newSnapshots,
       passedSnapshots,

@@ -1,5 +1,5 @@
 import { MessageChannel } from 'worker_threads'
-import type { TransformResult } from 'vite'
+import type { FetchResult, ViteNodeResolveId } from 'vite-node'
 import { TestFlag } from './types.js'
 import { Snapshot } from './snapshot/types.js'
 
@@ -12,7 +12,8 @@ export interface WorkerRemoteMethods {
   onTestSuccess: (suiteId: string, testId: string, duration: number) => void
   onTestSnapshotsProcessed: (suiteId: string, testId: string, snapshots: Snapshot[]) => void
   onLog: (suiteId: string, testId: string, type: 'stdout' | 'stderr', text: string, file?: string) => void
-  transform: (id: string) => Promise<TransformResult>
+  fetchModule: (id: string) => Promise<FetchResult>
+  resolveId: (id: string, importer?: string) => Promise<ViteNodeResolveId | null>
   testFileCompleteHandshake: () => Promise<void>
 }
 
