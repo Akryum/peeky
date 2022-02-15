@@ -1,3 +1,18 @@
+# [0.12.0](https://github.com/Akryum/peeky/compare/v0.11.2...v0.12.0) (2022-02-15)
+
+
+### Bug Fixes
+
+* process exit to clean exit in webcontainer ([c59766c](https://github.com/Akryum/peeky/commit/c59766ca34fde2d7a33fb33c91eaaaf513c74fa2))
+
+
+### Features
+
+* upgrade tinypool ([fbf5fea](https://github.com/Akryum/peeky/commit/fbf5fea5fde0646ccb866a6824bc44bbb953b263))
+* refactored to use `vite-node` to transform files
+
+
+
 ## [0.11.2](https://github.com/Akryum/peeky/compare/v0.11.1...v0.11.2) (2022-01-22)
 
 
