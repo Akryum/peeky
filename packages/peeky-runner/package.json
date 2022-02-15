@@ -58,7 +58,7 @@
     "slugify": "^1.6.0",
     "source-map": "^0.7.3",
     "source-map-support": "^0.5.19",
-    "tinypool": "^0.1.1",
+    "tinypool": "^0.1.2",
     "vite": "^2.7.10"
   },
   "devDependencies": {
