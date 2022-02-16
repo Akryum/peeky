@@ -4,19 +4,15 @@ import './style/transitions.css'
 import './style/ansi.css'
 import 'floating-vue/dist/style.css'
 
-import { createApp, provide } from 'vue'
+import { createApp } from 'vue'
 import { DefaultApolloClient } from '@vue/apollo-composable'
 import FloatingVue from 'floating-vue'
 import App from './App.vue'
 import { router } from './router'
 import { apolloClient } from './apollo'
 
-const app = createApp({
-  extends: App,
-  setup () {
-    provide(DefaultApolloClient, apolloClient)
-  },
-})
+const app = createApp(App)
+app.provide(DefaultApolloClient, apolloClient)
 app.use(router)
 app.use(FloatingVue, {
   themes: {
