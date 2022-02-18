@@ -1,3 +1,17 @@
+# [0.13.0](https://github.com/Akryum/peeky/compare/v0.12.0...v0.13.0) (2022-02-18)
+
+
+### Bug Fixes
+
+* coverageOptions.reporter not working ([4bb90c2](https://github.com/Akryum/peeky/commit/4bb90c2c575aac9374e7504a92658ca73fd17e3a))
+
+
+### Features
+
+* integrate c8 coverage report ([a086c15](https://github.com/Akryum/peeky/commit/a086c1560347a2b59ee26710687141a52cee628d))
+
+
+
 # [0.12.0](https://github.com/Akryum/peeky/compare/v0.11.2...v0.12.0) (2022-02-15)
 
 
