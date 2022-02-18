@@ -203,21 +203,41 @@ You can also use the `--coverage` command line flag to enable coverage when usin
 peeky run --coverage
 ```
 
-## collectCoverageMatch
+## coverageOptions
 
-An array of [anymatch](https://github.com/micromatch/anymatch) search patterns to find the files from which coverage will be collected.
+An object for configuring coverage (done with V8) and reporting (done with [c8](https://github.com/bcoe/c8)).
 
-Default value is:
-
-```js
-['(src|lib)/**/*.(ts|js)']
-```
+- `reportsDirectory`: Path to the generate report directory.
+- `report`: Istanbul reporter or array of reporter to use ([learn more](https://istanbul.js.org/docs/advanced/alternative-reporters/)).
+- `excludeNodeModules`: Exclude coverage under `/node_modules/` folders.
+- `all`: All files in working directory (and below) that pass the `include` and `exclude` checks (below), will be loaded into the report.
+- `exclude`: Array of glob patterns.
+- `include`: Array of glob patterns.
+- `extension`: Only files matching these extensions will show coverage.
+- `skipFull`: Do not show files with 100% statement, branch, and function coverage.
 
 Example:
 
 ```js
 export default defineConfig({
-  collectCoverageMatch: ['lib/**/*.js'],
+  coverageOptions: {
+    reportsDirectory: './coverage',
+    excludeNodeModules: true,
+    exclude: [
+      'coverage/**',
+      'packages/*/test{,s}/**',
+      '**/*.d.ts',
+      'cypress/**',
+      'test{,s}/**',
+      'test{,-*}.{js,cjs,mjs,ts,tsx,jsx}',
+      '**/*{.,-}test.{js,cjs,mjs,ts,tsx,jsx}',
+      '**/__tests__/**',
+      '**/{karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc}.config.{js,cjs,mjs,ts}',
+      '**/.{eslint,mocha}rc.{js,cjs}',
+    ],
+    reporter: ['text', 'html'],
+    extension: ['.js', '.cjs', '.mjs', '.ts', '.tsx', '.jsx', '.vue', 'svelte'],
+  },
 })
 ```
 
