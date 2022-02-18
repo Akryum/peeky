@@ -1,5 +1,5 @@
 import type { InlineConfig as ViteConfig } from 'vite'
-import { Awaitable } from '@peeky/utils'
+import type { Arrayable, Awaitable } from '@peeky/utils'
 
 export type ModuleFilter = string | RegExp | ((absolutePath: string) => boolean)
 export type ModuleFilterOption<T = ModuleFilter> = T[] | T
@@ -19,7 +19,7 @@ export interface PeekyConfig {
   maxWorkers?: number
   emptySuiteError?: boolean
   collectCoverage?: boolean
-  collectCoverageMatch?: string | string[]
+  coverageOptions?: C8Options
   runtimeEnv?: SerializableRuntimeEnv | typeof TestEnvironmentBase
   runtimeAvailableEnvs?: Record<string, typeof TestEnvironmentBase>
   mockFs?: boolean
@@ -63,6 +63,53 @@ export abstract class TestEnvironmentBase {
 
 export type InstantiableTestEnvironmentClass = {
   new(...args: ConstructorParameters<typeof TestEnvironmentBase>): TestEnvironmentBase
+}
+
+export type CoverageReporter =
+  | 'clover'
+  | 'cobertura'
+  | 'html-spa'
+  | 'html'
+  | 'json-summary'
+  | 'json'
+  | 'lcov'
+  | 'lcovonly'
+  | 'none'
+  | 'teamcity'
+  | 'text-lcov'
+  | 'text-summary'
+  | 'text'
+
+export interface C8Options {
+  /**
+   * Directory to write coverage report to
+   */
+  reportsDirectory?: string
+  /**
+   * Reporters
+   *
+   * @default 'text'
+   */
+  reporter?: Arrayable<CoverageReporter>
+  /**
+   * Exclude coverage under /node_modules/
+   *
+   * @default true
+   */
+  excludeNodeModules?: boolean
+  exclude?: string[]
+  include?: string[]
+  skipFull?: boolean
+  extension?: string | string[]
+
+  all?: boolean
+
+  // @TODO check thresholds
+  // 100?: boolean
+  // lines?: number
+  // functions?: number
+  // branches?: number
+  // statements?: number
 }
 
 declare module 'vite' {

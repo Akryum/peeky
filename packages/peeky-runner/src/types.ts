@@ -1,6 +1,5 @@
 import type { SerializablePeekyConfig } from '@peeky/config'
 import type { Awaitable } from '@peeky/utils'
-import { FileCoverage } from './runtime/coverage.js'
 import { Snapshot } from './snapshot/types.js'
 
 export interface RunTestFileOptions {
@@ -110,15 +109,6 @@ interface SnapshotSummaryPayload {
   failedSnapshots: Snapshot[]
 }
 
-interface CoverageSummaryPayload {
-  uncoveredFiles: FileCoverage[]
-  partiallyCoveredFiles: FileCoverage[]
-  mergedCoverage: FileCoverage[]
-  coveredLines: number
-  totalLines: number
-  coveredFilesCount: number
-}
-
 interface SummaryPayload {
   fileCount: number
   duration: number
@@ -141,6 +131,5 @@ export interface Reporter {
   testFail?: (payload: TestInfoPayload) => unknown
   errorSummary?: (payload: ErrorSummaryPayload) => unknown
   snapshotSummary?: (payload: SnapshotSummaryPayload) => unknown
-  coverageSummary?: (payload: CoverageSummaryPayload) => unknown
   summary?: (payload: SummaryPayload) => unknown
 }

@@ -54,48 +54,6 @@ export function createConsoleFancyReporter (): Reporter {
       }
     },
 
-    coverageSummary: ({
-      uncoveredFiles,
-      partiallyCoveredFiles,
-      mergedCoverage,
-      coveredFilesCount,
-      coveredLines,
-      totalLines,
-    }) => {
-      if (!mergedCoverage.length) return
-      const header = [
-        'Coverage',
-        `${coveredFilesCount}/${mergedCoverage.length} files (${
-          Math.round(coveredFilesCount / Math.max(1, mergedCoverage.length) * 10000) / 100
-        }%)`,
-        `${coveredLines}/${totalLines} lines (${
-          Math.round(coveredLines / Math.max(1, totalLines) * 10000) / 100
-        }%)`,
-      ]
-      const noCoverage = coveredFilesCount === 0 && mergedCoverage.length > 0
-      const headerColor = chalk[noCoverage ? 'red' : coveredLines === totalLines ? 'green' : 'yellow']
-      const fileCountColor = chalk[noCoverage ? 'red' : coveredFilesCount === mergedCoverage.length ? 'green' : 'yellow']
-      const headerSeparator = '   '
-      consola.log(`\n\n${headerColor(drawBox(header.join(headerSeparator), () => chalk.bold([
-        header[0],
-        fileCountColor(header[1]),
-        header[2],
-      ].join(headerSeparator))))}\n`)
-
-      const maxFiles = 5
-
-      if (uncoveredFiles.length > 0) {
-        consola.log(chalk.red(`No coverage in ${uncoveredFiles.length} files\n${chalk.dim(`${uncoveredFiles.slice(0, maxFiles).map(c => `  ${c.path}`).join('\n')}${uncoveredFiles.length > maxFiles ? '\n  ...' : ''}`)}\n`))
-      }
-      if (partiallyCoveredFiles.length > 0) {
-        consola.log(chalk.yellow(`Partial coverage in ${partiallyCoveredFiles.length} files\n${chalk.dim(`${
-          partiallyCoveredFiles.slice(0, maxFiles).map(c => `  ${c.path}   ${c.linesCovered}/${c.linesTotal} lines (${
-            Math.round(c.linesCovered / c.linesTotal * 10000) / 100
-          }%)`).join('\n')
-        }${partiallyCoveredFiles.length > maxFiles ? '\n  ...' : ''}`)}\n`))
-      }
-    },
-
     summary: ({
       fileCount,
       duration,

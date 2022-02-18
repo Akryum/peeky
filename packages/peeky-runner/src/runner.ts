@@ -9,6 +9,7 @@ import { ProgramPeekyConfig, toSerializableConfig } from '@peeky/config'
 import type { runTestFile as rawRunTestFile } from './runtime/run-test-file.js'
 import type { RunTestFileOptions, ReporterTestSuite, Reporter, ReporterTest } from './types'
 import { createWorkerChannel, SuiteCollectData, useWorkerMessages } from './message.js'
+import { clearCoverageTemp } from './coverage.js'
 
 export interface RunnerOptions {
   config: ProgramPeekyConfig
@@ -34,6 +35,8 @@ export async function setupRunner (options: RunnerOptions) {
   } = useWorkerMessages()
 
   process.chdir(options.config.targetDirectory)
+
+  await clearCoverageTemp()
 
   const viteServer = await createServer(mergeConfig(options.config.vite ?? {}, {
     logLevel: 'error',

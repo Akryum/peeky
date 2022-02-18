@@ -53,13 +53,6 @@ export function createRawReporter (write: (data: Record<string, any>) => unknown
       })
     },
 
-    coverageSummary: (payload) => {
-      write({
-        __type: 'coverageSummary',
-        ...payload,
-      })
-    },
-
     summary: (payload) => {
       write({
         __type: 'summary',

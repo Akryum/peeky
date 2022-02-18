@@ -19,4 +19,5 @@ export default defineConfig({
   setupFiles: [
     'setup-test.ts',
   ],
+  // collectCoverage: true,
 })

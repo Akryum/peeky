@@ -2,7 +2,6 @@ import { performance } from 'perf_hooks'
 import { resolve, relative } from 'pathe'
 import { install as installSourceMap } from 'source-map-support'
 import consola from 'consola'
-import { CoverageInstrumenter } from 'collect-v8-coverage'
 import fs from 'fs-extra'
 import pragma from 'pragma'
 import expect from 'expect'
@@ -12,7 +11,7 @@ import { execute } from './execute.js'
 import { getGlobals } from './globals.js'
 import { runTests } from './run-tests.js'
 import { setupTestCollector } from './collect-tests.js'
-import { FileCoverage, getCoverage } from './coverage.js'
+import { useCollectCoverage } from './coverage.js'
 import { mockedModules } from './mocked-files.js'
 import { getTestEnvironment, NodeEnvironment } from './environment.js'
 import { createMockedFileSystem } from './fs.js'
@@ -132,10 +131,11 @@ export async function runTestFile (options: RunTestFileOptions) {
     // Snapshots
     await snapshotMatcher.start(ctx)
 
-    let instrumenter: CoverageInstrumenter
+    let collectCoverage: ReturnType<typeof useCollectCoverage>['collect']
     if (config.collectCoverage) {
-      instrumenter = new CoverageInstrumenter()
-      await instrumenter.startInstrumenting()
+      const { start, collect } = useCollectCoverage()
+      await start()
+      collectCoverage = collect
     }
 
     // Run all tests in the test file
@@ -143,11 +143,8 @@ export async function runTestFile (options: RunTestFileOptions) {
     await runTests(ctx, !options.updateSnapshots)
     if (ufs) ufs._enabled = false
 
-    let coverage: FileCoverage[]
     if (config.collectCoverage) {
-      coverage = await getCoverage(await instrumenter.stopInstrumenting(), ctx)
-    } else {
-      coverage = []
+      await collectCoverage()
     }
 
     const {
@@ -169,7 +166,6 @@ export async function runTestFile (options: RunTestFileOptions) {
       filePath: options.entry,
       suites,
       duration,
-      coverage,
       failedSnapshots,
       newSnapshots,
       passedSnapshots,
