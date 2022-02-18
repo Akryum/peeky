@@ -20,4 +20,7 @@ export default defineConfig({
     'setup-test.ts',
   ],
   // collectCoverage: true,
+  coverageOptions: {
+    reporter: 'json-summary',
+  },
 })
