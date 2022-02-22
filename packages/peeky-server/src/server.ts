@@ -2,7 +2,6 @@ import { dirname, join } from 'pathe'
 import HTTP from 'http'
 import { fileURLToPath } from 'url'
 import { createRequire } from 'module'
-import { createReactiveFileSystem } from 'reactive-fs'
 import { ApolloServer, PubSub } from 'apollo-server-express'
 import express from 'express'
 import historyFallback from 'express-history-api-fallback'
@@ -39,17 +38,11 @@ export async function createServer () {
   const configLoader = await setupConfigLoader()
   const config = await configLoader.loadConfig()
 
-  const reactiveFs = await createReactiveFileSystem({
-    baseDir: config.targetDirectory,
-    glob: config.match,
-    ignored: config.ignored,
-  })
   const pubsub = new PubSub()
 
   function createContext (): Context {
     return {
       config,
-      reactiveFs,
       pubsub,
     }
   }

@@ -1,5 +1,4 @@
 import { relative, resolve } from 'pathe'
-import { ReactiveFileSystem } from 'reactive-fs'
 import fs from 'fs-extra'
 import Tinypool, { Options as PoolOptions } from 'tinypool'
 import { createServer, mergeConfig } from 'vite'
@@ -13,7 +12,6 @@ import { clearCoverageTemp } from './coverage.js'
 
 export interface RunnerOptions {
   config: ProgramPeekyConfig
-  testFiles: ReactiveFileSystem
   reporters: Reporter[]
 }
 
@@ -61,7 +59,6 @@ export async function setupRunner (options: RunnerOptions) {
   }
 
   const pool = new Tinypool(poolOptions)
-  const { testFiles } = options
 
   async function runTestFileWorker (options: RunTestFileOptions): Promise<Awaited<ReturnType<typeof rawRunTestFile>> & { deps: string[] }> {
     const suiteMap: { [id: string]: ReporterTestSuite } = {}
@@ -179,10 +176,10 @@ export async function setupRunner (options: RunnerOptions) {
   }
 
   async function runTestFile (relativePath: string, clearDeps: string[] = [], updateSnapshots = false) {
-    const file = testFiles.files[relativePath]
-    if (file) {
+    const file = resolve(ctx.options.config.targetDirectory, relativePath)
+    if (fs.existsSync(file)) {
       const result = await runTestFileWorker({
-        entry: file.absolutePath,
+        entry: file,
         config: serializableConfig,
         coverage: {
           root: ctx.options.config.targetDirectory,
@@ -202,14 +199,12 @@ export async function setupRunner (options: RunnerOptions) {
   }
 
   async function close () {
-    await testFiles.destroy()
     await pool.destroy()
     await viteServer.close()
     clearOnMessage()
   }
 
   return {
-    testFiles,
     runTestFile,
     close,
     onMessage,

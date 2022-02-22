@@ -1,10 +1,9 @@
-import fs from 'fs'
-import { join } from 'pathe'
+import fs from 'fs-extra'
+import path from 'pathe'
 import consola from 'consola'
 import shortid from 'shortid'
 import { fixWindowsAbsoluteFileUrl } from '@peeky/utils'
 import type { PeekyConfig } from './types'
-import { setupConfigContentLoader } from './fs.js'
 import { transformConfigCode } from './transform.js'
 import { defaultPeekyConfig } from './defaults.js'
 import { mergeConfig } from './util.js'
@@ -15,17 +14,45 @@ export interface PeekyConfigLoaderOptions {
   glob?: string | string[]
 }
 
-export async function setupConfigLoader (options: PeekyConfigLoaderOptions = {}) {
-  const contentLoader = await setupConfigContentLoader(options.baseDir, options.glob)
+const configFileNames = [
+  'peeky.config.ts',
+  'peeky.config.js',
+  '.peeky.ts',
+  '.peeky.js',
+]
 
+export function resolveConfigFile (cwd: string = process.cwd()): string {
+  let { root } = path.parse(cwd)
+  let dir = cwd
+
+  // Fix for windows, waiting for pathe to fix this: https://github.com/unjs/pathe/issues/5
+  if (root === '' && dir[1] === ':') {
+    root = dir.substring(0, 2)
+  }
+
+  while (dir !== root) {
+    for (const fileName of configFileNames) {
+      const searchPath = path.join(dir, fileName)
+      if (fs.existsSync(searchPath)) {
+        return searchPath
+      }
+    }
+    dir = path.dirname(dir)
+  }
+
+  return null
+}
+
+export async function setupConfigLoader (options: PeekyConfigLoaderOptions = {}) {
   async function loadConfig (loadFromVite = true): Promise<PeekyConfig> {
-    const file = contentLoader.getConfigPath()
-    const resolvedPath = join(options.baseDir || process.cwd(), file + shortid() + '.temp.mjs')
+    const cwd = options.baseDir || process.cwd()
+    const file = await resolveConfigFile(cwd)
+    const resolvedPath = file + shortid() + '.temp.mjs'
     try {
       let config: PeekyConfig = {}
 
       if (file) {
-        const rawCode = await contentLoader.loadConfigFileContent()
+        const rawCode = await fs.readFile(file, 'utf8')
         const result = await transformConfigCode(rawCode, file)
         fs.writeFileSync(resolvedPath, result.code)
         config = (
@@ -60,7 +87,7 @@ export async function setupConfigLoader (options: PeekyConfigLoaderOptions = {})
   }
 
   function destroy () {
-    return contentLoader.destroy()
+    // noop
   }
 
   return {

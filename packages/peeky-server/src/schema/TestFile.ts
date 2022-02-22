@@ -1,4 +1,6 @@
-import { join } from 'pathe'
+import { join, normalize } from 'pathe'
+import glob from 'fast-glob'
+import chokidar from 'chokidar'
 import { extendType, idArg, intArg, nonNull, objectType, stringArg } from 'nexus'
 import launchEditor from 'launch-editor'
 import type { Context } from '../context'
@@ -120,9 +122,19 @@ export interface TestFileData {
 export let testFiles: TestFileData[] = []
 
 export async function loadTestFiles (ctx: Context) {
-  testFiles = ctx.reactiveFs.list().map(path => createTestFile(ctx, path))
+  testFiles = (await glob(ctx.config.match, {
+    cwd: ctx.config.targetDirectory,
+    ignore: Array.isArray(ctx.config.ignored) ? ctx.config.ignored : [ctx.config.ignored],
+  })).map(path => createTestFile(ctx, normalize(path)))
 
-  ctx.reactiveFs.onFileAdd(async (relativePath) => {
+  const watcher = chokidar.watch(ctx.config.match, {
+    cwd: ctx.config.targetDirectory,
+    ignored: ctx.config.ignored,
+    ignoreInitial: true,
+  })
+
+  async function onFileChange (relativePath: string) {
+    relativePath = normalize(relativePath)
     let testFile: TestFileData = testFiles.find(f => f.relativePath === relativePath)
     if (testFile) {
       await updateTestFile(ctx, testFile.id, {
@@ -135,9 +147,13 @@ export async function loadTestFiles (ctx: Context) {
     ctx.pubsub.publish(TestFileAdded, {
       testFile: testFile,
     } as TestFileAddedPayload)
-  })
+  }
 
-  ctx.reactiveFs.onFileRemove((relativePath) => {
+  watcher.on('add', file => onFileChange(file))
+  watcher.on('change', file => onFileChange(file))
+
+  watcher.on('unlink', (relativePath) => {
+    relativePath = normalize(relativePath)
     const testFile = testFiles.find(f => f.relativePath === relativePath)
     if (testFile) {
       testFile.deleted = true
@@ -146,6 +162,14 @@ export async function loadTestFiles (ctx: Context) {
       } as TestFileRemovedPayload)
     }
   })
+
+  async function destroy () {
+    await watcher.close()
+  }
+
+  return {
+    destroy,
+  }
 }
 
 export async function updateTestFile (ctx: Context, id: string, data: Partial<Omit<TestFileData, 'id'>>) {

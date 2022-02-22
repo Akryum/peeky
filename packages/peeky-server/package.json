@@ -39,7 +39,8 @@
     "consola": "^2.15.0",
     "express": "^4.17.1",
     "express-history-api-fallback": "^2.2.1",
-    "fs-extra": "^9.0.1",
+    "fast-glob": "^3.2.11",
+    "fs-extra": "^10.0.0",
     "graphql": "^15.4.0",
     "graphql-ws": "^5.5.5",
     "launch-editor": "^2.2.1",
@@ -47,7 +48,6 @@
     "object-inspect": "^1.11.0",
     "pathe": "^0.2.0",
     "random-emoji": "^1.0.2",
-    "reactive-fs": "^0.4.1",
     "shortid": "^2.2.16",
     "slugify": "^1.6.0",
     "ws": "^8.3.0"

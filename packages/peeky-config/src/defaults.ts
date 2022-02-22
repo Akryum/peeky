@@ -1,7 +1,5 @@
 import type { C8Options, PeekyConfig } from './types'
 
-export const peekyConfigFileMatch = ['**/peeky.config.(js|ts)']
-
 const defaultCoverageExcludes = [
   'coverage/**',
   'packages/*/test{,s}/**',

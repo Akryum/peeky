@@ -30,9 +30,10 @@
   },
   "dependencies": {
     "@peeky/utils": "^0.13.0",
+    "chokidar": "^3.5.3",
     "consola": "^2.15.0",
+    "fs-extra": "^10.0.0",
     "pathe": "^0.2.0",
-    "reactive-fs": "^0.4.1",
     "shortid": "^2.2.16",
     "vite": "^2.7.10"
   },

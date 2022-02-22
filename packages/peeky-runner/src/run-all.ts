@@ -1,6 +1,6 @@
 import { performance } from 'perf_hooks'
-import { createReactiveFileSystem } from 'reactive-fs'
 import { ProgramPeekyConfig } from '@peeky/config'
+import glob from 'fast-glob'
 import { setupRunner } from './runner.js'
 import { getStats } from './stats.js'
 import { createConsoleFancyReporter } from './reporters/console-fancy.js'
@@ -28,19 +28,15 @@ export async function runAllTests (config: ProgramPeekyConfig, options: RunAllOp
       createConsoleFancyReporter(),
     ]
 
-  const testFiles = await createReactiveFileSystem({
-    baseDir: config.targetDirectory,
-    glob: config.match,
-    ignored: config.ignored,
+  let fileList = await glob(config.match, {
+    cwd: config.targetDirectory,
+    ignore: Array.isArray(config.ignored) ? config.ignored : [config.ignored],
   })
 
   const runner = await setupRunner({
     config,
-    testFiles,
     reporters,
   })
-
-  let fileList = runner.testFiles.list()
 
   if (options.quickTestFilter) {
     const reg = new RegExp(options.quickTestFilter, 'i')

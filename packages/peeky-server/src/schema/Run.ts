@@ -1,4 +1,5 @@
 import { relative } from 'pathe'
+import fs from 'fs-extra'
 import { fileURLToPath } from 'url'
 import { performance } from 'perf_hooks'
 import { arg, extendType, idArg, inputObjectType, nonNull, objectType } from 'nexus'
@@ -262,7 +263,6 @@ export async function startRun (ctx: Context, id: string) {
   if (!runner) {
     runner = await setupRunner({
       config: toProgramConfig(ctx.config),
-      testFiles: ctx.reactiveFs,
       reporters: [],
     })
   } else {
@@ -309,7 +309,7 @@ export async function startRun (ctx: Context, id: string) {
       const [suiteId, testId, duration, error] = message.args
       const testFile = testSuites.find(s => s.id === suiteId).runTestFile.testFile
       const { line, col } = getErrorPosition(testFile.relativePath, error.stack)
-      const lineSource = (await ctx.reactiveFs.files[testFile.relativePath].waitForContent).split('\n')[line - 1]
+      const lineSource = fs.existsSync(testFile.absolutePath) ? (await fs.readFile(testFile.absolutePath, 'utf8')).split('\n')[line - 1] : ''
       await updateTest(ctx, suiteId, testId, {
         status: 'error',
         duration,

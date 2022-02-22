@@ -7,7 +7,7 @@ export function getSrcFile (path: string) {
 }
 
 export function getErrorPosition (filePath: string, stack: string) {
-  const result = new RegExp(`${filePath}:(\\d+):(\\d+)`).exec(stack)
+  const result = new RegExp(`${filePath}:(\\d+):(\\d+)`).exec(stack.replace(/\\/g, '/'))
   if (result) {
     const [_, line, col] = result
     return {
