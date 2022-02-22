@@ -1,3 +1,12 @@
+## [0.13.1](https://github.com/Akryum/peeky/compare/v0.13.0...v0.13.1) (2022-02-22)
+
+
+### Bug Fixes
+
+* **server:** paths on Windows ([1642722](https://github.com/Akryum/peeky/commit/1642722dd76e2949d9eec52bd50f0146c012821a))
+
+
+
 # [0.13.0](https://github.com/Akryum/peeky/compare/v0.12.0...v0.13.0) (2022-02-18)
 
 

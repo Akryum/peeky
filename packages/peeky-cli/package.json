@@ -1,6 +1,6 @@
 {
   "name": "@peeky/cli",
-  "version": "0.13.0",
+  "version": "0.13.1",
   "description": "Command-line interface for Peeky, the testing framework for curious minds",
   "license": "MIT",
   "author": {
@@ -33,10 +33,10 @@
     "watch": "tsc -d -w --sourceMap"
   },
   "dependencies": {
-    "@peeky/config": "^0.13.0",
-    "@peeky/eslint-plugin": "^0.13.0",
-    "@peeky/runner": "^0.13.0",
-    "@peeky/server": "^0.13.0",
+    "@peeky/config": "^0.13.1",
+    "@peeky/eslint-plugin": "^0.13.1",
+    "@peeky/runner": "^0.13.1",
+    "@peeky/server": "^0.13.1",
     "consola": "^2.15.0",
     "lodash": "^4.17.21",
     "open": "^7.3.1",

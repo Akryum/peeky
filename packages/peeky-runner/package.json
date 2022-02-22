@@ -1,6 +1,6 @@
 {
   "name": "@peeky/runner",
-  "version": "0.13.0",
+  "version": "0.13.1",
   "description": "Test runner for Peeky, the testing framework for curious minds",
   "license": "MIT",
   "author": {
@@ -31,8 +31,8 @@
   },
   "dependencies": {
     "@akryum/workerpool": "^6.0.5-alpha.2",
-    "@peeky/config": "^0.13.0",
-    "@peeky/utils": "^0.13.0",
+    "@peeky/config": "^0.13.1",
+    "@peeky/utils": "^0.13.1",
     "@types/sinon": "^9.0.10",
     "c8": "^7.11.0",
     "chalk": "^5.0.0",
