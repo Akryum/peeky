@@ -1,7 +1,7 @@
 import fs from 'fs-extra'
 import path from 'pathe'
 import consola from 'consola'
-import shortid from 'shortid'
+import { nanoid } from 'nanoid'
 import { fixWindowsAbsoluteFileUrl } from '@peeky/utils'
 import type { PeekyConfig } from './types'
 import { transformConfigCode } from './transform.js'
@@ -47,7 +47,7 @@ export async function setupConfigLoader (options: PeekyConfigLoaderOptions = {})
   async function loadConfig (loadFromVite = true): Promise<PeekyConfig> {
     const cwd = options.baseDir || process.cwd()
     const file = await resolveConfigFile(cwd)
-    const resolvedPath = file + shortid() + '.temp.mjs'
+    const resolvedPath = file + nanoid() + '.temp.mjs'
     try {
       let config: PeekyConfig = {}
 

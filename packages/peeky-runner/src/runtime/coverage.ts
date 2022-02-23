@@ -3,7 +3,7 @@ import { promisify } from 'util'
 import { performance } from 'perf_hooks'
 import fs from 'fs-extra'
 import path from 'pathe'
-import shortid from 'shortid'
+import { nanoid } from 'nanoid'
 
 export type V8Coverage = ReadonlyArray<Profiler.ScriptCoverage>
 
@@ -28,7 +28,7 @@ export function useCollectCoverage () {
     await postSession('Profiler.stopPreciseCoverage')
     await postSession('Profiler.disable')
 
-    const tempFile = path.join(process.cwd(), `node_modules/.temp/coverage/coverage-${shortid()}.json`)
+    const tempFile = path.join(process.cwd(), `node_modules/.temp/coverage/coverage-${nanoid()}.json`)
     await fs.ensureDir(path.dirname(tempFile))
     await fs.writeJson(tempFile, { result, timestamp: performance.now() })
 

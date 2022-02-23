@@ -1,5 +1,5 @@
 import { basename, extname } from 'pathe'
-import shortid from 'shortid'
+import { nanoid } from 'nanoid'
 import slugify from 'slugify'
 import type { SuiteCollectData, TestCollectData } from '../message.js'
 import type {
@@ -35,7 +35,7 @@ export function setupTestCollector (ctx: Context): {
 
   const createSuite = (title: string, flag: TestFlag, parentSuite: TestSuite) => {
     const suite: TestSuite = {
-      id: shortid(),
+      id: nanoid(),
       title,
       allTitles: [...parentSuite?.allTitles ?? [], title],
       filePath: ctx.options.entry,
@@ -69,7 +69,7 @@ export function setupTestCollector (ctx: Context): {
     getCurrentSuite().children.push([
       'test',
       {
-        id: shortid(),
+        id: nanoid(),
         title,
         handler,
         error: null,

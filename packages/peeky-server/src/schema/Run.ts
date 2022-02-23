@@ -3,7 +3,7 @@ import fs from 'fs-extra'
 import { fileURLToPath } from 'url'
 import { performance } from 'perf_hooks'
 import { arg, extendType, idArg, inputObjectType, nonNull, objectType } from 'nexus'
-import shortid from 'shortid'
+import { nanoid } from 'nanoid'
 import { setupRunner, getStats, Runner } from '@peeky/runner'
 import randomEmoji from 'random-emoji'
 import objectInspect from 'object-inspect'
@@ -177,11 +177,11 @@ export interface CreateRunOptions {
 }
 
 export async function createRun (ctx: Context, options: CreateRunOptions) {
-  const runId = shortid()
+  const runId = nanoid()
 
   const testFilesRaw = options.testFileIds ? testFiles.filter(f => options.testFileIds.includes(f.id)) : [...testFiles]
   const runTestFiles: RunTestFileData[] = testFilesRaw.map(f => ({
-    id: shortid(),
+    id: nanoid(),
     slug: f.relativePath.replace(/([\\/.])/g, '-'),
     runId,
     testFile: f,

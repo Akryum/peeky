@@ -1,5 +1,5 @@
 import type { MessagePort } from 'worker_threads'
-import shortid from 'shortid'
+import { nanoid } from 'nanoid'
 import type { MainMessage, WorkerRemoteMethods } from '../message.js'
 
 // Channel
@@ -38,7 +38,7 @@ export function toMainThread (): WorkerRemoteMethods {
     toMainProxy = new Proxy({}, {
       get: (target, method: string) => {
         return (...args) => {
-          const id = shortid()
+          const id = nanoid()
           const promise = !method.startsWith('on')
             ? new Promise((resolve, reject) => {
               toMainPromiseMap.set(id, { resolve, reject })

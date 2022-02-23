@@ -44,17 +44,16 @@
     "graphql": "^15.4.0",
     "graphql-ws": "^5.5.5",
     "launch-editor": "^2.2.1",
+    "nanoid": "^3.3.1",
     "nexus": "^1.0.0",
     "object-inspect": "^1.11.0",
     "pathe": "^0.2.0",
     "random-emoji": "^1.0.2",
-    "shortid": "^2.2.16",
     "slugify": "^1.6.0",
     "ws": "^8.3.0"
   },
   "devDependencies": {
     "@types/node": "^14.14.21",
-    "@types/shortid": "^0.0.29",
     "@types/ws": "^8.2.2",
     "typescript": "^4.1.3"
   }
