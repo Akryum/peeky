@@ -87,7 +87,14 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
     <div class="relative">
       <div class="flex items-baseline space-x-1 p-2">
         <div class="flex-1 font-mono text-sm truncate">
-          {{ test.error.snippet }}
+          <div v-if="test.error.snippet">
+            {{ test.error.snippet }}
+          </div>
+          <div
+            v-else
+            class="font-semibold truncate"
+            v-html="test.error.message"
+          />
         </div>
         <span
           class="text-red-300 hover:text-red-400 cursor-pointer"
@@ -102,6 +109,7 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
       </div>
 
       <div
+        v-if="test.error.snippet"
         class="p-2 font-semibold border-t border-red-200 dark:border-red-800 truncate"
         v-html="test.error.message"
       />
