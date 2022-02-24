@@ -76,13 +76,21 @@ export default defineComponent({
       }
     })
 
-    const leftStyle = computed(() => ({
-      [props.orientation === 'landscape' ? 'width' : 'height']: `${props.disabled ? 50 : boundSplit.value}%`,
-    }))
+    const leftStyle = computed(() => (props.disabled
+      ? {
+        flex: 'auto 1 1',
+      }
+      : {
+        [props.orientation === 'landscape' ? 'width' : 'height']: `${boundSplit.value}%`,
+      }))
 
-    const rightStyle = computed(() => ({
-      [props.orientation === 'landscape' ? 'width' : 'height']: `${props.disabled ? 50 : 100 - boundSplit.value}%`,
-    }))
+    const rightStyle = computed(() => (props.disabled
+      ? {
+        display: 'none',
+      }
+      : {
+        [props.orientation === 'landscape' ? 'width' : 'height']: `${100 - boundSplit.value}%`,
+      }))
 
     const dragging = ref(false)
     let startPosition = 0
