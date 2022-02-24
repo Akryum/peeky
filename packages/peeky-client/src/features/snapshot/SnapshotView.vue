@@ -203,7 +203,7 @@ const showPreview = computed(() => isHtml.value && isEnvDom.value)
         />
         <CodeEditor
           v-else
-          :code="snapshot.content"
+          :code="!snapshot.failed && snapshot.newContent ? snapshot.newContent : snapshot.content"
           class="h-full"
         />
       </template>
@@ -214,7 +214,7 @@ const showPreview = computed(() => isHtml.value && isEnvDom.value)
           class="h-full flex items-stretch divide-x divide-gray-100 dark:divide-gray-900"
         >
           <iframe
-            :srcdoc="getIframeHtml(snapshot.content, props.test.previewImports)"
+            :srcdoc="getIframeHtml(!snapshot.failed && snapshot.newContent ? snapshot.newContent : snapshot.content, props.test.previewImports)"
             class="flex-1 min-w-0 min-h-0 h-full"
           />
           <iframe
