@@ -452,6 +452,28 @@ export default defineConfig({
 })
 ```
 
+## previewSetupFiles
+
+Array of paths to files that will be executed in the HTML previews in the UI.
+
+Example:
+
+```js
+export default defineConfig({
+  previewSetupFiles: [
+    './test/setup-preview.ts',
+  ],
+})
+```
+
+To add styles to the HTML previews, import a CSS file in the `previewSetupFiles`:
+
+```js
+// ./test/setup-preview.ts
+
+import '../src/style.css'
+```
+
 ## isolate
 
 Isolate the environment in the threaded workers for each test. Can impact performance.
