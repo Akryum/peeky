@@ -1,3 +1,17 @@
+## [0.13.4](https://github.com/Akryum/peeky/compare/v0.13.3...v0.13.4) (2022-02-24)
+
+
+### Bug Fixes
+
+* snapshot code not taking all available height ([0a2d723](https://github.com/Akryum/peeky/commit/0a2d7232dc362a68788ed6f063572378d765fa1d))
+
+
+### Features
+
+* **ui:** html preview for snapshot summary, closes [#71](https://github.com/Akryum/peeky/issues/71) ([4f5fb02](https://github.com/Akryum/peeky/commit/4f5fb0233d5df75030c685a41fcd70c724cf3a6c))
+
+
+
 ## [0.13.3](https://github.com/Akryum/peeky/compare/v0.13.2...v0.13.3) (2022-02-24)
 
 
