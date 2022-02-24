@@ -31,6 +31,8 @@ const runFragment = gql`fragment runOneSnapshot on Run {
           }
         }
       }
+      envResult
+      previewImports
     }
   }
   nextSnapshot (id: $snapshotId) {
