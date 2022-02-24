@@ -1,3 +1,24 @@
+## [0.13.3](https://github.com/Akryum/peeky/compare/v0.13.2...v0.13.3) (2022-02-24)
+
+
+### Bug Fixes
+
+* file module cache not cleared in some cases ([14adba6](https://github.com/Akryum/peeky/commit/14adba66963fee3e9633694503d7e1e823597fff))
+* html preview sizes ([db17f7f](https://github.com/Akryum/peeky/commit/db17f7f5709e5360da88f696cd26e7b7546a51ff))
+* **server:** print logs unrelated to tests ([fc36016](https://github.com/Akryum/peeky/commit/fc3601684448d7e5e8e9e68f067975141fe9a26a))
+* **ui:** snapshot content not updated after update ([465c9de](https://github.com/Akryum/peeky/commit/465c9deb91c881ddd1baed7f23718698960762fa))
+* **ui:** snapshot errors in tests list ([f872e7f](https://github.com/Akryum/peeky/commit/f872e7faf63db0da7c1ecbf22f079a88d1d3bbbd))
+
+
+### Features
+
+* dom preview, closes [#53](https://github.com/Akryum/peeky/issues/53) ([091eaf5](https://github.com/Akryum/peeky/commit/091eaf522871ab3a747be29a6cec11421bf802fe))
+* switch from shortid to nanoid, close [#69](https://github.com/Akryum/peeky/issues/69) ([3d70e9f](https://github.com/Akryum/peeky/commit/3d70e9f303f1594bc5ffdad2f1549fd6d314a6bd))
+* **ui:** auto select 1st snapshot ([7a6f92e](https://github.com/Akryum/peeky/commit/7a6f92efea82e0df2dee4127c0cc302b0c438ef7))
+* **ui:** placeholder in snapshot summary ([9181aa9](https://github.com/Akryum/peeky/commit/9181aa91383451361e40781d20c0235b0d12230f))
+
+
+
 ## [0.13.1](https://github.com/Akryum/peeky/compare/v0.13.0...v0.13.1) (2022-02-22)
 
 
