@@ -4,7 +4,9 @@ import { useQuery, useSubscription } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
+
 import SnapshotView from './SnapshotView.vue'
+import TestViewPlaceholder from '../test/TestViewPlaceholder.vue'
 
 const runFragment = gql`fragment runOneSnapshot on Run {
   id
@@ -114,5 +116,9 @@ onResult(() => {
     class="h-full"
     @next="$router.push({ ...$route, query: { ...$route.query, snapshotId: nextSnapshotId } })"
     @previous="$router.push({ ...$route, query: { ...$route.query, snapshotId: previousSnapshotId } })"
+  />
+
+  <TestViewPlaceholder
+    v-else
   />
 </template>
