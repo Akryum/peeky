@@ -34,7 +34,7 @@ const props = defineProps({
     </template>
     <template #last>
       <iframe
-        class="w-full h-full"
+        class="min-w-0 w-full min-h-0 h-full"
         :srcdoc="getIframeHtml(props.test.envResult?.html ?? '', props.test.previewImports)"
       />
     </template>

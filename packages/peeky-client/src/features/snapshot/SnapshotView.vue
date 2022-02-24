@@ -215,12 +215,12 @@ const showPreview = computed(() => isHtml.value && isEnvDom.value)
         >
           <iframe
             :srcdoc="getIframeHtml(snapshot.content, props.test.previewImports)"
-            class="w-full h-full"
+            class="flex-1 min-w-0 min-h-0 h-full"
           />
           <iframe
             v-if="snapshot.failed"
             :srcdoc="getIframeHtml(snapshot.newContent, props.test.previewImports)"
-            class="w-full h-full"
+            class="flex-1 min-w-0 min-h-0 h-full"
           />
           <div class="flex-none w-[30px]" />
         </div>
