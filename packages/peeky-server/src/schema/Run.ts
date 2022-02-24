@@ -343,7 +343,7 @@ export async function startRun (ctx: Context, id: string) {
       const [suiteId, testId, snapshots] = message.args
       const testFile = testSuites.find(s => s.id === suiteId).runTestFile.testFile
       await updateTest(ctx, suiteId, testId, (test) => {
-        const list:SnapshotData[] = snapshots.map(s => toSnapshotData(s, test, testFile))
+        const list: SnapshotData[] = snapshots.map(s => toSnapshotData(s, test, testFile))
         test.snapshots.push(...list)
         addSnapshots(list)
         return {

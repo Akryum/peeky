@@ -38,6 +38,12 @@ export async function runTestFile (options: RunTestFileOptions) {
       options.clearDeps.forEach(file => {
         moduleCache.delete(file)
         moduleCache.delete(`/@fs/${file}`)
+        for (const key of moduleCache.keys()) {
+          const [start] = key.split('?')
+          if (file.includes(start)) {
+            moduleCache.delete(key)
+          }
+        }
       })
     }
 
