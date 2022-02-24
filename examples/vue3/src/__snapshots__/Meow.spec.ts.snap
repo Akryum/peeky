@@ -1,7 +1,10 @@
 // Peeky snapshots v1.0
 
 exports[`Meow meow 1`] = `
-<button class="meow">
+<button
+  class="meow"
+  data-v-1e4fbaf9
+>
   Meow
 </button>
 `;

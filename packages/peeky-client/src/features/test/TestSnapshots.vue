@@ -90,6 +90,19 @@ function selectNext () {
     },
   })
 }
+
+// Auto-select first
+
+watch(() => snapshots.value.length, (length) => {
+  if (length && !selectedSnapshot.value) {
+    router.push({
+      query: {
+        ...route.query,
+        snapshotId: snapshots.value[0].id,
+      },
+    })
+  }
+})
 </script>
 
 <template>
