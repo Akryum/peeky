@@ -6,6 +6,9 @@ input ClearRunInput {
   id: ID!
 }
 
+"""JSON custom scalar type"""
+scalar Json
+
 type Mutation {
   clearRun(input: ClearRunInput!): Run!
   clearRuns: Boolean!
@@ -54,6 +57,7 @@ type Run {
 type RunTestFile {
   allTestSuites: [TestSuite!]!
   duration: Float
+  envName: String
   error: RunTestFileError
   id: ID!
   rootTestSuites: [TestSuite!]!
@@ -115,12 +119,14 @@ type Subscription {
 
 type Test {
   duration: Float
+  envResult: Json
   error: TestError
   failedSnapshotCount: Int!
   flag: TestFlag
   hasLogs: Boolean!
   id: ID!
   logs: [TestLog!]!
+  previewImports: [String]
   slug: String!
   snapshotCount: Int!
   snapshots: [Snapshot!]!

@@ -1,4 +1,4 @@
-import type { SerializablePeekyConfig } from '@peeky/config'
+import type { SerializablePeekyConfig, TestEnvironmentBase } from '@peeky/config'
 import type { Awaitable } from '@peeky/utils'
 import { Snapshot } from './snapshot/types.js'
 
@@ -20,6 +20,7 @@ export interface Context {
   suites: TestSuite[]
   pragma: Record<string, any>
   snapshots: Snapshot[]
+  runtimeEnv: TestEnvironmentBase
 }
 
 export type TestFlag = 'only' | 'skip' | 'todo' | null
@@ -52,6 +53,7 @@ export interface Test {
   failedSnapshots: number
   snapshots: Snapshot[]
   duration?: number
+  envResult?: any
 }
 
 export type TestSuiteChild = ['suite', TestSuite] | ['test', Test]

@@ -11,6 +11,7 @@ export interface WorkerRemoteMethods {
   onTestError: (suiteId: string, testId: string, duration: number, error: TestErrorData) => void
   onTestSuccess: (suiteId: string, testId: string, duration: number) => void
   onTestSnapshotsProcessed: (suiteId: string, testId: string, snapshots: Snapshot[]) => void
+  onTestEnvResult: (suiteId: string, testId: string, envResult: any) => void
   onLog: (suiteId: string, testId: string, type: 'stdout' | 'stderr', text: string, file?: string) => void
   fetchModule: (id: string) => Promise<FetchResult>
   resolveId: (id: string, importer?: string) => Promise<ViteNodeResolveId | null>

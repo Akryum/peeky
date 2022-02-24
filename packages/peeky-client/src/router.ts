@@ -50,6 +50,11 @@ export const router = createRouter({
                       name: 'test-snapshots',
                       component: () => import('./features/test/TestSnapshots.vue'),
                     },
+                    {
+                      path: 'dom-preview',
+                      name: 'test-dom-preview',
+                      component: () => import('./features/test/TestDomPreview.vue'),
+                    },
                   ],
                 },
               ],

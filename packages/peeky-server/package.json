@@ -50,6 +50,7 @@
     "pathe": "^0.2.0",
     "random-emoji": "^1.0.2",
     "slugify": "^1.6.0",
+    "vite": "^2.7.10",
     "ws": "^8.3.0"
   },
   "devDependencies": {

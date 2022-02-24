@@ -5,11 +5,16 @@ import portfinder from 'portfinder'
 
 export async function server (options) {
   try {
-    const {
-      http,
-    } = await createServer()
     const port = options.port ?? process.env.PORT ?? await portfinder.getPortPromise({
       startPort: 5000,
+    })
+    const vitePort = await portfinder.getPortPromise({
+      startPort: port,
+    })
+    const {
+      http,
+    } = await createServer({
+      vitePort,
     })
     http.listen(port, () => {
       const url = `http://localhost:${port}`

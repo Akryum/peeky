@@ -30,6 +30,7 @@ export interface PeekyConfig {
   reporters?: BuiltinReporter[]
   setupFiles?: string[]
   isolate?: boolean
+  previewSetupFiles?: string[]
 }
 
 export type SerializablePeekyConfig = Omit<PeekyConfig, 'runtimeEnv' | 'runtimeAvailableEnvs' | 'buildExclude' | 'buildInclude' | 'vite'> & {
@@ -48,15 +49,16 @@ export interface TestEnvironmentContext {
 }
 
 export abstract class TestEnvironmentBase {
-  config: PeekyConfig
-  context: TestEnvironmentContext
-
-  constructor (config: PeekyConfig, context: TestEnvironmentContext) {
-    this.config = config
-    this.context = context
-  }
+  // eslint-disable-next-line no-useless-constructor
+  constructor (
+    public envName: string,
+    protected config: PeekyConfig,
+    protected context: TestEnvironmentContext,
+  ) {}
 
   abstract create (): Awaitable<void>
+
+  abstract getResult (): Awaitable<any>
 
   abstract destroy (): Awaitable<void>
 }

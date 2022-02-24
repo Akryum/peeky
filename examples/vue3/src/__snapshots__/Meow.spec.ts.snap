@@ -1,0 +1,7 @@
+// Peeky snapshots v1.0
+
+exports[`Meow meow 1`] = `
+<button class="meow">
+  Meow
+</button>
+`;

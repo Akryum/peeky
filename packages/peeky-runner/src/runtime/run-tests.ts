@@ -73,6 +73,9 @@ async function runSuite (ctx: Context, suite: TestSuite, failOnSnapshots: boolea
             matcherResult: JSON.stringify(e.matcherResult),
           })
           suite.testErrors++
+        } finally {
+          test.envResult = await ctx.runtimeEnv.getResult()
+          toMainThread().onTestEnvResult(suite.id, test.id, test.envResult)
         }
 
         for (const parentSuite of allParents) {

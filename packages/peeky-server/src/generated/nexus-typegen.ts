@@ -10,8 +10,23 @@ import type { RunTestFileData } from "./../schema/RunTestFile"
 import type { SnapshotData } from "./../schema/Snapshot"
 import type { TestData } from "./../schema/Test"
 import type { TestSuiteData } from "./../schema/TestSuite"
-
-
+import type { core } from "nexus"
+declare global {
+  interface NexusGenCustomInputMethods<TypeName extends string> {
+    /**
+     * JSON custom scalar type
+     */
+    json<FieldName extends string>(fieldName: FieldName, opts?: core.CommonInputFieldConfig<TypeName, FieldName>): void // "Json";
+  }
+}
+declare global {
+  interface NexusGenCustomOutputMethods<TypeName extends string> {
+    /**
+     * JSON custom scalar type
+     */
+    json<FieldName extends string>(fieldName: FieldName, ...opts: core.ScalarOutSpread<TypeName, FieldName>): void // "Json";
+  }
+}
 
 
 declare global {
@@ -46,6 +61,7 @@ export interface NexusGenScalars {
   Float: number
   Boolean: boolean
   ID: string
+  Json: any
 }
 
 export interface NexusGenObjects {
@@ -142,6 +158,7 @@ export interface NexusGenFieldTypes {
   RunTestFile: { // field return type
     allTestSuites: NexusGenRootTypes['TestSuite'][]; // [TestSuite!]!
     duration: number | null; // Float
+    envName: string | null; // String
     error: NexusGenRootTypes['RunTestFileError'] | null; // RunTestFileError
     id: string; // ID!
     rootTestSuites: NexusGenRootTypes['TestSuite'][]; // [TestSuite!]!
@@ -185,12 +202,14 @@ export interface NexusGenFieldTypes {
   }
   Test: { // field return type
     duration: number | null; // Float
+    envResult: NexusGenScalars['Json'] | null; // Json
     error: NexusGenRootTypes['TestError'] | null; // TestError
     failedSnapshotCount: number; // Int!
     flag: NexusGenEnums['TestFlag'] | null; // TestFlag
     hasLogs: boolean; // Boolean!
     id: string; // ID!
     logs: NexusGenRootTypes['TestLog'][]; // [TestLog!]!
+    previewImports: Array<string | null> | null; // [String]
     slug: string; // String!
     snapshotCount: number; // Int!
     snapshots: NexusGenRootTypes['Snapshot'][]; // [Snapshot!]!
@@ -280,6 +299,7 @@ export interface NexusGenFieldTypeNames {
   RunTestFile: { // field return type name
     allTestSuites: 'TestSuite'
     duration: 'Float'
+    envName: 'String'
     error: 'RunTestFileError'
     id: 'ID'
     rootTestSuites: 'TestSuite'
@@ -323,12 +343,14 @@ export interface NexusGenFieldTypeNames {
   }
   Test: { // field return type name
     duration: 'Float'
+    envResult: 'Json'
     error: 'TestError'
     failedSnapshotCount: 'Int'
     flag: 'TestFlag'
     hasLogs: 'Boolean'
     id: 'ID'
     logs: 'TestLog'
+    previewImports: 'String'
     slug: 'String'
     snapshotCount: 'Int'
     snapshots: 'Snapshot'

@@ -62,6 +62,7 @@ export async function runTestFile (options: RunTestFileOptions) {
       suites: [],
       pragma: pragmaObject ?? {},
       snapshots: [],
+      runtimeEnv: null,
     }
 
     // Restore mocked module
@@ -92,10 +93,14 @@ export async function runTestFile (options: RunTestFileOptions) {
     } else {
       RuntimeEnv = NodeEnvironment
     }
-    const runtimeEnv = new RuntimeEnv(config, {
-      testPath: options.entry,
-      pragma: ctx.pragma,
-    })
+    const runtimeEnv = new RuntimeEnv(
+      typeof runtimeEnvOption === 'string' ? runtimeEnvOption : runtimeEnvOption.envName,
+      config, {
+        testPath: options.entry,
+        pragma: ctx.pragma,
+      },
+    )
+    ctx.runtimeEnv = runtimeEnv
     await runtimeEnv.create()
 
     let ufs
@@ -169,6 +174,9 @@ export async function runTestFile (options: RunTestFileOptions) {
       failedSnapshots,
       newSnapshots,
       passedSnapshots,
+      env: {
+        name: runtimeEnv.envName,
+      },
     }
   } catch (e) {
     consola.error(`Running tests failed: ${e.stack}`)

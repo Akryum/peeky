@@ -9,6 +9,7 @@ import { makeSchema } from 'nexus'
 import consola from 'consola'
 import { WebSocketServer } from 'ws'
 import { useServer } from 'graphql-ws/lib/use/ws'
+import { createServer as createViteServer } from 'vite'
 import { setupConfigLoader } from '@peeky/config'
 import type { Context } from './context'
 import * as types from './schema/index.js'
@@ -18,7 +19,31 @@ import { run } from './run.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
-export async function createServer () {
+export interface CreateServerOptions {
+  vitePort: number
+}
+
+export async function createServer (options: CreateServerOptions) {
+  // Config
+  const configLoader = await setupConfigLoader()
+  const config = await configLoader.loadConfig()
+
+  // Vite server
+  const viteServer = await createViteServer({
+    logLevel: 'error',
+    clearScreen: false,
+    root: config.targetDirectory,
+    server: {
+      hmr: {
+        host: `localhost`,
+        port: options.vitePort,
+      },
+    },
+  })
+  await viteServer.listen(options.vitePort)
+
+  // Create GraphQL server
+
   const useLegacyWebsockets = !!process.env.PEEKY_LEGACY_WS
 
   const schema = makeSchema({
@@ -35,15 +60,14 @@ export async function createServer () {
     },
   })
 
-  const configLoader = await setupConfigLoader()
-  const config = await configLoader.loadConfig()
-
   const pubsub = new PubSub()
 
   function createContext (): Context {
     return {
       config,
       pubsub,
+      vitePort: options.vitePort,
+      viteServer,
     }
   }
 

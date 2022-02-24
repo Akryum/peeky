@@ -1,8 +1,14 @@
 import type { Window } from 'happy-dom'
+import { format as prettyFormat } from 'pretty-format'
 import { PeekyConfig, TestEnvironmentBase, InstantiableTestEnvironmentClass } from '@peeky/config'
+import HtmlFormat from '../snapshot/plugins/html.js'
 
 export class NodeEnvironment extends TestEnvironmentBase {
   create () {
+    // do nothing
+  }
+
+  getResult () {
     // do nothing
   }
 
@@ -26,6 +32,16 @@ export class DomEnvironment extends TestEnvironmentBase {
 
     for (const key of this.globalKeys) {
       global[key] = this.window[key]
+    }
+  }
+
+  getResult () {
+    return {
+      html: prettyFormat(this.window.document.documentElement.outerHTML, {
+        plugins: [
+          HtmlFormat,
+        ],
+      }),
     }
   }
 

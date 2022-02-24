@@ -58,6 +58,17 @@ export const Test = objectType({
       type: 'TestSuite',
       resolve: test => test.testSuite,
     })
+    t.field('envResult', {
+      type: 'Json',
+    })
+    t.list.string('previewImports', {
+      resolve: async (test, args, ctx) => {
+        return [
+          ...ctx.config.previewSetupFiles?.map(f => `http://localhost:${ctx.vitePort}/${f}`) ?? [],
+          `http://localhost:${ctx.vitePort}/${test.testSuite.runTestFile.testFile.relativePath}`,
+        ]
+      },
+    })
   },
 })
 
@@ -187,6 +198,7 @@ export interface TestData {
   logs: TestLogData[]
   snapshots: SnapshotData[]
   failedSnapshotCount: number
+  envResult?: any
 }
 
 export interface TestLogData {

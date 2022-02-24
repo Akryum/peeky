@@ -1,3 +1,4 @@
+export * from './scalars.js'
 export * from './Status.js'
 export * from './TestFile.js'
 export * from './TestSuite.js'

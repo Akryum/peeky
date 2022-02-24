@@ -210,6 +210,7 @@ export async function setupRunner (options: RunnerOptions) {
     onMessage,
     clearOnMessage,
     pool,
+    viteServer,
   }
 }
 

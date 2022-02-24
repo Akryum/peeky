@@ -36,6 +36,7 @@ export const RunTestFile = objectType({
     t.field('error', {
       type: RunTestFileError,
     })
+    t.string('envName')
   },
 })
 
@@ -94,6 +95,7 @@ export interface RunTestFileData {
   status: StatusEnum
   duration: number
   error: RunTestFileErrorData
+  envName?: string
 }
 
 export interface RunTestFileErrorData {

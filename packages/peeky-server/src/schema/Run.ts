@@ -349,6 +349,11 @@ export async function startRun (ctx: Context, id: string) {
           failedSnapshotCount: test.failedSnapshotCount + snapshots.filter(s => !!s.newContent).length,
         }
       })
+    } else if (message.method === 'onTestEnvResult') {
+      const [suiteId, testId, envResult] = message.args
+      await updateTest(ctx, suiteId, testId, {
+        envResult,
+      })
     }
   })
 
@@ -371,6 +376,7 @@ export async function startRun (ctx: Context, id: string) {
         await updateRunTestFile(ctx, run.id, f.id, {
           status,
           duration: result.duration,
+          envName: result.env.name,
         })
         completed++
         await updateRun(ctx, run.id, {

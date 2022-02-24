@@ -12,6 +12,7 @@ fragment runTestFileList on RunTestFile {
     relativePath
     deleted
   }
+  envName
 }
 `
 </script>

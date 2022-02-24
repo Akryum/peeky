@@ -34,6 +34,11 @@ export default defineComponent({
       type: String,
       default: null,
     },
+
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   setup (props) {
@@ -72,11 +77,11 @@ export default defineComponent({
     })
 
     const leftStyle = computed(() => ({
-      [props.orientation === 'landscape' ? 'width' : 'height']: `${boundSplit.value}%`,
+      [props.orientation === 'landscape' ? 'width' : 'height']: `${props.disabled ? 50 : boundSplit.value}%`,
     }))
 
     const rightStyle = computed(() => ({
-      [props.orientation === 'landscape' ? 'width' : 'height']: `${100 - boundSplit.value}%`,
+      [props.orientation === 'landscape' ? 'width' : 'height']: `${props.disabled ? 50 : 100 - boundSplit.value}%`,
     }))
 
     const dragging = ref(false)
@@ -126,7 +131,7 @@ export default defineComponent({
 <template>
   <div
     ref="el"
-    class="flex h-full"
+    class="base-split-pane flex h-full"
     :class="{
       'flex-col meow': orientation === 'portrait',
       'cursor-ew-resize': dragging && orientation === 'landscape',
@@ -141,13 +146,14 @@ export default defineComponent({
       class="relative top-0 left-0"
       :class="{
         'pointer-events-none': dragging,
-        'border-r border-gray-200 dark:border-gray-800': orientation === 'landscape'
+        'border-r border-gray-100 dark:border-gray-800': orientation === 'landscape'
       }"
       :style="leftStyle"
     >
       <slot name="first" />
 
       <div
+        v-if="!disabled"
         class="dragger absolute z-100 hover:bg-primary-500 hover:bg-opacity-25 transition-colors duration-150 delay-150"
         :class="{
           'top-0 bottom-0 cursor-ew-resize': orientation === 'landscape',
@@ -161,7 +167,7 @@ export default defineComponent({
       class="relative bottom-0 right-0"
       :class="{
         'pointer-events-none': dragging,
-        'border-t border-gray-200 dark:border-gray-800': orientation === 'portrait'
+        'border-t border-gray-100 dark:border-gray-800': orientation === 'portrait'
       }"
       :style="rightStyle"
     >
@@ -170,42 +176,42 @@ export default defineComponent({
   </div>
 </template>
 
-<style scoped>
+<style lang="postcss" scoped>
 .dragger {
-  .landscape & {
+  .landscape > div > & {
     width: 10px;
   }
 
-  .portrait & {
+  .portrait > div > & {
     height: 10px;
   }
 
   &.dragger-offset-before {
-    .landscape & {
+    .landscape > div > & {
       right: 0;
     }
 
-    .portrait & {
+    .portrait > div > & {
       bottom: 0;
     }
   }
 
   &.dragger-offset-center {
-    .landscape & {
+    .landscape > div > & {
       right: -5px;
     }
 
-    .portrait & {
+    .portrait > div > & {
       bottom: -5px;
     }
   }
 
   &.dragger-offset-after {
-    .landscape & {
+    .landscape > div > & {
       right: -10px;
     }
 
-    .portrait & {
+    .portrait > div > & {
       bottom: -10px;
     }
   }

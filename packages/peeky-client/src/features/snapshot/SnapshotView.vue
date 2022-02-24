@@ -1,10 +1,14 @@
 <script lang="ts" setup>
+import { computed } from 'vue'
 import { useMutation } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
+import { getIframeHtml } from '../../util/preview'
+
 import { ChevronLeftIcon, ChevronRightIcon, SaveIcon } from '@zhuowenli/vue-feather-icons'
 import BaseButton from '../BaseButton.vue'
 import CodeEditor from '../editor/CodeEditor.vue'
 import DiffEditor from '../editor/DiffEditor.vue'
+import BaseSplitPane from '../BaseSplitPane.vue'
 
 const props = defineProps({
   snapshot: {
@@ -123,6 +127,10 @@ mutation updateSnapshot ($id: ID!) {
     }
   },
 })
+
+const isHtml = computed(() => props.snapshot.content.trim().startsWith('<'))
+const isEnvDom = computed(() => !!props.test.envResult?.html)
+const showPreview = computed(() => isHtml.value && isEnvDom.value)
 </script>
 
 <template>
@@ -177,16 +185,46 @@ mutation updateSnapshot ($id: ID!) {
       </BaseButton>
     </div>
 
-    <DiffEditor
-      v-if="snapshot.failed"
-      :actual="snapshot.newContent"
-      :expected="snapshot.content"
+    <BaseSplitPane
+      :disabled="!showPreview"
+      :default-split="60"
+      :min="20"
+      :max="80"
+      save-id="peeky-snapshot-view"
+      orientation="portrait"
       class="flex-1"
-    />
-    <CodeEditor
-      v-else
-      :code="snapshot.content"
-      class="flex-1"
-    />
+    >
+      <template #first>
+        <DiffEditor
+          v-if="snapshot.failed"
+          :actual="snapshot.newContent"
+          :expected="snapshot.content"
+          class="h-full"
+        />
+        <CodeEditor
+          v-else
+          :code="snapshot.content"
+          class="h-full"
+        />
+      </template>
+
+      <template #last>
+        <div
+          v-if="showPreview"
+          class="h-full flex items-stretch divide-x divide-gray-100 dark:divide-gray-900"
+        >
+          <iframe
+            :srcdoc="getIframeHtml(snapshot.content, props.test.previewImports)"
+            class="w-full h-full"
+          />
+          <iframe
+            v-if="snapshot.failed"
+            :srcdoc="getIframeHtml(snapshot.newContent, props.test.previewImports)"
+            class="w-full h-full"
+          />
+          <div class="flex-none w-[30px]" />
+        </div>
+      </template>
+    </BaseSplitPane>
   </div>
 </template>

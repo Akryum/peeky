@@ -3,12 +3,14 @@
   "private": true,
   "scripts": {
     "test": "peeky run",
-    "test:dev": "peeky open"
+    "test:dev": "peeky open",
+    "server": "nodemon ../../packages/peeky-server/dist/standalone.js --watch ../../packages --delay 200ms -e js --ignore tests/ --nexus-artifacts"
   },
   "devDependencies": {
     "@peeky/test": "workspace:*",
     "@vitejs/plugin-vue": "^1",
     "@vue/test-utils": "^2.0.0-rc.17",
+    "nodemon": "^2.0.7",
     "vite": "^2.7.10",
     "vue": "^3"
   }

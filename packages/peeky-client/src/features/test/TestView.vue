@@ -2,7 +2,7 @@
 import { useMutation, useQuery, useResult } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 import { useRoute } from 'vue-router'
-import { EditIcon } from '@zhuowenli/vue-feather-icons'
+import { EditIcon, HexagonIcon } from '@zhuowenli/vue-feather-icons'
 import BaseButton from '../BaseButton.vue'
 import BaseTab from '../BaseTab.vue'
 import StatusIcon from '../StatusIcon.vue'
@@ -24,6 +24,8 @@ fragment testView on Test {
   hasLogs
   snapshotCount
   failedSnapshotCount
+  envResult
+  previewImports
 }
 ${errorFragment}
 `
@@ -45,6 +47,7 @@ const { result, subscribeToMore, onResult } = useQuery(() => gql`
             id
             relativePath
           }
+          envName
         }
         test: testBySlug (slug: $testSlug) {
           ...testView
@@ -106,11 +109,20 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
     v-if="test"
     class="divide-y divide-gray-100 dark:divide-gray-800 h-full flex flex-col"
   >
-    <div class="flex bg-gray-50 dark:bg-gray-950 pr-4">
+    <div class="flex items-center gap-4 bg-gray-50 dark:bg-gray-950 pr-4">
       <TestFileItem
         :file="suite.runTestFile"
         class="!h-8 m-1 rounded shrink"
       />
+
+      <div
+        v-if="suite.runTestFile?.envName"
+        v-tooltip="'Runtime environment'"
+        class="flex gap-1 items-center"
+      >
+        <HexagonIcon class="opacity-50 w-4 h-4" />
+        {{ suite.runTestFile.envName }}
+      </div>
 
       <div class="flex-1 flex items-center space-x-2 justify-end">
         <BaseButton
@@ -193,6 +205,16 @@ mutation openInEditor ($id: ID!, $line: Int!, $col: Int!) {
             class="w-2 h-2 bg-primary-500 dark:bg-primary-400 rounded-full"
           />
         </div>
+      </BaseTab>
+      <BaseTab
+        v-if="test.envResult?.html"
+        :to="{
+          name: 'test-dom-preview',
+          query: { ...$route.query },
+          params: { ...$route.params },
+        }"
+      >
+        Preview
       </BaseTab>
     </nav>
 
