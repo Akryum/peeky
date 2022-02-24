@@ -8,7 +8,7 @@ export default defineConfig({
   test: {
     runtimeEnv: 'dom',
     previewSetupFiles: [
-      'histoire-preview.ts',
+      'peeky-preview.ts',
     ],
   },
 })
