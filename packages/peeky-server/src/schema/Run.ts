@@ -336,6 +336,8 @@ export async function startRun (ctx: Context, id: string) {
             logs,
           }
         })
+      } else {
+        process[type].write(text)
       }
     } else if (message.method === 'onTestSnapshotsProcessed') {
       const [suiteId, testId, snapshots] = message.args
