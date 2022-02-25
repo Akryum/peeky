@@ -5,6 +5,12 @@
   <p class="text-center text-primary-700 font-medium">Welcome to Peeky, a test framework for the curious minds!</p>
 </div>
 
+<p align="center">
+  <a href="https://guillaume-chau.info/sponsors/" target="_blank">
+    <img src='https://akryum.netlify.app/sponsors.svg'/>
+  </a>
+</p>
+
 ## What is Peeky
 
 Peeky is a test framework. Its components are:
