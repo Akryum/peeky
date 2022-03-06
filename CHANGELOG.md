@@ -1,3 +1,12 @@
+## [0.13.5](https://github.com/Akryum/peeky/compare/v0.13.4...v0.13.5) (2022-03-06)
+
+
+### Bug Fixes
+
+* **ui:** snapshot preview overflowing over editor ([58e69b3](https://github.com/Akryum/peeky/commit/58e69b328231913c10552a2f82cdf7cd3fdda1dd))
+
+
+
 ## [0.13.4](https://github.com/Akryum/peeky/compare/v0.13.3...v0.13.4) (2022-02-24)
 
 
