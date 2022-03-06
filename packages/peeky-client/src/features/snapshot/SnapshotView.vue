@@ -199,12 +199,12 @@ const showPreview = computed(() => isHtml.value && isEnvDom.value)
           v-if="snapshot.failed"
           :actual="snapshot.newContent"
           :expected="snapshot.content"
-          class="h-full"
+          class="h-full overflow-hidden"
         />
         <CodeEditor
           v-else
           :code="!snapshot.failed && snapshot.newContent ? snapshot.newContent : snapshot.content"
-          class="h-full"
+          class="h-full overflow-hidden"
         />
       </template>
 

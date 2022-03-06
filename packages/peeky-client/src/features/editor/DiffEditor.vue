@@ -84,7 +84,7 @@ onResize(el, () => {
 
     <div
       ref="el"
-      class="flex-1"
+      class="flex-1 overflow-hidden"
     />
   </div>
 </template>
