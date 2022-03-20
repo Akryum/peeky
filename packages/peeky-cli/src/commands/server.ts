@@ -6,10 +6,10 @@ import portfinder from 'portfinder'
 export async function server (options) {
   try {
     const port = options.port ?? process.env.PORT ?? await portfinder.getPortPromise({
-      startPort: 5000,
+      port: 5000,
     })
     const vitePort = await portfinder.getPortPromise({
-      startPort: port,
+      port: port + 1,
     })
     const {
       http,
