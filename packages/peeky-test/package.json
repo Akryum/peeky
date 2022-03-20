@@ -33,11 +33,11 @@
     "watch": "tsc -d -w --sourceMap"
   },
   "dependencies": {
-    "@peeky/cli": "^0.13.5",
-    "@peeky/config": "^0.13.5",
-    "@peeky/eslint-plugin": "^0.13.5",
-    "@peeky/runner": "^0.13.5",
-    "@peeky/server": "^0.13.5"
+    "@peeky/cli": "^0.13.6",
+    "@peeky/config": "^0.13.6",
+    "@peeky/eslint-plugin": "^0.13.6",
+    "@peeky/runner": "^0.13.6",
+    "@peeky/server": "^0.13.6"
   },
   "devDependencies": {
     "@types/node": "^14.14.21",

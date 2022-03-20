@@ -1,3 +1,12 @@
+## [0.13.6](https://github.com/Akryum/peeky/compare/v0.13.5...v0.13.6) (2022-03-20)
+
+
+### Bug Fixes
+
+* EADDRINUSE error ([b5c0f21](https://github.com/Akryum/peeky/commit/b5c0f21f3edb8e7e24f769ebddaf33ff8e985e2d))
+
+
+
 ## [0.13.5](https://github.com/Akryum/peeky/compare/v0.13.4...v0.13.5) (2022-03-06)
 
 
