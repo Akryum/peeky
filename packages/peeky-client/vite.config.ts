@@ -30,6 +30,14 @@ export default defineConfig({
     __DEV__: 'false',
   },
   optimizeDeps: {
-    exclude: ['@peeky/utils'],
+    include: [
+      'xterm',
+      'xterm-addon-fit',
+      'xterm-addon-search',
+      'xterm-addon-web-links',
+      'xterm-addon-webgl',
+      'vue-resize',
+    ],
+    exclude: ['@peeky/utils', '@peeky/server/types'],
   },
 })

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { defineProps, PropType } from 'vue'
+import { PropType } from 'vue'
 import type { NexusGenFieldTypes } from '@peeky/server/types'
 import BaseTab from '../BaseTab.vue'
 

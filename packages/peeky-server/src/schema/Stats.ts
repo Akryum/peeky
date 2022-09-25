@@ -1,4 +1,4 @@
-import { withFilter } from 'apollo-server-express'
+import { withFilter } from 'graphql-subscriptions'
 import { arg, extendType, idArg, nonNull } from 'nexus'
 import { Context } from 'vm'
 import { getRunId, runs } from './Run.js'

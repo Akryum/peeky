@@ -1,5 +1,5 @@
 import fs from 'fs-extra'
-import path from 'pathe'
+import * as path from 'pathe'
 import consola from 'consola'
 import { nanoid } from 'nanoid'
 import { fixWindowsAbsoluteFileUrl } from '@peeky/utils'

@@ -31,7 +31,7 @@ declare global {
   const afterAll: AfterAllFn
   const beforeEach: BeforeEachFn
   const afterEach: AfterEachFn
-  const expect: typeof import('expect')
+  const expect: typeof import('expect').expect
   const sinon: typeof import('sinon')
   const peeky: PeekyGlobals
 }

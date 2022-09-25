@@ -3,7 +3,7 @@ import type { TestCollector } from './collect-tests.js'
 
 export async function getGlobals (ctx: Context, collector: TestCollector) {
   const { default: sinon } = await import('sinon')
-  const { default: expect } = await import('expect')
+  const { expect } = await import('expect')
 
   const target = {} as any
   // Global objects

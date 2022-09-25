@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import { useMutation, useQuery, useResult } from '@vue/apollo-composable'
+import { useMutation, useQuery } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
+import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { EditIcon, HexagonIcon } from '@zhuowenli/vue-feather-icons'
 import BaseButton from '../BaseButton.vue'
@@ -65,8 +66,8 @@ const { result, subscribeToMore, onResult } = useQuery(() => gql`
   fetchPolicy: 'cache-and-network',
 }))
 
-const suite = useResult(result, null, data => data.run.testSuite)
-const test = useResult(result, null, data => data.run.testSuite.test)
+const suite = computed(() => result.value?.run.testSuite)
+const test = computed(() => result.value?.run.testSuite.test)
 
 subscribeToMore(() => ({
   document: gql`

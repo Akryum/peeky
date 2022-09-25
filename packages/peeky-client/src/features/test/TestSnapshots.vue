@@ -3,7 +3,7 @@
 import { useQuery } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 import { useRoute, useRouter } from 'vue-router'
-import { computed, defineProps, watch } from 'vue'
+import { computed, watch } from 'vue'
 import { CameraIcon } from '@zhuowenli/vue-feather-icons'
 
 import BaseSplitPane from '../BaseSplitPane.vue'

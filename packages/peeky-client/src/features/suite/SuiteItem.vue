@@ -31,7 +31,7 @@ export type TestSuiteItem = Pick<NexusGenFieldTypes['TestSuite'],
 import TestItem from '../test/TestItem.vue'
 import StatusIcon from '../StatusIcon.vue'
 import Duration from '../Duration.vue'
-import { defineProps, PropType } from 'vue'
+import { PropType } from 'vue'
 
 const props = defineProps({
   suite: {

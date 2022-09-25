@@ -1,9 +1,9 @@
 
 <script lang="ts" setup>
-import { useQuery, useResult } from '@vue/apollo-composable'
+import { useQuery } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 import { useRoute } from 'vue-router'
-import { defineProps, onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { TerminalIcon } from '@zhuowenli/vue-feather-icons'
 import TerminalView from '../terminal/TerminalView.vue'
 
@@ -45,7 +45,7 @@ const { result, refetch } = useQuery(() => gql`
   fetchPolicy: 'no-cache',
 })
 
-const logs = useResult(result, [], data => data.run.testSuite.test.logs)
+const logs = computed(() => result.value?.run.testSuite.test.logs ?? [])
 
 watch(() => props.test.status, () => {
   refetch()

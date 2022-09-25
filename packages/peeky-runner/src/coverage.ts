@@ -1,5 +1,5 @@
 import fs from 'fs-extra'
-import path from 'pathe'
+import * as path from 'pathe'
 import createReport from 'c8/lib/report.js'
 import type { C8Options } from '@peeky/config'
 

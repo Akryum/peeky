@@ -2,7 +2,6 @@
 import StatusIcon from '../StatusIcon.vue'
 import Duration from '../Duration.vue'
 import { FileIcon } from '@zhuowenli/vue-feather-icons'
-import { defineProps } from 'vue'
 
 const props = defineProps({
   file: Object,

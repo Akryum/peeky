@@ -2,10 +2,16 @@ import { dirname, join } from 'pathe'
 import HTTP from 'http'
 import { fileURLToPath } from 'url'
 import { createRequire } from 'module'
-import { ApolloServer, PubSub } from 'apollo-server-express'
+import { ApolloServer } from 'apollo-server-express'
+import {
+  ApolloServerPluginDrainHttpServer,
+  ApolloServerPluginLandingPageLocalDefault,
+  ApolloServerPluginInlineTrace,
+} from 'apollo-server-core'
 import express from 'express'
 import historyFallback from 'express-history-api-fallback'
 import { makeSchema } from 'nexus'
+import { PubSub } from 'graphql-subscriptions'
 import consola from 'consola'
 import { WebSocketServer } from 'ws'
 import { useServer } from 'graphql-ws/lib/use/ws'
@@ -44,8 +50,6 @@ export async function createServer (options: CreateServerOptions) {
 
   // Create GraphQL server
 
-  const useLegacyWebsockets = !!process.env.PEEKY_LEGACY_WS
-
   const schema = makeSchema({
     types,
     outputs: {
@@ -74,46 +78,49 @@ export async function createServer (options: CreateServerOptions) {
   await loadTestFiles(createContext())
   await setupRunWatch(createContext())
 
+  const app = express()
+  const http = HTTP.createServer(app)
+
+  const wsServer = new WebSocketServer({
+    server: http,
+    path: '/api',
+  })
+  const wsCleanup = useServer({
+    schema,
+    context: createContext,
+  }, wsServer)
+
   const apollo = new ApolloServer({
     schema,
     context: createContext,
-    playground: true,
+    cache: 'bounded',
     formatError (error) {
       consola.error(error)
       consola.log(JSON.stringify(error, null, 2))
       return error
     },
-    subscriptions: useLegacyWebsockets
-      ? {
-        path: '/api',
-      }
-      : false,
+    plugins: [
+      ApolloServerPluginDrainHttpServer({ httpServer: http }),
+      {
+        async serverWillStart () {
+          return {
+            async drainServer () {
+              await wsCleanup.dispose()
+            },
+          }
+        },
+      },
+      ApolloServerPluginLandingPageLocalDefault(),
+      ApolloServerPluginInlineTrace(),
+    ],
   })
 
-  const app = express()
-  const http = HTTP.createServer(app)
+  await apollo.start()
 
   apollo.applyMiddleware({
     app,
     path: '/api',
   })
-
-  if (useLegacyWebsockets) {
-    apollo.installSubscriptionHandlers(http)
-  }
-
-  let wsServer: WebSocketServer
-
-  if (!useLegacyWebsockets) {
-    wsServer = new WebSocketServer({
-      server: http,
-      path: '/api',
-    })
-    useServer({
-      schema,
-      context: createContext,
-    }, wsServer)
-  }
 
   const require = createRequire(import.meta.url)
   const staticRoot = join(dirname(require.resolve('@peeky/client-dist/package.json')), 'dist')

@@ -2,7 +2,7 @@
 
 import path from 'path'
 import { defineConfig } from 'vite'
-import { createVuePlugin } from 'vite-plugin-vue2'
+import vue from '@vitejs/plugin-vue2'
 import WindiCSS from 'vite-plugin-windicss'
 
 // console.log('loaded vite config', new Error().stack)
@@ -16,7 +16,7 @@ const config = defineConfig({
   },
 
   plugins: [
-    createVuePlugin(),
+    vue(),
     WindiCSS(),
   ],
 

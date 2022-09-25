@@ -23,7 +23,7 @@ if (apiUrl.includes('http')) {
 }
 
 class WebSocketLink extends ApolloLink {
-  client: Client;
+  client: Client
 
   constructor (options: ClientOptions) {
     super()

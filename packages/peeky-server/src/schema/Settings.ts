@@ -1,5 +1,5 @@
 import { arg, extendType, inputObjectType, nonNull, objectType } from 'nexus'
-import path from 'pathe'
+import * as path from 'pathe'
 import fs from 'fs-extra'
 import os from 'os'
 import type { Context } from '../context'

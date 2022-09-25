@@ -2,7 +2,7 @@ import { Session, Profiler } from 'inspector'
 import { promisify } from 'util'
 import { performance } from 'perf_hooks'
 import fs from 'fs-extra'
-import path from 'pathe'
+import * as path from 'pathe'
 import { nanoid } from 'nanoid'
 
 export type V8Coverage = ReadonlyArray<Profiler.ScriptCoverage>

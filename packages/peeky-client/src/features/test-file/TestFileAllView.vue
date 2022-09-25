@@ -1,10 +1,11 @@
 <script lang="ts" setup>
+import { useQuery } from '@vue/apollo-composable'
+import gql from 'graphql-tag'
+import { useRoute } from 'vue-router'
+import { computed } from 'vue'
 import SuitesView from '../suite/SuitesView.vue'
 import { testItemFragment } from '../test/TestItem.vue'
 import { testSuiteItemFragment } from '../suite/SuiteItem.vue'
-import { useQuery, useResult } from '@vue/apollo-composable'
-import gql from 'graphql-tag'
-import { useRoute } from 'vue-router'
 
 const route = useRoute()
 
@@ -57,7 +58,7 @@ const { result, subscribeToMore, onResult } = useQuery(() => route.params.runId 
   fetchPolicy: 'cache-and-network',
 })
 
-const run = useResult(result, null)
+const run = computed(() => result.value?.run)
 
 subscribeToMore(() => ({
   document: gql`

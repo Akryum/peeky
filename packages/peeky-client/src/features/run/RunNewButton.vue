@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import BaseButton from '../BaseButton.vue'
 import { PlayIcon } from '@zhuowenli/vue-feather-icons'
-import { useMutation, useQuery, useResult } from '@vue/apollo-composable'
+import { useMutation, useQuery } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 import { computed } from 'vue'
+import BaseButton from '../BaseButton.vue'
 
 const { result } = useQuery(gql`
   query lastRunNewButton {
@@ -13,7 +13,7 @@ const { result } = useQuery(gql`
     }
   }
 `)
-const lastRun = useResult(result, null)
+const lastRun = computed(() => result.value?.lastRun)
 
 const { mutate, loading: mutating } = useMutation(gql`
   mutation startRun {

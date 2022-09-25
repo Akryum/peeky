@@ -1,5 +1,5 @@
 import { fileURLToPath } from 'url'
-import { withFilter } from 'apollo-server-express'
+import { withFilter } from 'graphql-subscriptions'
 import { extendType, idArg, nonNull, objectType, stringArg, unionType } from 'nexus'
 import slugify from 'slugify'
 import { TestFlag } from '@peeky/runner'

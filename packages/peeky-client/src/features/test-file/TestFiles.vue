@@ -18,12 +18,12 @@ fragment runTestFileList on RunTestFile {
 </script>
 
 <script lang="ts" setup>
-import BaseInput from '../BaseInput.vue'
-import TestFileItem from './TestFileItem.vue'
 import { SearchIcon } from '@zhuowenli/vue-feather-icons'
 import { computed, Ref, ref } from 'vue'
-import { useQuery, useResult } from '@vue/apollo-composable'
+import { useQuery } from '@vue/apollo-composable'
 import { useRoute } from 'vue-router'
+import BaseInput from '../BaseInput.vue'
+import TestFileItem from './TestFileItem.vue'
 
 const route = useRoute()
 
@@ -62,8 +62,8 @@ const { result, subscribeToMore } = useQuery(() => route.params.runId !== 'last-
     id: route.params.runId,
   }
   : {})
-const testFiles = useResult(result, [], data => data.run.runTestFiles)
-const previousErrorFiles = useResult(result, [], data => data.run.previousErrorRunTestFiles)
+const testFiles = computed(() => result.value?.run.runTestFiles ?? [])
+const previousErrorFiles = computed(() => result.value?.run.previousErrorRunTestFiles ?? [])
 
 // Filtering
 const searchText = ref('')

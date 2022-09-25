@@ -5,7 +5,7 @@ import { performance } from 'perf_hooks'
 import { arg, extendType, idArg, inputObjectType, nonNull, objectType } from 'nexus'
 import { nanoid } from 'nanoid'
 import { setupRunner, getStats, Runner } from '@peeky/runner'
-import randomEmoji from 'random-emoji'
+import randomEmoji from '@sefinek/random-emoji'
 import objectInspect from 'object-inspect'
 import type { Context } from '../context'
 import { Status, StatusEnum } from './Status.js'
@@ -202,7 +202,7 @@ export async function createRun (ctx: Context, options: CreateRunOptions) {
   const run: RunData = {
     id: runId,
     date: new Date().toISOString(),
-    emoji: randomEmoji.random({ count: 1 })[0].character,
+    emoji: randomEmoji.unicode(),
     progress: 0,
     status: 'in_progress',
     duration: null,

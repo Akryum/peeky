@@ -1,5 +1,5 @@
 <script lang="ts">
-import { computed, defineProps, ref } from 'vue'
+import { computed, ref } from 'vue'
 
 const filterFailed = ref(false)
 </script>

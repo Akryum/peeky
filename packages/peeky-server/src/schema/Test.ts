@@ -1,5 +1,5 @@
 import { fileURLToPath } from 'url'
-import { withFilter } from 'apollo-server-express'
+import { withFilter } from 'graphql-subscriptions'
 import { enumType, extendType, idArg, nonNull, objectType, stringArg } from 'nexus'
 import slugify from 'slugify'
 import AnsiUpPackage from 'ansi_up'

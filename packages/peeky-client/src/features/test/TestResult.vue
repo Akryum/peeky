@@ -15,7 +15,7 @@ fragment testResultError on TestError {
 <script lang="ts" setup>
 import { useMutation } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
-import { computed, defineProps, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { ChevronRightIcon } from '@zhuowenli/vue-feather-icons'
 import BaseButton from '../BaseButton.vue'
 import StatusIcon from '../StatusIcon.vue'

@@ -7,7 +7,6 @@ import {
   ChevronsRightIcon,
   Edit2Icon,
 } from '@zhuowenli/vue-feather-icons'
-import { defineProps } from 'vue'
 import type { TestStatus } from '../util/status'
 
 const icons: Record<TestStatus, any> = {

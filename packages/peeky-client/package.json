@@ -15,24 +15,24 @@
     "access": "public"
   },
   "scripts": {
-    "dev-client": "vite",
+    "dev-client": "vite --port 3000",
     "build-client": "vite build --emptyOutDir",
     "check-type": "vuedx-typecheck ."
   },
   "dependencies": {
-    "@apollo/client": "^3.4.7",
+    "@apollo/client": "^3.6.9",
     "@peeky/server": "^0.13.6",
     "@peeky/utils": "^0.13.6",
-    "@vue/apollo-composable": "^4.0.0-alpha.12",
-    "@vue/apollo-util": "^4.0.0-alpha.14",
+    "@vue/apollo-composable": "^4.0.0-alpha.19",
+    "@vue/apollo-util": "^4.0.0-alpha.18",
     "@zhuowenli/vue-feather-icons": "^5",
-    "floating-vue": "^2.0.0-beta.3",
-    "graphql": "^15.4.0",
-    "graphql-tag": "^2.11.0",
-    "graphql-ws": "^5.5.5",
+    "floating-vue": "^2.0.0-beta.20",
+    "graphql": "^16.6.0",
+    "graphql-tag": "^2.12.6",
+    "graphql-ws": "^5.11.2",
     "monaco-editor": "^0.26.1",
-    "vue": "^3.2.20",
-    "vue-router": "^4.0.3",
+    "vue": "^3.2.39",
+    "vue-router": "^4.1.5",
     "vue-resize": "^2.0.0-alpha.1",
     "xterm": "^4.15.0",
     "xterm-addon-fit": "^0.5.0",
@@ -41,14 +41,14 @@
     "xterm-addon-webgl": "^0.11.3"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^1.10.2",
+    "@vitejs/plugin-vue": "^3.1.0",
     "@vuedx/typecheck": "^0.7.4",
     "@vuedx/typescript-plugin-vue": "^0.7.4",
     "autoprefixer": "^10.2.3",
     "postcss": "^8.2.4",
     "postcss-nested": "^5.0.3",
-    "tailwindcss": "^3.0.15",
-    "typescript": "^4.1.3",
-    "vite": "^2.7.10"
+    "tailwindcss": "^3.1.8",
+    "typescript": "^4.8.3",
+    "vite": "^3.1.3"
   }
 }
