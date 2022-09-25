@@ -57,6 +57,8 @@ const props = defineProps({
     required: true,
   },
 })
+
+const MAX_RENDER = 100
 </script>
 
 <template>
@@ -89,7 +91,7 @@ const props = defineProps({
 
     <div>
       <template
-        v-for="child of suite.children"
+        v-for="child of suite.children.slice(0, MAX_RENDER)"
         :key="child.id"
       >
         <SuiteItem
@@ -106,6 +108,16 @@ const props = defineProps({
           :depth="depth + 1"
         />
       </template>
+
+      <div
+        v-if="suite.children.length > MAX_RENDER"
+        class="flex items-center space-x-2 h-8 px-3 opacity-50 italic"
+        :style="{
+          paddingLeft: `${(depth + 1) * 12 + 6}px`,
+        }"
+      >
+        {{ suite.children.length - MAX_RENDER }} more...
+      </div>
     </div>
   </div>
 </template>
