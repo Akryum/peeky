@@ -17,6 +17,8 @@ import type {
 } from '../types'
 import { toMainThread } from './message.js'
 
+const SKIP_SUITE_HANDLER = ['skip', 'todo'] as const
+
 export function setupTestCollector (ctx: Context): {
   exposed: {
     describe: DescribeFn
@@ -86,7 +88,7 @@ export function setupTestCollector (ctx: Context): {
       parentSuite.children.push(['suite', suite])
     }
     currentSuites.push(suite)
-    if (handler && flag !== 'todo') {
+    if (handler && !SKIP_SUITE_HANDLER.includes(flag)) {
       handler()
     }
     currentSuites.pop()
