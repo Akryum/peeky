@@ -28,7 +28,6 @@ export function setupTestCollector (ctx: Context): {
   }
   collect: () => Promise<void>
 } {
-  const suiteHandlers: (() => Promise<unknown>)[] = []
   const currentSuites: TestSuite[] = []
 
   const getCurrentSuite = () => currentSuites[currentSuites.length - 1]
