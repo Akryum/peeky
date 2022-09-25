@@ -8,9 +8,9 @@
   },
   "scripts": {
     "lint": "eslint . --ext js,vue,ts",
-    "build": "pnpm run -r build --filter ./packages",
-    "watch": "pnpm run build && pnpm run -r watch --parallel --filter ./packages",
-    "test": "pnpm run -r test --parallel --filter ./packages",
+    "build": "pnpm run --filter \"./packages/**\" -r build",
+    "watch": "pnpm run build && pnpm run --parallel --filter \"./packages/**\" -r watch",
+    "test": "pnpm run --parallel --filter \"./packages/**\" -r test",
     "release": "pnpm run lint && pnpm run build && pnpm run test && sheep release -b master",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
