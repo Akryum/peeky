@@ -12,10 +12,6 @@ export function createConsoleFancyReporter (): Reporter {
       process[type].write('\n')
     },
 
-    testSuccess: ({ suite, test }) => {
-      consola.log(chalk.green(`${chalk.bgGreenBright.black.bold(' PASS ')} ${suite.title} › ${chalk.bold(test.title)} ${chalk.grey(`(${formatDurationToString(test.duration)})`)}`))
-    },
-
     testFail: ({ suite, test }) => {
       consola.log(chalk.red(`${chalk.bgRedBright.black.bold(' FAIL ')} ${suite.title} › ${chalk.bold(test.title)} ${chalk.grey(`(${formatDurationToString(test.duration)})`)}`))
       consola.log(`\n${test.error.stack ?? test.error.message}\n`)

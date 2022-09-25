@@ -100,13 +100,19 @@ export async function setupRunner (options: RunnerOptions) {
         reporters.forEach(r => r.suiteStart?.({ suite }))
       },
 
-      onSuiteComplete: ({ id, testErrors, otherErrors }, duration) => {
+      onSuiteComplete: ({ id, testErrors, otherErrors }, duration, completedTests) => {
         const suite = suiteMap[id]
         Object.assign(suite, {
           duration,
           testErrors,
           otherErrors,
         })
+        for (const id in completedTests) {
+          const test = suite.children.find(c => c[0] === 'test' && c[1].id === id)[1]
+          Object.assign(test, {
+            duration: completedTests[id],
+          })
+        }
         reporters.forEach(r => r.suiteComplete?.({ suite }))
       },
 
@@ -123,15 +129,6 @@ export async function setupRunner (options: RunnerOptions) {
           error,
         })
         reporters.forEach(r => r.testFail?.({ suite, test }))
-      },
-
-      onTestSuccess: (suiteId, testId, duration) => {
-        const suite = suiteMap[suiteId]
-        const [, test] = suite.children.find(([, t]) => t.id === testId) as ['test', ReporterTest]
-        Object.assign(test, {
-          duration,
-        })
-        reporters.forEach(r => r.testSuccess?.({ suite, test }))
       },
 
       onLog: (suiteId, testId, type, text, file) => {

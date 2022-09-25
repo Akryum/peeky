@@ -26,23 +26,6 @@ export function createRawReporter (write: (data: Record<string, any>) => unknown
       })
     },
 
-    testStart: (payload) => {
-      write({
-        __type: 'testStart',
-        suiteId: payload.suite.id,
-        testId: payload.test.id,
-      })
-    },
-
-    testSuccess: (payload) => {
-      write({
-        __type: 'testSuccess',
-        suiteId: payload.suite.id,
-        testId: payload.test.id,
-        duration: payload.test.duration,
-      })
-    },
-
     testFail: (payload) => {
       write({
         ___type: 'testFail',

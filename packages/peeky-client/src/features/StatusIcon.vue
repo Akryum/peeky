@@ -10,7 +10,6 @@ import {
 import type { TestStatus } from '../util/status'
 
 const icons: Record<TestStatus, any> = {
-  idle: CircleIcon,
   in_progress: ClockIcon,
   success: CheckIcon,
   error: XIcon,
@@ -19,7 +18,6 @@ const icons: Record<TestStatus, any> = {
 }
 
 const classes: Record<TestStatus, string> = {
-  idle: 'text-gray-300 dark:text-gray-700',
   in_progress: 'text-primary-500',
   success: 'text-green-500',
   error: 'text-red-500',
@@ -28,7 +26,6 @@ const classes: Record<TestStatus, string> = {
 }
 
 const bgClasses: Record<TestStatus, string> = {
-  idle: 'bg-gray-300 dark:bg-gray-700',
   in_progress: 'bg-primary-500',
   success: 'bg-green-500',
   error: 'bg-red-500',
@@ -37,7 +34,6 @@ const bgClasses: Record<TestStatus, string> = {
 }
 
 const tooltips: Record<TestStatus, string> = {
-  idle: 'Idle',
   in_progress: 'In progress',
   success: 'Success',
   error: 'Error',

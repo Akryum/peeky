@@ -18,6 +18,8 @@ async function runSuite (ctx: Context, suite: TestSuite, failOnSnapshots: boolea
     id: suite.id,
   })
 
+  const completedTests: Record<string, number> = {}
+
   const suiteTime = performance.now()
 
   if (suite.childrenToRun.length) {
@@ -43,7 +45,6 @@ async function runSuite (ctx: Context, suite: TestSuite, failOnSnapshots: boolea
           }
         }
 
-        toMainThread().onTestStart(suite.id, test.id)
         const time = performance.now()
         try {
           await test.handler()
@@ -57,7 +58,7 @@ async function runSuite (ctx: Context, suite: TestSuite, failOnSnapshots: boolea
           }
 
           test.duration = performance.now() - time
-          toMainThread().onTestSuccess(suite.id, test.id, test.duration)
+          completedTests[test.id] = test.duration
         } catch (e) {
           test.duration = performance.now() - time
           test.error = e
@@ -75,7 +76,9 @@ async function runSuite (ctx: Context, suite: TestSuite, failOnSnapshots: boolea
           suite.testErrors++
         } finally {
           test.envResult = await ctx.runtimeEnv.getResult()
-          toMainThread().onTestEnvResult(suite.id, test.id, test.envResult)
+          if (test.envResult != null) {
+            toMainThread().onTestEnvResult(suite.id, test.id, test.envResult)
+          }
         }
 
         for (const parentSuite of allParents) {
@@ -109,7 +112,7 @@ async function runSuite (ctx: Context, suite: TestSuite, failOnSnapshots: boolea
     id: suite.id,
     testErrors: suite.testErrors,
     otherErrors: suite.otherErrors,
-  }, suite.duration)
+  }, suite.duration, completedTests)
 
   setCurrentSuite(null)
 }

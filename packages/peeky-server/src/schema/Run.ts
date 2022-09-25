@@ -206,7 +206,7 @@ export async function createRun (ctx: Context, options: CreateRunOptions) {
     progress: 0,
     status: 'in_progress',
     duration: null,
-    runTestFiles: runTestFiles,
+    runTestFiles,
     previousErrorRunTestFiles,
     failedSnapshots: [],
     passedSnapshots: [],
@@ -288,21 +288,14 @@ export async function startRun (ctx: Context, id: string) {
         })
       }
     } else if (message.method === 'onSuiteComplete') {
-      const [suiteData, duration] = message.args
+      const [suiteData, duration, completedTests] = message.args
       const suite = testSuites.find(s => s.id === suiteData.id)
+      await Promise.all(suite.children.filter(child => !('children' in child) && completedTests[child.id]).map(child => updateTest(ctx, suite.id, child.id, {
+        status: 'success',
+        duration: completedTests[child.id],
+      })))
       await updateTestSuite(ctx, suiteData.id, {
         status: !suite.children.length ? 'skipped' : suiteData.testErrors + suiteData.otherErrors.length ? 'error' : 'success',
-        duration,
-      })
-    } else if (message.method === 'onTestStart') {
-      const [suiteId, testId] = message.args
-      await updateTest(ctx, suiteId, testId, {
-        status: 'in_progress',
-      })
-    } else if (message.method === 'onTestSuccess') {
-      const [suiteId, testId, duration] = message.args
-      await updateTest(ctx, suiteId, testId, {
-        status: 'success',
         duration,
       })
     } else if (message.method === 'onTestError') {

@@ -94,7 +94,6 @@ input StartRunInput {
 
 enum Status {
   error
-  idle
   in_progress
   skipped
   success
@@ -112,6 +111,7 @@ type Subscription {
   testFileRemoved: TestFile!
   testFileUpdated: TestFile!
   testSuiteAdded(runId: ID!, runTestFileId: ID): TestSuite!
+  testSuiteCompleted(runId: ID!, runTestFileId: ID): TestSuite!
   testSuiteUpdated(runId: ID!, runTestFileId: ID): TestSuite!
   testUpdatedBySlug(runId: ID!, testSlug: String!): Test!
   testUpdatedInRun(runId: ID!, runTestFileId: ID): Test!

@@ -50,7 +50,7 @@ export interface NexusGenInputs {
 }
 
 export interface NexusGenEnums {
-  Status: "error" | "idle" | "in_progress" | "skipped" | "success" | "todo"
+  Status: "error" | "in_progress" | "skipped" | "success" | "todo"
   TestFlag: "only" | "skip" | "todo"
   TestLogType: "stderr" | "stdout"
 }
@@ -196,6 +196,7 @@ export interface NexusGenFieldTypes {
     testFileRemoved: NexusGenRootTypes['TestFile']; // TestFile!
     testFileUpdated: NexusGenRootTypes['TestFile']; // TestFile!
     testSuiteAdded: NexusGenRootTypes['TestSuite']; // TestSuite!
+    testSuiteCompleted: NexusGenRootTypes['TestSuite']; // TestSuite!
     testSuiteUpdated: NexusGenRootTypes['TestSuite']; // TestSuite!
     testUpdatedBySlug: NexusGenRootTypes['Test']; // Test!
     testUpdatedInRun: NexusGenRootTypes['Test']; // Test!
@@ -338,6 +339,7 @@ export interface NexusGenFieldTypeNames {
     testFileRemoved: 'TestFile'
     testFileUpdated: 'TestFile'
     testSuiteAdded: 'TestSuite'
+    testSuiteCompleted: 'TestSuite'
     testSuiteUpdated: 'TestSuite'
     testUpdatedBySlug: 'Test'
     testUpdatedInRun: 'Test'
@@ -464,6 +466,10 @@ export interface NexusGenArgTypes {
       runTestFileId?: string | null; // ID
     }
     testSuiteAdded: { // args
+      runId: string; // ID!
+      runTestFileId?: string | null; // ID
+    }
+    testSuiteCompleted: { // args
       runId: string; // ID!
       runTestFileId?: string | null; // ID
     }

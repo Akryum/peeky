@@ -145,7 +145,7 @@ export async function loadTestFiles (ctx: Context) {
       testFiles.push(testFile)
     }
     ctx.pubsub.publish(TestFileAdded, {
-      testFile: testFile,
+      testFile,
     } as TestFileAddedPayload)
   }
 
@@ -186,7 +186,7 @@ function createTestFile (ctx: Context, relativePath: string): TestFileData {
     id: relativePath,
     relativePath,
     absolutePath: join(ctx.config.targetDirectory, relativePath),
-    status: 'idle',
+    status: 'in_progress',
     deleted: false,
     duration: null,
     deps: [],

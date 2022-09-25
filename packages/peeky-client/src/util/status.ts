@@ -11,7 +11,6 @@ export function compareStatus (a: TestStatus, b: TestStatus): number {
 const order: TestStatus[] = [
   'error',
   'in_progress',
-  'idle',
   'todo',
   'success',
   'skipped',

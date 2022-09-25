@@ -65,7 +65,6 @@ const diffShown = computed(() => props.test?.error?.actual && props.test?.error?
 
 const texts = {
   success: ['Success', 'This test succesfully passed.'],
-  idle: ['Idle', ''],
   in_progress: ['In progress', 'This test is being run.'],
   skipped: ['Skipped', 'This test was skipped.'],
   todo: ['Todo', 'This test is marked as todo.'],

@@ -88,7 +88,6 @@ const sortedPreviousFiles = computed(() => filteredPreviousFiles.value.slice().s
 const groups = [
   { status: 'error' },
   { status: 'in_progress' },
-  { status: 'idle' },
   { status: 'todo' },
   { status: 'success' },
   { status: 'skipped' },
@@ -182,25 +181,6 @@ subscribeToMore({
       </div>
       <TestFileItem
         v-for="file of groupedFiles.in_progress"
-        :key="file.id"
-        :file="file"
-      />
-    </div>
-
-    <div
-      v-if="groupedFiles.idle.length"
-      class="py-2"
-    >
-      <div class="text-gray-500 flex items-center space-x-2 px-2 pb-1">
-        <div class="h-[1px] bg-gray-500/20 flex-1" />
-        <div class="flex items-center space-x-1">
-          <span>Idle</span>
-          <span class="text-sm px-1.5 rounded-full leading-tight border border-gray-500/40 mt-0.5">{{ groupedFiles.idle.length }}</span>
-        </div>
-        <div class="h-[1px] bg-gray-500/20 flex-1" />
-      </div>
-      <TestFileItem
-        v-for="file of groupedFiles.idle"
         :key="file.id"
         :file="file"
       />

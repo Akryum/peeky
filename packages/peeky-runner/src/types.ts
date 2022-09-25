@@ -128,8 +128,6 @@ export interface Reporter {
   log?: (payload: OptionalTestInfoPayload & { type: 'stdout' | 'stderr', text: string, file?: string }) => unknown
   suiteStart?: (payload: TestSuiteInfoPayload) => unknown
   suiteComplete?: (payload: TestSuiteInfoPayload) => unknown
-  testStart?: (payload: TestInfoPayload) => unknown
-  testSuccess?: (payload: TestInfoPayload) => unknown
   testFail?: (payload: TestInfoPayload) => unknown
   errorSummary?: (payload: ErrorSummaryPayload) => unknown
   snapshotSummary?: (payload: SnapshotSummaryPayload) => unknown

@@ -6,10 +6,8 @@ import { Snapshot } from './snapshot/types.js'
 export interface WorkerRemoteMethods {
   onCollected: (suites: SuiteCollectData[]) => void
   onSuiteStart: (suite: SuiteStartData) => void
-  onSuiteComplete: (suite: SuiteCompleteData, duration: number) => void
-  onTestStart: (suiteId: string, testId: string) => void
+  onSuiteComplete: (suite: SuiteCompleteData, duration: number, completedTests: Record<string, number>) => void
   onTestError: (suiteId: string, testId: string, duration: number, error: TestErrorData) => void
-  onTestSuccess: (suiteId: string, testId: string, duration: number) => void
   onTestSnapshotsProcessed: (suiteId: string, testId: string, snapshots: Snapshot[]) => void
   onTestEnvResult: (suiteId: string, testId: string, envResult: any) => void
   onLog: (suiteId: string, testId: string, type: 'stdout' | 'stderr', text: string, file?: string) => void

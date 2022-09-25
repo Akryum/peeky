@@ -98,6 +98,28 @@ subscribeToMore(() => ({
     runId: route.params.runId,
   },
 }))
+
+subscribeToMore(() => ({
+  document: gql`
+  subscription testSuiteCompletedToRunTestFileAllView ($runId: ID!) {
+    testSuiteCompleted (runId: $runId) {
+      id
+      status
+      duration
+      children {
+        ...on Test {
+          id
+          status
+          duration
+        }
+      }
+    }
+  }
+  `,
+  variables: {
+    runId: route.params.runId,
+  },
+}))
 </script>
 
 <template>

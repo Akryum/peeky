@@ -118,6 +118,12 @@ export interface TestSuiteUpdatedPayload {
   testSuite: TestSuiteData
 }
 
+export const TestSuiteCompleted = 'test-suite-completed'
+
+export interface TestSuiteCompletedPayload {
+  testSuite: TestSuiteData
+}
+
 export const TestSuiteSubscriptions = extendType({
   type: 'Subscription',
   definition (t) {
@@ -145,6 +151,19 @@ export const TestSuiteSubscriptions = extendType({
         (payload: TestSuiteUpdatedPayload, args) => payload.testSuite.runId === getRunId(args.runId) && (args.runTestFileId == null || payload.testSuite.runTestFile.id === args.runTestFileId),
       ),
       resolve: (payload: TestSuiteUpdatedPayload) => payload.testSuite,
+    })
+
+    t.nonNull.field('testSuiteCompleted', {
+      type: TestSuite,
+      args: {
+        runId: nonNull(idArg()),
+        runTestFileId: idArg(),
+      },
+      subscribe: withFilter(
+        (_, args, ctx) => ctx.pubsub.asyncIterator(TestSuiteCompleted),
+        (payload: TestSuiteCompletedPayload, args) => payload.testSuite.runId === getRunId(args.runId) && (args.runTestFileId == null || payload.testSuite.runTestFile.id === args.runTestFileId),
+      ),
+      resolve: (payload: TestSuiteCompletedPayload) => payload.testSuite,
     })
   },
 })
@@ -249,6 +268,11 @@ export async function updateTestSuite (ctx: Context, id: string, data: Partial<O
   ctx.pubsub.publish(TestSuiteUpdated, {
     testSuite,
   } as TestSuiteUpdatedPayload)
+  if (data.duration != null) {
+    ctx.pubsub.publish(TestSuiteCompleted, {
+      testSuite,
+    } as TestSuiteCompletedPayload)
+  }
   return testSuite
 }
 
@@ -267,5 +291,5 @@ function findSuiteInPreviousErrorFiles (run: RunData, suiteSlug: string) {
 }
 
 function getInitialStatus (data: CreateTestData | CreateTestSuiteData, hasOnlyFlags: boolean) {
-  return data.flag === 'todo' ? 'todo' : (hasOnlyFlags && data.flag !== 'only') || data.flag === 'skip' ? 'skipped' : 'idle'
+  return data.flag === 'todo' ? 'todo' : (hasOnlyFlags && data.flag !== 'only') || data.flag === 'skip' ? 'skipped' : 'in_progress'
 }
