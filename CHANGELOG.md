@@ -1,3 +1,26 @@
+# [0.14.0](https://github.com/Akryum/peeky/compare/v0.13.6...v0.14.0) (2022-09-25)
+
+
+### Features
+
+* don't depend on @peeky/server + autoinstall ([a311020](https://github.com/Akryum/peeky/commit/a311020eeea83c5add0e11f044b9feaa6dec1a5b))
+* upgraded deps ([4f9b7e6](https://github.com/Akryum/peeky/commit/4f9b7e688603f74258f541a62816b42167719271))
+
+
+### Performance Improvements
+
+* **client:** render max 100 suite children ([99dacfd](https://github.com/Akryum/peeky/commit/99dacfdc9470ae2fca333a2b889faacaac13d95d))
+* don't send testStart + removed idle status ([770a5c7](https://github.com/Akryum/peeky/commit/770a5c7b089f6efccf8d9ef42fb5d4866bdd2489))
+* **runner:** skipped suite handler should not be called ([e213603](https://github.com/Akryum/peeky/commit/e213603dcd15699a544e0900d8e7faf573621818))
+* **server:** truncate suite children sent to client ([0279732](https://github.com/Akryum/peeky/commit/027973254e550da2ab73ea9054a5a77f3e936806))
+
+
+### BREAKING CHANGES
+
+* removed Reporter.onTestStart and removed idle in GraphQL enum Status
+
+
+
 ## [0.13.6](https://github.com/Akryum/peeky/compare/v0.13.5...v0.13.6) (2022-03-20)
 
 

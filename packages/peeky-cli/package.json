@@ -1,6 +1,6 @@
 {
   "name": "@peeky/cli",
-  "version": "0.13.6",
+  "version": "0.14.0",
   "description": "Command-line interface for Peeky, the testing framework for curious minds",
   "license": "MIT",
   "author": {
