@@ -8,7 +8,8 @@ export async function server (options) {
     if (!isPackageExists('@peeky/server')) {
       consola.info(`Installing @peeky/server...`)
       await (await import('@antfu/install-pkg')).installPackage('@peeky/server', { dev: true })
-      consola.info(`@peeky/server installed`)
+      consola.success(`@peeky/server installed, please restart your command.`)
+      process.exit(1)
     }
 
     const port = options.port ?? process.env.PORT ?? await portfinder.getPortPromise({
