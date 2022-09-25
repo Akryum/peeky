@@ -41,7 +41,7 @@ importers:
   examples/demo:
     specifiers:
       '@peeky/eslint-plugin': workspace:*
-      '@peeky/server': workspace:^0.13.6
+      '@peeky/server': workspace:*
       '@peeky/test': workspace:*
       lodash-es: ^4.17.21
       node-fetch: ^3.1.0
@@ -85,7 +85,7 @@ importers:
 
   examples/vue3:
     specifiers:
-      '@peeky/server': workspace:^0.13.6
+      '@peeky/server': workspace:*
       '@peeky/test': workspace:*
       '@vitejs/plugin-vue': ^3.1.0
       '@vue/test-utils': ^2.0.2
