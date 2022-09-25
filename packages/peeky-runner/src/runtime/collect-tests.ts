@@ -17,7 +17,7 @@ import type {
 } from '../types'
 import { toMainThread } from './message.js'
 
-const SKIP_SUITE_HANDLER = ['skip', 'todo'] as const
+const SKIP_SUITE_HANDLER = ['skip', 'todo']
 
 export function setupTestCollector (ctx: Context): {
   exposed: {
