@@ -239,6 +239,7 @@ export interface NexusGenFieldTypes {
   }
   TestSuite: { // field return type
     allTitles: Array<string | null>; // [String]!
+    childCount: number; // Int!
     children: NexusGenRootTypes['TestSuiteChild'][]; // [TestSuiteChild!]!
     duration: number | null; // Float
     id: string; // ID!
@@ -380,6 +381,7 @@ export interface NexusGenFieldTypeNames {
   }
   TestSuite: { // field return type name
     allTitles: 'String'
+    childCount: 'Int'
     children: 'TestSuiteChild'
     duration: 'Float'
     id: 'ID'

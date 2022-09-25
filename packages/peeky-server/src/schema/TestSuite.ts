@@ -46,6 +46,10 @@ export const TestSuite = objectType({
           }
         },
       })),
+      resolve: suite => suite.children.slice(0, 500), // Send a bit more for search
+    })
+    t.nonNull.int('childCount', {
+      resolve: suite => suite.children.length,
     })
     t.field('parentSuite', {
       type: TestSuite,

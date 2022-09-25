@@ -15,6 +15,7 @@ export const testSuiteItemFragment = gql`fragment testSuiteItem on TestSuite {
       relativePath
     }
   }
+  childCount
 }`
 
 export type TestSuiteItem = Pick<NexusGenFieldTypes['TestSuite'],
@@ -24,7 +25,8 @@ export type TestSuiteItem = Pick<NexusGenFieldTypes['TestSuite'],
 'status' |
 'duration' |
 'runTestFile' |
-'children'>
+'children' |
+'childCount'>
 </script>
 
 <script lang="ts" setup>
@@ -116,7 +118,7 @@ const MAX_RENDER = 100
           paddingLeft: `${(depth + 1) * 12 + 6}px`,
         }"
       >
-        {{ suite.children.length - MAX_RENDER }} more...
+        {{ suite.childCount - MAX_RENDER }} more...
       </div>
     </div>
   </div>

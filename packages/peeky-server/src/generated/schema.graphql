@@ -171,6 +171,7 @@ enum TestLogType {
 
 type TestSuite {
   allTitles: [String]!
+  childCount: Int!
   children: [TestSuiteChild!]!
   duration: Float
   id: ID!
