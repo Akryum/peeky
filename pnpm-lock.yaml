@@ -375,8 +375,8 @@ importers:
       '@peeky/config': link:../peeky-config
       '@peeky/eslint-plugin': link:../peeky-eslint-plugin
       '@peeky/runner': link:../peeky-runner
-      '@peeky/server': link:../peeky-server
     devDependencies:
+      '@peeky/server': link:../peeky-server
       '@types/node': 14.18.0
       typescript: 4.8.3
 

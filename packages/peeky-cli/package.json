@@ -46,7 +46,7 @@
     "sade": "^1.8.1"
   },
   "peerDependencies": {
-    "@peeky/server": "workspace:6"
+    "@peeky/server": "workspace:^"
   },
   "peerDependenciesMeta": {
     "@peeky/server": {
