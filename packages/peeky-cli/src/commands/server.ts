@@ -1,16 +1,23 @@
-import { createServer } from '@peeky/server'
 import consola from 'consola'
 import openInBrowser from 'open'
 import portfinder from 'portfinder'
+import { isPackageExists } from 'local-pkg'
 
 export async function server (options) {
   try {
+    if (!isPackageExists('@peeky/server')) {
+      consola.info(`Installing @peeky/server...`)
+      await (await import('@antfu/install-pkg')).installPackage('@peeky/server', { dev: true })
+      consola.info(`@peeky/server installed`)
+    }
+
     const port = options.port ?? process.env.PORT ?? await portfinder.getPortPromise({
       port: 5000,
     })
     const vitePort = await portfinder.getPortPromise({
       port: port + 1,
     })
+    const { createServer } = await import('@peeky/server')
     const {
       http,
     } = await createServer({
