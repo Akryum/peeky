@@ -34,9 +34,9 @@
   },
   "dependencies": {
     "@antfu/install-pkg": "^0.1.1",
-    "@peeky/config": "^0.13.6",
-    "@peeky/eslint-plugin": "^0.13.6",
-    "@peeky/runner": "^0.13.6",
+    "@peeky/config": "workspace:^",
+    "@peeky/eslint-plugin": "workspace:^",
+    "@peeky/runner": "workspace:^",
     "consola": "^2.15.3",
     "local-pkg": "^0.4.2",
     "lodash": "^4.17.21",
@@ -46,7 +46,7 @@
     "sade": "^1.8.1"
   },
   "peerDependencies": {
-    "@peeky/server": "^0.13.6"
+    "@peeky/server": "workspace:6"
   },
   "peerDependenciesMeta": {
     "@peeky/server": {
@@ -54,7 +54,7 @@
     }
   },
   "devDependencies": {
-    "@peeky/server": "^0.13.6",
+    "@peeky/server": "workspace:^",
     "@types/lodash": "^4.14.178",
     "@types/node": "^14.14.21",
     "@types/sade": "^1.7.4",

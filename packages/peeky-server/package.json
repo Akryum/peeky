@@ -30,9 +30,9 @@
     "watch": "tsc -d -w --sourceMap"
   },
   "dependencies": {
-    "@peeky/client-dist": "^0.13.6",
-    "@peeky/config": "^0.13.6",
-    "@peeky/runner": "^0.13.6",
+    "@peeky/client-dist": "workspace:^",
+    "@peeky/config": "workspace:^",
+    "@peeky/runner": "workspace:^",
     "@sefinek/random-emoji": "^1.4.3",
     "ansi_up": "^5.1.0",
     "apollo-server-core": "^3.10.2",

@@ -21,8 +21,8 @@
   },
   "dependencies": {
     "@apollo/client": "^3.6.9",
-    "@peeky/server": "^0.13.6",
-    "@peeky/utils": "^0.13.6",
+    "@peeky/server": "workspace:^",
+    "@peeky/utils": "workspace:^",
     "@vue/apollo-composable": "^4.0.0-alpha.19",
     "@vue/apollo-util": "^4.0.0-alpha.18",
     "@zhuowenli/vue-feather-icons": "^5",

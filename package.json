@@ -20,7 +20,7 @@
     "node": ">14.5.0"
   },
   "devDependencies": {
-    "@akryum/sheep": "^0.3.2",
+    "@akryum/sheep": "^0.4.0",
     "@typescript-eslint/eslint-plugin": "^5.38.0",
     "@typescript-eslint/parser": "^5.38.0",
     "@vue/eslint-config-standard": "^8.0.1",

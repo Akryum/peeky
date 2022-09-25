@@ -29,7 +29,7 @@
     "watch": "tsc -d -w --sourceMap"
   },
   "dependencies": {
-    "@peeky/utils": "^0.13.6",
+    "@peeky/utils": "workspace:^",
     "chokidar": "^3.5.3",
     "consola": "^2.15.3",
     "fs-extra": "^10.1.0",
