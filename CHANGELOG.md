@@ -1,3 +1,12 @@
+## [0.14.2](https://github.com/Akryum/peeky/compare/v0.14.1...v0.14.2) (2022-09-25)
+
+
+### Bug Fixes
+
+* **cli:** message to restart after auto install ([98c389f](https://github.com/Akryum/peeky/commit/98c389f29e29e9a8c5eb047beb5850d436686b56))
+
+
+
 ## [0.14.1](https://github.com/Akryum/peeky/compare/v0.14.0...v0.14.1) (2022-09-25)
 
 
