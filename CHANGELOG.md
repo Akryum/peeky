@@ -1,3 +1,12 @@
+## [0.14.1](https://github.com/Akryum/peeky/compare/v0.14.0...v0.14.1) (2022-09-25)
+
+
+### Bug Fixes
+
+* don't import @peeky/server in main package ([d1c91ed](https://github.com/Akryum/peeky/commit/d1c91edaaeed55029038616cbf073e6d0b25947b))
+
+
+
 # [0.14.0](https://github.com/Akryum/peeky/compare/v0.13.6...v0.14.0) (2022-09-25)
 
 
